@@ -49,6 +49,29 @@
         '</mcc:MD_Identifier>' +
         '</mrs:referenceSystemIdentifier>' +
         '</mrs:MD_ReferenceSystem>' +
+        '</mdb:referenceSystemInfo>',
+		'iso19115-3.ga': '<mdb:referenceSystemInfo ' +
+        "xmlns:mdb='http://standards.iso.org/19115/-3/mdb/1.0/2014-12-25' " +
+        "xmlns:mcc='http://standards.iso.org/19115/-3/mcc/1.0/2014-12-25' " +
+        "xmlns:mrs='http://standards.iso.org/19115/-3/mrs/1.0/2014-12-25' " +
+        "xmlns:gco='http://standards.iso.org/19139/gco/1.0/2014-12-25'>" +
+        '<mrs:MD_ReferenceSystem>' +
+        '<mrs:referenceSystemIdentifier>' +
+        '<mcc:MD_Identifier>' +
+        '<mcc:code>' +
+        '<gco:CharacterString>{{description}}' +
+        '</gco:CharacterString>' +
+        '</mcc:code>' +
+        '<mcc:codeSpace>' +
+        '<gco:CharacterString>{{codeSpace}}' +
+        '</gco:CharacterString>' +
+        '</mcc:codeSpace>' +
+        '<mcc:version>' +
+        '<gco:CharacterString>{{version}}</gco:CharacterString>' +
+        '</mcc:version>' +
+        '</mcc:MD_Identifier>' +
+        '</mrs:referenceSystemIdentifier>' +
+        '</mrs:MD_ReferenceSystem>' +
         '</mdb:referenceSystemInfo>'
   });
 
