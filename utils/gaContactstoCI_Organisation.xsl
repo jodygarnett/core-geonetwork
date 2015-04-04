@@ -80,6 +80,7 @@
             		</cit:CI_Address>
           		</cit:address>
 						</xsl:if>
+						<xsl:apply-templates mode="online" select="COLUMN[@NAME='FTP']"/>
         	</cit:CI_Contact>
       	</cit:contactInfo>
 			</xsl:if>
@@ -121,5 +122,14 @@
       </cit:individual>
 	</xsl:template>
 
+	<xsl:template mode="online" match="COLUMN[@NAME='FTP' and normalize-space()!='']">
+      <cit:onlineResource>
+        <cit:CI_OnlineResource>
+          <cit:linkage>
+						<gco:CharacterString><xsl:value-of select="."/></gco:CharacterString>
+          </cit:linkage>
+        </cit:CI_OnlineResource>
+      </cit:onlineResource>
+	</xsl:template>
 </xsl:stylesheet>
   
