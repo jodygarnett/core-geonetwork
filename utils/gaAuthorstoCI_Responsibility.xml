@@ -15,38 +15,50 @@
 			<xsl:message>Creating <xsl:value-of select="$filename"/></xsl:message>
 			<xsl:result-document href="{$filename}" format="xml">
 
-			<xsl:choose>
-				<xsl:when test="$isOrganisation">
-
-	<cit:CI_Organisation
+	<cit:CI_Responsibility
 		uuid="urn:ga-authors:{$name}"
 		title="Author: {$name}">
-      <cit:name>
-        <gco:CharacterString><xsl:value-of select="$name"/></gco:CharacterString>
-      </cit:name>
-	</cit:CI_Organisation>
+		<cit:role>
+			<cit:CI_RoleCode codeList="codeListLocation#CI_RoleCode" codeListValue="pointOfContact">author</cit:CI_RoleCode>
+		</cit:role>
+
+			<xsl:choose>
+				<xsl:when test="$isOrganisation">
+	
+		<cit:party>
+			<cit:CI_Organisation>
+      	<cit:name>
+        	<gco:CharacterString><xsl:value-of select="$name"/></gco:CharacterString>
+      	</cit:name>
+			</cit:CI_Organisation>
+		</cit:party>
 
 				</xsl:when>
 				<xsl:otherwise>
 
-	<cit:CI_Individual
-		uuid="urn:ga-authors:{$name}"
-		title="Author: {$name}">
-      <cit:name>
-        <gco:CharacterString><xsl:value-of select="$name"/></gco:CharacterString>
-      </cit:name>
-			<!-- TODO: Use contact information for GA from Contacts list? -->
-			<cit:contactInfo>
-				<cit:CI_Contact>
-					<cit:contactInstructions>
-						<gco:CharacterString>1</gco:CharacterString>
-					</cit:contactInstructions>
-				</cit:CI_Contact>
-			</cit:contactInfo>
-	</cit:CI_Individual>
+		<cit:party>
+			<cit:individual>
+				<cit:CI_Individual>
+     			<cit:name>
+       			<gco:CharacterString><xsl:value-of select="$name"/></gco:CharacterString>
+     			</cit:name>
+					<!-- TODO: Use contact information for GA as XLink -->
+					<cit:contactInfo>
+						<cit:CI_Contact>
+							<cit:contactInstructions>
+								<gco:CharacterString>1</gco:CharacterString>
+							</cit:contactInstructions>
+						</cit:CI_Contact>
+					</cit:contactInfo>
+				</cit:CI_Individual>
+			</cit:individual>
+		<cit:party>
 
 				</xsl:otherwise>
 			</xsl:choose>
+
+	</cit:CI_Responsibility>
+
 
 			</xsl:result-document>
 		</xsl:for-each>
