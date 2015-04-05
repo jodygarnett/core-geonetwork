@@ -17,7 +17,7 @@
 
 	<cit:CI_Responsibility
 		uuid="urn:ga-contacts:{$contactno}"
-		title="ResourcePointOfContact: {$organisation}">
+		title="Contact: {$organisation}">
 		<cit:role>
 			<cit:CI_RoleCode codeList="codeListLocation#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</cit:CI_RoleCode>
 		</cit:role>
