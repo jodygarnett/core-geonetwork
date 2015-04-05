@@ -15,78 +15,85 @@
 			<xsl:message>Creating <xsl:value-of select="$filename"/></xsl:message>
 			<xsl:result-document href="{$filename}" format="xml">
 
-	<cit:CI_Organisation
+	<cit:CI_Responsibility
 		uuid="urn:ga-contacts:{$contactno}"
-		title="Organisation: {$organisation}">
-      <cit:name>
-        <gco:CharacterString><xsl:value-of select="$organisation"/></gco:CharacterString>
-      </cit:name>
-			<xsl:if test="normalize-space(COLUMN[@NAME='PHONE']) or
-									  normalize-space(COLUMN[@NAME='ADDRESS1']) or 
-									  normalize-space(COLUMN[@NAME='ADDRESS2']) or 
-										normalize-space(COLUMN[@NAME='SUBURB']) or 
-										normalize-space(COLUMN[@NAME='STATE']) or 
-										normalize-space(COLUMN[@NAME='POSTCODE']) or 
-										normalize-space(COLUMN[@NAME='COUNTRY']) or 
-										normalize-space(COLUMN[@NAME='EMAIL'])">
-      	<cit:contactInfo>
-        	<cit:CI_Contact>
-						<xsl:apply-templates mode="phone" select="COLUMN[@NAME='PHONE']" /> 
-						<xsl:apply-templates mode="phone" select="COLUMN[@NAME='FAX']" /> 
-						<xsl:if test="normalize-space(COLUMN[@NAME='ADDRESS1']) or 
-									        normalize-space(COLUMN[@NAME='ADDRESS2']) or
-													normalize-space(COLUMN[@NAME='SUBURB']) or 
-													normalize-space(COLUMN[@NAME='STATE']) or 
-													normalize-space(COLUMN[@NAME='POSTCODE']) or 
-													normalize-space(COLUMN[@NAME='COUNTRY']) or 
-													normalize-space(COLUMN[@NAME='EMAIL'])">
-          		<cit:address>
-            		<cit:CI_Address>
-									<xsl:if test="normalize-space(COLUMN[@NAME='ADDRESS1'])">
-										<cit:deliveryPoint>
-											<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='ADDRESS1']"/></gco:CharacterString>
-										</cit:deliveryPoint>
-									</xsl:if>
-									<xsl:if test="normalize-space(COLUMN[@NAME='ADDRESS2'])">
-										<cit:deliveryPoint>
-											<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='ADDRESS2']"/></gco:CharacterString>
-										</cit:deliveryPoint>
-									</xsl:if>
-									<xsl:if test="normalize-space(COLUMN[@NAME='SUBURB'])">
-              			<cit:city>
-											<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='SUBURB']"/></gco:CharacterString>
-              			</cit:city>
-									</xsl:if>
-									<xsl:if test="normalize-space(COLUMN[@NAME='STATE'])">
-              			<cit:administrativeArea>
-											<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='STATE']"/></gco:CharacterString>
-              			</cit:administrativeArea>
-									</xsl:if>
-									<xsl:if test="normalize-space(COLUMN[@NAME='POSTCODE'])">
-              			<cit:postalCode>
-											<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='POSTCODE']"/></gco:CharacterString>
-              			</cit:postalCode>
-									</xsl:if>
-									<xsl:if test="normalize-space(COLUMN[@NAME='COUNTRY'])">
-              			<cit:country>
-											<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='COUNTRY']"/></gco:CharacterString>
-              			</cit:country>
-									</xsl:if>
-									<xsl:if test="normalize-space(COLUMN[@NAME='EMAIL'])">
-          					<cit:electronicMailAddress>
-											<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='EMAIL']"/></gco:CharacterString>
-          					</cit:electronicMailAddress>
-									</xsl:if>
-            		</cit:CI_Address>
-          		</cit:address>
-						</xsl:if>
-						<xsl:apply-templates mode="online" select="COLUMN[@NAME='FTP']"/>
-        	</cit:CI_Contact>
-      	</cit:contactInfo>
-			</xsl:if>
-			<xsl:apply-templates mode="position" select="COLUMN[@NAME='POSITION']"/>
-	</cit:CI_Organisation>
-
+		title="ResourcePointOfContact: {$organisation}">
+		<cit:role>
+			<cit:CI_RoleCode codeList="codeListLocation#CI_RoleCode" codeListValue="pointOfContact">pointOfContact</cit:CI_RoleCode>
+		</cit:role>
+		<cit:party>
+			<cit:CI_Organisation>
+      	<cit:name>
+        	<gco:CharacterString><xsl:value-of select="$organisation"/></gco:CharacterString>
+      	</cit:name>
+				<xsl:if test="normalize-space(COLUMN[@NAME='PHONE']) or
+									  	normalize-space(COLUMN[@NAME='ADDRESS1']) or 
+									  	normalize-space(COLUMN[@NAME='ADDRESS2']) or 
+											normalize-space(COLUMN[@NAME='SUBURB']) or 
+											normalize-space(COLUMN[@NAME='STATE']) or 
+											normalize-space(COLUMN[@NAME='POSTCODE']) or 
+											normalize-space(COLUMN[@NAME='COUNTRY']) or 
+											normalize-space(COLUMN[@NAME='EMAIL'])">
+      		<cit:contactInfo>
+        		<cit:CI_Contact>
+							<xsl:apply-templates mode="phone" select="COLUMN[@NAME='PHONE']" /> 
+							<xsl:apply-templates mode="phone" select="COLUMN[@NAME='FAX']" /> 
+							<xsl:if test="normalize-space(COLUMN[@NAME='ADDRESS1']) or 
+									        	normalize-space(COLUMN[@NAME='ADDRESS2']) or
+														normalize-space(COLUMN[@NAME='SUBURB']) or 
+														normalize-space(COLUMN[@NAME='STATE']) or 
+														normalize-space(COLUMN[@NAME='POSTCODE']) or 
+														normalize-space(COLUMN[@NAME='COUNTRY']) or 
+														normalize-space(COLUMN[@NAME='EMAIL'])">
+          			<cit:address>
+            			<cit:CI_Address>
+										<xsl:if test="normalize-space(COLUMN[@NAME='ADDRESS1'])">
+											<cit:deliveryPoint>
+												<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='ADDRESS1']"/></gco:CharacterString>
+											</cit:deliveryPoint>
+										</xsl:if>
+										<xsl:if test="normalize-space(COLUMN[@NAME='ADDRESS2'])">
+											<cit:deliveryPoint>
+												<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='ADDRESS2']"/></gco:CharacterString>
+											</cit:deliveryPoint>
+										</xsl:if>
+										<xsl:if test="normalize-space(COLUMN[@NAME='SUBURB'])">
+              				<cit:city>
+												<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='SUBURB']"/></gco:CharacterString>
+              				</cit:city>
+										</xsl:if>
+										<xsl:if test="normalize-space(COLUMN[@NAME='STATE'])">
+              				<cit:administrativeArea>
+												<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='STATE']"/></gco:CharacterString>
+              				</cit:administrativeArea>
+										</xsl:if>
+										<xsl:if test="normalize-space(COLUMN[@NAME='POSTCODE'])">
+              				<cit:postalCode>
+												<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='POSTCODE']"/></gco:CharacterString>
+              				</cit:postalCode>
+										</xsl:if>
+										<xsl:if test="normalize-space(COLUMN[@NAME='COUNTRY'])">
+              				<cit:country>
+												<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='COUNTRY']"/></gco:CharacterString>
+              				</cit:country>
+										</xsl:if>
+										<xsl:if test="normalize-space(COLUMN[@NAME='EMAIL'])">
+          						<cit:electronicMailAddress>
+												<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='EMAIL']"/></gco:CharacterString>
+          						</cit:electronicMailAddress>
+										</xsl:if>
+            			</cit:CI_Address>
+          			</cit:address>
+							</xsl:if>
+							<xsl:apply-templates mode="online" select="COLUMN[@NAME='FTP']"/>
+        		</cit:CI_Contact>
+      		</cit:contactInfo>
+				</xsl:if>
+				<xsl:apply-templates mode="position" select="COLUMN[@NAME='POSITION']"/>
+			</cit:CI_Organisation>
+		</cit:party>
+	</cit:CI_Responsibility>
+	
 			</xsl:result-document>
 		</xsl:for-each>
 
