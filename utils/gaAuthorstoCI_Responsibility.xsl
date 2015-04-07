@@ -42,11 +42,13 @@
      			<cit:name>
        			<gco:CharacterString><xsl:value-of select="$name"/></gco:CharacterString>
      			</cit:name>
-					<!-- TODO: Use contact information for GA as XLink -->
+					<!-- TODO: Use contact information for GA via XLink? -->
 					<cit:contactInfo>
 						<cit:CI_Contact>
+							<!-- contact instructions holds the author contact order, filled out when author is added
+							     by editor interface -->
 							<cit:contactInstructions>
-								<gco:CharacterString>1</gco:CharacterString>
+								<gco:CharacterString>{authorContactOrder}</gco:CharacterString>
 							</cit:contactInstructions>
 						</cit:CI_Contact>
 					</cit:contactInfo>
