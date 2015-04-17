@@ -260,6 +260,7 @@
         <!-- otherwise just get the title out of the approriate schema help file -->
 
         <xsl:otherwise>
+					<xsl:message>Searching for label <xsl:value-of select="$name"/> in schema <xsl:value-of select="$schema"/></xsl:message>
           <xsl:value-of
             select="string(/root/gui/schemas/*[name(.)=$schema]/labels/element[@name=$name and not(@context)]/label)"
           />
