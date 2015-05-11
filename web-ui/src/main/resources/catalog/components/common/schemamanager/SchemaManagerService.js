@@ -14,8 +14,8 @@
       'iso19139.mcp': 'gmd:protocol',
       'iso19139.mcp-1.4': 'gmd:protocol',
       'iso19139.mcp-2.0': 'gmd:protocol',
-      'iso19115-3': 'cit:protocol',
-      'iso19115-3.ga': 'cit:protocol'
+      'iso19115-2': 'gmd:protocol',
+      'iso19115-3': 'cit:protocol'
     },
     roleCode: {
       'iso19139': 'gmd:CI_RoleCode',
@@ -23,8 +23,8 @@
       'iso19139.mcp': 'gmd:CI_RoleCode',
       'iso19139.mcp-1.4': 'gmd:CI_RoleCode',
       'iso19139.mcp-2.0': 'gmd:CI_RoleCode',
-      'iso19115-3': 'cit:CI_RoleCode',
-      'iso19115-3.ga': 'cit:CI_RoleCode'
+      'iso19115-2': 'gmd:CI_RoleCode',
+      'iso19115-3': 'cit:CI_RoleCode'
     },
     associationType: {
       'iso19139': 'gmd:DS_AssociationTypeCode',
@@ -32,8 +32,8 @@
       'iso19139.mcp': 'gmd:DS_AssociationTypeCode',
       'iso19139.mcp-1.4': 'gmd:DS_AssociationTypeCode',
       'iso19139.mcp-2.0': 'gmd:DS_AssociationTypeCode',
-      'iso19115-3': 'mri:DS_AssociationTypeCode',
-      'iso19115-3.ga': 'mri:DS_AssociationTypeCode'
+      'iso19115-2': 'gmd:DS_AssociationTypeCode',
+      'iso19115-3': 'mri:DS_AssociationTypeCode'
     },
     initiativeType: {
       'iso19139': 'gmd:DS_InitiativeTypeCode',
@@ -41,8 +41,8 @@
       'iso19139.mcp': 'gmd:DS_InitiativeTypeCode',
       'iso19139.mcp-1.4': 'gmd:DS_InitiativeTypeCode',
       'iso19139.mcp-2.0': 'gmd:DS_InitiativeTypeCode',
-      'iso19115-3': 'mri:DS_InitiativeTypeCode',
-      'iso19115-3.ga': 'mri:DS_InitiativeTypeCode'
+      'iso19115-2': 'gmd:DS_InitiativeTypeCode',
+      'iso19115-3': 'mri:DS_InitiativeTypeCode'
     }
   });
 

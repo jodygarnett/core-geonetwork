@@ -170,7 +170,7 @@
 					"display":true
 				}
 			},
-			"iso19115-3.ga":
+			"iso19115-2":
 			{
 				"defaultTab":"default",
 				"displayToolTip":false,
