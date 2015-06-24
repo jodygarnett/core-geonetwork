@@ -37,6 +37,7 @@ import org.fao.geonet.kernel.harvest.harvester.GroupMapper;
 import org.fao.geonet.kernel.harvest.harvester.RecordInfo;
 import org.fao.geonet.kernel.harvest.harvester.UUIDMapper;
 import org.jdom.Element;
+import org.fao.geonet.lib.Lib;
 
 import java.net.URL;
 import java.util.Set;
@@ -271,6 +272,9 @@ public class Aligner extends BaseAligner {
 	private Element retrieveMetadata(String uuid)
 	{
 		request.clearParams();
+
+                Lib.net.setupProxy(context, request);
+
 		//request.addParam("id","{"+uuid+"}");
 		request.addParam("id",uuid);
 
