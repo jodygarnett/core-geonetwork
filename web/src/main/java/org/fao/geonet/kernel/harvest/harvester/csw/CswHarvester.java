@@ -238,10 +238,17 @@ public class CswHarvester extends AbstractHarvester
 
 	protected void doHarvest(Logger log, ResourceManager rm) throws Exception
 	{
-		Dbms dbms = (Dbms) rm.open(Geonet.Res.MAIN_DB);
 
-		Harvester h = new Harvester(log, context, dbms, params);
-		result = h.harvest();
+		Dbms dbms = null;
+		
+		try {
+			dbms = (Dbms) rm.openDirect(Geonet.Res.MAIN_DB);
+
+			Harvester h = new Harvester(log, context, dbms, params);
+			result = h.harvest();
+		} finally {
+			if (dbms != null) rm.close(Geonet.Res.MAIN_DB, dbms);
+		}
 	}
 
 	//---------------------------------------------------------------------------

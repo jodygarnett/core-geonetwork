@@ -109,6 +109,8 @@ class Harvester
 	{
 		request.clearParams();
 	
+                Lib.net.setupProxy(context, request);
+
 		request.addParam("searchText", s.freeText);
 		request.addParam("max", params.maxResults);
 		Element response = doSearch(request);
