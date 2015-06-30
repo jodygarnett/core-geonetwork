@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
   xmlns:gco="http://standards.iso.org/19139/gco/1.0/2014-12-25"
+	xmlns:util="java:java.util.UUID"
   xmlns:cit="http://standards.iso.org/19115/-3/cit/1.0/2014-12-25">
 
 	<xsl:output method="text"/>
@@ -15,8 +16,10 @@
 			<xsl:message>Creating <xsl:value-of select="$filename"/></xsl:message>
 			<xsl:result-document href="{$filename}" format="xml">
 
+			<xsl:variable name="uuid" select="util:toString(util:randomUUID())"/>
+
 	<cit:CI_Responsibility
-		uuid="urn:ga-authors:{$name}"
+		uuid="urn:ga-authors:{$uuid}"
 		title="ResourceAuthor: {$name}">
 		<cit:role>
 			<cit:CI_RoleCode codeList="codeListLocation#CI_RoleCode" codeListValue="author">author</cit:CI_RoleCode>
