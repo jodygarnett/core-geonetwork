@@ -110,6 +110,7 @@
       <xsl:element name="mdb:MD_Metadata">
         <!-- new namespaces -->
         <xsl:call-template name="add-iso19115-3-namespaces"/>
+				<xsl:attribute name="xsi:schemaLocation">http://standards.iso.org/19115/-3/mdb/1.0/2014-12-25 http://standards.iso.org/19115/-3/mdb/1.0/2014-12-25/mdb.xsd</xsl:attribute>
 
         <!-- ********************************************* -->
         <!-- apply root element templates                         -->
