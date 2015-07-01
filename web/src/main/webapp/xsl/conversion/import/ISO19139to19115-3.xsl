@@ -101,7 +101,6 @@
     <!-- 
     root element (MD_Metadata or MI_Metadata)
     -->
-		<xsl:message>SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS</xsl:message>
     <xsl:for-each select="/*">
       <xsl:variable name="nameSpacePrefix">
         <xsl:call-template name="getNamespacePrefix"/>
@@ -1452,9 +1451,9 @@
   <!-- Include templates for CI_ResponsibleParty. These are included here to prevent them being overridden by the default template.
        I am not sure why this is necessary.
   -->
-  <xsl:include href="CI_ResponsibleParty.xsl"/>
+  <xsl:include href="../ISO19115-3/CI_ResponsibleParty.xsl"/>
   <!-- Include templates for CI_Citation. These are included here to prevent them being overridden by the default template.
        I am not sure why this is necessary.
   -->
-  <xsl:include href="CI_Citation.xsl"/>
+  <xsl:include href="../ISO19115-3/CI_Citation.xsl"/>
 </xsl:stylesheet>
