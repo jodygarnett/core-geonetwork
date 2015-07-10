@@ -461,13 +461,6 @@ public abstract class AbstractHarvester extends BaseAligner
 		try
 		{
       login();
-			dbms = (Dbms) rm.openDirect(Geonet.Res.MAIN_DB);
-
-			//--- update lastRun
-
-			settingMan.setValue(dbms, "harvesting/id:"+ id +"/info/lastRun", lastRun);
-			dbms.commit();
-
 			//--- proper harvesting
 
 			logger.info("Started harvesting from node : "+ nodeName);
@@ -475,6 +468,13 @@ public abstract class AbstractHarvester extends BaseAligner
 			HarvestWithIndexProcessor h = new HarvestWithIndexProcessor(dataMan, logger, rm);
 			h.process();
 			logger.info("Ended harvesting from node : "+ nodeName);
+
+			dbms = (Dbms) rm.openDirect(Geonet.Res.MAIN_DB);
+
+			//--- update lastRun
+
+			settingMan.setValue(dbms, "harvesting/id:"+ id +"/info/lastRun", lastRun);
+			dbms.commit();
 
 			if (getParams().oneRunOnly)
 				stop(dbms);
