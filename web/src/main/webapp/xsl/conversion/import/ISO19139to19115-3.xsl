@@ -661,13 +661,21 @@
       WARNING: A record with a dataSetIdentifier and no
       citedResponsibleParties will fail.
       ********************************************************************** -->
+			<xsl:variable name="dsuri" select="/*/gmd:dataSetURI/gcoold:CharacterString"/>
       <cit:identifier>
         <mcc:MD_Identifier>
           <mcc:code>
             <gco:CharacterString>
-              <xsl:value-of select="/*/gmd:dataSetURI/gcoold:CharacterString"/>
+              <xsl:value-of select="$dsuri"/>
             </gco:CharacterString>
           </mcc:code>
+					<xsl:if test="contains($dsuri,'www.ga.gov.au')">
+          	<mcc:codeSpace>
+            	<gco:CharacterString>
+              	<xsl:value-of select="'ga-dataSetURI'"/>
+            	</gco:CharacterString>
+          	</mcc:codeSpace>
+					</xsl:if>
         </mcc:MD_Identifier>
       </cit:identifier>
     </xsl:if>
