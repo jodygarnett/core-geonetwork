@@ -160,6 +160,7 @@
 				{
 					"display":true,
 					"uploadFileDisabled":true,
+					"displayFormatAndVersion":true,
 					"categories":["thumbnail","service","onlinesrc","parent","sibling"]
 				},
 				"suggestion":
