@@ -324,6 +324,11 @@
 
               scope.onlinesrcService = gnOnlinesrc;
 
+              scope.uploadFileDisabled = function() {
+                var config = gnCurrentEdit.schemaConfig.related;
+								return config.uploadFileDisabled; 
+							};
+
               /**
                * Onlinesrc uploaded with success, close the popup,
                * refresh the metadata.
