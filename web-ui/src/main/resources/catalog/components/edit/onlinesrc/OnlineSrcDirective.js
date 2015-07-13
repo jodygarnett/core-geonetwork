@@ -329,6 +329,11 @@
 								return config.uploadFileDisabled; 
 							};
 
+              scope.displayFormatAndVersion = function() {
+                var config = gnCurrentEdit.schemaConfig.related;
+								return config.displayFormatAndVersion; 
+							};
+
               /**
                * Onlinesrc uploaded with success, close the popup,
                * refresh the metadata.
