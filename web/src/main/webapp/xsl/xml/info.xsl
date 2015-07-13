@@ -159,6 +159,7 @@
 				"related":
 				{
 					"display":true,
+					"uploadFileDisabled":true,
 					"categories":["thumbnail","service","onlinesrc","parent","sibling"]
 				},
 				"suggestion":
