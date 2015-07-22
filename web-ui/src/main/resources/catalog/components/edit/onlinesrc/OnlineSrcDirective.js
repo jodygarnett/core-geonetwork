@@ -325,13 +325,17 @@
               scope.onlinesrcService = gnOnlinesrc;
 
               scope.uploadFileDisabled = function() {
-                var config = gnCurrentEdit.schemaConfig.related;
-								return config.uploadFileDisabled; 
+								if (gnCurrentEdit.schemaConfig) {
+                	var config = gnCurrentEdit.schemaConfig.related;
+									return config.uploadFileDisabled; 
+								}
 							};
 
               scope.displayFormatAndVersion = function() {
-                var config = gnCurrentEdit.schemaConfig.related;
-								return config.displayFormatAndVersion; 
+								if (gnCurrentEdit.schemaConfig) {
+                	var config = gnCurrentEdit.schemaConfig.related;
+									return config.displayFormatAndVersion; 
+								}
 							};
 
               /**
