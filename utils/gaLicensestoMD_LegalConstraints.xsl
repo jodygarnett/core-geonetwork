@@ -40,7 +40,9 @@
 			</cit:CI_Citation>
 		</mco:reference>
 		<!-- TODO: maybe include persons from ga licence table responsible for entering/modifying licence via mco:responsibility element -->
-		<!-- TODO: maybe set mco:accessConstraints codelist value when this fragment gets added to the metadata record? -->
+		<mco:accessConstraints>
+			<mco:MD_RestrictionCode codeList="codeListLocation#MD_RestrictionCode" codeListValue="license">license</mco:MD_RestrictionCode>
+		</mco:accessConstraints>
 		<mco:useConstraints>
 			<mco:MD_RestrictionCode codeList="codeListLocation#MD_RestrictionCode" codeListValue="license">license</mco:MD_RestrictionCode>
 		</mco:useConstraints>
