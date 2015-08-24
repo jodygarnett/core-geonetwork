@@ -70,7 +70,7 @@ GeoNetwork.MapModule = true;
 GeoNetwork.ProjectionList = [['EPSG:4326', 'WGS84 (lat/lon)']];
 GeoNetwork.WMSList = [];
 
-GeoNetwork.defaultViewMode = 'view-simple';
+GeoNetwork.defaultViewMode = 'simple';
 
 Ext.BLANK_IMAGE_URL = '../../apps/js/ext/resources/images/default/s.gif';
 
