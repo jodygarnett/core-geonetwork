@@ -135,6 +135,7 @@
     "schematron-rules-iso": "ISO rules",
     "searchACRS": " or search for a coordinate system ...",
     "searchAcontact": "Search for a contact ...",
+    "searchAauthor": "Search for an author ...",
     "searchAconstraint": "Search for a constraint ...",
     "searchAnOrganisation": "Search for an organisation ...",
     "setAndReplaceExtent": "Replace existing extent",
