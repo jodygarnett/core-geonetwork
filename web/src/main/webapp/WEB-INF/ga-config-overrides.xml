@@ -19,16 +19,14 @@
 	</file>
 
   <!-- add ldap settings in config-security-ldap.xml -->
-	<!--
   <spring>
     <import file="WEB-INF/config-security-ldap.xml"/>
-    <!- - add user search bean (so that we can search in more than one 
-         organisational unit) and then set it on the bindAuthenticator
-         bean in config-security-ldap.xml - ->
-    <import file="WEB-INF/config-ldap-marlin2-ldapUserSearch.xml"/>
-    <set bean="bindAuthenticator" property="userSearch" ref="ldapUserSearch"/>
+    <!-- Apply a customised ldapAuthProvider bean to work with AD.  User's DN is retrieved from the 
+         sAMAccountName attribute in the Users AD object.  Instead of setting the userDnPatterns property, 
+         the userSearch property is initialised with a FilterBasedLdapUserSearch bean. -->
+    <import file="WEB-INF/config-ldap-ga-ldapAuthProvider.xml"/>
   </spring>
-	-->
+
 	<!-- add ga description to the strings file - modify as required -->
 	<file name=".*geonetwork/loc/eng/xml/strings\.xml">
 		<replaceXML xpath="welcome.text">
