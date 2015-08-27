@@ -154,7 +154,7 @@
 			},
 			"iso19115-3":
 			{
-				"defaultTab":"resourceCitation",
+				"defaultTab":"resourceDescription",
 				"displayToolTip":false,
 				"related":
 				{
