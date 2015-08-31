@@ -52,10 +52,13 @@
         '</cit:CI_Date>' +
         '</cit:date>' +
         '<cit:citedResponsibleParty>' +
-        '<cit:CI_ResponsibleParty>' +
-        '<cit:organisationName>' +
+        '<cit:CI_Responsibility>' +
+        '<cit:role gco:nilReason="missing"/>' +
+        '<cit:party>' +
+        '<cit:CI_Organisation>' +
+        '<cit:name>' +
         '<gco:CharacterString>European Petroleum Survey Group</gco:CharacterString>' +
-        '</cit:organisationName>' +
+        '</cit:name>' +
         '<cit:contactInfo>' +
         '<cit:CI_Contact>' +
         '<cit:onlineResource>' +
@@ -67,34 +70,12 @@
         '</cit:onlineResource>' +
         '</cit:CI_Contact>' +
         '</cit:contactInfo>' +
-        '<cit:role gco:nilReason="missing"/>' +
-        '</cit:CI_ResponsibleParty>' +
+        '</cit:CI_Organisation>' +
+        '</cit:party>' +
+        '</cit:CI_Responsibility>' +
         '</cit:citedResponsibleParty>' +
         '</cit:CI_Citation>' +
         '</mcc:authority>' +
-        '<mcc:code>' +
-        '<gco:CharacterString>{{description}}' +
-        '</gco:CharacterString>' +
-        '</mcc:code>' +
-        '<mcc:codeSpace>' +
-        '<gco:CharacterString>{{codeSpace}}' +
-        '</gco:CharacterString>' +
-        '</mcc:codeSpace>' +
-        '<mcc:version>' +
-        '<gco:CharacterString>{{version}}</gco:CharacterString>' +
-        '</mcc:version>' +
-        '</mcc:MD_Identifier>' +
-        '</mrs:referenceSystemIdentifier>' +
-        '</mrs:MD_ReferenceSystem>' +
-        '</mdb:referenceSystemInfo>',
-		'iso19115-3.ga': '<mdb:referenceSystemInfo ' +
-        "xmlns:mdb='http://standards.iso.org/19115/-3/mdb/1.0/2014-12-25' " +
-        "xmlns:mcc='http://standards.iso.org/19115/-3/mcc/1.0/2014-12-25' " +
-        "xmlns:mrs='http://standards.iso.org/19115/-3/mrs/1.0/2014-12-25' " +
-        "xmlns:gco='http://standards.iso.org/19139/gco/1.0/2014-12-25'>" +
-        '<mrs:MD_ReferenceSystem>' +
-        '<mrs:referenceSystemIdentifier>' +
-        '<mcc:MD_Identifier>' +
         '<mcc:code>' +
         '<gco:CharacterString>{{description}}' +
         '</gco:CharacterString>' +
