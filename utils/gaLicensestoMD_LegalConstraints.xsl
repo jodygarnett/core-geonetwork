@@ -31,12 +31,12 @@
 						<gco:CharacterString><xsl:value-of select="$licencetype"/></gco:CharacterString>
 					</cit:alternateTitle>
 				</xsl:if>
-				<xsl:apply-templates mode="online" select="COLUMN[@NAME='LICENCE']"/>
 				<xsl:if test="normalize-space(COLUMN[@NAME='VERSION'])">
 					<cit:edition>
 						<gco:CharacterString><xsl:value-of select="COLUMN[@NAME='VERSION']"/></gco:CharacterString>
 					</cit:edition>
 				</xsl:if>
+				<xsl:apply-templates mode="online" select="COLUMN[@NAME='LICENCE']"/>
 			</cit:CI_Citation>
 		</mco:reference>
 		<!-- TODO: maybe include persons from ga licence table responsible for entering/modifying licence via mco:responsibility element -->
