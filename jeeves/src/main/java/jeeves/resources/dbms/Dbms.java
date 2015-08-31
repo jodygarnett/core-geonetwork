@@ -25,6 +25,7 @@ package jeeves.resources.dbms;
 
 import jeeves.constants.Jeeves;
 import jeeves.utils.Log;
+import jeeves.utils.Xml;
 import org.jdom.Element;
 
 import javax.sql.DataSource;
@@ -192,6 +193,31 @@ public class Dbms
 	{
 		checkConnection();
 		return selectFull(query, formats, (Object[]) null);
+	}
+
+	//--------------------------------------------------------------------------
+
+	public String sequence() throws SQLException
+	{
+		checkConnection();
+		String sequence = "";
+		Element select = null;
+
+		// sequence stuff is not standard sql so we have to do specific stuff for each dbms
+		if (url.contains("oracle")) {
+			select = select("SELECT METADATAID.NEXTVAL FROM dual;");
+		} else if (url.contains("postgresql")) {
+			select = select("SELECT nextval('METADATAID');");
+		}
+
+		// if we got a response then get down through the hierarchy to get the sequence number
+		if (select != null) {
+			Element child = (Element)select.getChildren().get(0);
+			Element seqElem = (Element)child.getChildren().get(0);
+			sequence = seqElem.getText();
+		}
+
+		return sequence;
 	}
 
 	//--------------------------------------------------------------------------

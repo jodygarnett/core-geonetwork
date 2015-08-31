@@ -435,6 +435,13 @@ CREATE TABLE spatialIndex
     primary key(fid)
   );
 
+CREATE SEQUENCE METADATAID
+  START WITH 1
+	INCREMENT BY 1
+	NOMAXVALUE
+	NOCYCLE
+	CACHE 20;
+
 CREATE INDEX spatialIndexNDX1 ON spatialIndex(id);
 DELETE FROM user_sdo_geom_metadata WHERE TABLE_NAME = 'SPATIALINDEX';
 INSERT INTO user_sdo_geom_metadata (TABLE_NAME, COLUMN_NAME, DIMINFO, SRID) VALUES ( 'SPATIALINDEX', 'the_geom', SDO_DIM_ARRAY( SDO_DIM_ELEMENT('Longitude', -180, 180, 10), SDO_DIM_ELEMENT('Latitude', -90, 90, 10)), 8307);

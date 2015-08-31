@@ -1012,6 +1012,49 @@ public class DataManager {
 
     //--------------------------------------------------------------------------
     //---
+    //--- GA ID API - extract or get a new one from the database sequence
+    //---
+    //--------------------------------------------------------------------------
+
+    /**
+     * Extract GAID from the metadata record using the schema
+     * XSL for GaID extraction ({@link Geonet.File.EXTRACT_GAID})
+     *
+     * @param schema
+     * @param md
+     * @return empty string if no gaid or no Geonet.File.EXTRACT_GAID
+     * @throws Exception
+     */
+    private String extractGAID(String schema, Element md) throws Exception {
+        String styleSheet = getSchemaDir(schema) + Geonet.File.EXTRACT_GAID;
+        String gaid       = "";
+				if (new File(styleSheet).exists()) {
+					gaid = Xml.transform(md, styleSheet).getText().trim();
+				} else {
+					Log.error(Geonet.DATA_MANAGER,"extract ga-id "+styleSheet+" doesn't exist");
+				}
+				
+        if (Log.isDebugEnabled(Geonet.DATA_MANAGER)) Log.debug(Geonet.DATA_MANAGER, "Extracted GAID '"+ gaid +"' for schema '"+ schema +"'");
+
+        //--- needed to detach md from the document
+        md.detach();
+
+        return gaid;
+    }
+
+    /**
+     * Get GAID from the database sequence table 
+     *
+     * @param dbms
+     * @return gaid next sequence number from database table 
+     * @throws Exception
+     */
+    private String getGAID(Dbms dbms) throws Exception {
+        return dbms.sequence();
+    }
+
+    //--------------------------------------------------------------------------
+    //---
     //--- General purpose API
     //---
     //--------------------------------------------------------------------------
@@ -2894,6 +2937,12 @@ public class DataManager {
       						}
     						}
 								env.addContent(schemas);
+
+								// add ga-id to env if there isn't one there already
+								String gaid = extractGAID(schema, md);
+								if (gaid.length() == 0) {
+									env.addContent(new Element("gaid").setText(getGAID(dbms)));
+								}
 
                 // add original metadata to result
                 Element result = new Element("root");

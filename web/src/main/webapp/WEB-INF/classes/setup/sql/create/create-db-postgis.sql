@@ -513,6 +513,15 @@ CREATE TABLE spatialindex
 
   );
 
+-- ======================================================================
+
+CREATE SEQUENCE METADATAID 
+	INCREMENT BY 1
+  MINVALUE 1 
+	NO MAXVALUE
+	CACHE 20
+	NO CYCLE;
+
 CREATE INDEX spatialindexNDX1 ON spatialindex(id);
 SELECT AddGeometryColumn('spatialindex', 'the_geom', 4326, 'MULTIPOLYGON', 2 );
 CREATE INDEX spatialindexNDX2 on spatialindex USING GIST(the_geom);

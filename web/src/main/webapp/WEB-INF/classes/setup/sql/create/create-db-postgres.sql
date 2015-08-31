@@ -501,3 +501,11 @@ CREATE TABLE ServiceParameters
         
     foreign key(service) references Services(id)
   );
+
+CREATE SEQUENCE METADATAID 
+	INCREMENT BY 1
+  MINVALUE 1 
+	NO MAXVALUE
+	CACHE 20
+	NO CYCLE;
+
