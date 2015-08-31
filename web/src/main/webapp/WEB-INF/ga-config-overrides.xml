@@ -35,20 +35,20 @@
 <p>eCat is the central, searchable repository for dataset descriptions (metadata) relating to data held by GA in Australia.</p>
 		</replaceXML>
     <replaceXML xpath="about.text">
-        <!--About MarLIN Text-->
+        <!--About eCat-->
         <h4>About eCat</h4>
 <p>eCat the central, searchable repository for dataset descriptions (metadata) relating to data held by GA in Australia.</p>
 <p>The following links are supplied for eCat users:             
 <ul>
 <li><b>Catalog:</b> provides both simple free text search and keyword-based filtering (default), plus advanced options to search for metadata
 </li>
-<li><b>Map:</b> shows bounding boxes for all datasets in the present search results; also can add individual custom spatial extents (from web map services) for selected datasets as available, using the green "add to map" buttons
+<li><b>Map:</b> Nationalmap interface that can display maps from GeoNetwork search results, using the green "add to map" buttons or just display and preview web maps from webservices.
 </li>
-<li><b>About:</b> contains some background information about the present version of Marlin
+<li><b>About:</b> contains some background information about the present version of eCat
 </li>
 <li><b>Home:</b> takes you back to this page.
 </li>                               
-<li>Registered users should <b>Sign In</b> via the link above the GA logo to view internal records and/or to create and edit metadata.
+<li>Registered users should <b>Sign In</b> via the link above the GeoNetwork logo to view internal records and/or to create and edit metadata.
 </li>                               
 </ul>                
 </p>
