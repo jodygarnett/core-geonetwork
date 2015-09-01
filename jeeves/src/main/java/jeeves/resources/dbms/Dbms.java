@@ -205,7 +205,7 @@ public class Dbms
 
 		// sequence stuff is not standard sql so we have to do specific stuff for each dbms
 		if (url.contains("oracle")) {
-			select = select("SELECT METADATAID.NEXTVAL FROM dual;");
+			select = select("SELECT METADATAID.NEXTVAL FROM DUAL");
 		} else if (url.contains("postgresql")) {
 			select = select("SELECT nextval('METADATAID');");
 		}
