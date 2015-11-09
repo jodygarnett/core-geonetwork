@@ -89,11 +89,9 @@
 					"disableCorsProxy" :  "true",
 					"proxyHost"        :  "../../proxy/",
 					"baseLayer"        : {
-						     "type" : "wms",
+						     "type" : "bing",
 						     "options" : {
-								 			
-							        "layers" : "ea-be:World_Bright-Earth-e-Atlas-basemap_No-Labels",
-							        "url"    : "http://www.cmar.csiro.au/geoserver/gwc/service/wms"
+							        "url"    : "//dev.virtualearth.net"
 						     }
 					},
 					"terrainProvider" : {
