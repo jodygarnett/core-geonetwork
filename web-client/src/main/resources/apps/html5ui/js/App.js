@@ -472,10 +472,6 @@ GeoNetwork.app = function() {
                         encodeType : false
                     }));
 
-            createLatestUpdate();
-            createPopularUpdate();
-            createMainTagCloud();
-
             this.breadcrumb = GeoNetwork.BreadCrumb();
             this.breadcrumb.setCurrent(this.breadcrumb.defaultSteps[0]);
 
