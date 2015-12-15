@@ -161,7 +161,7 @@
 					"display":true,
 					"uploadFileDisabled":true,
 					"displayFormatAndVersion":true,
-					"categories":["thumbnail","service","onlinesrc","parent","sibling"]
+					"categories":["thumbnail","dataset","onlinesrc"]
 				},
 				"suggestion":
 				{
