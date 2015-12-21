@@ -7,9 +7,9 @@
 	<!-- VirtualCSW services                                               -->
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-		<service name="csw.publicrecords">
+		<service name="csw.externalrecords">
 			<class name=".services.main.CswDiscoveryDispatcher" >
-				<param name="filter" value="+_cat:publicrecords*"/>
+				<param name="filter" value="+_cat:externalrecords*"/>
 			</class>
 		</service>
 

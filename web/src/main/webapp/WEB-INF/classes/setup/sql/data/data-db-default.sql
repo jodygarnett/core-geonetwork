@@ -41,6 +41,7 @@ INSERT INTO Categories VALUES (10,'otherResources');
 INSERT INTO Categories VALUES (11,'z3950Servers');
 INSERT INTO Categories VALUES (12,'registers');
 INSERT INTO Categories VALUES (13,'physicalSamples');
+INSERT INTO Categories VALUES (14,'externalrecords');
 
 -- ======================================================================
 -- === Table: Groups

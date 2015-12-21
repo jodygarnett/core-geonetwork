@@ -19,6 +19,7 @@ INSERT INTO CategoriesDes VALUES (10,'eng','Other information resources');
 INSERT INTO CategoriesDes VALUES (11,'eng','Z3950 Servers');
 INSERT INTO CategoriesDes VALUES (12,'eng','Registers');
 INSERT INTO CategoriesDes VALUES (13,'eng','Physical Samples');
+INSERT INTO CategoriesDes VALUES (14,'eng','External Records');
 
 INSERT INTO GroupsDes VALUES (-1,'eng','Guest');
 INSERT INTO GroupsDes VALUES (0,'eng','Intranet');
