@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<geonet>
+	<services package="org.fao.geonet">
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<!-- VirtualCSW services                                               -->
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+		<service name="csw.publicrecords">
+			<class name=".services.main.CswDiscoveryDispatcher" >
+				<param name="filter" value="+_cat:publicrecords*"/>
+			</class>
+		</service>
+
+		<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	</services>
+</geonet>
+

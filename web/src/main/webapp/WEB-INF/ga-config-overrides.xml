@@ -16,6 +16,9 @@
       	</config>
     	</resource>
 		</replaceXML>
+		<addXML xpath="">
+		  <include>config-virtualcsw.xml</include>
+		</addXML>
 	</file>
 
   <!-- add ldap settings in config-security-ldap.xml -->
