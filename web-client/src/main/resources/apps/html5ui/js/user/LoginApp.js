@@ -69,7 +69,9 @@ GeoNetwork.loginApp = function() {
                                 }
                                 Ext.get("user-button").dom.href = "javascript:app.loginApp.logout();";
 
-                                show("administration-button");
+																if (user.role === 'Administrator' || user.role === 'Reviewer' || user.role === 'UserAdmin') {
+                                	show("administration-button");
+																}
 
                                 if (user.type && user.type === "advanced") {
                                     user.searchTemplate = 'FULL';
