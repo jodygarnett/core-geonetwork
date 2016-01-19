@@ -88,6 +88,11 @@
         <xsl:apply-templates select="gmd:contact"/>
         <xsl:apply-templates select="gmd:dateStamp"/>
         <xsl:apply-templates select="gmd:metadataStandardName"/>
+				<xsl:for-each select="gmd:identificationInfo/*/gmd:citation/*/gmd:identifier/gmd:MD_Identifier/gmd:code/gcoold:CharacterString">
+					<xsl:call-template name="alternativeMetadataReference">
+						<xsl:with-param name="gaId" select="."/>
+					</xsl:call-template>
+				</xsl:for-each>
         <xsl:apply-templates select="gmd:locale"/>
         <xsl:apply-templates select="gmd:spatialRepresentationInfo"/>
         <xsl:apply-templates select="gmd:referenceSystemInfo"/>
@@ -108,6 +113,33 @@
   <!-- 
     root element templates
   -->
+	<xsl:template name="alternativeMetadataReference">
+		<xsl:param name="gaId"/>
+
+		<xsl:message>Calling altmd with <xsl:value-of select="$gaId"/></xsl:message>
+
+		<!-- if gaId is an integer then put it into the alternativeMetadataReference -->
+		<xsl:if test="$gaId castable as xs:integer">
+					<mdb:alternativeMetadataReference>
+						<cit:CI_Citation>
+							<cit:title>
+           			<gco:CharacterString>Geoscience Australia - short identifier for metadata record with uuid <xsl:value-of select="/root/env/uuid"/></gco:CharacterString>
+							</cit:title>
+      				<cit:identifier>
+       					<mcc:MD_Identifier>
+         					<mcc:code>
+           					<gco:CharacterString><xsl:value-of select="$gaId"/></gco:CharacterString>
+         					</mcc:code>
+         					<mcc:codeSpace>
+           					<gco:CharacterString>http://www.ga.gov.au/eCatId</gco:CharacterString>
+         					</mcc:codeSpace>
+       					</mcc:MD_Identifier>
+      				</cit:identifier>
+						</cit:CI_Citation>
+					</mdb:alternativeMetadataReference>
+		</xsl:if>
+	</xsl:template>
+
   <xsl:template match="gmd:fileIdentifier" priority="5">
     <!--
     gmd:fileIdentifier is changed from a gco:CharacterString to a MD_Identifer
