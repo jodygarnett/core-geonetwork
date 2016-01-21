@@ -939,6 +939,8 @@ public class DataManager {
                     e.printStackTrace();
                 }
 
+                if(Log.isDebugEnabled(Geonet.DATA_MANAGER))
+                    Log.debug(Geonet.DATA_MANAGER, " - report:" + Xml.getString(report));
                 // -- append report to main XML report.
                 schemaTronXmlOut.addContent(report);
             }
@@ -2887,6 +2889,12 @@ public class DataManager {
                 return md;
             }
             else {
+								boolean generateGAID = true;
+								if (uuid == null) {
+									generateGAID = false;
+								}
+								if(Log.isDebugEnabled(Geonet.DATA_MANAGER)) Log.debug(Geonet.DATA_MANAGER, "GAID generation is "+generateGAID+" uuid is: "+uuid);
+
                 uuid = uuid == null ? rec.getChildText("uuid") : uuid;
 
                 //--- setup environment
@@ -2938,9 +2946,11 @@ public class DataManager {
     						}
 								env.addContent(schemas);
 
-								// add ga-id to env if there isn't one there already
+								// add ga-id to env if there isn't one there already - need to be careful here 
+								// so that we generate a new one for duplicated/cloned and new child records
+								// so see generateGAID above
 								String gaid = extractGAID(schema, md);
-								if (gaid.length() == 0) {
+								if ((gaid.length() == 0) || generateGAID) {
 									env.addContent(new Element("gaid").setText(getGAID(dbms)));
 								}
 
