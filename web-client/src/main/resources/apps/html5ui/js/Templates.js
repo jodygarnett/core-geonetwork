@@ -472,6 +472,11 @@ GeoNetwork.HTML5UI.Templates.FULL = new Ext.XTemplate(
 									<b>Status:</b> {[this.getStatusText(values.status)]} <i class="status {[this.getStatusText(values.status)]} {[this.getStatusStyle(values.status)]}"></i>\
 								</tpl>\
 								</p>',
+								'<p class="abstract">\
+								<tpl if="!(this.eCatIdEmpty(values.eCatId))">\
+									<b>eCatId: </b> {[this.getECatId(values.eCatId)]}\
+								</tpl>\
+								</p>',
             '</td>\
             <td class="thumb">',
                 GeoNetwork.HTML5UI.Templates.RATING_TPL,
@@ -512,6 +517,13 @@ GeoNetwork.HTML5UI.Templates.FULL = new Ext.XTemplate(
 				},
 				statusUnknown: function(value) {
 						return (this.getStatusText(value) === 'Unknown');
+				},
+				eCatIdEmpty: function(value) {
+						if (value && (value instanceof Array) && value[0].value && value[0].value !== '') return false;
+						return true;
+				},
+				getECatId: function(value) {
+						return value[0].value;
 				},
 				getStatusText: function(value) {
 						if (!(value instanceof Array)) return this.StatusValues[0].text;
