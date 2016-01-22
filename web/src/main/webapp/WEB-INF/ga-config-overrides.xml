@@ -38,9 +38,7 @@
 <p>eCat is the central, searchable repository for dataset descriptions (metadata) relating to data held by Geoscience Australia (GA).</p>
 		</replaceXML>
     <replaceXML xpath="about.text">
-        <!--About eCat-->
-        <h4>About eCat</h4>
-<p>The following links are supplied for eCat users:             
+<p>The following tabs are supplied for eCat users:             
 <ul>
 <li><b>Catalog:</b> provides both simple free text search and advanced options to search for metadata about data products.
 </li>
@@ -48,10 +46,10 @@
 </li>
 <li><b>About:</b> (this page) contains some background information about the present version of eCat.
 </li>
-<li>Users should <b>Sign In</b> via the link at the top left hand side of the screen to view internal records and/or to create and edit metadata. You can use your GA LDAP username/password.
-</li>                               
 </ul>                
 </p>
+<p>Users should <b>Sign In</b> via the link at the top left hand side of the screen to view internal records and/or to create and edit metadata. You can use your GA LDAP username/password.
+</p>                               
 <p>For more information about the GeoNetwork Open Source product on which this version of eCat is built, see the <a href="http://geonetwork-opensource.org/">GeoNetwork project home page</a>. To contact the eCat development team to request new features or report problems, please use the email <a href="mailto:eCatSupport@ga.gov.au">eCatSupport@ga.gov.au</a>.</p>
     </replaceXML>
 	</file>
