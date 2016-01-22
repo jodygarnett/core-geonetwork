@@ -273,6 +273,13 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
             return '';
         }
     }
+    function getECatId(v, record){
+        if (record.eCatId) {
+            return record.eCatId;
+        } else {
+            return '';
+        }
+    }
     function getChangeDate(v, record){
         if (record.geonet_info && record.geonet_info.changeDate) {
             return record.geonet_info.changeDate[0].value;
@@ -413,6 +420,9 @@ GeoNetwork.data.MetadataResultsFastStore = function(){
         }, {
             name: 'status',
             convert: getStatus
+        }, {
+            name: 'eCatId',
+            convert: getECatId
         }, {
             name: 'rating',
             convert: getRating
