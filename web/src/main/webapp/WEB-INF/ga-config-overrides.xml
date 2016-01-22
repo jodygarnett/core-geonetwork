@@ -35,23 +35,20 @@
 		<replaceXML xpath="welcome.text">
      <!-- GA Home Text-->
 <h4>Welcome to eCat</h4>
-<p>eCat is the central, searchable repository for dataset descriptions (metadata) relating to data held by GA in Australia.</p>
+<p>eCat is the central, searchable repository for dataset descriptions (metadata) relating to data held by Geoscience Australia (GA).</p>
 		</replaceXML>
     <replaceXML xpath="about.text">
         <!--About eCat-->
         <h4>About eCat</h4>
-<p>eCat the central, searchable repository for dataset descriptions (metadata) relating to data held by GA in Australia.</p>
 <p>The following links are supplied for eCat users:             
 <ul>
-<li><b>Catalog:</b> provides both simple free text search and keyword-based filtering (default), plus advanced options to search for metadata
+<li><b>Catalog:</b> provides both simple free text search and advanced options to search for metadata about data products.
 </li>
-<li><b>Map:</b> Nationalmap interface that can display maps from GeoNetwork search results, using the green "add to map" buttons or just display and preview web maps from webservices.
+<li><b>Map:</b> Nationalmap interface that can display maps from GeoNetwork search results, using the green "add to map" buttons or just display and preview web maps from the webservices provided by nationalmap.
 </li>
-<li><b>About:</b> contains some background information about the present version of eCat
+<li><b>About:</b> (this page) contains some background information about the present version of eCat.
 </li>
-<li><b>Home:</b> takes you back to this page.
-</li>                               
-<li>Registered users should <b>Sign In</b> via the link above the GeoNetwork logo to view internal records and/or to create and edit metadata.
+<li>Users should <b>Sign In</b> via the link at the top left hand side of the screen to view internal records and/or to create and edit metadata. You can use your GA LDAP username/password.
 </li>                               
 </ul>                
 </p>
