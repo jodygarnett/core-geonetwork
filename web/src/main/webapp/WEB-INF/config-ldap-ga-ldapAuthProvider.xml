@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security-3.1.xsd" 
+          xmlns:sec="http://www.springframework.org/schema/security"
+          xmlns:ctx="http://www.springframework.org/schema/context"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xmlns="http://www.springframework.org/schema/beans">
+          
+    <ctx:property-override location="WEB-INF/config-security-overrides.properties"/>
+
+    <!-- Add ldap authentication to authentication manager -->
+    <bean id="ldapAuthenticationProviderPostProcessor"
+          class="jeeves.config.springutil.AddAuthenticationProviderPostProcessor">
+      <constructor-arg ref="ldapAuthProvider"/>
+    </bean>
+	
+    <bean id="ldapAuthProvider"
+        class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+        <constructor-arg>
+            <bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+                <constructor-arg ref="contextSource"/>
+                <property name="userSearch">
+                    <bean class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+                        <!-- searchBase -->
+                        <constructor-arg value="OU=Standard,OU=Users,OU=Department"/>
+                        <!-- searchFilter -->
+                        <constructor-arg value="sAMAccountName={0}"/>
+                        <!-- contextSource -->
+                        <constructor-arg ref="contextSource"/>
+                        <property name="searchSubtree" value="true"/>
+                    </bean>
+                </property>
+            </bean>
+        </constructor-arg>
+        <property name="userDetailsContextMapper" ref="ldapUserContextMapper" />
+    </bean>
+
+</beans>
