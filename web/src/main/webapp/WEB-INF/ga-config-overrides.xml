@@ -1,21 +1,24 @@
 <overrides>
 
 	<file name=".*WEB-INF/config\.xml">
-		<replaceXML xpath="resources">
+<!--		<replaceXML xpath="resources">
 			<resource enabled="true">
       	<name>main-db</name>
       	<provider>jeeves.resources.dbms.JNDIPool</provider>
       	<config>
         	<context>java:/comp/env</context>
         	<resourceName>jdbc/geonetwork</resourceName>
+-->
   <!-- Place ga db URL here - gn really only needs to know what type of db it is using, so doesn't need
 	     to be a real URL - rest of the db info comes from tomcat -->
+<!--
         	<url>jdbc:oracle:thin:@dm02-scan.prod.lan:7381/oradev</url>
         	<provideDataStore>true</provideDataStore>
         	<maxOpenPreparedStatements>300</maxOpenPreparedStatements>
       	</config>
     	</resource>
 		</replaceXML>
+-->
 		<addXML xpath="">
 		  <include>config-virtualcsw.xml</include>
 		</addXML>
