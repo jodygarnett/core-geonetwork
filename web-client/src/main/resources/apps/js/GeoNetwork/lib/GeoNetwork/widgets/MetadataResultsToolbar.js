@@ -637,15 +637,14 @@ GeoNetwork.MetadataResultsToolbar = Ext.extend(Ext.Toolbar, {
      */
     updatePrivileges: function(catalogue, user){
         var editingActions = [this.deleteAction, this.updateCategoriesAction, 
-                        this.updatePrivilegesAction, this.createMetadataAction,
-                        this.mdImportAction],
+                        this.updatePrivilegesAction, this.createMetadataAction ],
             adminActions = [this.ownerAction],
-            actions = [this.adminAction, this.otherItem];
+            actions = [this.adminAction, this.mdImportAction, this.otherItem];
        
-        if (this.myMetadataAction) editingActions.push(this.myMetadataAction);
+        //if (this.myMetadataAction) editingActions.push(this.myMetadataAction); - Not Necessary
 
         Ext.each(actions, function(){
-            this.setVisible(user);
+            this.setVisible(user && (user.role === 'Administrator' || user.role === 'UserAdmin'));
         });
         // Do not display editing action for registered users
         Ext.each(editingActions, function(){
