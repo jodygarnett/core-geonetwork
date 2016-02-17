@@ -1,24 +1,24 @@
 //=============================================================================
-//===	Copyright (C) 2001-2007 Food and Agriculture Organization of the
-//===	United Nations (FAO-UN), United Nations World Food Programme (WFP)
-//===	and United Nations Environment Programme (UNEP)
+//===  Copyright (C) 2001-2007 Food and Agriculture Organization of the
+//===  United Nations (FAO-UN), United Nations World Food Programme (WFP)
+//===  and United Nations Environment Programme (UNEP)
 //===
-//===	This program is free software; you can redistribute it and/or modify
-//===	it under the terms of the GNU General Public License as published by
-//===	the Free Software Foundation; either version 2 of the License, or (at
-//===	your option) any later version.
+//===  This program is free software; you can redistribute it and/or modify
+//===  it under the terms of the GNU General Public License as published by
+//===  the Free Software Foundation; either version 2 of the License, or (at
+//===  your option) any later version.
 //===
-//===	This program is distributed in the hope that it will be useful, but
-//===	WITHOUT ANY WARRANTY; without even the implied warranty of
-//===	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-//===	General Public License for more details.
+//===  This program is distributed in the hope that it will be useful, but
+//===  WITHOUT ANY WARRANTY; without even the implied warranty of
+//===  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//===  General Public License for more details.
 //===
-//===	You should have received a copy of the GNU General Public License
-//===	along with this program; if not, write to the Free Software
-//===	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+//===  You should have received a copy of the GNU General Public License
+//===  along with this program; if not, write to the Free Software
+//===  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 //===
-//===	Contact: Jeroen Ticheler - FAO - Viale delle Terme di Caracalla 2,
-//===	Rome - Italy. email: geonetwork@osgeo.org
+//===  Contact: Jeroen Ticheler - FAO - Viale delle Terme di Caracalla 2,
+//===  Rome - Italy. email: geonetwork@osgeo.org
 //==============================================================================
 
 package org.fao.geonet.kernel.csw.services.getrecords;
@@ -63,24 +63,24 @@ import java.util.Set;
  */
 public class SearchController {
     
-	private LuceneConfig _luceneConfig;
-	private final Set<String> _selector;
-	private final Set<String> _uuidselector;
+  private LuceneConfig _luceneConfig;
+  private final Set<String> _selector;
+  private final Set<String> _uuidselector;
     private GMLConfiguration _gmlConfig;
 
-	public SearchController(LuceneConfig luceneConfig) {
-		_luceneConfig = luceneConfig;
-		
-		_selector = Collections.singleton("_id");
-		_uuidselector = Collections.singleton("_uuid");
-		_gmlConfig = new GMLConfiguration();		
+  public SearchController(LuceneConfig luceneConfig) {
+    _luceneConfig = luceneConfig;
+    
+    _selector = Collections.singleton("_id");
+    _uuidselector = Collections.singleton("_uuid");
+    _gmlConfig = new GMLConfiguration();    
     }
-	
+  
     public void setLuceneConfig(LuceneConfig newConfig) {
-    	_luceneConfig = newConfig;
+      _luceneConfig = newConfig;
     }
     
-	//---------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
     //---
     //--- Single public method to perform the general search tasks
     //---
@@ -119,7 +119,7 @@ public class SearchController {
         
         context.getUserSession().setProperty(Geonet.Session.SEARCH_RESULT, searcher);
         
-		// search for results, filtered and sorted
+    // search for results, filtered and sorted
         Pair<Element, List<ResultItem>> summaryAndSearchResults = searcher.search(context, filterExpr, filterVersion,
                 typeName, sort, resultType, startPos, maxRecords, maxHitsFromSummary, cswServiceSpecificContraint);
 
@@ -136,14 +136,14 @@ public class SearchController {
         results.setAttribute("numberOfRecordsReturned", counter +"");
         results.setAttribute("elementSet", setName.toString());
 
-	    if (numMatches > counter) {
-		    results.setAttribute("nextRecord", counter + startPos + "");
-	    }
+      if (numMatches > counter) {
+        results.setAttribute("nextRecord", counter + startPos + "");
+      }
         else {
-		    results.setAttribute("nextRecord","0");
+        results.setAttribute("nextRecord","0");
         }
 
-	    return Pair.read(summary, results);
+      return Pair.read(summary, results);
     }
 
     /**
@@ -204,49 +204,49 @@ public class SearchController {
      * @param typeName requested typeName
      * @param resultType requested ResultType
      * @param strategy ElementNames strategy
-     * @return	The XML metadata record if the record could be converted to the required output schema. Null if no
+     * @return  The XML metadata record if the record could be converted to the required output schema. Null if no
      * conversion available for the schema (eg. fgdc record can not be converted to ISO).
      * @throws CatalogException hmm
      */
   public static Element retrieveMetadata(ServiceContext context, String id,  ElementSetName setName, OutputSchema
           outSchema, Set<String> elemNames, String typeName, ResultType resultType, String strategy) throws CatalogException {
 
-	try	{
-		//--- get metadata from DB
-		GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
+  try  {
+    //--- get metadata from DB
+    GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
         boolean forEditing = false, withValidationErrors = false, keepXlinkAttributes = false;
         Element res = gc.getDataManager().getMetadata(context, id, forEditing, withValidationErrors, keepXlinkAttributes);
-		SchemaManager scm = gc.getSchemamanager();
-		if (res==null) {
+    SchemaManager scm = gc.getSchemamanager();
+    if (res==null) {
             return null;
         }
-		Element info = res.getChild(Edit.RootChild.INFO, Edit.NAMESPACE);
-		String schema = info.getChildText(Edit.Info.Elem.SCHEMA);
+    Element info = res.getChild(Edit.RootChild.INFO, Edit.NAMESPACE);
+    String schema = info.getChildText(Edit.Info.Elem.SCHEMA);
 
 
-		// --- transform iso19115 record to iso19139
-		// --- If this occur user should probably migrate the catalogue from iso19115 to iso19139.
-		// --- But sometimes you could harvest remote node in iso19115 and make them available through CSW
-		if (schema.equals("iso19115")) {
-			res = Xml.transform(res, new StringBuilder().append(context.getAppPath()).append("xsl")
+    // --- transform iso19115 record to iso19139
+    // --- If this occur user should probably migrate the catalogue from iso19115 to iso19139.
+    // --- But sometimes you could harvest remote node in iso19115 and make them available through CSW
+    if (schema.equals("iso19115")) {
+      res = Xml.transform(res, new StringBuilder().append(context.getAppPath()).append("xsl")
                     .append(File.separator).append("conversion").append(File.separator).append("import")
                     .append(File.separator).append("ISO19115-to-ISO19139.xsl").toString());
-			schema = "iso19139";
-		}
-		
-		//--- skip metadata with wrong schemas
-		if (schema.equals("fgdc-std") || schema.equals("dublin-core"))
-		    if(outSchema != OutputSchema.OGC_CORE)
-		    	return null;
+      schema = "iso19139";
+    }
+    
+    //--- skip metadata with wrong schemas
+    if (schema.equals("fgdc-std") || schema.equals("dublin-core"))
+        if(outSchema != OutputSchema.OGC_CORE)
+          return null;
         
-		// apply stylesheet according to setName and schema
+    // apply stylesheet according to setName and schema
         //
         // OGC 07-045 :
         // Because for this application profile it is not possible that a query includes more than one
         // typename, any value(s) of the typeNames attribute of the elementSetName element are ignored.
         res = applyElementSetName(context, scm, schema, res, outSchema, setName, resultType, id);
-		//
-	    // apply elementnames
+    //
+      // apply elementnames
         //
         res = applyElementNames(context, elemNames, typeName, scm, schema, res, resultType, info, strategy);
 
@@ -258,12 +258,12 @@ public class SearchController {
             if(Log.isDebugEnabled(Geonet.CSW_SEARCH))
                 Log.debug(Geonet.CSW_SEARCH, "SearchController returns null");
         }
-		return res;
-	}
+    return res;
+  }
     catch (Exception e) {
-		context.error("Error while getting metadata with id : "+ id);
-		context.error("  (C) StackTrace:\n"+ Util.getStackTrace(e));
-		throw new NoApplicableCodeEx("Raised exception while getting metadata :"+ e);
+    context.error("Error while getting metadata with id : "+ id);
+    context.error("  (C) StackTrace:\n"+ Util.getStackTrace(e));
+    throw new NoApplicableCodeEx("Raised exception while getting metadata :"+ e);
     }
   }
 
@@ -295,22 +295,55 @@ public class SearchController {
             throw new InvalidParameterValueEx("outputSchema not supported for metadata " + id + " schema.", schema);
         }
 
-		String schemaDir  = schemaManager.getSchemaCSWPresentDir(schema)+ File.separator;
-		String styleSheet = schemaDir + prefix +"-"+ elementSetName +".xsl";
+    String service = context.getService();
 
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("lang", context.getLanguage());
-		params.put("displayInfo", resultType == ResultType.RESULTS_WITH_SUMMARY ? "true" : "false");
 
-		try {
-		    result = Xml.transform(result, styleSheet, params);
-		}
+    String schemaDir  = schemaManager.getSchemaCSWPresentDir(schema);
+    String virtualPresentDir = null;
+    if (!service.equals("csw")) {
+      virtualPresentDir = schemaDir.substring(0,schemaDir.length()-3) + service;
+      if (new File(virtualPresentDir).exists()) {
+        context.info("Found virtual csw service; Will use styleSheet directory: "+virtualPresentDir+" and fall back to "+schemaDir+" if required XSLT not found");
+        virtualPresentDir += File.separator;
+      }
+    }
+    schemaDir += File.separator;
+  
+    String styleSheet = findStyleSheet(schemaDir, virtualPresentDir, prefix, elementSetName);
+
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("lang", context.getLanguage());
+    params.put("displayInfo", resultType == ResultType.RESULTS_WITH_SUMMARY ? "true" : "false");
+
+    try {
+        context.info("Using " + styleSheet);
+        result = Xml.transform(result, styleSheet, params);
+    }
         catch (Exception e) {
-		    context.error("Error while transforming metadata with id : " + id + " using " + styleSheet);
-	        context.error("  (C) StackTrace:\n" + Util.getStackTrace(e));
-		    return null;
-		}
+        context.error("Error while transforming metadata with id : " + id + " using " + styleSheet);
+          context.error("  (C) StackTrace:\n" + Util.getStackTrace(e));
+        return null;
+    }
         return result;
+    }
+
+    /**
+     * Checks whether virtualcsw service has its own presentation stylesheet - if not then return
+     * standard stylesheet in present/csw
+     *
+     * @param schemaDir standard stylesheet directory {schema}/present/csw 
+     * @param virtualPresentDir virtual csw service stylesheet directory {schema}/present/{servicename}
+     * @param prefix prefix for stylesheets (eg. ogc, iso, own)
+     * @param elementSetName brief, summary or full - used to build name of stylesheet
+     */
+    private static String findStyleSheet(String schemaDir, String virtualPresentDir, String prefix, ElementSetName elementSetName) {
+      if (virtualPresentDir != null) {
+        String vss = virtualPresentDir + prefix +"-"+ elementSetName +".xsl";
+        if (new File(vss).exists()) {
+          return vss;
+        }
+      }
+      return schemaDir + prefix +"-"+ elementSetName +".xsl";
     }
 
     public final static String DEFAULT_ELEMENTNAMES_STRATEGY = "relaxed";
