@@ -213,7 +213,7 @@ public final class Processor {
 						+ " with exception message " + e.getMessage());
 			}
 
-			if (remoteFragment.getName().equals("error")) {
+			if (remoteFragment != null && remoteFragment.getName().equals("error")) {
 				Log.error(Log.XLINK_PROCESSOR,"Resolving xlink returned error: "+Xml.getString(remoteFragment));
 				remoteFragment = null;
 			}

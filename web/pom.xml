@@ -533,7 +533,15 @@
 						<resource>
                 <directory>${project.basedir}/../web-client/src/main/resources</directory>
             </resource>	
+						<!--
 						<resource>
+<<<<<<< HEAD
+=======
+                <directory>${project.basedir}/../nm/src/main/resources</directory>
+            </resource>	
+						-->
+						<resource>
+>>>>>>> upstream/2.10.x
 						  <directory>${project.basedir}/../web-ui/src/main/resources</directory>
 						</resource>
             <resource>
@@ -632,7 +640,11 @@
               <type>jar</type>
             </overlay>
 						-->
+<<<<<<< HEAD
 						<overlay>
+=======
+            <overlay>
+>>>>>>> upstream/2.10.x
               <groupId>${project.groupId}</groupId>
               <artifactId>nationalmap</artifactId>
               <type>jar</type>
