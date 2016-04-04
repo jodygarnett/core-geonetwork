@@ -107,12 +107,17 @@
 							</xsl:if>
 						</label>
 						<a href="javascript:catalogue.admin();" id="administration-button">
-							<xsl:if test="string(/root/gui/session/userId)=''">
+							<xsl:if test="string(/root/gui/session/profile)!='Administrator'">
 								<xsl:attribute name="style">display:none;</xsl:attribute>
 							</xsl:if>
 							<i class="fa fa-wrench"></i>
 							<xsl:value-of select="/root/gui/strings/admin"/>
 						</a>
+						<label id="newmetadata_label">
+							<xsl:if test="string(/root/gui/session/profile)!='Guest' and string(/root/gui/session/profile)!='RegisteredUser'">
+								<a href="javascript:catalogue.metadataEdit2(null, true);" id="newmetadata-button"><i class="fa fa-file-o"></i><xsl:value-of select="/root/gui/strings/newmetadata-button"/></a>
+							</xsl:if>
+						</label>
 						<script>function false_(){ return false; }</script>
 						<form id="login-form" style="display: none;" onsubmit="return false_();">
 							<div id="login_div">
@@ -126,7 +131,7 @@
 				  </span>
 					<!-- from here on, all elements are floated to the right so 
 					     they are in reverse order -->
-					<a id="help-button" target="_blank" href="/geonetwork/docs/eng/users">
+					<a id="help-button" target="_blank" href="http://intranet.ga.gov.au/int-bin/viewdoc.pl?RecId=D2016-14872">
 						<i class="fa fa-question-circle"></i><xsl:value-of select="/root/gui/strings/help"/>
 					</a>
 					<a id="lang-button" href="javascript:toggle('lang-form');">
@@ -153,11 +158,13 @@
 												<xsl:value-of select="/root/gui/strings/porCatInfoTab" />
 											</a>
 										</li>
+										<!--
 										<li>
 											<a id="map-tab" href="javascript:showBigMap();">
 												<xsl:value-of select="/root/gui/strings/map_label" />
 											</a>
 										</li>
+										-->
 										<li>
 											<a id="browse-tab" href="javascript:showBrowse();">
 												<xsl:value-of select="'Browse'" />

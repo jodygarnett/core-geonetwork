@@ -340,22 +340,22 @@ nav {
   display: block;
 }
 
-#printer-button,#rss-button,#user-button,#administration-button,#lang-button,#help-button {
+#printer-button,#rss-button,#user-button,#administration-button,#lang-button,#help-button,#newmetadata-button {
   display: inline;
   padding-right: 5px;
   text-decoration: none;
   color: #767B7E;
 }
 
-#administration-button {
+#administration-button,#newmetadata-button {
   padding-left: 5px;
 }
 
-#printer-button>i,#rss-button>i,#user-button>i,#administration-button>i,#lang-button>i,#help-button>i {
+#printer-button>i,#rss-button>i,#user-button>i,#administration-button>i,#lang-button>i,#help-button>i,#newmetadata-button>i {
 	padding-right: 5px;
 }
 
-a#printer-button:hover,a#rss-button:hover,a#user-button:hover,a#administration-button:hover,a#lang-button:hover,a#help-button:hover {
+a#printer-button:hover,a#rss-button:hover,a#user-button:hover,a#administration-button:hover,a#lang-button:hover,a#help-button:hover,a#newmetadata-button:hover {
 	color: orange;
 }
 

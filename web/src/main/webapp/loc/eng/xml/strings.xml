@@ -1419,4 +1419,5 @@
   <signOut>Sign Out</signOut>
 	<rss-button>RSS</rss-button>
 	<print-button>Print</print-button>
+	<newmetadata-button>New Metadata</newmetadata-button>
 </strings>

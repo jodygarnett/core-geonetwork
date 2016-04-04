@@ -73,6 +73,10 @@ GeoNetwork.loginApp = function() {
                                 	show("administration-button");
 																}
 
+																if (user.role === 'Administrator' || user.role === 'Reviewer' || user.role === 'UserAdmin' || user.role === 'Editor') {
+                                	show("newmetadata-button");
+																}
+
                                 if (user.type && user.type === "advanced") {
                                     user.searchTemplate = 'FULL';
                                 } else {
@@ -87,6 +91,7 @@ GeoNetwork.loginApp = function() {
 
                 Ext.getCmp('md-selection-info').hide();
                 hide("administration-button");
+                hide("newmetadata-button");
                 if (Ext.isIE) {
                     Ext.get("user-button_label").dom.innerText = OpenLayers
                             .i18n("login");
