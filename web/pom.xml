@@ -640,11 +640,7 @@
               <type>jar</type>
             </overlay>
 						-->
-<<<<<<< HEAD
-						<overlay>
-=======
             <overlay>
->>>>>>> upstream/2.10.x
               <groupId>${project.groupId}</groupId>
               <artifactId>nationalmap</artifactId>
               <type>jar</type>

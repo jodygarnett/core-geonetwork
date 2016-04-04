@@ -171,7 +171,8 @@ GeoNetwork.searchApp = function() {
                 name : 'O_download',
                 id : 'o_download',
                 boxLabel : OpenLayers.i18n('Data for download'),
-                renderTo : "ck2"
+                renderTo : "ck2",
+								hidden : true
             });
 
             dataForDownload_.on("check", function(el) {
