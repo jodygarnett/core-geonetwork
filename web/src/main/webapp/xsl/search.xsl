@@ -114,9 +114,13 @@
 							<xsl:value-of select="/root/gui/strings/admin"/>
 						</a>
 						<label id="newmetadata_label">
-							<xsl:if test="string(/root/gui/session/profile)!='Guest' and string(/root/gui/session/profile)!='RegisteredUser'">
-								<a href="javascript:catalogue.metadataEdit2(null, true);" id="newmetadata-button"><i class="fa fa-file-o"></i><xsl:value-of select="/root/gui/strings/newmetadata-button"/></a>
-							</xsl:if>
+							<a href="javascript:catalogue.metadataEdit2(null, true);" id="newmetadata-button">
+								<xsl:if test="string(/root/gui/session/profile)='Guest' or string(/root/gui/session/profile)='RegisteredUser'">
+									<xsl:attribute name="style">display:none;</xsl:attribute>
+								</xsl:if>
+								<i class="fa fa-file-o"></i>
+								<xsl:value-of select="/root/gui/strings/newmetadata-button"/>
+							</a>
 						</label>
 						<script>function false_(){ return false; }</script>
 						<form id="login-form" style="display: none;" onsubmit="return false_();">
