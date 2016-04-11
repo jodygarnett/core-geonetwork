@@ -460,7 +460,15 @@
   <xsl:template match="srvold:optionality">
     <srv:optionality>
       <gco:Boolean>
-        <xsl:value-of select="gcoold:CharacterString"/>
+        <xsl:variable name="optionality" select="gcoold:CharacterString"/>
+				<xsl:choose>
+					<xsl:when test="$optionality='required'">
+						<xsl:value-of select="'false'"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="'true'"/>
+					</xsl:otherwise>
+				</xsl:choose>
       </gco:Boolean>
     </srv:optionality>
   </xsl:template>
