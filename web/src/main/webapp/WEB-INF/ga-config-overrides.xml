@@ -45,7 +45,7 @@
 <ul>
 <li><b>Catalog:</b> provides both simple free text search and advanced options to search for metadata about data products.
 </li>
-<li><b>Map:</b> Nationalmap interface that can display maps from GeoNetwork search results, using the green "add to map" buttons or just display and preview web maps from the webservices provided by nationalmap.
+<li><b>Browse:</b> latest and most popular metadata records.
 </li>
 <li><b>About:</b> (this page) contains some background information about the present version of eCat.
 </li>
