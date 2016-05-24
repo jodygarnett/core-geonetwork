@@ -63,7 +63,6 @@ public class GetBuildDetails implements Service
 		GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
 
 		if (!haveRead) {
-		  System.out.println("Reading......................>>SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
 			InputStream stream = null;
 			try {
 				stream = this.getClass().getClassLoader().getResourceAsStream(PROPSFILE);
