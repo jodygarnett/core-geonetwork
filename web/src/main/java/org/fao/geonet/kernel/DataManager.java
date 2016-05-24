@@ -1564,7 +1564,8 @@ public class DataManager {
         // Update fixed info for metadata record only, not for subtemplates
         Element xml = Xml.loadString(data, false);
         if (!isTemplate.equals("s")) {
-            xml = updateFixedInfo(schema, Integer.toString(serial), uuid, xml, parentUuid, DataManager.UpdateDatestamp.yes, dbms, context);
+					  boolean created = true;
+            xml = updateFixedInfo(schema, Integer.toString(serial), uuid, xml, parentUuid, DataManager.UpdateDatestamp.yes, dbms, context, created);
 
             // the updateFixedInfo may have altered the UUID
             if (schemaMan.getSchema(schema).isReadwriteUUID()) {
@@ -1630,7 +1631,8 @@ public class DataManager {
 
         if (ufo && "n".equals(isTemplate)) {
             String parentUuid = null;
-            metadata = updateFixedInfo(schema, id$, uuid, metadata, parentUuid, DataManager.UpdateDatestamp.no, dbms, context);
+					  boolean created = false;
+            metadata = updateFixedInfo(schema, id$, uuid, metadata, parentUuid, DataManager.UpdateDatestamp.no, dbms, context, created);
         }
 
         if (source == null) {
@@ -1901,7 +1903,8 @@ public class DataManager {
         String schema = getMetadataSchema(dbms, id);
         if(ufo) {
             String parentUuid = null;
-            md = updateFixedInfo(schema, id, null, md, parentUuid, (updateDateStamp ? DataManager.UpdateDatestamp.yes : DataManager.UpdateDatestamp.no), dbms, context);
+					  boolean created = false;
+            md = updateFixedInfo(schema, id, null, md, parentUuid, (updateDateStamp ? DataManager.UpdateDatestamp.yes : DataManager.UpdateDatestamp.no), dbms, context, created);
         }
 
         //--- force namespace prefix for iso19139 metadata
@@ -2876,7 +2879,7 @@ public class DataManager {
      * @return
      * @throws Exception
      */
-    public Element updateFixedInfo(String schema, String id, String uuid, Element md, String parentUuid, UpdateDatestamp updateDatestamp, Dbms dbms, ServiceContext context) throws Exception {
+    public Element updateFixedInfo(String schema, String id, String uuid, Element md, String parentUuid, UpdateDatestamp updateDatestamp, Dbms dbms, ServiceContext context, boolean created) throws Exception {
         boolean autoFixing = settingMan.getValueAsBool("system/autofixing/enable", true);
         if(autoFixing) {
             if(Log.isDebugEnabled(Geonet.DATA_MANAGER))
@@ -2914,6 +2917,11 @@ public class DataManager {
 								}
                 env.addContent(schemaLoc);
 
+                Log.debug(Geonet.DATA_MANAGER, "update-fixed-info created is "+created);
+                if (created) {
+                    env.addContent(new Element("created").setText(new ISODate().toString()));
+                }
+
                 if (updateDatestamp == UpdateDatestamp.yes) {
                     env.addContent(new Element("changeDate").setText(new ISODate().toString()));
                 }
@@ -2922,6 +2930,16 @@ public class DataManager {
                 }
                 env.addContent(new Element("datadir").setText(Lib.resource.getDir(dataDir, Params.Access.PRIVATE, id)));
 
+								// add user information to env if user is authenticated (should be)
+								Element user = new Element("user");
+								UserSession usrSess = context.getUserSession();
+                if (usrSess.isAuthenticated()) {
+               		String myUserId  = usrSess.getUserId(); 
+									Element elUser = dbms.select("SELECT * FROM Users WHERE id=?", Integer.valueOf(myUserId));
+									elUser.setName("details");
+									user.addContent(elUser);
+								}
+								env.addContent(user);
 
 								// some more stuff to add to env
                 env.addContent(new Element("siteURL")   .setText(getSiteURL()));
