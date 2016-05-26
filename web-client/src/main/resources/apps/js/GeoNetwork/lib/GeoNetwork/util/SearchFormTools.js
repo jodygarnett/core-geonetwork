@@ -425,6 +425,14 @@ GeoNetwork.util.SearchFormTools = {
             hideLabel: false
         });
     },
+    /** api:method[getIdField]
+     *  :return: An eCat id search field
+     *
+     *  Create an eCat id search field
+     */
+    getIdField: function(){
+        return GeoNetwork.util.SearchFormTools.getTextField('E_eCatId', 'eCat ID');
+    },
     /** api:method[getTitleField]
      *  :return: A title field
      *
