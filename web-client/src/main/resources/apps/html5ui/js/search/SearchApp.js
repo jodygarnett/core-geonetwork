@@ -232,6 +232,7 @@ GeoNetwork.searchApp = function() {
             });
 
             var idField = GeoNetwork.util.SearchFormTools.getIdField();
+            var authorField = GeoNetwork.util.SearchFormTools.getAuthorField();
         		var catalogueField = GeoNetwork.util.SearchFormTools.getCatalogueField(
                 		catalogue.services.getSources, catalogue.services.logoUrl, true);
         		var groupField = GeoNetwork.util.SearchFormTools.getGroupField(
@@ -261,7 +262,7 @@ GeoNetwork.searchApp = function() {
 						    .getServiceTypeField(true);
 
             advancedCriteria.push(
-										idField, categoryField, statusField, groupField, ownedByField,
+										idField, authorField, categoryField, statusField, groupField, ownedByField,
 										ownerGroupField, metadataTypeField, catalogueField,
 										validField, spatialTypes, denominatorField,
                     ownerField, hitsPerPage);

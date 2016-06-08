@@ -433,6 +433,14 @@ GeoNetwork.util.SearchFormTools = {
     getIdField: function(){
         return GeoNetwork.util.SearchFormTools.getTextField('E_eCatId', 'eCat ID');
     },
+    /** api:method[getAuthorField]
+     *  :return: An author search field
+     *
+     *  Create an author search field
+     */
+    getAuthorField: function(){
+        return GeoNetwork.util.SearchFormTools.getTextField('E_author', OpenLayers.i18n('author'));
+    },
     /** api:method[getTitleField]
      *  :return: A title field
      *
