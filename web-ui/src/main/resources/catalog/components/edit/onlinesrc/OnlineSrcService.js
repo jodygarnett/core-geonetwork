@@ -350,7 +350,9 @@
          * @methodOf gn_onlinesrc.service:gnOnlinesrc
          *
          * @description
-         * The `linkToService` links a service to the current metadata
+         * The `linkToService` calls md.processing firstly to add the
+         * the dataset to the service (operatesOn) and then
+         * adding the service to the dataset (online resource).
          *
          * @param {Object} params for the batch
          * @param {string} popupid id of the popup to close after process.
@@ -364,7 +366,17 @@
             uuidref: qParams.uuidDS,
             uuid: qParams.uuidSrv,
             process: qParams.process
-          }).then(function() {
+          }).then(function() { // dataset-add successful
+            var qParams = setParams('service-add', params);
+            runProcess(scope, {
+              scopedName: qParams.name,
+              uuidref: qParams.uuidSrv,
+              uuid: qParams.uuidDS,
+              process: qParams.process
+            }).then(function() {
+              closePopup(popupid);
+            });
+          }, function() { // dataset-add not successful so add service anyway 
             var qParams = setParams('service-add', params);
             runProcess(scope, {
               scopedName: qParams.name,
@@ -383,8 +395,9 @@
          * @methodOf gn_onlinesrc.service:gnOnlinesrc
          *
          * @description
-         * The `linkToDataset` calls md.processing. in mode 'parent-add'
-         * to link a service to the edited metadata
+         * The `linkToDataset` calls md.processing firstly to add the service
+         * to the dataset (online resource) using onlinesrc-add and then to 
+         * add the dataset to to the service (operatesOn) using dataset-add
          *
          * @param {Object} params for the batch
          * @param {string} popupid id of the popup to close after process.
@@ -399,9 +412,21 @@
             uuid: qParams.uuidDS,
             title: qParams.title,
             process: qParams.process
-          }).then(function() {
+          }).then(function() {  // onlinesrc-add successful
             var qParams = setParams('dataset-add', params);
 
+            runProcess(scope, {
+              scopedName: qParams.name,
+              uuidref: qParams.uuidDS,
+              uuid: qParams.uuidSrv,
+              title: qParams.title,
+              process: qParams.process
+            }).then(function() {
+              closePopup(popupid);
+            });
+          }, function() {   // onlinesrc-add failed so add the dataset to the service anyway
+						
+            var qParams = setParams('dataset-add', params);
             runProcess(scope, {
               scopedName: qParams.name,
               uuidref: qParams.uuidDS,
