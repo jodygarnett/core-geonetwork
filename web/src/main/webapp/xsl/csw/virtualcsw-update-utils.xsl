@@ -28,6 +28,10 @@
 					<th class="padded"><xsl:value-of select="/root/gui/strings/virtualcswDenominator"/></th>
 					<td class="padded"><input class="content" type="text" name="denominator" value="{/root/gui/services/filter/denominator}"/></td>
 				</tr>
+                                <tr>
+                                        <th class="padded"><xsl:value-of select="/root/gui/strings/virtualcswType"/></th>
+                                        <td class="padded"><input class="content" type="text" name="type" value="{/root/gui/services/filter/type}"/></td>
+                                </tr>
 				<tr>
 					<th class="padded"><xsl:value-of select="/root/gui/strings/virtualcswCatalog"/></th>
 					<td class="padded">
