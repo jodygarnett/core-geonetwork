@@ -58,6 +58,11 @@
       <groupId>net.sf.saxon</groupId>
       <artifactId>saxon-dom</artifactId>
     </dependency>
+	<dependency>
+	    <groupId>com.googlecode.efficient-java-matrix-library</groupId>
+	    <artifactId>ejml</artifactId>
+	    <version>0.25</version>
+	</dependency>
     <dependency>
       <groupId>org.openrdf</groupId>
       <artifactId>openrdf-model</artifactId>
@@ -208,6 +213,16 @@
       <groupId>org.geotools</groupId>
       <artifactId>gt-brewer</artifactId>
     </dependency>
+    <dependency>
+	    <groupId>org.geotools</groupId>
+	    <artifactId>gt-opengis</artifactId>
+	    <version>16.0</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.geotools</groupId>
+	    <artifactId>gt-metadata</artifactId>
+	    <version>16.0</version>
+	</dependency>
     <dependency>
       <groupId>com.vividsolutions</groupId>
       <artifactId>jts</artifactId>

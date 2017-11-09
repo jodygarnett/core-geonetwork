@@ -13,7 +13,7 @@
   <name>JS API and Service documentation</name>
   <build>
     <plugins>
-      <plugin>
+     <!--  <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
         <version>0.0.23</version>
@@ -37,7 +37,7 @@
             <phase>generate-resources</phase>
           </execution>
         </executions>
-      </plugin>
+      </plugin> -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
@@ -81,7 +81,7 @@
           </dependency>
         </dependencies>
       </plugin>
-      <plugin>
+      <!-- <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.1</version>
@@ -96,14 +96,14 @@
               <executable>${project.basedir}/node/node</executable>
               <arguments>
                 <argument>${project.basedir}/node_modules/grunt-cli/bin/grunt</argument>
-                <argument>--gruntfile</argument>
+                <argument>gruntfile</argument>
                 <argument>${project.basedir}/config.js</argument>
               </arguments>
               <workingDirectory>${project.basedir}</workingDirectory>
             </configuration>
           </execution>
         </executions>
-      </plugin>
+      </plugin> -->
     </plugins>
   </build>
 

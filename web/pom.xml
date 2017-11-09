@@ -485,27 +485,11 @@
       <artifactId>schema-dublin-core</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>schema-iso19139.anzlic</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>schema-iso19139.mcp</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>schema-iso19115-3</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>schema-iso19139.mcp20</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
+	<dependency>
+	  <groupId>${project.groupId}</groupId>
+	  <artifactId>schema-iso19115-3</artifactId>
+	  <version>${project.version}</version>
+	</dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>solr-bridge</artifactId>
@@ -596,22 +580,6 @@
                   </targetPath>
                 </resource>
                 <resource>
-                  <directory>${project.basedir}/../schemas/iso19139.anzlic/src/main/plugin</directory>
-                  <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-                </resource>
-                <resource>
-                  <directory>${project.basedir}/../schemas/iso19115-3/src/main/plugin</directory>
-                  <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-                </resource>
-                <resource>
-                  <directory>${project.basedir}/../schemas/iso19139.mcp/src/main/plugin</directory>
-                  <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-                </resource>
-                <resource>
-                  <directory>${project.basedir}/../schemas/iso19139.mcp-2.0/src/main/plugin</directory>
-                  <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-                </resource>
-                <resource>
                   <directory>${project.basedir}/../schemas/iso19110/src/main/plugin</directory>
                   <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
                   </targetPath>
@@ -626,6 +594,10 @@
                   <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
                   </targetPath>
                 </resource>
+                <resource>
+			      <directory>${project.basedir}/../schemas/iso19115-3/src/main/plugin</directory>
+			      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
+			    </resource>
                 <!-- Copy the documentation in the webapp. -->
                 <resource>
                   <directory>${project.basedir}/../docs/manuals/target/doc</directory>
