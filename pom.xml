@@ -854,7 +854,7 @@
       <dependency>
         <groupId>net.arnx.jsonic</groupId>
         <artifactId>jsonic</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.7</version>
       </dependency>
       <!-- end language detection -->
 

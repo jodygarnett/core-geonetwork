@@ -47,11 +47,8 @@
     <module>csw-record</module>
     <module>dublin-core</module>
     <module>iso19110</module>
-    <module>iso19115-3</module>
     <module>iso19139</module>
-    <module>iso19139.anzlic</module>
-    <module>iso19139.mcp</module>
-    <module>iso19139.mcp-2.0</module>
+    <module>iso19115-3</module>
   </modules>
   <properties>
     <rootProjectDir>../..</rootProjectDir>
