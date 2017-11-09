@@ -1,3 +1,26 @@
+/*
+ * Copyright (C) 2001-2016 Food and Agriculture Organization of the
+ * United Nations (FAO-UN), United Nations World Food Programme (WFP)
+ * and United Nations Environment Programme (UNEP)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * Contact: Jeroen Ticheler - FAO - Viale delle Terme di Caracalla 2,
+ * Rome - Italy. email: geonetwork@osgeo.org
+ */
+
 (function() {
   goog.provide('gn_facets_dimension_directive');
   goog.require('gn_utility_service');
@@ -21,9 +44,15 @@
           scope.facetQuery = scope.params['facet.q'];
           scope.facetConfig = null;
 
+          scope.fLvlCollapse = {};
           scope.collapseAll = function() {
-            $timeout(function() {
-              element.parent().find('div.gn-facet > h4').click();
+            angular.forEach(scope.fLvlCollapse, function(v, k) {
+              scope.fLvlCollapse[k] = true;
+            });
+          };
+          scope.expandAll = function() {
+            angular.forEach(scope.fLvlCollapse, function(v, k) {
+              scope.fLvlCollapse[k] = false;
             });
           };
 
@@ -112,6 +141,17 @@
                   return category.path;
                 };
 
+                /**
+                 * Adds a new attribute called 'label' instead
+                 * of '@label' for orderBy
+                 * @param {Object} category
+                 * @return {boolean|*}
+                 */
+                scope.buildLabel = function(category) {
+                  category.label = category['@label'];
+                  return category.label;
+                };
+
 
                 /**
                * Build the facet.q paramaeter
@@ -154,7 +194,7 @@
 
                       var filteredElementInPath =
                           $.inArray(
-                              encodeURIComponent(category['@value']),
+                          encodeURIComponent(category['@value']),
                           dimensionFilter);
                       // Restrict the path to its parent
                       if (filteredElementInPath !== -1) {
@@ -162,7 +202,7 @@
                           dimension: scope.categoryKey,
                           value: dimensionFilter.
                               slice(1, filteredElementInPath).
-                                  join('/')
+                              join('/')
                         });
                       }
                     }
@@ -197,11 +237,11 @@
 
 
                 /**
-                 * Check that current category is already used
-                 * in current filter.
-                 * @param {Object} category
-                 * @return {boolean|*}
-                 */
+               * Check that current category is already used
+               * in current filter.
+               * @param {Object} category
+               * @return {boolean|*}
+               */
                 scope.isOnDrillDownPath = function(category) {
                   // Is selected if the category value is defined in the
                   // facet.q parameter (ie. combination of
@@ -209,9 +249,12 @@
                   category.isSelected =
                       angular.isUndefined(scope.params['facet.q']) ?
                       false :
-                      $.inArray(
+                      ($.inArray(
                       encodeURIComponent(category['@value']),
-                      scope.params['facet.q'].split(/&|\//)) !== -1;
+                      scope.params['facet.q'].split(/&|\//)) !== -1 ||
+                      $.inArray(
+                      category['@value'],
+                      scope.params['facet.q'].split(/&|\//)) !== -1);
                   return category.isSelected;
                 };
 
@@ -232,9 +275,12 @@
                     var dimensionFilter = dimensionList[i].split('/');
                     if (dimensionFilter[0] ==
                         scope.facetConfig.map[scope.categoryKey] &&
-                        $.inArray(
+                        ($.inArray(
                         encodeURIComponent(category['@value']),
-                        dimensionFilter) !== -1) {
+                        scope.params['facet.q'].split(/&|\//)) !== -1 ||
+                        $.inArray(
+                        category['@value'],
+                        scope.params['facet.q'].split(/&|\//)) !== -1)) {
                       return true;
                     }
                   }

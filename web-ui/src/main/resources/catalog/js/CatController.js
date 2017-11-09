@@ -1,23 +1,80 @@
+/*
+ * Copyright (C) 2001-2016 Food and Agriculture Organization of the
+ * United Nations (FAO-UN), United Nations World Food Programme (WFP)
+ * and United Nations Environment Programme (UNEP)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * Contact: Jeroen Ticheler - FAO - Viale delle Terme di Caracalla 2,
+ * Rome - Italy. email: geonetwork@osgeo.org
+ */
+
 (function() {
   goog.provide('gn_cat_controller');
 
+
+
+  goog.require('gn_admin_menu');
   goog.require('gn_search_manager');
   goog.require('gn_session_service');
 
+
   var module = angular.module('gn_cat_controller',
-      ['gn_search_manager', 'gn_session_service']);
+      ['gn_search_manager', 'gn_session_service', 'gn_admin_menu']);
 
 
   module.constant('gnGlobalSettings', {
     proxyUrl: '../../proxy?url=',
     locale: {},
     isMapViewerEnabled: false,
+    requireProxy: [],
     is3DModeAllowed: false,
+    docUrl: 'http://geonetwork-opensource.org/manuals/trunk/',
+    //docUrl: '../../doc/',
     modelOptions: {
       updateOn: 'default blur',
       debounce: {
         default: 300,
         blur: 0
+      }
+    },
+    current: null,
+    shibbolethEnabled: false
+  });
+
+  module.constant('gnLangs', {
+    langs: {
+      'eng': 'en',
+      'dut': 'du',
+      'fre': 'fr',
+      'ger': 'ge',
+      'kor': 'ko',
+      'spa': 'es',
+      'cze': 'cz',
+      'cat': 'ca',
+      'fin': 'fi',
+      'ice': 'is'
+    },
+    getIso2Lang: function(iso3lang) {
+      return this.langs[iso3lang];
+    },
+    getIso3Lang: function(iso2lang) {
+      for (p in this.langs) {
+        if (this.langs[p] == iso2lang) {
+          return p;
+        }
       }
     }
   });
@@ -35,28 +92,47 @@
     '$scope', '$http', '$q', '$rootScope', '$translate',
     'gnSearchManagerService', 'gnConfigService', 'gnConfig',
     'gnGlobalSettings', '$location', 'gnUtilityService', 'gnSessionService',
+    'gnLangs', 'gnAdminMenu', '$cookies',
     function($scope, $http, $q, $rootScope, $translate,
             gnSearchManagerService, gnConfigService, gnConfig,
-            gnGlobalSettings, $location, gnUtilityService, gnSessionService) {
+            gnGlobalSettings, $location, gnUtilityService, gnSessionService,
+            gnLangs, gnAdminMenu, $cookies) {
       $scope.version = '0.0.1';
+      //Display or not the admin menu
+      if ($location.absUrl().indexOf('/admin.console') != -1) {
+        $scope.viewMenuAdmin = true;
+      }else {$scope.viewMenuAdmin = false}
+      //Update Links for social media
+      $scope.socialMediaLink = $location.absUrl();
+      $scope.$on('$locationChangeSuccess', function(event) {
+        $scope.socialMediaLink = $location.absUrl();
+        $scope.showSocialMediaLink =
+            ($scope.socialMediaLink.indexOf('/metadata/') != -1);
+      });
+      $scope.getPermalink = gnUtilityService.getPermalink;
+
       // TODO : add language
       var tokens = location.href.split('/');
       $scope.service = tokens[6].split('?')[0];
       $scope.lang = tokens[5];
+      gnLangs.current = $scope.lang;
+      $scope.iso2lang = gnLangs.getIso2Lang(tokens[5]);
       $scope.nodeId = tokens[4];
       // TODO : get list from server side
-      $scope.langs = {'eng': 'en', 'dut': 'du', 'fre': 'fr',
-        'ger': 'ge', 'kor': 'ko', 'spa': 'es', 'cze': 'cz'};
+      $scope.langs = gnLangs.langs;
+
       // Lang names to be displayed in language selector
       $scope.langLabels = {'eng': 'English', 'dut': 'Nederlands',
         'fre': 'Français', 'ger': 'Deutsch', 'kor': '한국의',
-        'spa': 'Español', 'cze': 'Czech'};
+        'spa': 'Español', 'cat': 'Català', 'cze': 'Czech',
+        'fin': 'Suomeksi', 'fin': 'Suomeksi', 'ice': 'Íslenska'};
       $scope.url = '';
       $scope.base = '../../catalog/';
       $scope.proxyUrl = gnGlobalSettings.proxyUrl;
       $scope.logoPath = '../../images/harvesting/';
       $scope.isMapViewerEnabled = gnGlobalSettings.isMapViewerEnabled;
       $scope.isDebug = window.location.search.indexOf('debug') !== -1;
+      $scope.shibbolethEnabled = gnGlobalSettings.shibbolethEnabled;
 
       $scope.pages = {
         home: 'home',
@@ -66,6 +142,24 @@
       $scope.layout = {
         hideTopToolBar: false
       };
+
+      /**
+       * CSRF support
+       */
+
+      //Comment the following lines if you want to remove csrf support
+      $http.defaults.xsrfHeaderName = 'X-XSRF-TOKEN';
+      $http.defaults.xsrfCookieName = 'XSRF-TOKEN';
+      $scope.$watch(function() { 
+          return $cookies.get($http.defaults.xsrfCookieName); 
+        }, function(value) {
+        $rootScope.csrf = value;
+      });
+      //If no csrf, ask for one:
+      if(!$rootScope.csrf) {
+        $http.post('info?type=me');
+      }
+      //Comment the upper lines if you want to remove csrf support
 
       /**
        * Number of selected metadata records.
@@ -81,6 +175,7 @@
                          'Administrator'];
       $scope.info = {};
       $scope.user = {};
+      $rootScope.user = $scope.user;
       $scope.authenticated = false;
       $scope.initialized = false;
 
@@ -121,22 +216,21 @@
         // Retrieve site information
         // TODO: Add INSPIRE, harvester, ... information
         var catInfo = promiseStart.then(function(value) {
-          var url = $scope.url + 'info?_content_type=json&type=site&type=auth';
-          return $http.get(url).
+          return $http.get('../api/site').
               success(function(data, status) {
                 $scope.info = data;
                 // Add the last time catalog info where updated.
                 // That could be useful to append to catalog image URL
                 // in order to trigger a reload of the logo when info are
                 // reloaded.
-                $scope.info.site.lastUpdate = new Date().getTime();
+                $scope.info['system/site/lastUpdate'] = new Date().getTime();
                 $scope.initialized = true;
               }).
               error(function(data, status, headers, config) {
                 $rootScope.$broadcast('StatusUpdated',
                    {
-                     title: $translate('somethingWrong'),
-                     msg: $translate('msgNoCatalogInfo'),
+                     title: $translate.instant('somethingWrong'),
+                     msg: $translate.instant('msgNoCatalogInfo'),
                      type: 'danger'});
               });
         });
@@ -146,13 +240,13 @@
         // Utility functions for user
         var userFn = {
           isAnonymous: function() {
-            return this['@authenticated'] === 'false';
+            return angular.isUndefined(this);
           },
           isConnected: function() {
             return !this.isAnonymous();
           },
           canEditRecord: function(md) {
-            if (!md) {
+            if (!md || this.isAnonymous()) {
               return false;
             }
 
@@ -192,19 +286,16 @@
 
         // Retrieve user information if catalog is online
         var userLogin = catInfo.then(function(value) {
-          var url = $scope.url + 'info?_content_type=json&type=me';
-          return $http.get(url).
-              success(function(data, status) {
-                angular.extend($scope.user, data.me);
-                angular.extend($scope.user, userFn);
-
-                $scope.authenticated = data.me['@authenticated'] !== 'false';
-              }).
-              error(function(data, status, headers, config) {
-                // TODO : translate
-                $rootScope.$broadcast('StatusUpdated',
-                   {msg: $translate('msgNoUserInfo')}
-                );
+          return $http.get('../api/me').
+              success(function(me, status) {
+                if (angular.isObject(me)) {
+                  angular.extend($scope.user, me);
+                  angular.extend($scope.user, userFn);
+                  $scope.authenticated = true;
+                } else {
+                  $scope.authenticated = false;
+                  $scope.user = undefined;
+                }
               });
         });
 
@@ -218,8 +309,8 @@
               });
         });
       };
-
-
+      $scope.userAdminMenu = gnAdminMenu.UserAdmin;
+      $scope.adminMenu = gnAdminMenu.Administrator;
       $scope.$on('loadCatalogInfo', function(event, status) {
         $scope.loadCatalogInfo();
       });
@@ -227,6 +318,10 @@
       $scope.clearStatusMessage = function() {
         $scope.status = null;
         $('.gn-info').hide();
+      };
+
+      $scope.allowPublishInvalidMd = function() {
+        return gnConfig['metadata.workflow.allowPublishInvalidMd'];
       };
 
       $scope.$on('StatusUpdated', function(event, status) {

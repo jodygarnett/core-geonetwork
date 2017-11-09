@@ -1,3 +1,26 @@
+/*
+ * Copyright (C) 2001-2016 Food and Agriculture Organization of the
+ * United Nations (FAO-UN), United Nations World Food Programme (WFP)
+ * and United Nations Environment Programme (UNEP)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+ *
+ * Contact: Jeroen Ticheler - FAO - Viale delle Terme di Caracalla 2,
+ * Rome - Italy. email: geonetwork@osgeo.org
+ */
+
 (function() {
   goog.provide('gn_search_form_controller');
 
@@ -39,10 +62,13 @@
     /** State of the facets of the current search */
     $scope.currentFacets = [];
 
-    /** Object were are stored result search information */
+    /** Object where are stored result search information */
     $scope.searchResults = {
       records: [],
-      count: -1
+      count: -1,
+      selectionBucket:
+          $scope.searchObj.selectionBucket ||
+          (Math.random() + '').replace('.', '')
     };
 
     $scope.searching = 0;
@@ -122,6 +148,8 @@
         angular.extend(params,
             gnFacetService.getParamsFromFacets($scope.currentFacets));
       }
+
+      params.bucket = $scope.searchResults.selectionBucket || 'metadata';
 
       var finalParams = angular.extend(params, hiddenParams);
       gnSearchManagerService.gnSearch(finalParams).then(
@@ -289,6 +317,10 @@
     };
     $scope.$on('resetSearch', function(evt, searchParams) {
       $scope.controller.resetSearch(searchParams);
+    });
+
+    $scope.$on('search', function() {
+      $scope.triggerSearch();
     });
 
     $scope.$on('clearResults', function() {
