@@ -4,3 +4,18 @@ jdk:
   - oraclejdk8
 before_install:
   - export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=256M"
+
+# whitelist
+branches:
+  only:
+    - prod
+    - test
+    - /^dev-.*$/ # any dev branch
+
+script:
+  - if [[ $TRAVIS_BRANCH =~ ^dev-.*$ ]];then
+    export BRANCH="dev";
+    else
+    export BRANCH=$TRAVIS_BRANCH;
+    fi
+  - mvn install -DskipTests=true
