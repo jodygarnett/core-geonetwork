@@ -148,7 +148,7 @@
        */
 
       //Comment the following lines if you want to remove csrf support
-      $http.defaults.xsrfHeaderName = 'X-XSRF-TOKEN';
+      /*$http.defaults.xsrfHeaderName = 'X-XSRF-TOKEN';
       $http.defaults.xsrfCookieName = 'XSRF-TOKEN';
       $scope.$watch(function() { 
           return $cookies.get($http.defaults.xsrfCookieName); 
@@ -158,7 +158,7 @@
       //If no csrf, ask for one:
       if(!$rootScope.csrf) {
         $http.post('info?type=me');
-      }
+      }*/
       //Comment the upper lines if you want to remove csrf support
 
       /**
