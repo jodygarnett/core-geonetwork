@@ -115,4 +115,9 @@ public interface MetadataRepositoryCustom {
      */
     List<SimpleMetadata> findAllSimple(String harvestUuid);
 
+    /**
+     * 
+     * @return
+     */
+    Long getGaid();
 }

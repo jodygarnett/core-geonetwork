@@ -177,4 +177,10 @@ public class MetadataRepositoryImpl implements MetadataRepositoryCustom {
         return query.getResultList();
     }
 
+	@Override
+	public Long getGaid() {
+		// TODO Auto-generated method stub
+		return new Long(100001);
+	}
+
 }

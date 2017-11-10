@@ -1160,7 +1160,35 @@ public class DataManager implements ApplicationEventPublisherAware {
 
         return uuid;
     }
+    
+    /**
+     * Extract GAID from the metadata record using the schema XSL for GAID extraction)
+     */
+    public String extractGAID(String schema, Element md) throws Exception {
+		Path styleSheet = getSchemaDir(schema).resolve(Geonet.File.EXTRACT_GAID);
+		String gaid = "";
+		gaid = Xml.transform(md, styleSheet).getText().trim();
+		
+		if (Log.isDebugEnabled(Geonet.DATA_MANAGER))
+			Log.debug(Geonet.DATA_MANAGER, "Extracted GAID '" + gaid + "' for schema '" + schema + "'");
 
+        //--- needed to detach md from the document
+        md.detach();
+
+        return gaid;
+    }
+
+    /**
+     * Get GAID from the database sequence table 
+     *
+     * @param dbms
+     * @return gaid next sequence number from database table 
+     * @throws Exception
+     */
+    public String getGAID() throws Exception {
+    	Long gaid = getMetadataRepository().getGaid();
+        return String.valueOf(gaid);
+    }
     /**
      *
      * @param schema
@@ -1181,6 +1209,24 @@ public class DataManager implements ApplicationEventPublisherAware {
         return dateMod;
     }
 
+    //Joseph added - Add GAID into the metadata 
+    public Element setGAID(String schema, String gaid, Element md) throws Exception {
+        //--- setup environment
+    	
+        Element env = new Element("env");
+        
+        env.addContent(new Element("gaid").setText(gaid));
+        //--- setup root element
+
+        Element root = new Element("root");
+        root.addContent(md.detach());
+        root.addContent(env.detach());
+
+        //--- do an XSL  transformation
+        Path styleSheet = getSchemaDir(schema).resolve(Geonet.File.SET_GAID);
+        return Xml.transform(root, styleSheet);
+    }
+    
     /**
      *
      * @param schema
@@ -2784,7 +2830,7 @@ public class DataManager implements ApplicationEventPublisherAware {
             if (Log.isDebugEnabled(Geonet.DATA_MANAGER)) {
                 Log.debug(Geonet.DATA_MANAGER, "Autofixing is enabled, trying update-fixed-info (updateDatestamp: " + updateDatestamp.name() + ")");
             }
-
+            boolean generateGAID = true;
             Metadata metadata = null;
             if (metadataId.isPresent()) {
                 metadata = getMetadataRepository().findOne(metadataId.get());
@@ -2796,6 +2842,11 @@ public class DataManager implements ApplicationEventPublisherAware {
                         Log.debug(Geonet.DATA_MANAGER, "Not applying update-fixed-info for a template");
                     }
                     return md;
+                }else{
+                	
+					if (uuid == null) {
+						generateGAID = false;
+					}
                 }
             }
 
@@ -2827,6 +2878,15 @@ public class DataManager implements ApplicationEventPublisherAware {
                 env.addContent(new Element("datadir").setText(resourceDir.toString()));
             }
 
+            // add ga-id to env if there isn't one there already - need to be careful here 
+			// so that we generate a new one for duplicated/cloned and new child records
+			// so see generateGAID above
+			String gaid = extractGAID(schema, md);
+			
+			if ((gaid.length() == 0) || generateGAID) {
+				env.addContent(new Element("gaid").setText("1000"));
+			}
+			
             // add original metadata to result
             Element result = new Element("root");
             result.addContent(md);
