@@ -123,13 +123,12 @@
                   scope.filestoreUploadOptions = {
                     autoUpload: scope.autoUpload,
                     url: '../api/0.1/records/' + scope.uuid +
-                        '/attachments?visibility=' + defaultStatus,
+                        '/attachments?share=' + defaultStatus,
                     dropZone: $('#' + scope.id),
                     singleUpload: false,
                     // TODO: acceptFileTypes: /(\.|\/)(xml|skos|rdf)$/i,
                     done: uploadResourceSuccess,
-                    fail: uploadResourceFailed,
-                    headers: {'X-XSRF-TOKEN': $rootScope.csrf}
+                    fail: uploadResourceFailed
                   };
                 }
               });

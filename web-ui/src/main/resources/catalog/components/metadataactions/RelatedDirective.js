@@ -25,12 +25,9 @@
 
   goog.provide('gn_related_directive');
   goog.require('gn_relatedresources_service');
-  goog.require('gn_wms');
-  goog.require('gn_wmts');
-  goog.require('gn_atom');
 
   var module = angular.module('gn_related_directive', [
-    'gn_relatedresources_service', 'gn_wms', 'gn_wmts', 'gn_atom'
+    'gn_relatedresources_service'
   ]);
 
   /**
@@ -38,7 +35,7 @@
    * config.js
    */
   module.service('gnRelatedService', ['$http', '$q', function($http, $q) {
-    this.get = function(uuid, types) {
+    function get(uuid, types) {
       var canceller = $q.defer();
       var request = $http({
         method: 'get',
@@ -70,16 +67,9 @@
           }
       );
       return (promise);
-    };
-
-    this.getMdsRelated = function(uuids, types) {
-      var url = '../api/related';
-      return $http.get(url, {
-        params: {
-          type: types,
-          uuid: uuids
-        }
-      });
+    }
+    return {
+      get: get
     };
   }]);
   module
@@ -88,9 +78,8 @@
           [
         'gnRelatedService',
         'gnGlobalSettings',
-        'gnSearchSettings',
         'gnRelatedResources',
-        function(gnRelatedService, gnGlobalSettings, gnSearchSettings, gnRelatedResources) {
+        function(gnRelatedService, gnGlobalSettings, gnRelatedResources) {
           return {
             restrict: 'A',
             templateUrl: function(elem, attrs) {
@@ -132,17 +121,12 @@
               scope.hasAction = function(mainType) {
                 var fn = gnRelatedResources.map[mainType].action;
                 // If function name ends with ToMap do not display the action
-                if (fn && fn.name && fn.name.match(/.*ToMap$/) &&
+                if (fn.name.match(/.*ToMap$/) &&
                    gnGlobalSettings.isMapViewerEnabled === false) {
                   return false;
                 }
                 return angular.isFunction(fn);
               };
-
-              scope.isLayerProtocol = function(mainType) {
-                return gnSearchSettings.mapProtocols.layers.indexOf(mainType) > -1;
-              };
-
               scope.config = gnRelatedResources;
 
               scope.$watchCollection('md', function(n, o) {

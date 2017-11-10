@@ -468,8 +468,8 @@
         'securityConstraints', 'resourceConstraints', 'legalConstraints',
         'denominator', 'resolution', 'geoDesc', 'geoBox', 'inspirethemewithac',
         'status', 'status_text', 'crs', 'identifier', 'responsibleParty',
-        'mdLanguage', 'datasetLang', 'type', 'link', 'crsDetails'];
-      var listOfJsonFields = ['keywordGroup', 'crsDetails'];    // See below; probably not necessary
+        'mdLanguage', 'datasetLang', 'type', 'link'];
+      var listOfJsonFields = ['keywordGroup'];
       var record = this;
       this.linksCache = [];
       $.each(listOfArrayFields, function(idx) {
@@ -479,7 +479,7 @@
           record[field] = [record[field]];
         }
       });
-      $.each(listOfJsonFields, function(idx) {    // Note: this step does not seem to be necessary; TODO: remove or refactor
+      $.each(listOfJsonFields, function(idx) {
         var field = listOfJsonFields[idx];
         if (angular.isDefined(record[field])) {
           try {

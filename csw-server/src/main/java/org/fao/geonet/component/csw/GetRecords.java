@@ -204,8 +204,6 @@ public class GetRecords extends AbstractOperation implements CatalogService {
             }
         }
 
-
-        // "Constraint Optional" & "Must be specified with QUERYCONSTRAINT parameter"
         Element constr = query.getChild("Constraint", Csw.NAMESPACE_CSW);
         Element filterExpr = getFilterExpression(constr);
         String filterVersion = getFilterVersion(constr);
@@ -780,7 +778,7 @@ public class GetRecords extends AbstractOperation implements CatalogService {
                 if (elementNames == null) {
                     elementNames = new HashSet<String>();
                 }
-                elementNames.add(element.getTextNormalize());
+                elementNames.add(element.getText());
             }
         }
         // TODO in if(isDebugEnabled) condition. Jeeves LOG doesn't provide that useful function though.

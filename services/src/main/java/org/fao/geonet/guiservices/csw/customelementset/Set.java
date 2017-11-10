@@ -31,7 +31,6 @@ import org.fao.geonet.utils.Log;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -47,9 +46,8 @@ public class Set {
      * Saves custom element sets.
      */
 
-    @RequestMapping(value = "/{lang}/admin.config.csw.customelementset.save",
-        method = {RequestMethod.POST, RequestMethod.PUT},
-        produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/{lang}/admin.config.csw.customelementset.save", produces = {
+        MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public
     @ResponseBody
     OkResponse exec(@RequestParam("xpath") List<String> xpathList) throws Exception {

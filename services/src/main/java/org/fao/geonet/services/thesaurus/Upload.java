@@ -223,13 +223,10 @@ public class Upload implements Service {
         xml.detach();
 
         if (!style.equals("_none_")) {
-            FilePathChecker.verify(style);
-
             tsXml = Xml.transform(xml, stylePath.resolve(style));
             tsXml.detach();
-        } else {
+        } else
             tsXml = xml;
-        }
 
         // Load document and check namespace
         if (tsXml.getNamespacePrefix().equals("rdf")

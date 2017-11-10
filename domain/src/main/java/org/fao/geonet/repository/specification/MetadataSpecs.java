@@ -193,7 +193,7 @@ public final class MetadataSpecs {
         return new Specification<Metadata>() {
             @Override
             public Predicate toPredicate(Root<Metadata> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                final Expression<Set<MetadataCategory>> categoriesPath = root.get(Metadata_.metadataCategories);
+                final Expression<Set<MetadataCategory>> categoriesPath = root.get(Metadata_.categories);
 
                 return cb.isMember(category, categoriesPath);
             }

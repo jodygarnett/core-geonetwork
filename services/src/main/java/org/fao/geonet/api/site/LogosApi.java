@@ -24,7 +24,6 @@
 package org.fao.geonet.api.site;
 
 import io.swagger.annotations.*;
-import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.api.API;
 import org.fao.geonet.api.ApiParams;
@@ -33,7 +32,6 @@ import org.fao.geonet.api.exception.ResourceNotFoundException;
 import org.fao.geonet.exceptions.BadParameterEx;
 import org.fao.geonet.kernel.GeonetworkDataDirectory;
 import org.fao.geonet.resources.Resources;
-import org.fao.geonet.utils.FilePathChecker;
 import org.fao.geonet.utils.IO;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -189,9 +187,13 @@ public class LogosApi {
     }
 
     private void checkFileName(String fileName) throws Exception {
-        FilePathChecker.verify(fileName);
+        if (fileName.contains("..")) {
+            throw new BadParameterEx(
+                "Invalid character found in resource name.",
+                fileName);
+        }
 
-        if (StringUtils.isEmpty(fileName)) {
+        if ("".equals(fileName)) {
             throw new Exception("File name is not defined.");
         }
     }
@@ -227,9 +229,6 @@ public class LogosApi {
         GeonetworkDataDirectory dataDirectory = appContext.getBean(GeonetworkDataDirectory.class);
         Path nodeLogoDirectory = dataDirectory.getResourcesDir()
             .resolve("images").resolve("harvesting");
-
-        FilePathChecker.verify(file);
-
         Path logoFile = nodeLogoDirectory.resolve(file);
         if (Files.exists(logoFile)) {
             Files.delete(logoFile);

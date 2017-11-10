@@ -81,8 +81,7 @@
                                         @displayIfRecord,
                                         @displayIfServiceInfo)"/>
 
-
-                <xsl:if test="$isViewDisplayed">
+				<xsl:if test="$isViewDisplayed">
                   <li>
                     <xsl:if test="@name = $currentView/@name">
                       <xsl:attribute name="class">disabled</xsl:attribute>

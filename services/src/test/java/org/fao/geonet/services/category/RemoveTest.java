@@ -59,7 +59,7 @@ public class RemoveTest extends AbstractServiceIntegrationTest {
         assertEquals(beforeCount, _categoryRepository.count());
 
         Metadata entity = MetadataRepositoryTest.newMetadata(inc);
-        entity.getMetadataCategories().add(category);
+        entity.getCategories().add(category);
         entity = _MetadataRepository.save(entity);
 
         ServiceContext context = createServiceContext();
@@ -69,6 +69,6 @@ public class RemoveTest extends AbstractServiceIntegrationTest {
         assertEquals(beforeCount - 1, _categoryRepository.count());
         assertEquals(1, _MetadataRepository.count());
         entity = _MetadataRepository.findOne(entity.getId());
-        assertTrue(entity.getMetadataCategories().isEmpty());
+        assertTrue(entity.getCategories().isEmpty());
     }
 }

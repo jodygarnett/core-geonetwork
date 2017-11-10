@@ -103,7 +103,12 @@ public class MetadataCategory extends Localized implements Serializable {
 
     private Set<Metadata> _records = new HashSet<Metadata>();
 
-    @ManyToMany(mappedBy="metadataCategories")
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.REFRESH},
+        fetch = FetchType.EAGER)
+    @JoinTable(name = Metadata.METADATA_CATEG_JOIN_TABLE_NAME,
+        inverseJoinColumns = @JoinColumn(name = "metadataId"),
+        joinColumns = @JoinColumn(name =
+            Metadata.METADATA_CATEG_JOIN_TABLE_CATEGORY_ID))
     @Nonnull
     @JsonIgnore
     public Set<Metadata> getRecords() {

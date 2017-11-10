@@ -126,7 +126,7 @@
             .success(function(data) {
               if (data) {
                 $scope.cswElementSetName =
-                    $.isArray(data.xpaths) ? data.xpaths : [data.xpaths];
+                    $.isArray(data.xpath) ? data.xpath : [data.xpath];
               } else {
                 $scope.cswElementSetName = [];
               }
@@ -140,12 +140,8 @@
         $scope.cswElementSetName.splice(index, 1);
       };
       $scope.saveCSWElementSetName = function(formId) {
-        $http({
-          method: 'POST',
-          url: 'admin.config.csw.customelementset.save',
-          data: '_content_type=json&' + $(formId).serialize(),
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
+        $http.get('admin.config.csw.customelementset.save?_content_type=json&' +
+                $(formId).serialize())
             .success(function(data) {
               loadCSWElementSetName();
             });
@@ -167,12 +163,8 @@
       };
       var saveSettings = function(formId, service) {
 
-        $http({
-          method: 'POST',
-          url: service,
-          data: gnUtilityService.serialize(formId),
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
+        $http.get(service + '?' +
+                gnUtilityService.serialize(formId))
             .success(function(data) {
               $rootScope.$broadcast('StatusUpdated', {
                 msg: $translate.instant('settingsUpdated'),

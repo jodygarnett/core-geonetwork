@@ -153,7 +153,11 @@ public class MetadataEditingApi {
             DataManager dm = applicationContext.getBean(DataManager.class);
             dm.startEditingSession(context, String.valueOf(metadata.getId()));
         }
-
+        StackTraceElement[] steArr = Thread.currentThread().getStackTrace();
+        for (StackTraceElement ste : steArr) {
+			context.info("Joseph --> : " + ste.toString());
+		}
+        context.info("Joseph --> MetadataEditingApi(startEditing), currTab: " + currTab);
         Element elMd = new AjaxEditUtils(context)
             .getMetadataEmbedded(
                 context,

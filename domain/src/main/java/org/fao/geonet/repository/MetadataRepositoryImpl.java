@@ -179,8 +179,8 @@ public class MetadataRepositoryImpl implements MetadataRepositoryCustom {
 
 	@Override
 	public Long getGaid() {
-		// TODO Auto-generated method stub
-		return new Long(100001);
+		Query q = _entityManager.createNativeQuery("select nextval('metadataid')");
+		return (Long)q.getSingleResult();
 	}
 
 }

@@ -80,7 +80,7 @@ public class UpdateCategories extends NotInReadOnlyModeService {
         context.getBean(MetadataRepository.class).update(iLocalId, new Updater<Metadata>() {
             @Override
             public void apply(@Nonnull Metadata entity) {
-                entity.getMetadataCategories().clear();
+                entity.getCategories().clear();
             }
         });
 

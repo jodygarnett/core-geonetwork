@@ -241,12 +241,7 @@
           });
 
           scope.hasStyles = function() {
-            try {
-              return Object.keys(scope.palettes).length > 1;
-            }
-            catch(e) {
-              return false;
-            }
+            return Object.keys(scope.palettes).length > 1;
           };
 
           scope.updateStyle = function() {

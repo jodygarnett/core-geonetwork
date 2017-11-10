@@ -139,6 +139,7 @@
       return {
         require: '^gnLayermanager',
         restrict: 'A',
+        replace: true,
         templateUrl: '../../catalog/components/viewer/layermanager/' +
             'partials/layermanageritem.html',
         scope: true,
