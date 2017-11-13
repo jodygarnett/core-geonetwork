@@ -691,7 +691,7 @@
 		
 		<view name="services"
 			displayIfRecord="count(mdb:MD_Metadata/mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode[@codeListValue='service']) > 0">
-			<tab id="resourceDescription" default="true" mode="flat">
+			<tab id="serviceResourceDescription" default="true" mode="flat">
 				<section name=" ">
 					<!--Martins additions start -->
 					<field xpath="/mdb:MD_Metadata/mdb:alternativeMetadataReference" />
@@ -728,7 +728,7 @@
 				</section>
 			</tab>
 
-			<tab id="resourceCitation" mode="flat">
+			<tab id="serviceResourceCitation" mode="flat">
 				<section name=" ">
 					<!-- Martin change start><field xpath="/mdb:MD_Metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/mri:citation/cit:CI_Citation/cit:title"/> 
 						-Martin change end -->
@@ -739,7 +739,7 @@
 				</section>
 			</tab>
 
-			<tab id="resourceKeywords" mode="flat">
+			<tab id="serviceResourceKeywords" mode="flat">
 				<section name=" ">
 					<field
 						xpath="/mdb:MD_Metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/mri:descriptiveKeywords"
@@ -752,14 +752,14 @@
 				</section>
 			</tab>
 
-			<tab id="resourceMaintenance" mode="flat">
+			<tab id="serviceResourceMaintenance" mode="flat">
 				<section name=" ">
 					<field
 						xpath="/mdb:MD_Metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceMaintenance" />
 				</section>
 			</tab>
 
-			<tab id="contacts" mode="flat">
+			<tab id="serviceContacts" mode="flat">
 				<section name=" ">
 					<field
 						xpath="/mdb:MD_Metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/mri:pointOfContact"
@@ -770,7 +770,7 @@
 				</section>
 			</tab>
 			<!-- Martins additions start -->
-			<tab id="resourceLineageTab" mode="flat">
+			<tab id="serviceResourceLineageTab" mode="flat">
 				<section name=" ">
 					<field
 						xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:statement"
@@ -785,7 +785,7 @@
 
 			<!-- Martins additions end -->
 
-			<tab id="resourceExtents" mode="flat">
+			<tab id="serviceResourceExtents" mode="flat">
 				<section name=" ">
 					<field
 						xpath="/mdb:MD_Metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/mri:extent" />
@@ -875,7 +875,7 @@
 				</section>
 			</tab>
 
-			<tab id="distribution" mode="flat">
+			<tab id="serviceDistribution" mode="flat">
 				<section name=" ">
 					<field xpath="/mdb:MD_Metadata/mdb:distributionInfo" />
 					<!-- <text ref="useAssociatedResources" if="count(mdb:MD_Metadata/mdb:distributionInfo/*) 
