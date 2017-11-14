@@ -117,19 +117,6 @@
 
 	<!-- gaDatasetURI -->
 	<gaDatasetURI>GA Dataset URI</gaDatasetURI>
-
-	<!-- Tabs for services -->
-	<serviceResourceCitation>Citation</serviceResourceCitation>
-	<serviceResourceDescription>Description</serviceResourceDescription>
-	<serviceResourceKeywords>Keywords</serviceResourceKeywords>
-	<serviceResourceMaintenance>Maintenance</serviceResourceMaintenance>
-	<serviceConstraints>Constraints</serviceConstraints>
-	<serviceContacts>Contacts</serviceContacts>
-	<serviceResourceSpatial>Spatial</serviceResourceSpatial>
-	<serviceResourceExtents>Extents</serviceResourceExtents>
-	<serviceResourceType>Type</serviceResourceType>
-	<serviceResourceLineageTab>Lineage</serviceResourceLineageTab>
-	<serviceDistribution>Distribution</serviceDistribution>
 	
 	<!-- Service stuff -->
 	<serviceDescription>Description</serviceDescription>

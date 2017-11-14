@@ -81,7 +81,8 @@
                                         @displayIfRecord,
                                         @displayIfServiceInfo)"/>
 
-				<xsl:if test="$isViewDisplayed">
+
+                <xsl:if test="$isViewDisplayed">
                   <li>
                     <xsl:if test="@name = $currentView/@name">
                       <xsl:attribute name="class">disabled</xsl:attribute>
@@ -122,11 +123,11 @@
       <!-- Make a tab switcher for all tabs of the current view -->
       <xsl:if test="count($currentView/tab) > 1">
         <xsl:apply-templates mode="menu-builder"
-                             select="$currentView/tab[not(@toggle)]"/>
+                             select="$config/editor/views/view[tab/@id = $tab]/tab[not(@toggle)]"/>
 
 
         <!-- Some views may define tab to be grouped in an extra button -->
-        <xsl:if test="count($currentView/tab[@toggle]) > 0">
+        <xsl:if test="count($config/editor/views/view[tab/@id = $tab]/tab[@toggle]) > 0">
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href=""
                title="{$i18n/moreTabs}">
@@ -135,7 +136,7 @@
             </a>
             <ul class="dropdown-menu">
               <!-- links -->
-              <xsl:for-each select="$currentView/tab[@toggle]">
+              <xsl:for-each select="$config/editor/views/view[tab/@id = $tab]/tab[@toggle]">
                 <li>
                   <xsl:if test="$tab = @id">
                     <xsl:attribute name="class">disabled</xsl:attribute>
