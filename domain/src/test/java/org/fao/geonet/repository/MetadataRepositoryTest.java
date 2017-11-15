@@ -39,6 +39,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,12 @@ public class MetadataRepositoryTest extends AbstractSpringDataTest {
         return metadata;
     }
 
+    @Test
+    public void testGetGAID() throws Exception{
+    	BigInteger gaid = _repo.getGaid();
+    	assertFalse(gaid.equals(BigInteger.ZERO));
+    }
+    
     @Test
     public void testIncrementPopularity() throws Exception {
         final Metadata template = newMetadata();

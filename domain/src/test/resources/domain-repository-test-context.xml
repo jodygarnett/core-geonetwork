@@ -59,6 +59,7 @@
   </bean>
   <bean id="jpaVendorAdapterDatabaseParam" class="java.lang.String">
     <constructor-arg value="H2"/>
+    <!-- <constructor-arg value="POSTGRESQL"/> -->
   </bean>
 
   <bean id="generateDdl" class="java.lang.String">
