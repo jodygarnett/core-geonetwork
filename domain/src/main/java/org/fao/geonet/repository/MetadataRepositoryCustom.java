@@ -34,6 +34,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -120,5 +121,5 @@ public interface MetadataRepositoryCustom {
      * 
      * @return
      */
-    Long getGaid();
+    BigInteger getGaid();
 }

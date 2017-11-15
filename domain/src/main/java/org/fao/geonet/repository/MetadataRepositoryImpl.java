@@ -39,6 +39,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -178,9 +179,9 @@ public class MetadataRepositoryImpl implements MetadataRepositoryCustom {
     }
 
 	@Override
-	public Long getGaid() {
+	public BigInteger getGaid() {
 		Query q = _entityManager.createNativeQuery("select nextval('metadataid')");
-		return (Long)q.getSingleResult();
+		return (BigInteger)q.getSingleResult();
 	}
 
 }

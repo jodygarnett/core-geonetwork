@@ -141,6 +141,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -1186,7 +1187,7 @@ public class DataManager implements ApplicationEventPublisherAware {
      * @throws Exception
      */
     public String getGAID() throws Exception {
-    	Long gaid = getMetadataRepository().getGaid();
+    	BigInteger gaid = getMetadataRepository().getGaid();
         return String.valueOf(gaid);
     }
     /**
@@ -2873,7 +2874,7 @@ public class DataManager implements ApplicationEventPublisherAware {
 			String gaid = extractGAID(schema, md);
 			
 			if ((gaid.length() == 0) || generateGAID) {
-				env.addContent(new Element("gaid").setText("1000"));
+				env.addContent(new Element("gaid").setText(getGAID()));
 			}
 			
             // add original metadata to result
