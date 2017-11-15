@@ -38,7 +38,6 @@ import jeeves.server.context.ServiceContext;
 import org.fao.geonet.Util;
 import org.fao.geonet.kernel.setting.Settings;
 import org.fao.geonet.repository.UserRepository;
-import org.fao.geonet.utils.FilePathChecker;
 import org.fao.geonet.utils.Xml;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
@@ -138,7 +137,6 @@ public class Change extends NotInReadOnlyModeService {
         root.addContent(new Element("adminEmail").setText(adminEmail));
         root.addContent(new Element("password").setText(password));
 
-        FilePathChecker.verify(template);
         Path emailXslt = stylePath.resolve(template);
         Element elEmail = Xml.transform(root, emailXslt);
 

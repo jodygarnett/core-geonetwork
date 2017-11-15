@@ -153,7 +153,6 @@ public class MetadataEditingApi {
             DataManager dm = applicationContext.getBean(DataManager.class);
             dm.startEditingSession(context, String.valueOf(metadata.getId()));
         }
-
         Element elMd = new AjaxEditUtils(context)
             .getMetadataEmbedded(
                 context,

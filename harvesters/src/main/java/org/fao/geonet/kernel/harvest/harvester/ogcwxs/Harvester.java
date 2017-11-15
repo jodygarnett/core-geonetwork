@@ -256,7 +256,7 @@ class Harvester extends BaseAligner implements IHarvester<HarvestResult> {
 
         dataMan.batchIndexInThreadPool(context, ids);
 
-        result.totalMetadata = result.addedMetadata + result.updatedMetadata;
+        result.totalMetadata = result.addedMetadata + result.layer + result.updatedMetadata;
 
         //-----------------------------------------------------------------------
         //--- remove old metadata
@@ -378,18 +378,6 @@ class Harvester extends BaseAligner implements IHarvester<HarvestResult> {
                 // The editor will support that but it will make quite heavy XML.
                 md = addOperatesOnUuid(md, layersRegistry);
             }
-        }
-
-        // Apply custom transformation if requested
-        Path importXsl = context.getAppPath().resolve(Geonet.Path.IMPORT_STYLESHEETS);
-        String importXslFile = params.getImportXslt();
-        if ( importXslFile != null && ! importXslFile.equals("none")) {
-            if(! importXslFile.endsWith("xsl")) {
-                importXslFile = importXslFile+".xsl";
-            }
-            importXsl = importXsl.resolve(importXslFile);
-            log.info("Applying custom import XSL " + importXsl.getFileName());
-            md = Xml.transform(md, importXsl);
         }
 
         // Save iso19119 metadata in DB
@@ -741,7 +729,7 @@ class Harvester extends BaseAligner implements IHarvester<HarvestResult> {
                 if (metadataCategory == null) {
                     throw new IllegalArgumentException("No category found with name: " + params.datasetCategory);
                 }
-                metadata.getMetadataCategories().add(metadataCategory);
+                metadata.getCategories().add(metadataCategory);
             }
             if (!dataMan.existsMetadataUuid(reg.uuid)) {
                 result.addedMetadata++;

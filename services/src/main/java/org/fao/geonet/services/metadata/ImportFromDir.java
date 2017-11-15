@@ -45,7 +45,6 @@ import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.repository.MetadataCategoryRepository;
 import org.fao.geonet.services.NotInReadOnlyModeService;
 import org.fao.geonet.util.ThreadUtils;
-import org.fao.geonet.utils.FilePathChecker;
 import org.fao.geonet.utils.IO;
 import org.fao.geonet.utils.Xml;
 import org.jdom.Element;
@@ -230,11 +229,8 @@ public class ImportFromDir extends NotInReadOnlyModeService {
                             for (Path file : paths) {
                                 Element xml = Xml.loadFile(file);
 
-                                if (!style.equals("_none_")) {
-                                    FilePathChecker.verify(style);
-
+                                if (!style.equals("_none_"))
                                     xml = Xml.transform(xml, stylePath.resolve(style));
-                                }
 
                                 String category = config.mapCategory(categ.toString());
                                 String schema = config.mapSchema(categ.toString());

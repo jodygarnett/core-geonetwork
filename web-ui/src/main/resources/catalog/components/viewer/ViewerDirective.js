@@ -97,13 +97,14 @@
               };
 
               scope.doSync = function() {
-                if (scope.synAllLayer) {
-                  var layers = gnSearchSettings.searchMap.getLayers();
-                  layers.clear();
-                  scope.map.getLayers().forEach(function(l) {
+                var layers = gnSearchSettings.searchMap.getLayers();
+                layers.clear();
+                scope.map.getLayers().forEach(function(l) {
+                  if (scope.synAllLayers == true || (
+                      scope.synAllLayers === false &&
+                      l.get('group') === 'Background layers'))
                     layers.push(l);
-                  });
-                }
+                });
               };
 
               scope.init3dMode = function(map) {

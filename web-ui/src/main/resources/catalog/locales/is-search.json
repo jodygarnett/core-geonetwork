@@ -370,7 +370,5 @@
     "mdinvalid": "Metadata is invalid",
     "mdinvalidcantpublish": "Invalid metadata can't be publish",
     "mdnovalidation": "Metadata has no validation information",
-    "setall": "Set all privileges",
-    "print_legend": "Legend",
-    "print_legend_field": "Include legends"
+    "setall": "Set all privileges"
 }

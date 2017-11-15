@@ -59,7 +59,6 @@ import org.fao.geonet.repository.MetadataRepository;
 import org.fao.geonet.repository.OperationAllowedRepository;
 import org.fao.geonet.repository.SourceRepository;
 import org.fao.geonet.repository.Updater;
-import org.fao.geonet.utils.FilePathChecker;
 import org.fao.geonet.utils.IO;
 import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
@@ -291,11 +290,9 @@ public class Importer {
 
 
                 if (!style.equals("_none_")) {
-                    FilePathChecker.verify(style);
-
                     final GeonetworkDataDirectory dataDirectory = applicationContext.getBean(GeonetworkDataDirectory.class);
                     Path stylePath = dataDirectory.getWebappDir().resolve(Geonet.Path.IMPORT_STYLESHEETS);
-                    Path xsltPath = stylePath.resolve(style + ".xsl");
+                    Path xsltPath = stylePath.resolve(style);
                     if (Files.exists(xsltPath)) {
                         md.add(index, Xml.transform(md.get(index), xsltPath));
                     } else {
@@ -519,7 +516,7 @@ public class Importer {
                     if (Log.isDebugEnabled(Geonet.MEF)) {
                         Log.debug(Geonet.MEF, " - Setting category : " + catName);
                     }
-                    metadata.getMetadataCategories().add(oneByName);
+                    metadata.getCategories().add(oneByName);
                 }
             }
         }
@@ -533,7 +530,7 @@ public class Importer {
 
         GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
         DataManager dm = gc.getBean(DataManager.class);
-
+        String gaid = "";
 
         if (uuid == null || uuid.equals("")
             || uuidAction == MEFLib.UuidAction.GENERATEUUID) {
@@ -545,6 +542,14 @@ public class Importer {
 
             // --- set uuid inside metadata
             md.add(index, dm.setUUID(schema, uuid, md.get(index)));
+            
+            if("n".equals(isTemplate)){
+				//create new eCatId
+		        gaid = dm.getGAID();
+	        	// --- set gaid inside metadata
+				md.add(index, dm.setGAID(schema, gaid, md.get(index)));
+			}
+            
         } else {
             if (sourceName == null)
                 sourceName = "???";

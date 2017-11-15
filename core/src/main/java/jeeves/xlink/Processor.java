@@ -221,11 +221,6 @@ public final class Processor {
                 request.setInputMethod(InputMethod.GET);
                 remoteFragment = srvContext.execute(request);
             } else {
-                // Avoid references to filesystem
-                if (uri.toLowerCase().startsWith("file://")) {
-                    return null;
-                }
-
                 uri = uri.replaceAll("&+", "&");
                 String mappedURI = mapURI(uri);
 

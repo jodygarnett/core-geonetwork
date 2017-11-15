@@ -47,7 +47,6 @@ class WAFRemoteFile implements RemoteFile {
     //---
     //---------------------------------------------------------------------------
     private String path;
-    private ISODate changeDate;
 
     //---------------------------------------------------------------------------
     //---
@@ -132,13 +131,7 @@ class WAFRemoteFile implements RemoteFile {
     //---------------------------------------------------------------------------
 
     public boolean isMoreRecentThan(String localChangeDate) {
-        ISODate remoteDate = changeDate;
-        if (remoteDate == null) {
-            return true;
-        }
-        ISODate localDate = new ISODate(localChangeDate);
-        //--- accept if remote date is greater than local date
-        return (remoteDate.timeDifferenceInSeconds(localDate) > 0);
+        return true;
     }
 
     public String getPath() {
@@ -146,14 +139,7 @@ class WAFRemoteFile implements RemoteFile {
     }
 
     public ISODate getChangeDate() {
-        return changeDate;
-    }
-    public void setChangeDate(String date) {
-        try {
-            changeDate = new ISODate(ISODate.parseBasicOrFullDateTime(date).getMillis());
-        } catch (Exception e) {
-            changeDate = null;
-        }
+        return null;
     }
 
     public static class WXS {

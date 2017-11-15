@@ -21,10 +21,7 @@ var gnHarvesterarcsde = {
               "port": "",
               "username": "",
               "password": "",
-              "database": "",
-              "version": "9",
-              "connectionType": "ARCSDE",
-              "databaseType": ""
+              "database": ""
             },
             "content":   {
               "validate": "NOVALIDATION"
@@ -61,9 +58,6 @@ var gnHarvesterarcsde = {
                 + '    <database>' + h.site.database + '</database>'
                 + '    <username>' + h.site.account.username + '</username>'
                 + '    <password>' + h.site.account.password + '</password>'
-                + '    <version>' + h.site.version + '</version>'
-                + '    <connectionType>' + h.site.connectionType + '</connectionType>'
-                + '    <databaseType>' + h.site.databaseType + '</databaseType>'
                 + '    <account>'
                 + '      <use>' + h.site.account.use + '</use>'
                 + '      <username>' + h.site.account.username + '</username>'
@@ -82,6 +76,4 @@ var gnHarvesterarcsde = {
                 + $scope.buildResponseCategory(h) + '</node>';
         return body;
     }
-
-
 };

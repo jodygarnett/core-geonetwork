@@ -26,6 +26,10 @@ package org.fao.geonet.api.records.attachments;
 import jeeves.server.context.ServiceContext;
 
 import org.fao.geonet.AbstractCoreIntegrationTest;
+import org.fao.geonet.api.records.attachments.FilesystemStore;
+import org.fao.geonet.api.records.attachments.FilesystemStoreResource;
+import org.fao.geonet.api.records.attachments.MetadataResourceDatabaseMigrationTest;
+import org.fao.geonet.api.records.attachments.Sort;
 import org.fao.geonet.domain.MetadataResource;
 import org.fao.geonet.domain.MetadataResourceVisibility;
 import org.fao.geonet.kernel.DataManager;
@@ -105,7 +109,7 @@ public class FilesystemStoreTest extends AbstractServiceIntegrationTest {
         String metadataId = importMetadata(context);
         String metadataUuid = _dataManager.getMetadataUuid(metadataId);
         List<MetadataResource> resourcesList =
-            _fileStore.getResources(context, metadataUuid, Sort.name, null);
+            _fileStore.getResources(metadataUuid, Sort.name, null);
         assertEquals("No resource for record", resourcesList.size(), 0);
     }
 
@@ -122,10 +126,10 @@ public class FilesystemStoreTest extends AbstractServiceIntegrationTest {
             Files.newInputStream(
                 Paths.get(resources, filename)
             ));
-        _fileStore.putResource(context, metadataUuid, file, MetadataResourceVisibility.PUBLIC);
+        _fileStore.putResource(metadataUuid, file, MetadataResourceVisibility.PUBLIC);
 
         List<MetadataResource> resourcesList =
-            _fileStore.getResources(context, metadataUuid, Sort.name, null);
+            _fileStore.getResources(metadataUuid, Sort.name, null);
         assertEquals("1 resource for record", 1, resourcesList.size());
 
         MetadataResource resource = resourcesList.get(0);
@@ -142,18 +146,18 @@ public class FilesystemStoreTest extends AbstractServiceIntegrationTest {
             resource.getUrl());
 
 
-        MetadataResource patchedResource = _fileStore.patchResourceStatus(context, metadataUuid, filename,
+        MetadataResource patchedResource = _fileStore.patchResourceStatus(metadataUuid, filename,
             MetadataResourceVisibility.PRIVATE);
         assertEquals("Patched resource type is correct",
             MetadataResourceVisibility.PRIVATE.toString(),
             patchedResource.getType());
 
 
-        _fileStore.delResource(context, metadataUuid, filename);
+        _fileStore.delResource(metadataUuid, filename);
 
 
         resourcesList =
-            _fileStore.getResources(context, metadataUuid, Sort.name, null);
+            _fileStore.getResources(metadataUuid, Sort.name, null);
         assertEquals("0 resource for record",
             0,
             resourcesList.size());
@@ -167,10 +171,10 @@ public class FilesystemStoreTest extends AbstractServiceIntegrationTest {
         String metadataUuid = _dataManager.getMetadataUuid(metadataId);
         String filename = "record-with-old-links.xml";
         URL url = getMockUrl(filename, "");
-        _fileStore.putResource(context, metadataUuid, url, MetadataResourceVisibility.PUBLIC);
+        _fileStore.putResource(metadataUuid, url, MetadataResourceVisibility.PUBLIC);
 
         List<MetadataResource> resourcesList =
-            _fileStore.getResources(context, metadataUuid, Sort.name, null);
+            _fileStore.getResources(metadataUuid, Sort.name, null);
         assertEquals("1 resource for record", 1, resourcesList.size());
 
         MetadataResource resource = resourcesList.get(0);
@@ -194,10 +198,10 @@ public class FilesystemStoreTest extends AbstractServiceIntegrationTest {
         String filename = "record-with-old-links.xml";
         URL url = getMockUrl(filename,
             "?someParameterToIgnoreWhenCreatingFileName&aaa=aaa");
-        _fileStore.putResource(context, metadataUuid, url, MetadataResourceVisibility.PUBLIC);
+        _fileStore.putResource(metadataUuid, url, MetadataResourceVisibility.PUBLIC);
 
         List<MetadataResource> resourcesList =
-            _fileStore.getResources(context, metadataUuid, Sort.name, null);
+            _fileStore.getResources(metadataUuid, Sort.name, null);
         assertEquals("1 resource for record", 1, resourcesList.size());
 
         MetadataResource resource = resourcesList.get(0);

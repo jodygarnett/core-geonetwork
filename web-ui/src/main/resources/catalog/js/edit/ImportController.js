@@ -44,9 +44,8 @@
    */
   module.controller('GnImportController', [
     '$scope',
-    '$rootScope',
     'gnMetadataManager',
-    function($scope,  $rootScope, gnMetadataManager) {
+    function($scope, gnMetadataManager) {
       $scope.importMode = 'uploadFile';
       $scope.file_type = 'single';
       $scope.queue = [];
@@ -82,8 +81,7 @@
       $scope.mdImportUploadOptions = {
         autoUpload: false,
         done: uploadImportMdDone,
-        fail: uploadImportMdError,
-        headers: {'X-XSRF-TOKEN': $rootScope.csrf}
+        fail: uploadImportMdError
       };
 
 

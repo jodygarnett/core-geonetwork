@@ -52,11 +52,14 @@ public class GeonetworkH2TestEmbeddedDatabaseConfigurer implements EmbeddedDatab
     private String _mode = "";
     private String _username = "sa";
     private String _password = "p";
+//    private String _username = "www-data";
+//    private String _password = "www-data";
     private Optional<Callable<String>> _dbPathLocator = Optional.absent();
 
     public GeonetworkH2TestEmbeddedDatabaseConfigurer() {
         try {
             this.driverClass = (Class<? extends Driver>) ClassUtils.forName("org.h2.Driver", GeonetworkH2TestEmbeddedDatabaseConfigurer.class.getClassLoader());
+            //this.driverClass = (Class<? extends Driver>) ClassUtils.forName("org.postgresql.Driver", GeonetworkH2TestEmbeddedDatabaseConfigurer.class.getClassLoader());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -68,11 +71,13 @@ public class GeonetworkH2TestEmbeddedDatabaseConfigurer implements EmbeddedDatab
         if (_dbPathLocator.isPresent()) {
             try {
                 properties.setUrl(String.format("jdbc:h2:%s;DB_CLOSE_DELAY=-1%s", _dbPathLocator.get().call(), _mode));
+                //properties.setUrl("jdbc:postgresql://localhost:5432/geonetwork3");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         } else {
             properties.setUrl(String.format("jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1%s", databaseName, _mode));
+            //properties.setUrl("jdbc:postgresql://localhost:5432/geonetwork3");
         }
         properties.setUsername(_username);
         properties.setPassword(_password);

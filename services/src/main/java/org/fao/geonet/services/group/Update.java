@@ -47,7 +47,6 @@ import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.specification.GroupSpecs;
 import org.fao.geonet.resources.Resources;
 import org.fao.geonet.services.NotInReadOnlyModeService;
-import org.fao.geonet.utils.FilePathChecker;
 import org.fao.geonet.utils.IO;
 import org.jdom.Element;
 
@@ -109,10 +108,6 @@ public class Update extends NotInReadOnlyModeService {
         // Logo management ported/adapted from GeoNovum GeoNetwork app.
         // Original devs: Heikki Doeleman and Thijs Brentjens
         String logoFile = params.getChildText("logofile");
-
-        FilePathChecker.verify(logoFile);
-        FilePathChecker.verify(copyLogo);
-
         final String logoUUID = copyLogo == null ? copyLogoFromRequest(context, logoFile) :
             copyLogoFromHarvesters(context, copyLogo);
 

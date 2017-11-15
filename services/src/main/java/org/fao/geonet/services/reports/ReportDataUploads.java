@@ -61,7 +61,6 @@ import java.util.Set;
  * <expiry_datetime></expiry_datetime>      File delete date or metadata delete (logical deletes are
  * used for uploads) </record> </response>
  */
-@Deprecated
 public class ReportDataUploads implements Service {
     public void init(Path appPath, ServiceConfig params) throws Exception {
     }

@@ -40,7 +40,7 @@ public class EditFileIntegrationTest extends AbstractServiceIntegrationTest {
 
         Element params = Xml.loadString(
             "<request><id>test</id><_content_type>json</_content_type>"
-                + "<fname>myfile</fname></request>", false);
+                + "<fname>/etc/passwd</fname></request>", false);
 
         ef.exec(params, ctx);
     }

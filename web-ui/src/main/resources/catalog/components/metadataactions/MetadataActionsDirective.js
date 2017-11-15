@@ -296,8 +296,8 @@
         link: function(scope, element, attrs) {
           var ownerId = parseInt(attrs['gnTransferMdOwner']);
           var groupOwner = parseInt(attrs['gnTransferMdGroupOwner']);
-          var bucket = attrs['selectionBucket'];
-          var mdUuid = attrs['gnTransferOwnership'];
+          var bucket = attrs['gnTransferMdGroupOwner'];
+          var mdUuid = attrs['selectionBucket'];
           scope.selectedUserGroup = null;
 
           scope.selectUser = function(user) {
@@ -331,13 +331,8 @@
               });
 
           scope.save = function() {
-            var url = '../api/records/';
-            if (bucket != 'null') {
-              url += 'ownership?bucket=' + bucket + '&';
-            } else {
-              url += mdUuid + '/ownership?';
-            }
-            return $http.put(url + 'userIdentifier=' + scope.selectedUserGroup.userId +
+            return $http.put('../api/records/' + mdUuid +
+                '/ownership?userIdentifier=' + scope.selectedUserGroup.userId +
                 '&groupIdentifier=' + scope.selectedUserGroup.groupId)
                 .then(function(r) {
                   $rootScope.$broadcast('StatusUpdated', {

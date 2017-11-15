@@ -161,19 +161,12 @@
 
   <!-- ... Dates -->
   <xsl:template mode="render-value" match="gco:Date[matches(., '[0-9]{4}-[0-9]{2}-[0-9]{2}')]">
-    <xsl:variable name="df" select="if (string($dateFormats/dateTime/for[@lang = $language]/text()))
-                                    then $dateFormats/dateTime/for[@lang = $language]/text()
-                                    else $dateFormats/dateTime/for[@default = 'true']/text()" />
-    <xsl:value-of select="format-dateTime(., $df)"/>
+    <xsl:value-of select="format-date(., $dateFormats/date/for[@lang = $language]/text())"/>
   </xsl:template>
 
-  <!-- if (tns:Employee/tns:EmpId = 4) then 'new' else 'old'-->
   <xsl:template mode="render-value"
                 match="gco:DateTime[matches(., '[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}')]">
-    <xsl:variable name="df" select="if (string($dateFormats/dateTime/for[@lang = $language]/text()))
-                                    then $dateFormats/dateTime/for[@lang = $language]/text()
-                                    else $dateFormats/dateTime/for[@default = 'true']/text()" />
-    <xsl:value-of select="format-dateTime(., $df)"/>
+    <xsl:value-of select="format-dateTime(., $dateFormats/dateTime/for[@lang = $language]/text())"/>
   </xsl:template>
 
   <xsl:template mode="render-value" match="gco:Date|gco:DateTime">

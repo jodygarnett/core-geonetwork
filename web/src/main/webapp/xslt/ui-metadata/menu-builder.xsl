@@ -35,7 +35,7 @@
   -->
   <xsl:template name="menu-builder">
     <xsl:param name="config" as="node()"/>
-    <!--<xsl:variable name="currentView" select="$config/editor/views/view[tab/@id = $tab]"/>-->
+    <!-- <xsl:variable name="currentView" select="$config/editor/views/view[tab/@id = $tab]"/> -->
 
     <div class="gn-scroll-spy"
          data-gn-scroll-spy="gn-editor-{$metadataId}"
@@ -122,8 +122,7 @@
 
       <!-- Make a tab switcher for all tabs of the current view -->
       <xsl:if test="count($currentView/tab) > 1">
-        <xsl:apply-templates mode="menu-builder"
-                             select="$currentView/tab[not(@toggle)]"/>
+        <xsl:apply-templates mode="menu-builder" select="$currentView/tab[not(@toggle)]"/>
 
 
         <!-- Some views may define tab to be grouped in an extra button -->
@@ -136,7 +135,7 @@
             </a>
             <ul class="dropdown-menu">
               <!-- links -->
-              <xsl:for-each select="$currentView/tab[@toggle]">
+              <xsl:for-each select="$config/editor/views/view[tab/@id = $tab]/tab[@toggle]">
                 <li>
                   <xsl:if test="$tab = @id">
                     <xsl:attribute name="class">disabled</xsl:attribute>

@@ -32,14 +32,13 @@
   goog.require('gn_mdactions_directive');
   goog.require('gn_related_directive');
   goog.require('gn_search');
-  goog.require('gn_gridrelated_directive');
   goog.require('gn_search_default_config');
   goog.require('gn_search_default_directive');
 
   var module = angular.module('gn_search_default',
       ['gn_search', 'gn_search_default_config',
        'gn_search_default_directive', 'gn_related_directive',
-       'cookie_warning', 'gn_mdactions_directive', 'gn_gridrelated_directive']);
+       'cookie_warning', 'gn_mdactions_directive']);
 
 
   module.controller('gnsSearchPopularController', [
@@ -261,18 +260,10 @@
         $scope.activeTab = $location.path().
             match(/^(\/[a-zA-Z0-9]*)($|\/.*)/)[1];
 
-        // resize search map for any views exluding viewer
-        if (!gnSearchLocation.isMap() && (!angular.isArray(
+        if (gnSearchLocation.isSearch() && (!angular.isArray(
             searchMap.getSize()) || searchMap.getSize()[0] < 0)) {
           setTimeout(function() {
             searchMap.updateSize();
-
-            // if an extent was obtained from a loaded context, apply it
-            if(searchMap.get('lastExtent')) {
-              searchMap.getView().fit(
-                searchMap.get('lastExtent'),
-                searchMap.getSize(), { nearest: true });
-            }
 
             // TODO: load custom context to the search map
             //gnOwsContextService.loadContextFromUrl(
@@ -281,22 +272,15 @@
 
           }, 0);
         }
-
-        // resize viewer map for corresponding view
         if (gnSearchLocation.isMap() && (!angular.isArray(
             viewerMap.getSize()) || viewerMap.getSize().indexOf(0) >= 0)) {
           setTimeout(function() {
             viewerMap.updateSize();
-
-            // if an extent was obtained from a loaded context, apply it
-            if(viewerMap.get('lastExtent')) {
-              viewerMap.getView().fit(
-                viewerMap.get('lastExtent'),
-                viewerMap.getSize(), { nearest: true });
-            }
           }, 0);
         }
       });
+
+
 
       angular.extend($scope.searchObj, {
         advancedMode: false,
