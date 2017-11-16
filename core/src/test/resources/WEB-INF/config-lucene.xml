@@ -132,6 +132,7 @@
       <field name="_docLocale" tagName="docLocale"/>
       <field name="_locale" tagName="_locale"/>
       <field name="_defaultTitle" tagName="defaultTitle"/>
+      <field name="_status" tagName="status"/>
       <field name="abstract" tagName="abstract"/>
       <field name="keyword" tagName="keyword"/>
       <field name="parentUuid" tagName="parentId"/>
@@ -151,6 +152,10 @@
       <field name="geoBox" tagName="geoBox"/>
       <field name="_indexingError" tagName="idxError"/>
       <field name="_indexingErrorMsg" tagName="idxMsg"/>
+      <field name="eCatId" tagName="eCatId"/>
+      <field name="author" tagName="author"/>
+      <field name="publisher" tagName="publisher"/>
+      <field name="legalConstraints" tagName="legalConstraints"/>
     </dumpFields>
   </search>
 
@@ -296,6 +301,7 @@
    -->
   <tokenized>
     <Field name="any"/>
+    <Field name="any_suggest"/>
     <Field name="abstract"/>
     <Field name="title"/>
     <Field name="altTitle"/>
