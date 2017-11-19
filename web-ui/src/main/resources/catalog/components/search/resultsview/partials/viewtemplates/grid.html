@@ -107,8 +107,10 @@
 		  <b>eCat ID:</b> {{ md.eCatId }}
 		</div>
 		<div class="gn-mn-contact">
-		  <div>Commonwealth of Australia (Geoscience Australia)</div>
-		  <div>Last update: {{ md['geonet:info'].changeDate | date:"yyyy-MM-dd" }}</div>
+		  <div data-ng-repeat="c in md.getAllContacts().metadata track by $index">
+		  	<div>{{ c.org }}</div>
+		  </div>
+		  <div style="float:right">Last update: {{ md['geonet:info'].changeDate | date:"yyyy-MM-dd" }}</div>
 		</div>
       </div>
 
