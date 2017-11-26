@@ -964,7 +964,10 @@ public class MetadataInsertDeleteApi {
                 settingManager.getSiteName(),
                 sourceTranslations, context, id, date, date, group, metadataType);
 
-        } catch (DataIntegrityViolationException ex) {
+        }catch(IllegalArgumentException iae){
+        	throw new IllegalArgumentException(iae.getMessage());
+        }
+        catch (DataIntegrityViolationException ex) {
             throw new DataIntegrityViolationException(
                 "Record can't be imported due to database constraint error.", ex);
         }catch (Exception ex) {

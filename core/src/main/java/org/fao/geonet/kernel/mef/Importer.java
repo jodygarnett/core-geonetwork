@@ -553,7 +553,7 @@ public class Importer {
                                     MEFLib.UuidAction uuidAction, List<Element> md, String schema, int index,
                                     String source, String sourceName, Map<String, String> sourceTranslations, ServiceContext context,
                                     List<String> id, String createDate, String changeDate,
-                                    String groupId, MetadataType isTemplate) throws Exception {
+                                    String groupId, MetadataType isTemplate) throws Exception, IllegalArgumentException {
         GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
         DataManager dm = gc.getBean(DataManager.class);
         String gaid = "";
@@ -626,8 +626,7 @@ public class Importer {
 				}
 				
 				if(isExist && !gaid.isEmpty() && !sameGaid){
-					Log.warning(Geonet.DATA_MANAGER, "Importer (importRecord). Existing metadata with eCatId " + gaid + " could not be deleted. Current transaction is aborted.");
-					throw new OperationAbortedEx(" Existing metadata with eCatId " + gaid + " could not be deleted. Current transaction is aborted.", null);
+					throw new IllegalArgumentException(" Existing metadata with eCatId " + gaid + " could not be deleted. Current transaction is aborted.");
 				}else{
 					if(gaid.isEmpty()){
 						gaid = dm.getGAID();
@@ -637,8 +636,9 @@ public class Importer {
 				
 				// --- set gaid inside metadata
 				md.add(index, dm.setGAID(schema, gaid, md.get(index)));	
-			}catch(Exception e){
-				Log.warning(Geonet.DATA_MANAGER, "Importer (importRecord). Main exception Current transaction is aborted.");
+			}catch(IllegalArgumentException iae){
+	        	throw new IllegalArgumentException(iae.getMessage());
+	        }catch(Exception e){
 				throw new Exception(" Error is: " + e.getMessage());
 			}
 			
