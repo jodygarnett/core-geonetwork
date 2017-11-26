@@ -373,8 +373,14 @@
        * @param {Object} md
        */
       this.getPermalink = function(md) {
-        var url = $location.absUrl().split('#')[0] + '#/metadata/' +
-            md.getUuid();
+        //var url = $location.absUrl().split('#')[0] + '#/metadata/' + md.getUuid();
+    	  
+    	var url;
+  		if(md.getType() == 'service'){
+  			url = "http://pid.geoscience.gov.au/service/ga/"+ md.geteCatId();
+  		}else{
+  			url = "http://pid.geoscience.gov.au/dataset/ga/"+ md.geteCatId();
+  		}
         gnUtilityService.getPermalink(md.title || md.defaultTitle, url);
       };
     }]);

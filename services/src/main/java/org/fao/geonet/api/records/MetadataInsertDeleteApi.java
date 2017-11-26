@@ -23,6 +23,19 @@
 
 package org.fao.geonet.api.records;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.ClientConfiguration;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.AmazonS3URI;
+import com.amazonaws.services.s3.model.ListObjectsV2Request;
+import com.amazonaws.services.s3.model.ListObjectsV2Result;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.transfer.Download;
+import com.amazonaws.services.s3.transfer.MultipleFileDownload;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -53,6 +66,7 @@ import org.fao.geonet.repository.MetadataRepository;
 import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.specification.UserGroupSpecs;
+import org.fao.geonet.util.ThreadUtils;
 import org.fao.geonet.utils.IO;
 import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
@@ -68,6 +82,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
@@ -80,6 +95,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
@@ -429,8 +448,13 @@ public class MetadataInsertDeleteApi {
             }
         }
         if (serverFolder != null) {
-            Path serverFolderPath = IO.toPath(serverFolder);
-
+        	Path serverFolderPath = null;
+        	if (serverFolder.startsWith("https") || serverFolder.startsWith("http")){
+        		serverFolderPath = amazonS3DownLoadPath(serverFolder);
+            }else{
+            	serverFolderPath = IO.toPath(serverFolder);
+            }
+        	Log.warning(Geonet.DATA_MANAGER, "Joseph --> MetadataInsertDeleteApi(insert), serverFolderPath: "+serverFolderPath.toString());
             final List<Path> files = Lists.newArrayList();
             final MEFLib.MefOrXmlFileFilter predicate = new MEFLib.MefOrXmlFileFilter();
             if (recursiveSearch) {
@@ -975,4 +999,62 @@ public class MetadataInsertDeleteApi {
         dataMan.indexMetadata(id.get(0), true);
         return Pair.read(Integer.valueOf(id.get(0)), uuid);
     }
+    
+    /**
+	 * This method creates AmazonS3 client  
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	private Path amazonS3DownLoadPath(String url) throws IOException, AmazonServiceException{
+		
+		ClientConfiguration config = new ClientConfiguration();
+		config.setProxyHost("proxy.ga.gov.au");
+		config.setProxyPort(8080);
+		config.setProxyUsername("U89263");
+		config.setProxyPassword("ju@Kalba!23");
+		
+		AmazonS3URI s3uri = new AmazonS3URI(url);
+	  	ListObjectsV2Result result;
+	  	ListObjectsV2Request request;
+		Path path = Files.createTempDirectory("import_");
+		
+		
+		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withClientConfiguration(config).withRegion(s3uri.getRegion()).build();
+		TransferManager transferManager = TransferManagerBuilder.standard()
+												.withS3Client(s3client)
+												.withExecutorFactory(()->createExecutorService(20))
+												.build();
+		
+		request = new ListObjectsV2Request().withBucketName(s3uri.getBucket());
+        
+       
+		
+        do {//get object keys in a bucket if more than 1000 (default max-key)
+        	
+			result = s3client.listObjectsV2(request);
+			final ListObjectsV2Result _result = result;
+			IntStream.range(0, _result.getKeyCount()).forEach(i -> {
+				
+				S3ObjectSummary objectSummary = _result.getObjectSummaries().get(i);
+				File f = null;
+				try {
+					f = File.createTempFile(objectSummary.getKey(), ".xml", path.toFile());
+					transferManager.download(s3uri.getBucket(), objectSummary.getKey(), f);
+					f.deleteOnExit();
+				} catch (IOException e) {
+					
+				}
+			});
+			request.setContinuationToken(result.getNextContinuationToken());
+        } while (result.isTruncated() == true);
+        
+        path.toFile().deleteOnExit();
+        
+		return path;
+	}
+	
+	private ThreadPoolExecutor createExecutorService(int threadNumber){
+		return (ThreadPoolExecutor)Executors.newFixedThreadPool(threadNumber);
+	}
 }
