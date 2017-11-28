@@ -88,6 +88,40 @@
         }
       };
 
+      $scope.userOptions = {
+        mode: 'prefetch',
+        promise: (function() {
+          var defer = $q.defer();
+          $http.get('../api/users', {cache: true}).
+              success(function(data) {
+                var res = [];
+                for (var i = 0; i < data.length; i++) {
+                  res.push({
+                    id: data[i].id,
+                    name: data[i].name
+                  });
+                }
+                defer.resolve(res);
+              });
+          return defer.promise;
+        })()
+      };
+  
+      $scope.typeOptions = [{
+		  id: 'n',
+		  label: 'Metadata'
+		}, {
+		  id: 'y',
+		  label: 'Template'
+	  }];
+
+      $scope.statusOptions = [];
+	  
+	  $http.get('../api/status', {cache: true}).
+		  success(function (data){
+		  $scope.statusOptions = data;
+	  });
+	  
       $scope.categoriesOptions = {
         mode: 'prefetch',
         promise: (function() {
