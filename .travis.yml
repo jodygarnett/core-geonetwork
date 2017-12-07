@@ -10,12 +10,20 @@ branches:
   only:
     - prod
     - test
-    - /^dev-.*$/ # any dev branch
+    - /^ecat3-.*$/ # any dev branch
 
 script:
-  - if [[ $TRAVIS_BRANCH =~ ^dev-.*$ ]];then
+  - if [[ $TRAVIS_BRANCH =~ ^ecat3-.*$ ]];then
     export BRANCH="dev";
     else
     export BRANCH=$TRAVIS_BRANCH;
     fi
   - mvn install -DskipTests=true
+
+addons:
+  artifacts:
+    s3_region: "ap-southeast-2"
+    paths:
+      - ecat3/$TRAVIS_BUILD_DIR/web/target/geonetwork.war
+    target_paths: $BRANCH
+    
