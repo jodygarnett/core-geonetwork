@@ -8,8 +8,8 @@ before_install:
 # whitelist
 branches:
   only:
-    - prod
-    - test
+    - ecat3-prod
+    - ecat3-test
     - /^ecat3-.*$/ # any dev branch
 
 script:
