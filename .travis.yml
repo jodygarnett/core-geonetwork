@@ -14,7 +14,7 @@ branches:
 
 script:
   - if [[ $TRAVIS_BRANCH =~ ^ecat3.2-.*$ ]];then
-    export BRANCH="ecat3.2-dev";
+    export BRANCH=/ecat3/dev;
     else
     export BRANCH=$TRAVIS_BRANCH;
     fi
