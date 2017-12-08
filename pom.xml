@@ -851,11 +851,7 @@
         <artifactId>langdetect</artifactId>
         <version>1.1-20120112</version>
       </dependency>
-      <dependency>
-        <groupId>net.arnx.jsonic</groupId>
-        <artifactId>jsonic</artifactId>
-        <version>1.2.7</version>
-      </dependency>
+      
       <!-- end language detection -->
 
       <!-- Spring dependencies -->
