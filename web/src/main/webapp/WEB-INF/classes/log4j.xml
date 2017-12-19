@@ -26,57 +26,57 @@
 
   <!-- Geonetwork module (and submodule) logging -->
   <logger name="geonetwork" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="consoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
   <logger name="geonetwork.search">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.databasemigration">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.database">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.cors">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.editor">
     <level value="INFO"/>
   </logger>
   <logger name="geonetwork.schemamanager">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.thesaurus-man">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.accessmanager">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.thesaurus">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.editorexpandelement">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.editorfillelement">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.LanguageDetector">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.index">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.csw">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.csw.search">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.formatter">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="geonetwork.harvester" additivity="false">
     <level value="WARN"/>
@@ -122,91 +122,91 @@
 
   <!--  Jeeves module and submodule logger configuration -->
   <logger name="jeeves" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="consoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
   <logger name="jeeves.dbms">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="jeeves.dbms.resourcetracking">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="jeeves.monitor">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="jeeves.engine">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="jeeves.dbmspool">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="jeeves.resources">
     <level value="WARN"/>
   </logger>
   <logger name="jeeves.xlinkprocessor">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="jeeves.transformerFactory">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="jeeves.xmlresolver">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
 
 
   <!--  Spring logging configuration -->
   <logger name="org.springframework" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="consoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
   <logger name="org.springframework.beans" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="fileAppender"/>
   </logger>
   <logger name="org.springframework.security">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="org.springframework.security.ldap">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="org.springframework.aop.framework.CglibAopProxy">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
 
   <!--  JZKIT logging configuration -->
   <logger name="com.k_int" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="consoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
   <logger name="org.jzkit">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="org.jzkit.a2j">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="org.jzkit.search.impl.LRUCache">
-    <level value="INFO"/>
+    <level value="WARN"/>
   </logger>
   <logger name="ro.isdc.wro.http" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="allConsoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
   <logger name="org.hibernate.SQL" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="consoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
   <logger name="org.hibernate.type" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="consoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
   <logger name="org.hibernate.tool.hbm2ddl" additivity="false">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="consoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
@@ -217,7 +217,7 @@
   </logger>
 
   <logger name="org.apache.camel" additivity="true">
-    <level value="INFO"/>
+    <level value="WARN"/>
     <appender-ref ref="consoleAppender"/>
     <appender-ref ref="fileAppender"/>
   </logger>
