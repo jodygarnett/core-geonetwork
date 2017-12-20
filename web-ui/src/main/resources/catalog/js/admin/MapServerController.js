@@ -34,7 +34,7 @@
    * for mapserver configuration used for geopublication.
    *
    */
-  module.controller('GnMapServerController', [
+  module.controller('GnMapServerController', ['ngRoute',
     '$scope', '$http', '$rootScope', '$translate',
     function($scope, $http, $rootScope, $translate) {
 
