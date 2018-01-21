@@ -99,7 +99,7 @@
       $scope.modelOptionsForm = angular.copy(gnGlobalSettings.modelOptions);
       $scope.gnWmsQueue = gnWmsQueue;
       $scope.$location = $location;
-      $scope.activeTab = '/home';
+      $scope.activeTab = '/search';
       $scope.resultTemplate = gnSearchSettings.resultTemplate;
       $scope.facetsSummaryType = gnSearchSettings.facetsSummaryType;
       $scope.location = gnSearchLocation;
@@ -112,7 +112,7 @@
             combo: 'h',
             description: $translate.instant('hotkeyHome'),
             callback: function(event) {
-              $location.path('/home');
+              $location.path('/search');
             }
           }).add({
             combo: 't',
@@ -251,7 +251,7 @@
 
       // Manage route at start and on $location change
       if (!$location.path()) {
-        $location.path('/home');
+        $location.path('/search');
       }
       $scope.activeTab = $location.path().
           match(/^(\/[a-zA-Z0-9]*)($|\/.*)/)[1];

@@ -21,21 +21,21 @@
                    data-typeahead-focus-first="false">
 
             <div class="input-group-btn">
-              <button type="button"
-                      class="btn btn-default btn-lg"
-                      data-ng-model="searchObj.advancedMode"
-                      btn-checkbox=""
-                      btn-checkbox-true="1"
-                      btn-checkbox-false="0">
-                <i class="fa fa-ellipsis-v"></i>
-              </button>
-
+              
               <button type="button"
                       data-ng-click="triggerSearch()"
                       class="btn btn-primary btn-lg">
                 &nbsp;&nbsp;
                 <i class="fa fa-search"></i>
                 &nbsp;&nbsp;
+              </button>
+              <button type="button"
+                      class="btn btn-default btn-lg"
+                      data-ng-model="searchObj.advancedMode"
+                      btn-checkbox=""
+                      btn-checkbox-true="1"
+                      btn-checkbox-false="0">
+                <i class="fa fa-search-plus"></i>
               </button>
               <button type="button"
                       data-ng-click="resetSearch(searchObj.defaultParams);"
