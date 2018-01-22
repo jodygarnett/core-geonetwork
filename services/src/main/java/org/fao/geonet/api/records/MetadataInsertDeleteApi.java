@@ -23,6 +23,7 @@
 
 package org.fao.geonet.api.records;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.services.s3.AmazonS3;
@@ -454,7 +455,7 @@ public class MetadataInsertDeleteApi {
             }else{
             	serverFolderPath = IO.toPath(serverFolder);
             }
-        	Log.warning(Geonet.DATA_MANAGER, "Joseph --> MetadataInsertDeleteApi(insert), serverFolderPath: "+serverFolderPath.toString());
+        	//Log.warning(Geonet.DATA_MANAGER, "Joseph --> MetadataInsertDeleteApi(insert), serverFolderPath: "+serverFolderPath.toString());
             final List<Path> files = Lists.newArrayList();
             final MEFLib.MefOrXmlFileFilter predicate = new MEFLib.MefOrXmlFileFilter();
             if (recursiveSearch) {
@@ -478,7 +479,7 @@ public class MetadataInsertDeleteApi {
             if (files.size() == 0) {
                 throw new Exception(String.format(
                     "No XML or MEF or ZIP file found in server folder '%s'.",
-                    serverFolder
+                    serverFolderPath
                 ));
             }
             SettingManager settingManager = ApplicationContextHolder.get().getBean(SettingManager.class);
@@ -1003,61 +1004,34 @@ public class MetadataInsertDeleteApi {
         return Pair.read(Integer.valueOf(id.get(0)), uuid);
     }
     
-    /**
-	 * This method creates AmazonS3 client  
-	 * @param url
-	 * @return
-	 * @throws IOException
-	 */
-	private Path amazonS3DownLoadPath(String url) throws IOException, AmazonServiceException{
-		
-		ClientConfiguration config = new ClientConfiguration();
-		config.setProxyHost("proxy.ga.gov.au");
-		config.setProxyPort(8080);
-		config.setProxyUsername("U89263");
-		config.setProxyPassword("ju@Kalba!23");
-		
+    private Path amazonS3DownLoadPath(String url) throws Exception {
+
+		if(url.endsWith("/")){
+			url = url.substring(0, url.length() - 1);
+		}
+        
+		Path tempPath = Files.createTempDirectory("imports3_");
 		AmazonS3URI s3uri = new AmazonS3URI(url);
-	  	ListObjectsV2Result result;
-	  	ListObjectsV2Request request;
-		Path path = Files.createTempDirectory("import_");
 		
+		TransferManager xfer_mgr = TransferManagerBuilder.defaultTransferManager();
+		try {
+			
+			MultipleFileDownload xfer = xfer_mgr.downloadDirectory(s3uri.getBucket(), s3uri.getKey(), tempPath.toFile());
+
+			//block with Transfer.waitForCompletion()
+			xfer.waitForCompletion();
+		} catch (AmazonClientException e) {
+			throw new AmazonClientException("Unable to import files from AWS S3 Bucket, due to " + e.getMessage());
+		} catch (Exception e) {
+			throw new Exception("Unable to import files from AWS S3 Bucket, due to " + e.getMessage());
+		}
+		xfer_mgr.shutdownNow();
+
+		if(s3uri.getKey() != null && !s3uri.getKey().isEmpty()){
+			tempPath = tempPath.resolve(s3uri.getKey());
+		}
 		
-		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withClientConfiguration(config).withRegion(s3uri.getRegion()).build();
-		TransferManager transferManager = TransferManagerBuilder.standard()
-												.withS3Client(s3client)
-												.withExecutorFactory(()->createExecutorService(20))
-												.build();
-		
-		request = new ListObjectsV2Request().withBucketName(s3uri.getBucket());
-        
-       
-		
-        do {//get object keys in a bucket if more than 1000 (default max-key)
-        	
-			result = s3client.listObjectsV2(request);
-			final ListObjectsV2Result _result = result;
-			IntStream.range(0, _result.getKeyCount()).forEach(i -> {
-				
-				S3ObjectSummary objectSummary = _result.getObjectSummaries().get(i);
-				File f = null;
-				try {
-					f = File.createTempFile(objectSummary.getKey(), ".xml", path.toFile());
-					transferManager.download(s3uri.getBucket(), objectSummary.getKey(), f);
-					f.deleteOnExit();
-				} catch (IOException e) {
-					
-				}
-			});
-			request.setContinuationToken(result.getNextContinuationToken());
-        } while (result.isTruncated() == true);
-        
-        path.toFile().deleteOnExit();
-        
-		return path;
+		return tempPath;
 	}
-	
-	private ThreadPoolExecutor createExecutorService(int threadNumber){
-		return (ThreadPoolExecutor)Executors.newFixedThreadPool(threadNumber);
-	}
+    
 }
