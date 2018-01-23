@@ -36,6 +36,7 @@ import org.fao.geonet.api.records.model.Direction;
 import org.fao.geonet.api.tools.i18n.LanguageUtils;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
+import org.fao.geonet.domain.ISODate;
 import org.fao.geonet.domain.Metadata;
 import org.fao.geonet.domain.MetadataType;
 import org.fao.geonet.domain.ReservedGroup;
@@ -64,7 +65,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -272,7 +275,16 @@ public class MetadataEditingApi {
         StatusActionsFactory saf = context.getBean(StatusActionsFactory.class);
         StatusActions sa = saf.createStatusActions(context);
         sa.onEdit(iLocalId, minor);
-
+        
+        /* Joseph Updated - To enable workflow by default - Start */
+        if(sa.getMetadataStatus(metadata.getId()).equals(Params.Status.UNKNOWN)){
+	        Set<Integer> metadataIds = new HashSet<Integer>();
+	        metadataIds.add(metadata.getId());
+	        ISODate statusDate = new ISODate();
+	        sa.statusChange(Params.Status.DRAFT, metadataIds, statusDate, "Enable workflow");
+        }
+        /* End */
+        
         if (StringUtils.isNotEmpty(data)) {
             Element md = Xml.loadString(data, false);
             String changeDate = null;
