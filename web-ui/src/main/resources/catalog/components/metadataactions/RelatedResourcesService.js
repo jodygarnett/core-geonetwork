@@ -69,12 +69,12 @@
 			}//End
 			
 			var layerName = $filter('gnLocalized')(link.title);
-			var layer_index = link.url.indexOf('_');
-			if(index === -1){
+			var layer_index = layerName.indexOf('_');
+			if(layer_index === -1){
 				layerName = null;
 			}
 			
-			if (layerName) {
+            if (layerName) {
               gnMap.addWmsFromScratch(gnSearchSettings.viewerMap,
                  link.url, layerName, false, md);
             } else {
