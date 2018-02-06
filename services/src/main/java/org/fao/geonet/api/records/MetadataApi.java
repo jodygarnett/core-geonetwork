@@ -480,6 +480,12 @@ public class MetadataApi implements ApplicationContextAware {
 
         final Element transform = Xml.transform(raw, relatedXsl);
         RelatedResponse response = (RelatedResponse) Xml.unmarshall(transform, RelatedResponse.class);
+        //Joseph added - 'Add to Map' issue. Need to find a better way to set the url for type 'online' 
+        if(response.getOnlines().getItem().size() > 0){
+        	response.getOnlines().getItem().stream().forEach(item -> {
+        		item.setUrl(item.getId());
+        	});
+        }
         return response;
     }
 }

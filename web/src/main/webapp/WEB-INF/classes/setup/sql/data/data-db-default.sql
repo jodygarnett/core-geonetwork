@@ -698,6 +698,6 @@ CREATE SEQUENCE public.metadataid
   MINVALUE 1
   MAXVALUE 9223372036854775807
   START 110400
-  CACHE 20;
+  CACHE 1;
 ALTER TABLE public.metadataid
   OWNER TO "geonetwork";
