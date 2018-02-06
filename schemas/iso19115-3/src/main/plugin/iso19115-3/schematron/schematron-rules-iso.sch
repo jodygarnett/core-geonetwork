@@ -1172,7 +1172,7 @@
     
 
 
-    <sch:rule context="//mri:MD_DataIdentification/mri:associatedResource/mri:MD_AssociatedResource|                        //srv:SV_ServiceIdentification/mri:associatedResource/mri:MD_AssociatedResource">
+    <sch:rule context="//mri:MD_DataIdentification/mri:associatedResource/*|                        //srv:SV_ServiceIdentification/mri:associatedResource/*">
 
       <!-- May be a CharacterString or LocalisedCharacterString -->
 
