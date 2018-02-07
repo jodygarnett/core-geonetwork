@@ -3,7 +3,7 @@
 		<img class="gn-logo" data-ng-src="../../catalog/views/default/images/ga.header.logo.png" />
 	</a> 
 	<!-- <a data-gn-active-tb-item="catalog.search#/search"> -->
-		<span class="title-lg">Data and Publications Search</span>
+		<span class="title-lg">Data and Publications Search<span data-ng-if="user.isEditorOrMore()"> and Metadata Entry Tool</span></span>
 	<!-- </a> -->
 	
 	<img data-ng-src="../../catalog/views/default/images/eCat_logo.jpg" data-ng-if="user.isEditorOrMore()"/>
