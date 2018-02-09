@@ -169,9 +169,9 @@
           return defer.promise;
         },
 
-        publish: function(metadataId, bucket, onOrOff, user) {
+        publish: function(metadataId, bucket, onOrOff, user, group) {
           var privileges = [{
-            group: 1,
+            group: group,
             operations: {
               view: onOrOff,
               download: onOrOff,
