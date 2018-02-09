@@ -348,7 +348,7 @@ public class MetadataSharingApi {
 
 		// --- use StatusActionsFactory and StatusActions class to
 		// --- change status and carry out behaviours for status changes
-		StatusActionsFactory saf = new StatusActionsFactory();
+		StatusActionsFactory saf = ApplicationContextHolder.get().getBean(StatusActionsFactory.class);
 		StatusActions sa = saf.createStatusActions(context);
 		sa.statusChange(status, metadataIds, new ISODate(), "");
 	}
