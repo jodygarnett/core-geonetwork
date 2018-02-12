@@ -220,6 +220,7 @@ public class MetadataSharingApi {
             final MetadataRepository metadataRepository = appContext.getBean(MetadataRepository.class);
             final GroupRepository _groupRepository = ApplicationContextHolder.get().getBean(GroupRepository.class);
             final SchemaManager schemaManager = ApplicationContextHolder.get().getBean(SchemaManager.class);
+            final MetadataCategoryRepository _catRepository = ApplicationContextHolder.get().getBean(MetadataCategoryRepository.class);
             
             UserSession us = ApiUtils.getUserSession(session);
             boolean isAdmin = Profile.Administrator == us.getProfile();
@@ -249,12 +250,17 @@ public class MetadataSharingApi {
                     
                     //Sharing clear - false (publish) and true (unpublish)
                     if (sharing.isClear()){
-                    	groupId = g.getId();
-                    } else {
+                    	groupId = g.getId();//Unpublished records defaulted to editors_all group  
+                    } else {//Add publication date and update category
                     	updateMetadataWithModifiedDate(context, schemaManager, dataMan, String.valueOf(metadata.getId()));
                     	groupId = sharing.getPrivileges().get(0).getGroup();
+                    	
+                    	String category = (groupId == ReservedGroup.all.getId()) ?  "externalrecords": "internalrecords";
+                    	MetadataCategory mdCat = _catRepository.findOneByNameIgnoreCase(category);
+                    	dataMan.setCategory(context, String.valueOf(metadata.getId()), String.valueOf(mdCat.getId()));
                     }
                     
+                    //Update the owner as admin
                     dataMan.updateMetadataOwner(metadata.getId(), us.getUserId(), String.valueOf(groupId));
 					
                     OperationRepository operationRepository = appContext.getBean(OperationRepository.class);
