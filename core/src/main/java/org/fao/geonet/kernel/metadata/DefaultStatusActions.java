@@ -136,6 +136,16 @@ public class DefaultStatusActions implements StatusActions {
             dm.setStatus(context, id, Integer.valueOf(Params.Status.DRAFT), new ISODate(), changeMessage);
         }
     }
+    
+    /**
+     * Called when a record is edited to set/reset status.
+     *
+     * @param id        The metadata id that has been edited.
+     * @param minorEdit If true then the edit was a minor edit.
+     */
+    public String getMetadataStatus(int id) throws Exception {
+        return dm.getCurrentStatus(id);
+    }
 
     // -------------------------------------------------------------------------
     // Private methods

@@ -24,17 +24,27 @@ import jeeves.component.ProfileManager;
 
 import org.apache.batik.util.resources.ResourceManager;
 import org.fao.geonet.ApplicationContextHolder;
+import org.fao.geonet.domain.Group;
 import org.fao.geonet.domain.LDAPUser;
 import org.fao.geonet.domain.Profile;
 import org.fao.geonet.domain.User;
+import org.fao.geonet.domain.UserGroup;
 import org.fao.geonet.kernel.security.GeonetworkAuthenticationProvider;
 import org.fao.geonet.kernel.security.WritableUserDetailsContextMapper;
+import org.fao.geonet.repository.GroupRepository;
+import org.fao.geonet.repository.GroupRepositoryImpl;
+import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.UserRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +55,6 @@ import javax.servlet.http.HttpServletRequest;
 public class ShibbolethUserUtils {
     private UserDetailsManager userDetailsManager;
     private WritableUserDetailsContextMapper udetailsmapper;
-
 
     static MinimalUser parseUser(ServletRequest request,
                                  ResourceManager resourceManager, ProfileManager profileManager,
@@ -79,6 +88,8 @@ public class ShibbolethUserUtils {
                                     ShibbolethUserConfiguration config) throws Exception {
         UserRepository userRepository = ApplicationContextHolder.get().getBean(UserRepository.class);
         GeonetworkAuthenticationProvider authProvider = ApplicationContextHolder.get().getBean(GeonetworkAuthenticationProvider.class);
+        GroupRepository _groupRepository = ApplicationContextHolder.get().getBean(GroupRepository.class);
+        UserGroupRepository userGroupRepository = ApplicationContextHolder.get().getBean(UserGroupRepository.class);
 
         // Read in the data from the headers
         HttpServletRequest req = (HttpServletRequest) request;
@@ -90,7 +101,7 @@ public class ShibbolethUserUtils {
         Profile profile = Profile.findProfileIgnoreCase(getHeader(req,
             config.getProfileKey(), ""));
         // TODO add group to user
-        //String group = getHeader(req, config.getGroupKey(), "");
+        String group = getHeader(req, config.getGroupKey(), "");
 
         if (username != null && username.trim().length() > 0) { // ....add other
             // cnstraints to
@@ -107,9 +118,9 @@ public class ShibbolethUserUtils {
             }
 
             // TODO add group to user
-            //if (group.equals("")) {
-            //	group = config.getDefaultGroup();
-            //}
+            if (group.equals("")) {
+            	group = config.getDefaultGroup();
+            }
 
 
             // FIXME: needed? only accept the first 256 chars
@@ -128,8 +139,11 @@ public class ShibbolethUserUtils {
                 user.setProfile(profile);
 
                 // TODO add group to user
-                // Group g = _groupRepository.findByName(group);
-
+                
+                Group g = _groupRepository.findByName(group);
+                final UserGroup userGroup = new UserGroup().setGroup(g)
+                        .setUser(user);
+                userGroupRepository.save(Arrays.asList(userGroup));
             }
 
 

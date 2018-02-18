@@ -301,8 +301,8 @@
       <artifactId>h2</artifactId>
     </dependency>
     <dependency>
-      <groupId>postgresql</groupId>
-      <artifactId>postgresql</artifactId>
+      <groupId>org.postgresql</groupId>
+	  <artifactId>postgresql</artifactId>
     </dependency>
     <dependency>
       <groupId>org.postgis</groupId>
@@ -485,11 +485,7 @@
       <groupId>com.cybozu.labs</groupId>
       <artifactId>langdetect</artifactId>
     </dependency>
-    <dependency>
-      <groupId>net.arnx.jsonic</groupId>
-      <artifactId>jsonic</artifactId>
-      <version>1.2.7</version>
-    </dependency>
+    
     <!-- end language detection -->
     <dependency>
       <groupId>opendap</groupId>

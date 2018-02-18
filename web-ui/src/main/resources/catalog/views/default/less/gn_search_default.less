@@ -8,6 +8,19 @@
   display: none;
 }
 
+.ecat-news {
+    display: inline;
+    float: right;
+    padding-top: 25px;
+    padding-right: 25px;
+    a {
+    	color: #767B7E;
+    	font: 12px Verdana,Helvetica,Arial;
+    	i {
+		    padding-right: 5px;
+		}
+	}
+}
 
 .navbar {
   margin-bottom: 14px;
@@ -62,8 +75,29 @@
     }
   }
 }
+/* ------ GA Branding theme - start ------ */
+/*.navbar-default {
+	background-color: #006983;
+	border-color: #006983;
+	.navbar-nav {
+		.active {
+			a, a:hover , a:focus {
+				color: #fff;
+				background-color: #A33F1F;
+			}
+		}
+		li > a{
+			color: #fff;
+		}
+	}
+}
 
-
+.btn-primary {
+    color: #fff;
+    background-color: #006983;
+    border-color: #006983;
+}*/
+/* ------ GA Branding theme - end ------ */
 
 .gn-sort-by {
   .btn-group > button {
@@ -110,6 +144,27 @@ ul.gn-resultview {
     height: 100%;
     z-index: 2050;
   }
+  .gn-md-ecatid {
+    background: none;
+    position: absolute;
+    left: 10px;
+    padding: 5px;
+  }
+  .gn-md-schema {
+    float: right !important;
+    font-weight: normal;
+    font-size: 80%;
+    color: #333333;
+  }
+  .gn-mn-contact{
+    font-weight: normal;
+    font-style: italic !important;
+    font-size: 80%;
+    color: #333333;
+    position:absolute;
+    right:0px;
+    padding: 15px;
+  }
   li.list-group-item {
     margin-right: 15px;
     margin-bottom: 15px;
@@ -130,6 +185,16 @@ ul.gn-resultview {
         min-height: 40px;
         height: auto;
       }
+    }
+    .gn-md-withthumbnail {
+      float:left; 
+      display:block;
+      width:calc(100% - 162px);
+    }
+    .gn-md-nothumbnail {
+      float:left; 
+      display:block;
+      width:100%;
     }
     .media {
       a {
@@ -157,9 +222,9 @@ ul.gn-resultview {
     border: 1px solid @list-group-border;
     //box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
     min-width: 300px;
-    max-width: 500px;
+    max-width: 650px;
     width: calc(~"100% - 15px");
-    height: 20.5em;
+    height: 21.5em;
     padding: 14px;
     .gn-md-details {
       //margin-left: @thumbnail-width;
@@ -188,6 +253,7 @@ ul.gn-resultview {
           font-weight: normal;
           font-size: 80%;
           color: #333333;
+	  //color: #006983;
           max-height: 82px;
           text-overflow: ellipsis;
           overflow: hidden;
@@ -231,8 +297,8 @@ ul.gn-resultview {
       background: none;
       position: absolute;
       bottom: 0px;
-      right: 0px;
-      padding: 5px;
+      left: 0px;
+      padding: 15px;
     }
     input {
       float: left;

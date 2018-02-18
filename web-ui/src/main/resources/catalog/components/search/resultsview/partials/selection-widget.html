@@ -46,10 +46,13 @@
         <a href="" ng-click="mdService.openBatchEditing(getCatScope())">
           <i class="fa fa-pencil"></i>&nbsp;<span translate>editRecords</span></a></li>
       <li ng-if="user.isReviewerOrMore()" class="disabgit led">
-        <a ng-click="mdService.publish(undefined, searchResults.selectionBucket, 'on', getCatScope())">
+        <a ng-click="mdService.publish(undefined, searchResults.selectionBucket, 'on', getCatScope(), 0)">
+          <i class="fa fa-unlock"></i>&nbsp;<span translate>Publish Internally</span></a></li>
+      <li ng-if="user.isReviewerOrMore()" class="disabgit led">
+        <a ng-click="mdService.publish(undefined, searchResults.selectionBucket, 'on', getCatScope(), 1)">
           <i class="fa fa-unlock"></i>&nbsp;<span translate>publish</span></a></li>
       <li ng-if="user.isReviewerOrMore()" class="disabgit led">
-        <a ng-click="mdService.publish(undefined, searchResults.selectionBucket, 'off', getCatScope())">
+        <a ng-click="mdService.publish(undefined, searchResults.selectionBucket, 'off', getCatScope(), 0)">
           <i class="fa fa-lock"></i>&nbsp;<span translate>unpublish</span></a></li>
       <li ng-if="user.isUserAdminOrMore()">
         <a href="" data-ng-click="mdService.openTransferOwnership(undefined, searchResults.selectionBucket, getCatScope())">

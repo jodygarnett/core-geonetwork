@@ -43,7 +43,7 @@
     <level value="WARN"/>
   </logger>
   <logger name="geonetwork.editor">
-    <level value="WARN"/>
+    <level value="INFO"/>
   </logger>
   <logger name="geonetwork.schemamanager">
     <level value="WARN"/>
@@ -172,7 +172,7 @@
     <level value="WARN"/>
   </logger>
   <logger name="org.springframework.aop.framework.CglibAopProxy">
-    <level value="ERROR"/>
+    <level value="WARN"/>
   </logger>
 
   <!--  JZKIT logging configuration -->

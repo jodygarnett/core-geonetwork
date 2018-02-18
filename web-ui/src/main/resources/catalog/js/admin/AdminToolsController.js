@@ -168,10 +168,10 @@
       $scope.facetsSummaryType = gnSearchSettings.facetsSummaryType = 'manager';
 
       gnSearchSettings.sortbyValues = [{
-        sortBy: 'relevance',
-        sortOrder: ''
+          sortBy: 'changeDate',
+          sortOrder: ''
       }, {
-        sortBy: 'changeDate',
+        sortBy: 'relevance',
         sortOrder: ''
       }, {
         sortBy: 'title',

@@ -298,7 +298,7 @@
        * @param {string} flag
        * @return {*}
        */
-      this.publish = function(md, bucket, flag, scope) {
+      this.publish = function(md, bucket, flag, scope, group) {
 
         if (md) {
           flag = md.isPublished() ? 'off' : 'on';
@@ -308,7 +308,7 @@
         return gnShareService.publish(
             angular.isDefined(md) ? md.getId() : undefined,
             angular.isDefined(md) ? undefined : bucket,
-            onOrOff, $rootScope.user)
+            onOrOff, $rootScope.user, group)
             .then(
             function(data) {
               scope.$emit('PrivilegesUpdated', true);
@@ -373,8 +373,14 @@
        * @param {Object} md
        */
       this.getPermalink = function(md) {
-        var url = $location.absUrl().split('#')[0] + '#/metadata/' +
-            md.getUuid();
+        //var url = $location.absUrl().split('#')[0] + '#/metadata/' + md.getUuid();
+    	  
+    	var url;
+  		if(md.getType() == 'service'){
+  			url = "http://pid.geoscience.gov.au/service/ga/"+ md.geteCatId();
+  		}else{
+  			url = "http://pid.geoscience.gov.au/dataset/ga/"+ md.geteCatId();
+  		}
         gnUtilityService.getPermalink(md.title || md.defaultTitle, url);
       };
     }]);

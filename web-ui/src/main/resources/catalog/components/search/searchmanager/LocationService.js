@@ -36,7 +36,7 @@
       this.SEARCH = '/search';
       this.MAP = '/map';
       this.METADATA = '/metadata/';
-      this.HOME = '/home';
+      this.HOME = '/search';
 
       var state = {};
       var that = this;

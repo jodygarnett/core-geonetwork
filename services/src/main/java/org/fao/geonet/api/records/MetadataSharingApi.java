@@ -40,15 +40,22 @@ import org.fao.geonet.api.records.model.GroupPrivilege;
 import org.fao.geonet.api.records.model.SharingParameter;
 import org.fao.geonet.api.records.model.SharingResponse;
 import org.fao.geonet.api.tools.i18n.LanguageUtils;
+import org.fao.geonet.constants.Geonet;
+import org.fao.geonet.constants.Params;
 import org.fao.geonet.domain.*;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.DataManager;
+import org.fao.geonet.kernel.SchemaManager;
+import org.fao.geonet.kernel.metadata.StatusActions;
+import org.fao.geonet.kernel.metadata.StatusActionsFactory;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.repository.*;
 import org.fao.geonet.repository.specification.MetadataValidationSpecs;
 import org.fao.geonet.repository.specification.OperationAllowedSpecs;
 import org.fao.geonet.repository.specification.UserGroupSpecs;
+import org.fao.geonet.utils.Xml;
 import org.jdom.Document;
+import org.jdom.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.domain.Specification;
@@ -62,6 +69,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.nio.file.Path;
 import java.util.*;
 
 import static org.fao.geonet.api.ApiParams.*;
@@ -204,12 +213,15 @@ public class MetadataSharingApi {
         try {
             Set<String> records = ApiUtils.getUuidsParameterOrSelection(uuids, bucket, ApiUtils.getUserSession(session));
             report.setTotalRecords(records.size());
-
+            Set<Integer> metadataIds = new HashSet<Integer>();
             final ApplicationContext appContext = ApplicationContextHolder.get();
             final DataManager dataMan = appContext.getBean(DataManager.class);
             final AccessManager accessMan = appContext.getBean(AccessManager.class);
             final MetadataRepository metadataRepository = appContext.getBean(MetadataRepository.class);
-
+            final GroupRepository _groupRepository = ApplicationContextHolder.get().getBean(GroupRepository.class);
+            final SchemaManager schemaManager = ApplicationContextHolder.get().getBean(SchemaManager.class);
+            final MetadataCategoryRepository _catRepository = ApplicationContextHolder.get().getBean(MetadataCategoryRepository.class);
+            
             UserSession us = ApiUtils.getUserSession(session);
             boolean isAdmin = Profile.Administrator == us.getProfile();
             boolean isReviewer = Profile.Reviewer == us.getProfile();
@@ -231,12 +243,26 @@ public class MetadataSharingApi {
                         !isReviewer) {
                         skip = true;
                     }
-
-                    if (sharing.isClear()) {
-                        dataMan.deleteMetadataOper(context,
-                            String.valueOf(metadata.getId()), skip);
+                    
+                    dataMan.deleteMetadataOper(context, String.valueOf(metadata.getId()), skip);
+                    int groupId = 0;
+                    Group g = _groupRepository.findByName("editors_all");
+                    
+                    //Sharing clear - false (publish) and true (unpublish)
+                    if (sharing.isClear()){
+                    	groupId = g.getId();//Unpublished records defaulted to editors_all group  
+                    } else {//Add publication date and update category
+                    	updateMetadataWithModifiedDate(context, schemaManager, dataMan, String.valueOf(metadata.getId()));
+                    	groupId = sharing.getPrivileges().get(0).getGroup();
+                    	
+                    	String category = (groupId == ReservedGroup.all.getId()) ?  "externalrecords": "internalrecords";
+                    	MetadataCategory mdCat = _catRepository.findOneByNameIgnoreCase(category);
+                    	dataMan.setCategory(context, String.valueOf(metadata.getId()), String.valueOf(mdCat.getId()));
                     }
-
+                    
+                    //Update the owner as admin
+                    dataMan.updateMetadataOwner(metadata.getId(), us.getUserId(), String.valueOf(groupId));
+					
                     OperationRepository operationRepository = appContext.getBean(OperationRepository.class);
                     List<Operation> operationList = operationRepository.findAll();
                     Map<String, Integer> operationMap = new HashMap<>(operationList.size());
@@ -248,8 +274,16 @@ public class MetadataSharingApi {
                     setOperations(sharing, dataMan, context, metadata, operationMap, privileges);
                     report.incrementProcessedRecords();
                     listOfUpdatedRecords.add(String.valueOf(metadata.getId()));
+                    
+                    metadataIds.add(metadata.getId());
                 }
             }
+            
+            if (sharing.isClear())
+                updateStatus(context, metadataIds, Params.Status.DRAFT);
+            else
+            	updateStatus(context, metadataIds, Params.Status.APPROVED);
+            
             dataMan.flush();
             dataMan.indexMetadata(listOfUpdatedRecords);
 
@@ -303,6 +337,28 @@ public class MetadataSharingApi {
         }
     }
 
+    private void updateMetadataWithModifiedDate(ServiceContext context, SchemaManager schemaMan,
+			DataManager dm, String id) throws Exception {
+    	String schema = dm.getMetadataSchema(id);
+		String publishDate = new ISODate().toString();
+		Element md = dm.getMetadata(id);
+		Map<String, Object> xslParameters = new HashMap<String, Object>();
+		xslParameters.put("date", publishDate);
+		Path file = schemaMan.getSchemaDir(schema).resolve("process").resolve(Geonet.File.PUBLICATION_DATE);
+		md = Xml.transform(md, file, xslParameters);
+		dm.updateMetadata(context, id, md, false, false, false, context.getLanguage(), publishDate, false);
+	}
+    
+    private void updateStatus(ServiceContext context, Set<Integer> metadataIds, String status)
+			throws Exception {
+
+		// --- use StatusActionsFactory and StatusActions class to
+		// --- change status and carry out behaviours for status changes
+		StatusActionsFactory saf = ApplicationContextHolder.get().getBean(StatusActionsFactory.class);
+		StatusActions sa = saf.createStatusActions(context);
+		sa.statusChange(status, metadataIds, new ISODate(), "");
+	}
+    
     /**
      * For privileges to ALL group, check if it's allowed or not to publish invalid metadata.
      *
@@ -329,7 +385,7 @@ public class MetadataSharingApi {
 
         return !isInvalid;
     }
-
+    
     @ApiOperation(
         value = "Get record sharing settings",
         notes = "Return current sharing options for a record.",

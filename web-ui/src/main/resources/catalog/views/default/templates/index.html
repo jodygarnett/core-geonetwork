@@ -1,3 +1,17 @@
+<div class="gn-logo-nav">
+	<a data-gn-active-tb-item="http://www.ga.gov.au/" title="Navigate to the Geoscience Australia home page"> 
+		<img class="gn-logo" data-ng-src="../../catalog/views/default/images/ga.header.logo.png" />
+	</a> 
+	<!-- <a data-gn-active-tb-item="catalog.search#/search"> -->
+		<span class="title-lg">Data and Publications Search<span data-ng-if="user.isEditorOrMore()"> and Metadata Entry Tool</span></span>
+	<!-- </a> -->
+	
+	<img data-ng-src="../../catalog/views/default/images/eCat_logo.jpg" data-ng-if="user.isEditorOrMore()"/>
+	<div class="ecat-news" data-ng-if="user.isEditorOrMore()">
+		<a href="https://intranet.ga.gov.au/records-and-data/ecat" target="_blank" title="What's new to eCat application"><i class="fa fa fa-lightbulb-o"></i>What's new</a>
+	</div>
+</div>
+<div class="ga-line"></div>
 <div class="navbar navbar-default gn-top-bar" role="navigation"
      data-ng-include="'../../catalog/templates/top-toolbar.html'"
      xmlns="http://www.w3.org/1999/html">
@@ -27,7 +41,39 @@
 
 <div class="navbar navbar-default gn-bottom-bar">
   <ul class="nav navbar-nav">
-    <li class="gn-footer-text">
+  	<li>
+	 <a href="https://creativecommons.org/licenses/by/4.0/legalcode" target="_blank" title="Go to Creative Commons home page">
+		<img src="../../catalog/views/default/images/cc-by.png" height="20" width="107" alt="Creative Commons Logo"></img></a>
+	</li>
+	<li>
+     <a href="http://www.ga.gov.au/copyright" target="_blank"
+								title="View Geoscience Australia copyright statement">Copyright</a>
+    </li>
+	<li>
+      <a href="http://www.ga.gov.au/disclaimer"	target="_blank"
+								title="View Geoscience Australia disclaimer web page">Disclaimer</a>
+    </li>
+	<li>
+      <a href="http://www.ga.gov.au/privacy" target="_blank"
+								title="View Geoscience Australia privacy policy">Privacy</a>
+    </li>
+	<li>
+      <a href="http://www.ga.gov.au/accessibility" target="_blank"
+								title="View Geoscience Australia accessibility statement">Accessibility</a>
+    </li>
+	<li>
+      <a href="http://www.ga.gov.au/ips" target="_blank"
+								title="View Geoscience Australia privacy statement">Information Publication Scheme</a>
+    </li>
+	<li>
+      <a href="http://www.ga.gov.au/ips/foi" target="_blank"
+								title="View Geoscience Australia freedom of information statement">Freedom of Information</a>
+    </li>
+	<li>
+      <a href="http://www.ga.gov.au/contact-us"	target="_blank"
+								title="Contact Geoscience Australia">Contact us</a>
+    </li>
+    <!-- <li class="gn-footer-text">
       <span data-translate=""
             data-translate-values="{platform: '{{info['system/platform/name']}}', version: '{{info['system/platform/version']}}', subversion: '{{info['system/platform/subVersion']}}'}">
         versionDetails</span>
@@ -72,6 +118,6 @@
          title="{{'lastRecords' | translate}}">
         <i class="fa fa-rss"/>
       </a>
-    </li>
+    </li> -->
   </ul>
 </div>

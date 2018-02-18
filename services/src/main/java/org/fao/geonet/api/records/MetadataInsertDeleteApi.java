@@ -23,6 +23,20 @@
 
 package org.fao.geonet.api.records;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.ClientConfiguration;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.AmazonS3URI;
+import com.amazonaws.services.s3.model.ListObjectsV2Request;
+import com.amazonaws.services.s3.model.ListObjectsV2Result;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.transfer.Download;
+import com.amazonaws.services.s3.transfer.MultipleFileDownload;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -53,6 +67,7 @@ import org.fao.geonet.repository.MetadataRepository;
 import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.specification.UserGroupSpecs;
+import org.fao.geonet.util.ThreadUtils;
 import org.fao.geonet.utils.IO;
 import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
@@ -68,6 +83,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
@@ -80,6 +96,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
@@ -429,8 +449,13 @@ public class MetadataInsertDeleteApi {
             }
         }
         if (serverFolder != null) {
-            Path serverFolderPath = IO.toPath(serverFolder);
-
+        	Path serverFolderPath = null;
+        	if (serverFolder.startsWith("https") || serverFolder.startsWith("http")){
+        		serverFolderPath = amazonS3DownLoadPath(serverFolder);
+            }else{
+            	serverFolderPath = IO.toPath(serverFolder);
+            }
+        	//Log.warning(Geonet.DATA_MANAGER, "Joseph --> MetadataInsertDeleteApi(insert), serverFolderPath: "+serverFolderPath.toString());
             final List<Path> files = Lists.newArrayList();
             final MEFLib.MefOrXmlFileFilter predicate = new MEFLib.MefOrXmlFileFilter();
             if (recursiveSearch) {
@@ -454,7 +479,7 @@ public class MetadataInsertDeleteApi {
             if (files.size() == 0) {
                 throw new Exception(String.format(
                     "No XML or MEF or ZIP file found in server folder '%s'.",
-                    serverFolder
+                    serverFolderPath
                 ));
             }
             SettingManager settingManager = ApplicationContextHolder.get().getBean(SettingManager.class);
@@ -940,7 +965,10 @@ public class MetadataInsertDeleteApi {
                 settingManager.getSiteName(),
                 sourceTranslations, context, id, date, date, group, metadataType);
 
-        } catch (DataIntegrityViolationException ex) {
+        }catch(IllegalArgumentException iae){
+        	throw new IllegalArgumentException(iae.getMessage());
+        }
+        catch (DataIntegrityViolationException ex) {
             throw new DataIntegrityViolationException(
                 "Record can't be imported due to database constraint error.", ex);
         }catch (Exception ex) {
@@ -975,4 +1003,35 @@ public class MetadataInsertDeleteApi {
         dataMan.indexMetadata(id.get(0), true);
         return Pair.read(Integer.valueOf(id.get(0)), uuid);
     }
+    
+    private Path amazonS3DownLoadPath(String url) throws Exception {
+
+		if(url.endsWith("/")){
+			url = url.substring(0, url.length() - 1);
+		}
+        
+		Path tempPath = Files.createTempDirectory("imports3_");
+		AmazonS3URI s3uri = new AmazonS3URI(url);
+		
+		TransferManager xfer_mgr = TransferManagerBuilder.defaultTransferManager();
+		try {
+			
+			MultipleFileDownload xfer = xfer_mgr.downloadDirectory(s3uri.getBucket(), s3uri.getKey(), tempPath.toFile());
+
+			//block with Transfer.waitForCompletion()
+			xfer.waitForCompletion();
+		} catch (AmazonClientException e) {
+			throw new AmazonClientException("Unable to import files from AWS S3 Bucket, due to " + e.getMessage());
+		} catch (Exception e) {
+			throw new Exception("Unable to import files from AWS S3 Bucket, due to " + e.getMessage());
+		}
+		xfer_mgr.shutdownNow();
+
+		if(s3uri.getKey() != null && !s3uri.getKey().isEmpty()){
+			tempPath = tempPath.resolve(s3uri.getKey());
+		}
+		
+		return tempPath;
+	}
+    
 }

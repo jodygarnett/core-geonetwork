@@ -61,7 +61,19 @@
           };
 
           var addWMSToMap = function(link, md) {
-            var layerName = $filter('gnLocalized')(link.title);
+        	
+        	//Add by Joseph - If the url contains request type and capabilities, remove it (will add by default).
+	    	var index = link.url.indexOf('?');
+			if(index > -1){
+				link.url = link.url.substring(0, index);
+			}//End
+			
+			var layerName = $filter('gnLocalized')(link.title);
+			var layer_index = layerName.indexOf('_');
+			if(layer_index === -1){
+				layerName = null;
+			}
+			
             if (layerName) {
               gnMap.addWmsFromScratch(gnSearchSettings.viewerMap,
                  link.url, layerName, false, md);

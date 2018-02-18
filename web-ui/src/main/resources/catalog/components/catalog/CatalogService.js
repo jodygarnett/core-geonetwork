@@ -526,6 +526,12 @@
       getId: function() {
         return this['geonet:info'].id;
       },
+      geteCatId: function() {
+        return this.eCatId;
+      },
+  	  getType: function() {
+        return this.type;
+      },
       isPublished: function() {
         return this['geonet:info'].isPublishedToAll === 'true';
       },
