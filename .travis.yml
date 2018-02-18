@@ -3,15 +3,14 @@ language: java
 # whitelist
 branches:
   only:
-    - ecat3.2-prod
-    - ecat3.2-test
+    - 3.2.x
     - /^ecat3.2-.*$/ # any dev branch
 
 script:
   - if [[ $TRAVIS_BRANCH =~ ^ecat3.2-.*$ ]];then
     export BRANCH=/ecat3/dev;
     else
-    export BRANCH=$TRAVIS_BRANCH;
+    export BRANCH=/ecat3/prod;
     fi
   - mvn install -DskipTests=true
 
