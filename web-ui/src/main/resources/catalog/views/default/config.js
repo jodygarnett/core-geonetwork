@@ -140,10 +140,10 @@
              * Sort by combo values configuration. The first one is the default.
              */
           searchSettings.sortbyValues = [{
-            sortBy: 'relevance',
-            sortOrder: ''
+	        sortBy: 'changeDate',
+	        sortOrder: ''
           }, {
-            sortBy: 'changeDate',
+            sortBy: 'relevance',
             sortOrder: ''
           }, {
             sortBy: 'title',

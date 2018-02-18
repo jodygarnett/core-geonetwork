@@ -693,7 +693,7 @@ INSERT INTO MetadataIdentifierTemplate (id, name, template, isprovided) VALUES  
 
 -- DROP SEQUENCE public.metadataid;
 
-CREATE SEQUENCE public.metadataid
+CREATE SEQUENCE IF NOT EXISTS public.metadataid
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
