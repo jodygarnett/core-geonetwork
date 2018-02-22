@@ -592,8 +592,8 @@ public class Importer {
         }
 
         /* ============= Joseph Added - Creating eCatId while importing metadata - Start ========= */
-		
-		if(!uuidAction.equals(Params.GENERATE_UUID) && MetadataType.METADATA.equals(isTemplate)){
+        
+		if(uuidAction != MEFLib.UuidAction.GENERATEUUID && MetadataType.METADATA.equals(isTemplate)){
 			gaid = dm.extractGAID(schema, md.get(index));
 			//If eCatId is non-numeric, set as empty
 			if(!gaid.isEmpty() && !org.apache.commons.lang.StringUtils.isNumeric(gaid))
@@ -612,7 +612,7 @@ public class Importer {
 				
 				//UUID action is overwrite and record exist, get the existing eCatId to add into metadata. 
 				//Otherwise eCatId will be lost while deleting and new eCatId will generated
-				if(uuidAction.equals(Params.OVERWRITE) && uuidExist){
+				if(uuidAction == MEFLib.UuidAction.OVERWRITE && uuidExist){
 					String mId = dm.getMetadataId(uuid);
 	    			Element metadata = dm.getMetadata(mId);
 	    			if(uuidExist){
