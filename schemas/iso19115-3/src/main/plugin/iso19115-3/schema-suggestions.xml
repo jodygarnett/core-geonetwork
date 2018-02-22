@@ -107,6 +107,8 @@
 	</field>
   <field name="cit:CI_Individual">
     <suggest name="cit:name"/>
+    <suggest name="cit:contactInfo"/>
+    <suggest name="cit:positionName"/>
     <suggest name="cit:address"/>
   </field>
   
