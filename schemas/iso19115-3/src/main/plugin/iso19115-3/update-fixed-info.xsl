@@ -11,6 +11,8 @@
   xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/1.0"
   xmlns:dqm="http://standards.iso.org/iso/19157/-2/dqm/1.0"
   xmlns:gfc="http://standards.iso.org/iso/19110/gfc/1.1"
+  xmlns:mri="http://standards.iso.org/iso/19115/-3/mri/1.0"
+  xmlns:mrd="http://standards.iso.org/iso/19115/-3/mrd/1.0"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:java="java:org.fao.geonet.util.XslUtil"
@@ -19,9 +21,11 @@
   exclude-result-prefixes="#all">
   
   <xsl:import href="convert/ISO19139/utility/create19115-3Namespaces.xsl"/>
-  
+  <xsl:import href="source-dataset-alt.xsl"/>
   <xsl:include href="convert/functions.xsl"/>
 
+	<!-- The correct codeList Location goes here -->
+	<xsl:variable name="codeListLocation" select="'codeListLocation'"/>
 
   <!-- If no metadata linkage exist, build one based on
   the metadata UUID. -->
@@ -50,6 +54,13 @@
           <!-- authority could be for this GeoNetwork node ?
             <mcc:authority><cit:CI_Citation>etc</cit:CI_Citation></mcc:authority>
           -->
+	<mcc:authority>
+	  <cit:CI_Citation>
+	    <cit:title>
+	       <gco:CharacterString>GeoNetwork UUID</gco:CharacterString>
+	    </cit:title>
+	  </cit:CI_Citation>
+	</mcc:authority>
           <mcc:code>
             <gco:CharacterString><xsl:value-of select="/root/env/uuid"/></gco:CharacterString>
           </mcc:code>
@@ -82,7 +93,7 @@
               <gco:DateTime><xsl:value-of select="/root/env/changeDate"/></gco:DateTime>
             </cit:date>
             <cit:dateType>
-              <cit:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="creation"/>
+              <cit:CI_DateTypeCode codeList="{concat($codeListLocation,'#CI_DateTypeCode')}" codeListValue="creation"/>
             </cit:dateType>
           </cit:CI_Date>
         </mdb:dateInfo>
@@ -94,7 +105,7 @@
               <gco:DateTime><xsl:value-of select="/root/env/changeDate"/></gco:DateTime>
             </cit:date>
             <cit:dateType>
-              <cit:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="revision"/>
+              <cit:CI_DateTypeCode codeList="{concat($codeListLocation,'#CI_DateTypeCode')}" codeListValue="revision"/>
             </cit:dateType>
           </cit:CI_Date>
         </mdb:dateInfo>
@@ -212,7 +223,7 @@
             point of truth for the metadata linkage but this
             needs to be language dependant. -->
             <cit:function>
-              <cit:CI_OnLineFunctionCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_OnLineFunctionCode"
+              <cit:CI_OnLineFunctionCode codeList="{concat($codeListLocation,'#CI_OnLineFunctionCode')}"
                                          codeListValue="completeMetadata"/>
             </cit:function>
           </cit:CI_OnlineResource>
@@ -224,7 +235,39 @@
       <xsl:apply-templates select="mdb:metadataExtensionInfo"/>
       <xsl:apply-templates select="mdb:identificationInfo"/>
       <xsl:apply-templates select="mdb:contentInfo"/>
-      <xsl:apply-templates select="mdb:distributionInfo"/>
+      <!--<xsl:apply-templates select="mdb:distributionInfo"/>-->
+	  <xsl:choose>
+			<xsl:when
+				test="//cit:CI_Citation[starts-with(cit:title/gco:CharacterString, 'Source Dataset Copy Location')]">
+				<mdb:distributionInfo>
+					<mrd:MD_Distribution>
+					<xsl:for-each select="//mrd:MD_Distribution/mrd:distributionFormat">
+						<xsl:copy>
+							<xsl:if test="position() = 1">
+								<xsl:copy-of select="*[position() = 1]"/>
+							</xsl:if>
+						</xsl:copy>
+					  </xsl:for-each>
+						
+						<xsl:for-each
+							select="//mri:MD_Keywords[starts-with(mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString, 'Source Dataset Copy Location')]/mri:keyword">
+
+							<xsl:variable name="sdlKeyword" select="gco:CharacterString" />
+							<xsl:variable name="eCatId"
+								select="//mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString" />
+							<xsl:call-template name="sdl_online">
+								<xsl:with-param name="sdlKeyword" select="$sdlKeyword" />
+								<xsl:with-param name="eCatId" select="$eCatId" />
+							</xsl:call-template>
+
+						</xsl:for-each>
+					</mrd:MD_Distribution>
+				</mdb:distributionInfo>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates select="mdb:distributionInfo" />
+			</xsl:otherwise>
+		</xsl:choose>
       <xsl:apply-templates select="mdb:dataQualityInfo"/>
       <xsl:apply-templates select="mdb:resourceLineage"/>
       <xsl:apply-templates select="mdb:portrayalCatalogueInfo"/>
@@ -246,7 +289,7 @@
               <gco:DateTime><xsl:value-of select="/root/env/changeDate"/></gco:DateTime>
             </cit:date>
             <cit:dateType>
-              <cit:CI_DateTypeCode codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode" codeListValue="lastUpdate"/>
+              <cit:CI_DateTypeCode codeList="{concat($codeListLocation,'#CI_DateTypeCode')}" codeListValue="revision"/>
             </cit:dateType>
           </cit:CI_Date>
         </xsl:when>
@@ -343,12 +386,118 @@
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <xsl:attribute name="codeList">
-        <xsl:value-of select="concat('http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#',local-name(.))"/>
+        <xsl:value-of select="concat($codeListLocation,'#',local-name(.))"/>
       </xsl:attribute>
     </xsl:copy>
   </xsl:template>
   
+  <!-- online resources: download -->
+  <xsl:template match="cit:CI_OnlineResource[matches(cit:protocol/gco:CharacterString,'^WWW:DOWNLOAD-.*-http--download.*') and cit:name]">
+    <xsl:variable name="fname" select="cit:name/gco:CharacterString|cit:name/gcx:MimeFileType"/>
+    <xsl:variable name="mimeType">
+      <xsl:call-template name="getMimeTypeFile">
+        <xsl:with-param name="datadir" select="/root/env/datadir"/>
+        <xsl:with-param name="fname" select="$fname"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:copy>
+      <xsl:copy-of select="@*"/>
+      <cit:linkage>
+        <gco:CharacterString>
+          <xsl:choose>
+            <xsl:when test="/root/env/config/downloadservice/simple='true'">
+              <xsl:value-of select="concat(/root/env/siteURL,'/resources.get?uuid=',/root/env/uuid,'&amp;fname=',$fname,'&amp;access=private')"/>
+            </xsl:when>
+            <xsl:when test="/root/env/config/downloadservice/withdisclaimer='true'">
+              <xsl:value-of select="concat(/root/env/siteURL,'/file.disclaimer?uuid=',/root/env/uuid,'&amp;fname=',$fname,'&amp;access=private')"/>
+            </xsl:when>
+            <xsl:otherwise> <!-- /root/env/config/downloadservice/leave='true' -->
+              <xsl:value-of select="cit:linkage/gco:CharacterString"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </gco:CharacterString>
+      </cit:linkage>
+      <xsl:copy-of select="cit:protocol"/>
+      <xsl:copy-of select="cit:applicationProfile"/>
+      <cit:name>
+        <gcx:MimeFileType type="{$mimeType}">
+          <xsl:value-of select="$fname"/>
+        </gcx:MimeFileType>
+      </cit:name>
+      <xsl:copy-of select="cit:description"/>
+      <xsl:copy-of select="cit:function"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  
+  <!-- online resources: link-to-downloadable data etc -->
+  <xsl:template match="cit:CI_OnlineResource[starts-with(cit:protocol/gco:CharacterString,'WWW:LINK-') and contains(cit:protocol/gco:CharacterString,'http--download')]">
+    <xsl:variable name="mimeType">
+      <xsl:call-template name="getMimeTypeUrl">
+        <xsl:with-param name="linkage" select="cit:linkage/gco:CharacterString"/>
+      </xsl:call-template>
+    </xsl:variable>
+    
+    <xsl:copy>
+      <xsl:copy-of select="@*"/>
+      <xsl:copy-of select="cit:linkage"/>
+      <xsl:copy-of select="cit:protocol"/>
+      <xsl:copy-of select="cit:applicationProfile"/>
+      <cit:name>
+        <gcx:MimeFileType type="{$mimeType}"/>
+      </cit:name>
+      <xsl:copy-of select="cit:description"/>
+      <xsl:copy-of select="cit:function"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <!-- Joseph added - For source dataset online resource, append eCatId to linkage -->
+   <xsl:template match="cit:CI_OnlineResource[(cit:name/gco:CharacterString='Link to Source Dataset')]">
+ 
+    <xsl:variable name="mimeType">
+      <xsl:call-template name="getMimeTypeUrl">
+        <xsl:with-param name="linkage" select="cit:linkage/gco:CharacterString"/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="srclinkage" select="cit:linkage/gco:CharacterString" />
+    <xsl:copy>
+      <xsl:copy-of select="@*"/>
+      <cit:linkage>
+        <gco:CharacterString>
+			<xsl:value-of select="concat($srclinkage,/root/env/gaid)"/>
+        </gco:CharacterString>
+      </cit:linkage>
+      <xsl:copy-of select="cit:protocol"/>
+      <xsl:copy-of select="cit:applicationProfile"/>
+      <cit:name>
+        <gcx:MimeFileType type="{$mimeType}"/>
+      </cit:name>
+      <xsl:copy-of select="cit:description"/>
+      <xsl:copy-of select="cit:function"/>
+    </xsl:copy>
+  </xsl:template>
 
+  <xsl:template match="gcx:FileName[name(..)!='cit:contactInstructions']">
+    <xsl:copy>
+      <xsl:attribute name="src">
+        <xsl:choose>
+          <xsl:when test="/root/env/config/downloadservice/simple='true'">
+            <xsl:value-of select="concat(/root/env/siteURL,'/resources.get?uuid=',/root/env/uuid,'&amp;fname=',.,'&amp;access=private')"/>
+          </xsl:when>
+          <xsl:when test="/root/env/config/downloadservice/withdisclaimer='true'">
+            <xsl:value-of select="concat(/root/env/siteURL,'/file.disclaimer?uuid=',/root/env/uuid,'&amp;fname=',.,'&amp;access=private')"/>
+          </xsl:when>
+          <xsl:otherwise> <!-- /root/env/config/downloadservice/leave='true' -->
+            <xsl:value-of select="@src"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+      <xsl:value-of select="."/>
+    </xsl:copy>
+  </xsl:template>
+  
+  
   <!-- Do not allow to expand operatesOn sub-elements 
     and constrain users to use uuidref attribute to link
     service metadata to datasets. This will avoid to have
