@@ -3220,11 +3220,60 @@
     <description>Name of the online resource</description>
   </element>
   <element name="cit:name" context="cit:CI_Series" id="414.0">
-    <label>Name</label>
+    <label>Series Title</label>
     <description>Name of the series, or aggregate dataset, of which the dataset
       is a
       part
     </description>
+ <help/>
+                        <helper sort="false">
+<option value="Bulletin">Bulletin</option>
+<option value="Australia 1:100 000 geological series">Australia 1:100 000 geological series</option>
+<option value="Australia 1:100 000 regolith-landform series">Australia 1:100 000 regolith-landform series</option>
+<option value="Australia 1:100 000 special geological series">Australia 1:100 000 special geological series</option>
+<option value="Australia 1:100 000 stream-sedimnet geochemistry series">Australia 1:100 000 stream-sedimnet geochemistry series</option>
+<option value="Australia 1:100 000 topographic survey">Australia 1:100 000 topographic survey</option>
+<option value="Australia 1:250 000 basement geology series ">Australia 1:250 000 basement geology series </option>
+<option value="Australia 1:250 000 geological series">Australia 1:250 000 geological series</option>
+<option value="Australia 1:250 000 interpreted geology">Australia 1:250 000 interpreted geology</option>
+<option value="Australia 1:250 000 regolith-landform series">Australia 1:250 000 regolith-landform series</option>
+<option value="Australia 1:250 000 solid geology">Australia 1:250 000 solid geology</option>
+<option value="Australia 1:250 000 total magnetic intensity">Australia 1:250 000 total magnetic intensity</option>
+<option value="Australia 1:250 000 total magnetic intensity pixel map series">Australia 1:250 000 total magnetic intensity pixel map series</option>
+<option value="Australia 1:1 000 000 geophysical interpretation series">Australia 1:1 000 000 geophysical interpretation series</option>
+<option value="1:250 000 geological series - explanatory notes">1:250 000 geological series - explanatory notes</option>
+<option value="1:1 000 000 offshore resource map series">1:1 000 000 offshore resource map series</option>
+<option value="4 mile geological series">4 mile geological series</option>
+<option value="Murray Basin hydrogeological map series">Murray Basin hydrogeological map series</option>
+<option value="National topographic map series">National topographic map series</option>
+<option value="NATMAP topographic 1:25 000 series">NATMAP topographic 1:25 000 series</option>
+<option value="NATMAP topographic map 1:25 000">NATMAP topographic map 1:25 000</option>
+<option value="NATMAP topographic 1:250 000 series : Australia">NATMAP topographic 1:250 000 series : Australia</option>
+<option value="Professional Opinion">Professional Opinion</option>
+<option value="Record">Record</option>
+<option value="Report">Report</option>
+<option value="The Australian Geologist">The Australian Geologist</option>
+<option value="Economic Geology">Economic Geology</option>
+<option value="BMR Research Newsletter">BMR Research Newsletter</option>
+<option value="AGSO Research Newsletter">AGSO Research Newsletter</option>
+<option value="Australian Journal of Earth Sciences">Australian Journal of Earth Sciences</option>
+<option value="Australia 1:1 000 000 general reference topographic map series">Australia 1:1 000 000 general reference topographic map series</option>
+<option value="Australia's Mineral Resource Assessment series">Australia's Mineral Resource Assessment series</option>
+<option value="R502">R502</option>
+<option value="Australian Antarctic Magazine">Australian Antarctic Magazine</option>
+<option value="Educational Booklet">Educational Booklet</option>
+<option value="Australian Maritime Boundaries - Treaties">Australian Maritime Boundaries - Treaties</option>
+<option value="International Map of the World (IMW)">International Map of the World (IMW)</option>
+<option value="Basin Biozonation and Stratigraphy Chart Series">Basin Biozonation and Stratigraphy Chart Series</option>
+<option value="BMR Journal of Australian Geology and Geophysics">BMR Journal of Australian Geology and Geophysics</option>
+<option value="AGSO Journal of Australian Geology and Geophysics">AGSO Journal of Australian Geology and Geophysics</option>
+<option value="Preview">Preview</option>
+<option value="AGU Fall Meeting 2013, 9-13 December 2013">AGU Fall Meeting 2013, 9-13 December 2013</option>
+<option value="Confidential record">Confidential record</option>
+<option value="Journal of Geochemical Exploration">Journal of Geochemical Exploration</option>
+<option value="Marine Geology">Marine Geology</option>
+                        </helper>
+ <condition/>
   </element>
   <element name="mri:name" context="mri:MD_CodeDomain" id="537.0">
     <label>Name</label>
@@ -3870,6 +3919,26 @@
       <option value="WWW:LINK-1.0-http--opendap">OPeNDAP URL</option>
       <option value="RBNB:DATATURBINE">Data Turbine</option>
       <option value="UKST">Unknown Service Type</option>
+
+<!-- Extras from eCat 2.10x -->
+
+<option value="AIMS">ESRI:AIMS--http--configuration</option>
+<option value="ESRI:AIMS--http--configuration">ArcIMSMapServiceConfigurationFileAXL</option>
+<option value="ESRI:AIMS--http-get-feature">ArcIMSInternetFeatureMapService</option>
+<option value="ESRI:AIMS--http-get-image">ArcIMSInternetImageMapService</option>
+<option value="GLG:KML-2.0-http-get-map">GoogleEarthKMLserviceVer2.0</option>
+<option value="WWW:LINK-1.0-http--ical">iCalendarURL</option>
+<option value="WWW:LINK-1.0-http--partners">PartnerwebaddressURL</option>
+<option value="WWW:LINK-1.0-http--related">RelatedlinkURL</option>
+<option value="WWW:LINK-1.0-http--samples">ShowcaseproductURL</option>
+<option value="URN:JETSTREAM-PROXY">FilefordownloadthroughJetstreamProxy</option>
+<option value="OGC:WFS-1.1.0-http-get-capabilities">OGC-WFSWebFeatureServiceVer1.1.0</option>
+<option value="OGC:WCS-1.0.0-http-get-capabilities">OGC-WCSWebCoverageServiceVer1.0.0</option>
+<option value="ESRI: Map Service">ESRI ArcGIS Map Service</option>
+<option value="ESRI: Image Service">ESRI ArcGIS Image Service</option>
+<option value="ESRI: Geoprocessing Service">ESRI ArcGIS Geoprocessing Service</option>
+<option value="ESRI: Services Directory Page">ESRI ArcGIS Services Directory Page</option> 
+
     </helper>
   </element>
   <element name="mri:purpose" id="26.0">
