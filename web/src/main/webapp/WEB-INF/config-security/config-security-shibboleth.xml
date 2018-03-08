@@ -63,21 +63,6 @@
     <property name="updateProfile" value="${shibbolethConfiguration.updateProfile}"/>
   </bean>
 
-  <!-- The filter chain for the shib.user.login service -->
-  <alias name="shibFilterChainImplementation" alias="shibFilterChainPlaceholder"/>
-
-  <bean id="shibFilterChainImplementation"
-        class="org.springframework.security.web.DefaultSecurityFilterChain">
-    <constructor-arg>
-      <bean class="org.springframework.security.web.util.AntPathRequestMatcher">
-        <constructor-arg value="/srv/???/shib.user.login"/>
-      </bean>
-    </constructor-arg>
-    <constructor-arg>
-      <ref bean="filterChainFilters"/>
-    </constructor-arg>
-  </bean>
-
   <bean id="filterChainFilters" class="java.util.ArrayList">
     <constructor-arg>
       <list>
