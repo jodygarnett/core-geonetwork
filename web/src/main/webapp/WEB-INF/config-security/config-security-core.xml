@@ -62,6 +62,7 @@
         <sec:filter-chain pattern="/xml/schemas/**" filters=""/>
         <sec:filter-chain pattern="/xsl/harvesting/**" filters=""/>
         <sec:filter-chain pattern="/xsl/ownership/**" filters=""/>
+        <ref bean="shibFilterChainPlaceholder"/>
         <ref bean="coreFilterChain"/>
         <!-- <sec:filter-chain pattern="/**" filters="securityContextPersistenceFilter,
                 logoutFilter,
@@ -79,7 +80,7 @@
 
   <bean id="coreFilterChain" class="org.springframework.security.web.DefaultSecurityFilterChain">
     <constructor-arg>
-      <bean class="org.springframework.security.web.util.AntPathRequestMatcher">
+      <bean class="org.springframework.security.web.util.matcher.AntPathRequestMatcher">
         <constructor-arg value="/**"/>
       </bean>
     </constructor-arg>

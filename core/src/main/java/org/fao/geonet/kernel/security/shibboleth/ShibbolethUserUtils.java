@@ -24,6 +24,7 @@ import jeeves.component.ProfileManager;
 
 import org.apache.batik.util.resources.ResourceManager;
 import org.fao.geonet.ApplicationContextHolder;
+import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.Group;
 import org.fao.geonet.domain.LDAPUser;
 import org.fao.geonet.domain.Profile;
@@ -35,6 +36,7 @@ import org.fao.geonet.repository.GroupRepository;
 import org.fao.geonet.repository.GroupRepositoryImpl;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.UserRepository;
+import org.fao.geonet.utils.Log;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -71,6 +73,7 @@ public class ShibbolethUserUtils {
 
         String value = req.getHeader(name);
 
+        Log.warning(Geonet.DATA_MANAGER, "Joseph --> ShibbolethUserUtils -> MinimalUser, header: " + name + ", value: " + value);
         if (value == null)
             return defValue;
 
@@ -98,11 +101,12 @@ public class ShibbolethUserUtils {
         String surname = getHeader(req, config.getSurnameKey(), "");
         String firstname = getHeader(req, config.getFirstnameKey(), "");
         String email = getHeader(req, config.getEmailKey(), "");
-        Profile profile = Profile.findProfileIgnoreCase(getHeader(req,
-            config.getProfileKey(), ""));
+        
+        Profile profile = Profile.findProfileIgnoreCase(getHeader(req,config.getProfileKey(), ""));
         // TODO add group to user
-        String group = getHeader(req, config.getGroupKey(), "");
-
+        //String group = getHeader(req, config.getGroupKey(), "");
+        String group = config.getGroupKey();
+        String _profile = config.getProfileKey();
         if (username != null && username.trim().length() > 0) { // ....add other
             // cnstraints to
             // be sure it's
@@ -111,6 +115,9 @@ public class ShibbolethUserUtils {
             // login and not
             // fake
 
+        	if(_profile != null && _profile.equals("EDITOR")){//Joseph added
+        		profile = Profile.Editor;
+        	}
 
             // Make sure the profile name is an exact match
             if (profile == null) {
@@ -139,11 +146,7 @@ public class ShibbolethUserUtils {
                 user.setProfile(profile);
 
                 // TODO add group to user
-                
-                Group g = _groupRepository.findByName(group);
-                final UserGroup userGroup = new UserGroup().setGroup(g)
-                        .setUser(user);
-                userGroupRepository.save(Arrays.asList(userGroup));
+                // Group g = _groupRepository.findByName(group);
             }
 
 
@@ -201,7 +204,7 @@ public class ShibbolethUserUtils {
             String surname = getHeader(req, config.getSurnameKey(), "");
             String firstname = getHeader(req, config.getFirstnameKey(), "");
             String profile = getHeader(req, config.getProfileKey(), "");
-
+            
             if (username.trim().length() > 0) {
 
                 MinimalUser user = new MinimalUser();

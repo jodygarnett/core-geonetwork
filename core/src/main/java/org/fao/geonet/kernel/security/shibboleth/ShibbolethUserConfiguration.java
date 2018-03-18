@@ -135,6 +135,20 @@ public class ShibbolethUserConfiguration {
         }
         this.emailKey = emailKey;
     }
+    
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	try{
+	    	sb.append("usernameKey: " + this.usernameKey + ",");
+	    	sb.append("surnameKey: " + this.surnameKey + ",");
+	    	sb.append("groupKey: " + this.groupKey + ",");
+	    	sb.append("defaultGroup: " + this.defaultGroup + ",");
+	    	sb.append("firstnameKey: " + this.firstnameKey);
+    	}catch(NullPointerException npe){}
+    	
+    	return sb.toString();
+    }
 }
 
 
