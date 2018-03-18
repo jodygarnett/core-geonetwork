@@ -63,6 +63,7 @@
     <property name="updateProfile" value="${shibbolethConfiguration.updateProfile}"/>
   </bean>
 
+
    <!-- replace the default entry point -->
 	<bean id="shibAuthenticationEntryPoint"
 		class="jeeves.config.springutil.JeevesNodeAwareLoginUrlEntryPoint">
