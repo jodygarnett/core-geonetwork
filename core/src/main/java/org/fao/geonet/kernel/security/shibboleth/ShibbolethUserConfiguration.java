@@ -135,6 +135,7 @@ public class ShibbolethUserConfiguration {
         }
         this.emailKey = emailKey;
     }
+    
 }
 
 
