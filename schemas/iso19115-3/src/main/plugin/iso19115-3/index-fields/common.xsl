@@ -260,6 +260,17 @@
 		   <Field name="legalConstraints" string="{string(mco:otherConstraints/gco:CharacterString)}" store="true" index="true"/>
 	</xsl:for-each>
 
+ 	<!-- Martins additions start -->
+     <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series">
+       		<Field name="issueIdentification" string="{string(cit:issueIdentification/gco:CharacterString)}" store="true" index="true"/>
+       		<Field name="seriesName" string="{string(cit:name/gco:CharacterString)}" store="true" index="true"/>
+     </xsl:for-each>
+  
+  	<xsl:for-each select="mdb:MD_Metadata/mdb:distributionInfo/mrd:MD_Distribution/mrd:distributor/mrd:MD_Distributor/mrd:distributionOrderProcess/mrd:MD_StandardOrderProcess">
+       <Field name="fees" string="{string(mrd:fees/gco:CharacterString)}" store="true" index="true"/>
+     </xsl:for-each>
+  	<!-- Martins additions end -->
+	  
     <xsl:for-each select="$metadata/mdb:identificationInfo/*">
 
       <xsl:for-each select="mri:citation/*">
@@ -470,7 +481,6 @@
       <xsl:for-each select="mri:defaultLocale/lan:PT_Locale/lan:language/lan:LanguageCode/@codeListValue">
         <Field name="datasetLang" string="{string(.)}" store="true" index="true"/>
       </xsl:for-each>
-
 
       <!-- TODO: Index new type of resolution -->
       <xsl:for-each select="mri:spatialResolution/mri:MD_Resolution">

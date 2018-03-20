@@ -99,6 +99,8 @@
 
   <!-- URL for services - may not be defined FIXME or use fullURL instead -->
   <xsl:variable name="siteURL" select="/root/gui/siteURL"/>
+  
+  <xsl:variable name="isIntranet" select="util:isIntranet()"/>
 
   <!-- URL for webapp root -->
   <xsl:variable name="baseURL" select="substring-before($siteURL,'/srv/')"/>

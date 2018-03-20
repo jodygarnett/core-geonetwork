@@ -128,7 +128,21 @@
         <h2 data-translate="">aboutThisResource</h2>
         <table class="table table-striped">
           <tbody>
-          <tr data-ng-if="mdView.current.record.inspirethemewithac.length > 0 ||
+		
+		<!-- Martin addition start  -->
+		  <tr data-ng-if="mdView.current.record.fees">
+          <tr>
+			<th data-translate="">Fees</th>
+            <td>{{mdView.current.record.fees}}</td>
+          </tr>
+		<!-- Martin addition end -->
+
+		  <tr data-ng-repeat="scope in mdView.current.record.type">
+			<th data-translate="">Scope Code</th>
+            <td>{{scope}}</td>
+          </tr>
+
+		  <tr data-ng-if="mdView.current.record.inspirethemewithac.length > 0 ||
                           mdView.current.record.inspirethemewithac.length > 0">
             <th data-translate="">inspireThemes</th>
             <td>
@@ -174,7 +188,7 @@
               </ul>
             </td>
           </tr>
-          <tr data-ng-if="mdView.current.record.datasetLang">
+   <!--       <tr data-ng-if="mdView.current.record.datasetLang">
             <th data-translate="">language</th>
             <td>
               <ul>
@@ -183,21 +197,12 @@
                 </li>
               </ul>
             </td>
-          </tr>
-          <tr data-ng-if="mdView.current.record.identifier">
-            <th data-translate="">identifier</th>
-            <td>
-              <ul>
-                <li data-ng-repeat="i in mdView.current.record.identifier">
-                  {{i}}
-                </li>
-              </ul>
-            </td>
-          </tr>
-          <tr data-ng-if="mdView.current.record.classification_text">
+          </tr> -->
+          
+        <!--  <tr data-ng-if="mdView.current.record.classification_text">
             <th data-translate="">classification</th>
             <td>{{mdView.current.record.classification_text}}</td>
-          </tr>
+          </tr> -->
           <tr data-ng-if="mdView.current.record.legalConstraints">
             <th data-translate="">legalConstraints</th>
             <td>
@@ -206,13 +211,13 @@
             </td>
           </tr>
 
-          <tr data-ng-if="mdView.current.record.securityConstraints">
+         <!-- <tr data-ng-if="mdView.current.record.securityConstraints">
             <th data-translate="">securityConstraints</th>
             <td>
               <p data-ng-repeat="c in mdView.current.record.securityConstraints track by $index">
                 {{c}}</p>
             </td>
-          </tr>
+          </tr> -->
 
 
           <tr data-ng-if="mdView.current.record.resourceConstraints">
@@ -223,7 +228,27 @@
             </td>
           </tr>
 
-          <tr data-ng-if="mdView.current.record.getAllContacts().resource">
+          <tr data-ng-repeat="author in mdView.current.record.author">
+            <th data-translate="">Author</th>
+            <td>{{author}}</td>
+          </tr>		
+
+		  <tr data-ng-if="mdView.current.record.publisher">
+            <th data-translate="">Publisher</th>
+            <td>{{mdView.current.record.publisher}}</td>
+          </tr>
+<!-- Martin addition start -->		  
+		 <tr data-ng-if="mdView.current.record.seriesName">
+            <th data-translate="">Series Name</th>
+            <td>{{mdView.current.record.seriesName}}</td>
+          </tr>
+		  
+		  <tr data-ng-if="mdView.current.record.issueIdentification">
+            <th data-translate="">Issue Identification</th>
+            <td>{{mdView.current.record.issueIdentification}}</td>
+          </tr>
+<!-- Martin addition end -->
+		  <tr data-ng-if="mdView.current.record.getAllContacts().resource">
             <th data-translate="">resourceContact</th>
             <td>
               <div class="gn-contact"
@@ -264,7 +289,8 @@
               </div>
             </td>
           </tr>
-          <tr data-ng-if="mdView.current.record.credit">
+	  
+		  <tr data-ng-if="mdView.current.record.credit">
             <th data-translate="">credit</th>
             <td>{{mdView.current.record.credit}}</td>
           </tr>
@@ -284,18 +310,57 @@
 
         <h2 data-translate="">technicalInformation</h2>
 
+		<table class="table table-striped">
+          <tbody>
+		          <tr data-ng-if="::mdView.current.record.maintenanceAndUpdateFrequency_text">
+            <th data-translate="">Maintenance and Update Frequency</th>
+            <td>{{mdView.current.record.maintenanceAndUpdateFrequency_text}}</td>
+          </tr>
 
+			
+ <!-- Martin addition start
+		  <tr data-ng-if="::mdView.current.record.geoBox"> -->
+            <th data-translate="">Geographical Bounding Box</th>
+            <td>{{mdView.current.record.geoBox}}</td>
+          </tr>
+ 
+<!--		<section data-ng-if="mdView.current.record.geoBox.length > 0">
+          <h4>
+            <i class="fa fa-fw fa-map-marker"></i>
+            <span data-translate="">extent</span>
+          </h4>
+          <p data-ng-if="mdView.current.record.geoDesc">
+          <ul>
+            <li data-ng-repeat="d in mdView.current.record.geoDesc">{{d}}</li>
+          </ul>
+          </p>
+          <!-- TODO: use map config -->
+ <!--         <p data-ng-repeat="bbox in mdView.current.record.geoBox">
+            <img class="gn-img-thumbnail img-thumbnail gn-img-extent"
+                 data-ng-src="region.getmap.png?mapsrs=EPSG:3857&width=250&background=osm&geomsrs=EPSG:4326&geom={{mdView.current.record.getBoxAsPolygon($index)}}"/>
+          </p>
+
+        </section>
+        
+<!-- Martin addition end -->
+
+<!-- Martin addition start
+		  <tr data-ng-if="::mdView.current.record.lineage"> -->
+            <th data-translate="">lineage</th>
+            <td>{{mdView.current.record.lineage}}
+             <!-- <p data-ng-bind-html="::mdView.current.record.lineage | newlines"/> -->
+            </td>
+          </tr>
+<!-- Martin addition end -->
+		
         <div data-ng-if="::mdView.current.record.attributeTable"
              data-gn-attribute-table-renderer="mdView.current.record.attributeTable">
         </div>
 
-
+			</tbody>
+        </table>
         <table class="table table-striped">
           <tbody>
-          <tr data-ng-if="::mdView.current.record.updateFrequency">
-            <th data-translate="">updateFrequency</th>
-            <td>{{mdView.current.record.maintenanceAndUpdateFrequency_text}}</td>
-          </tr>
           <tr data-ng-if="::mdView.current.record.spatialRepresentationType_text">
             <th data-translate="">spatialRepresentationType</th>
             <td>{{mdView.current.record.spatialRepresentationType_text}}</td>
@@ -326,19 +391,14 @@
               </ul>
             </td>
           </tr>
-          <tr data-ng-if="::mdView.current.record.format">
+        <!--  <tr data-ng-if="::mdView.current.record.format">
             <th data-translate="">format</th>
             <td>
               <span data-ng-repeat="f in ::mdView.current.record.format track by $index"
                     class="badge">{{f}}</span>
             </td>
-          </tr>
-          <tr data-ng-if="::mdView.current.record.lineage">
-            <th data-translate="">lineage</th>
-            <td>
-              <p data-ng-bind-html="::mdView.current.record.lineage | newlines"/>
-            </td>
-          </tr>
+          </tr> -->
+		  
           <tr data-ng-if="hasRelations.sources || hasRelations.hassources">
             <th></th>
             <td>
@@ -383,7 +443,7 @@
 
         <table class="table table-striped">
           <tbody>
-          <tr data-ng-if="::mdView.current.record.getAllContacts()">
+          <!-- <tr data-ng-if="::mdView.current.record.getAllContacts()">
             <th data-translate="">contact</th>
             <td>
               <div class="gn-contact"
@@ -433,15 +493,25 @@
                 </li>
               </ul>
             </td>
-          </tr>
+          </tr> -->
           <tr>
             <th data-translate="">uuid</th>
             <td>{{mdView.current.record['geonet:info'].uuid}}</td>
           </tr>
+		  <tr>
+            <th data-translate="">eCat Id</th>
+            <td>{{mdView.current.record.eCatId}}</td>
+          </tr>
+
+          <tr data-ng-repeat="standardName in mdView.current.record.standardName">
+            <th data-translate="">Metadata Standard</th>
+            <td>{{standardName}}</td>
+          </tr>		  
+
           </tbody>
         </table>
       </div>
-
+ 
       <div class="col-md-4 gn-md-side">
         <section data-ng-if="mdView.current.record.overviews.length > 0">
           <h4>
@@ -461,27 +531,7 @@
           </div>
         </section>
         </br>
-
-
-        <section data-ng-if="mdView.current.record.geoBox.length > 0">
-          <h4>
-            <i class="fa fa-fw fa-map-marker"></i>
-            <span data-translate="">extent</span>
-          </h4>
-          <p data-ng-if="mdView.current.record.geoDesc">
-          <ul>
-            <li data-ng-repeat="d in mdView.current.record.geoDesc">{{d}}</li>
-          </ul>
-          </p>
-          <!-- TODO: use map config -->
-          <p data-ng-repeat="bbox in mdView.current.record.geoBox">
-            <img class="gn-img-thumbnail img-thumbnail gn-img-extent"
-                 data-ng-src="region.getmap.png?mapsrs=EPSG:3857&width=250&background=osm&geomsrs=EPSG:4326&geom={{mdView.current.record.getBoxAsPolygon($index)}}"/>
-          </p>
-
-        </section>
-        </br>
-
+       
         <section data-ng-if="mdView.current.record.creationDate ||
                              mdView.current.record.publicationDate ||
                              mdView.current.record.revisionDate ||
@@ -554,7 +604,7 @@
         </section></br>-->
 
 
-        <section>
+       <!-- <section>
           <h4>
             <i class="fa fa-fw fa-cog"></i>
             <span data-translate="">sourceCatalog</span>
@@ -562,7 +612,7 @@
           <img ng-src="../../images/logos/{{mdView.current.record.source}}.png"
                class="gn-source-logo"/>
         </section>
-        </br>
+        </br> -->
 
         <section>
           <h4>

@@ -27,6 +27,7 @@ import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.Group;
 import org.fao.geonet.domain.LDAPUser;
+import org.fao.geonet.domain.Metadata;
 import org.fao.geonet.domain.Profile;
 import org.fao.geonet.domain.User;
 import org.fao.geonet.domain.UserGroup;
@@ -34,6 +35,7 @@ import org.fao.geonet.kernel.security.GeonetworkAuthenticationProvider;
 import org.fao.geonet.kernel.security.WritableUserDetailsContextMapper;
 import org.fao.geonet.repository.GroupRepository;
 import org.fao.geonet.repository.GroupRepositoryImpl;
+import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.UserRepository;
 import org.fao.geonet.utils.Log;
@@ -48,6 +50,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.annotation.Nonnull;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
@@ -178,7 +181,20 @@ public class ShibbolethUserUtils {
 
                 user = ldapUserDetails.getUser();
             } else {
-                userRepository.saveAndFlush(user);
+                
+                User _user = userRepository.findOneByUsername(user.getUsername());
+                if(_user == null){
+                	userRepository.saveAndFlush(user);	
+                }else{
+                	user = userRepository.update(_user.getId(), new Updater<User>() {
+						@Override
+						public void apply(@Nonnull User u) {
+							u.setSurname(_user.getSurname());
+							u.setName(_user.getName());
+							u.setProfile(_user.getProfile());
+						}
+					});
+                }
             }
 
             return user;

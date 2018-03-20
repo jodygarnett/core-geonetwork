@@ -37,6 +37,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.User;
+import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.SchemaManager;
 import org.fao.geonet.kernel.search.CodeListTranslator;
@@ -615,6 +616,22 @@ public final class XslUtil {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public static boolean isIntranet(){
+    	try{
+	    	ServiceContext context = ServiceContext.get();
+	    	AccessManager accessManager = ApplicationContextHolder.get().getBean(AccessManager.class);
+	    	return accessManager.isIntranet(context.getIpAddress());
+    	}catch(Exception e){
+    		Log.error(Geonet.GEONETWORK, "Unable get the IP Address");
+    		return false;
+    	}
+    	
     }
 
     public static String getSiteUrl() {

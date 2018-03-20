@@ -210,7 +210,7 @@
         </xsl:if>
         gnViewerSettings.mapConfig = <xsl:value-of select="$mapConfig"/>;
         gnGlobalSettings.isMapViewerEnabled = <xsl:value-of select="$isMapViewerEnabled"/>;
-        gnGlobalSettings.shibbolethEnabled = <xsl:value-of select="$shibbolethOn"/>;
+        gnGlobalSettings.isIntranet = <xsl:value-of select="$isIntranet"/>;
         gnViewerSettings.bingKey = '<xsl:value-of select="$bingKey"/>';
         }]);
       </script>
@@ -222,7 +222,7 @@
         module.config(['gnGlobalSettings',
         function(gnGlobalSettings) {
         gnGlobalSettings.isMapViewerEnabled = <xsl:value-of select="$isMapViewerEnabled"/>;
-       gnGlobalSettings.shibbolethEnabled = <xsl:value-of select="$shibbolethOn"/>;
+       	gnGlobalSettings.isIntranet = <xsl:value-of select="$isIntranet"/>;
         }]);
       </script>
     </xsl:if>
