@@ -76,7 +76,6 @@ public class ShibbolethUserUtils {
 
         String value = req.getHeader(name);
 
-        Log.warning(Geonet.DATA_MANAGER, "Joseph --> ShibbolethUserUtils -> MinimalUser, header: " + name + ", value: " + value);
         if (value == null)
             return defValue;
 
@@ -117,11 +116,23 @@ public class ShibbolethUserUtils {
             // shibbolet
             // login and not
             // fake
-
-        	if(_profile != null && _profile.equals("EDITOR")){//Joseph added
-        		profile = Profile.Editor;
+        	if(_profile != null){
+        		switch (_profile) {
+				case "EDITOR":
+					profile = Profile.Editor;
+					break;
+				case "ADMINISTRATOR":
+					profile = Profile.Administrator;
+					break;
+				case "REVIEWER":
+					profile = Profile.Reviewer;
+					break;
+				default:
+					profile = Profile.Guest;
+					break;
+				}
         	}
-
+        	
             // Make sure the profile name is an exact match
             if (profile == null) {
                 profile = Profile.Guest;
@@ -186,12 +197,16 @@ public class ShibbolethUserUtils {
                 if(_user == null){
                 	userRepository.saveAndFlush(user);	
                 }else{
+                	final Profile updateProfile = profile;
+                	final String sn = surname;
+                	final String name = firstname;
+                	
                 	user = userRepository.update(_user.getId(), new Updater<User>() {
 						@Override
 						public void apply(@Nonnull User u) {
-							u.setSurname(_user.getSurname());
-							u.setName(_user.getName());
-							u.setProfile(_user.getProfile());
+							u.setSurname(sn);
+							u.setName(name);
+							u.setProfile(updateProfile);
 						}
 					});
                 }

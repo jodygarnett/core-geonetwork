@@ -133,7 +133,7 @@
 		  <tr data-ng-if="mdView.current.record.fees">
           <tr>
 			<th data-translate="">Fees</th>
-            <td>{{mdView.current.record.fees}}</td>
+            <td>${{mdView.current.record.fees}}</td>
           </tr>
 		<!-- Martin addition end -->
 
@@ -318,30 +318,24 @@
           </tr>
 
 			
- <!-- Martin addition start
-		  <tr data-ng-if="::mdView.current.record.geoBox"> -->
-            <th data-translate="">Geographical Bounding Box</th>
-            <td>{{mdView.current.record.geoBox}}</td>
-          </tr>
- 
-<!--		<section data-ng-if="mdView.current.record.geoBox.length > 0">
+ <!-- Martin addition start -->
+		  <section data-ng-if="mdView.current.record.geoBox.length > 0">
           <h4>
             <i class="fa fa-fw fa-map-marker"></i>
             <span data-translate="">extent</span>
           </h4>
           <p data-ng-if="mdView.current.record.geoDesc">
-          <ul>
-            <li data-ng-repeat="d in mdView.current.record.geoDesc">{{d}}</li>
-          </ul>
+	          <ul>
+	            <li data-ng-repeat="d in mdView.current.record.geoDesc">{{d}}</li>
+	          </ul>
           </p>
+		  
           <!-- TODO: use map config -->
- <!--         <p data-ng-repeat="bbox in mdView.current.record.geoBox">
-            <img class="gn-img-thumbnail img-thumbnail gn-img-extent"
-                 data-ng-src="region.getmap.png?mapsrs=EPSG:3857&width=250&background=osm&geomsrs=EPSG:4326&geom={{mdView.current.record.getBoxAsPolygon($index)}}"/>
+		  <p data-ng-repeat="bbox in mdView.current.record.geoBox">
+			<img class="gn-img-thumbnail img-thumbnail gn-img-extent"
+                 data-ng-src="region.getmap.png?mapsrs=EPSG:3857&width=250&background=osm&geomsrs=EPSG:4326&geom={{mdView.current.record.getBoxAsPolygon1(bbox)}}"/>
           </p>
-
         </section>
-        
 <!-- Martin addition end -->
 
 <!-- Martin addition start

@@ -705,6 +705,9 @@
           return null;
         }
       },
+      getBoxAsPolygon1: function(i) {
+          return 'Polygon((' + i + '))';
+      },
       getOwnername: function() {
         if (this.userinfo) {
           var userinfo = this.userinfo.split('|');
