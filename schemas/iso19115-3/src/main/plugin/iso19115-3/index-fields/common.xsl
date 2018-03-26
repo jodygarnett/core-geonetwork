@@ -296,15 +296,11 @@
                               -180 &lt;= number($w) and number($w) &lt;= 180 and
                               -90 &lt;= number($s) and number($s) &lt;= 90 and
                               -90 &lt;= number($n) and number($n) &lt;= 90">
-                <xsl:choose>
-                  <xsl:when test="$e = $w and $s = $n">
-                      <xsl:value-of select="concat($w, ' ', $s)"/>
-                  </xsl:when>
-                  <xsl:when
-                    test="($e = $w and $s != $n) or ($e != $w and $s = $n)">
-                      <xsl:value-of select="concat($w, ' ', $s)"/>
-                  </xsl:when>
-                  <xsl:otherwise>
+
+				  <xsl:if test="not(number($e) = 0.000000) or 
+								not(number($w) = 0.000000) or 
+								not(number($s) = 0.000000) or 
+								not(number($n) = 0.000000)">
                       <xsl:value-of select="concat($w, ' ', $s)"/>
                       <xsl:text>,</xsl:text>
                       <xsl:value-of select="concat($e, ' ', $s)"/>
@@ -313,9 +309,8 @@
                       <xsl:text>,</xsl:text>
                       <xsl:value-of select="concat($w, ' ', $n)"/>
                       <xsl:text>,</xsl:text>
-                      <xsl:value-of select="concat($w, ' ', $s)"/>
-                  </xsl:otherwise>
-                </xsl:choose>
+                      <xsl:value-of select="concat($w, ' ', $s)"/>                
+				  </xsl:if>
               </xsl:when>
               <xsl:otherwise></xsl:otherwise>
             </xsl:choose>
