@@ -260,6 +260,67 @@
 		   <Field name="legalConstraints" string="{string(mco:otherConstraints/gco:CharacterString)}" store="true" index="true"/>
 	</xsl:for-each>
 
+ 	<!-- Martins additions start -->
+     <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series">
+       		<Field name="issueIdentification" string="{string(cit:issueIdentification/gco:CharacterString)}" store="true" index="true"/>
+       		<Field name="seriesName" string="{string(cit:name/gco:CharacterString)}" store="true" index="true"/>
+     </xsl:for-each>
+  
+  	<xsl:for-each select="$metadata/mdb:distributionInfo/mrd:MD_Distribution/mrd:distributor/mrd:MD_Distributor/mrd:distributionOrderProcess/mrd:MD_StandardOrderProcess">
+       <Field name="fees" string="{string(mrd:fees/gco:CharacterString)}" store="true" index="true"/>
+     </xsl:for-each>
+  	<!-- Martins additions end -->
+	
+	<!-- Joseph additions start -->
+	<xsl:variable name="geoBoxExtents">
+          <!-- TODO: index bounding polygon -->
+          <xsl:for-each select=".//gex:EX_GeographicBoundingBox[
+                                ./gex:westBoundLongitude/gco:Decimal castable as xs:decimal and
+                                ./gex:eastBoundLongitude/gco:Decimal castable as xs:decimal and
+                                ./gex:northBoundLatitude/gco:Decimal castable as xs:decimal and
+                                ./gex:southBoundLatitude/gco:Decimal castable as xs:decimal
+                                ]">
+            <xsl:variable name="format" select="'#0.000000'"></xsl:variable>
+
+            <xsl:variable name="w"
+                          select="format-number(./gex:westBoundLongitude/gco:Decimal/text(), $format)"/>
+            <xsl:variable name="e"
+                          select="format-number(./gex:eastBoundLongitude/gco:Decimal/text(), $format)"/>
+            <xsl:variable name="n"
+                          select="format-number(./gex:northBoundLatitude/gco:Decimal/text(), $format)"/>
+            <xsl:variable name="s"
+                          select="format-number(./gex:southBoundLatitude/gco:Decimal/text(), $format)"/>
+            
+            <xsl:choose>
+              <xsl:when test="-180 &lt;= number($e) and number($e) &lt;= 180 and
+                              -180 &lt;= number($w) and number($w) &lt;= 180 and
+                              -90 &lt;= number($s) and number($s) &lt;= 90 and
+                              -90 &lt;= number($n) and number($n) &lt;= 90">
+
+				  <xsl:if test="not(number($e) = 0.000000) or 
+								not(number($w) = 0.000000) or 
+								not(number($s) = 0.000000) or 
+								not(number($n) = 0.000000)">
+                      <xsl:value-of select="concat($w, ' ', $s)"/>
+                      <xsl:text>,</xsl:text>
+                      <xsl:value-of select="concat($e, ' ', $s)"/>
+                      <xsl:text>,</xsl:text>
+                      <xsl:value-of select="concat($e, ' ', $n)"/>
+                      <xsl:text>,</xsl:text>
+                      <xsl:value-of select="concat($w, ' ', $n)"/>
+                      <xsl:text>,</xsl:text>
+                      <xsl:value-of select="concat($w, ' ', $s)"/>                
+				  </xsl:if>
+              </xsl:when>
+              <xsl:otherwise></xsl:otherwise>
+            </xsl:choose>
+          </xsl:for-each>
+	</xsl:variable>
+
+	<Field name="geoBox" string="{normalize-space($geoBoxExtents)}" store="true" index="true"/>
+	<!-- Joseph additions end -->
+	
+	
     <xsl:for-each select="$metadata/mdb:identificationInfo/*">
 
       <xsl:for-each select="mri:citation/*">
@@ -470,7 +531,6 @@
       <xsl:for-each select="mri:defaultLocale/lan:PT_Locale/lan:language/lan:LanguageCode/@codeListValue">
         <Field name="datasetLang" string="{string(.)}" store="true" index="true"/>
       </xsl:for-each>
-
 
       <!-- TODO: Index new type of resolution -->
       <xsl:for-each select="mri:spatialResolution/mri:MD_Resolution">

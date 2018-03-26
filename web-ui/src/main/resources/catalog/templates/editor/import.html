@@ -35,6 +35,12 @@
               <span data-translate="">importFromDir</span>
             </label>
           </div>
+          <div class="radio">
+            <label>
+              <input type="radio" data-ng-model="importMode" value="ImportFromS3"/>
+              <span data-translate="">Import from AWS S3</span>
+            </label>
+          </div>
 
 
           <form id="gn-import" class="form-horizontal" role="form"
@@ -53,6 +59,29 @@
                        name="serverFolder"
                        data-ng-model="params.serverFolder"
                        placeholder="/tmp/metadata/to/import">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"
+                           name="recursiveSearch"
+                           data-ng-model="params.recursiveSearch"/>
+                    <span data-translate="">recursive</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Folder Path and subfolder options -->
+            <div class="form-group" data-ng-if="importMode === 'ImportFromS3'">
+              <label for="gn-io-directory"
+                     class="col-sm-5 control-label"
+                     data-translate="">S3 Location</label>
+              <div class="col-sm-7">
+                <input type="text"
+                       class="form-control"
+                       id="gn-io-directory"
+                       name="serverFolder"
+                       data-ng-model="params.serverFolder"
+                       placeholder="https://s3-region.amazonaws.com/bucketname">
                 <div class="checkbox">
                   <label>
                     <input type="checkbox"

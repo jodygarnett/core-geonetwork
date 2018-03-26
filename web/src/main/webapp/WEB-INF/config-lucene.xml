@@ -185,6 +185,12 @@
       <field name="author" tagName="author"/>
       <field name="publisher" tagName="publisher"/>
       <field name="legalConstraints" tagName="legalConstraints"/>
+	<!-- Martins additions start -->
+	  <field name="issueIdentification" tagName="issueIdentification"/>
+	  <field name="seriesName" tagName="seriesName"/>
+	  <field name="fees" tagName="fees"/>
+	<!-- Martins additions start -->
+
     </dumpFields>
   </search>
 

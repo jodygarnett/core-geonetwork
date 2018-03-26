@@ -27,6 +27,7 @@ import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.Group;
 import org.fao.geonet.domain.LDAPUser;
+import org.fao.geonet.domain.Metadata;
 import org.fao.geonet.domain.Profile;
 import org.fao.geonet.domain.User;
 import org.fao.geonet.domain.UserGroup;
@@ -34,6 +35,7 @@ import org.fao.geonet.kernel.security.GeonetworkAuthenticationProvider;
 import org.fao.geonet.kernel.security.WritableUserDetailsContextMapper;
 import org.fao.geonet.repository.GroupRepository;
 import org.fao.geonet.repository.GroupRepositoryImpl;
+import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.UserRepository;
 import org.fao.geonet.utils.Log;
@@ -48,6 +50,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.annotation.Nonnull;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
@@ -73,7 +76,6 @@ public class ShibbolethUserUtils {
 
         String value = req.getHeader(name);
 
-        Log.warning(Geonet.DATA_MANAGER, "Joseph --> ShibbolethUserUtils -> MinimalUser, header: " + name + ", value: " + value);
         if (value == null)
             return defValue;
 
@@ -114,14 +116,26 @@ public class ShibbolethUserUtils {
             // shibbolet
             // login and not
             // fake
-
-        	if(_profile != null && _profile.equals("EDITOR")){//Joseph added
-        		profile = Profile.Editor;
+        	if(_profile != null){
+        		switch (_profile) {
+				case "EDITOR":
+					profile = Profile.Editor;
+					break;
+				case "ADMINISTRATOR":
+					profile = Profile.Administrator;
+					break;
+				case "REVIEWER":
+					profile = Profile.Reviewer;
+					break;
+				default:
+					profile = Profile.Guest;
+					break;
+				}
         	}
-
+        	
             // Make sure the profile name is an exact match
             if (profile == null) {
-                profile = Profile.Guest;
+                profile = Profile.Editor;
             }
 
             // TODO add group to user
@@ -178,7 +192,24 @@ public class ShibbolethUserUtils {
 
                 user = ldapUserDetails.getUser();
             } else {
-                userRepository.saveAndFlush(user);
+                
+                User _user = userRepository.findOneByUsername(user.getUsername());
+                if(_user == null){
+                	userRepository.saveAndFlush(user);	
+                }else{
+                	final Profile updateProfile = profile;
+                	final String sn = surname;
+                	final String name = firstname;
+                	
+                	user = userRepository.update(_user.getId(), new Updater<User>() {
+						@Override
+						public void apply(@Nonnull User u) {
+							u.setSurname(sn);
+							u.setName(name);
+							u.setProfile(updateProfile);
+						}
+					});
+                }
             }
 
             return user;

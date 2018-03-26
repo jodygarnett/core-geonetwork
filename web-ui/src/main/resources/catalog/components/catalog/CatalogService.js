@@ -142,6 +142,26 @@
         },
 
         /**
+         * @ngdoc method
+         * @name gnMetadataManager#importFromS3
+         * @methodOf gnMetadataManager
+         *
+         * @description
+         * Get the files from S3 Bucket.
+         *
+         * @param {Object} data Params to send to md.insert service
+         * @return {HttpPromise} Future object
+         */
+        getFilesFromS3: function(url) {
+        	console.log('url -->' + url);
+          return $http.get('../api/records/s3files?' + url, {
+        	  headers: {
+	              'Accept': 'application/json'
+	            }
+          });
+        },
+        
+        /**
            * @ngdoc method
            * @name gnMetadataManager#create
            * @methodOf gnMetadataManager
@@ -704,6 +724,9 @@
         } else {
           return null;
         }
+      },
+      getBoxAsPolygon1: function(i) {
+          return 'Polygon((' + i + '))';
       },
       getOwnername: function() {
         if (this.userinfo) {

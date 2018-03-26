@@ -143,7 +143,32 @@
               message: 'noFileSelected'
             }];
           }
-        } else {
+        }else if ($scope.importMode == 'ImportFromS3') {
+			$scope.importing = true;
+        	console.log('ImportFromS3');
+			gnMetadataManager.getFilesFromS3($scope.params.serverFolder)
+				.then(function(response) {
+						var url = $scope.params.serverFolder;
+						var filenames = response.data;
+						console.log('response --> '+ filenames);
+						console.log('response.length --> ' + filenames.length);
+						angular.forEach(filenames, function(value) {
+						  console.log(value);
+						  $scope.params.serverFolder = url + '/' + value;
+						  console.log('scope.params.serverFolder --> ' + $scope.params.serverFolder); 
+						  //$scope.uploadScope.submit();
+
+						  gnMetadataManager.importFromXml(
+							  $(formId).serialize(), $scope.params.xml).then(
+							  onSuccessFn, onErrorFn);
+
+						});
+					  })
+				.catch(function(response) {
+				  console.error('error', response.status, response.data);
+				});
+        
+        }else {
           $scope.importing = true;
           gnMetadataManager.importFromXml(
               $(formId).serialize(), $scope.params.xml).then(

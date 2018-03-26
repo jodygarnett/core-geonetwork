@@ -51,7 +51,7 @@
       }
     },
     current: null,
-    shibbolethEnabled: false
+    isIntranet: false
   });
 
   module.constant('gnLangs', {
@@ -132,7 +132,7 @@
       $scope.logoPath = '../../images/harvesting/';
       $scope.isMapViewerEnabled = gnGlobalSettings.isMapViewerEnabled;
       $scope.isDebug = window.location.search.indexOf('debug') !== -1;
-      $scope.shibbolethEnabled = gnGlobalSettings.shibbolethEnabled;
+      $scope.isIntranet = gnGlobalSettings.isIntranet;
       
       $scope.pages = {
         home: 'home',
