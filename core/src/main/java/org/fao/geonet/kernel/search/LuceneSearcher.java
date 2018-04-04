@@ -79,6 +79,7 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TopFieldCollector;
+import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.GeonetContext;
 import org.fao.geonet.Util;
 import org.fao.geonet.constants.Edit;
@@ -107,6 +108,7 @@ import org.fao.geonet.kernel.search.lucenequeries.DateRangeQuery;
 import org.fao.geonet.kernel.search.spatial.SpatialFilter;
 import org.fao.geonet.kernel.setting.SettingInfo;
 import org.fao.geonet.languages.LanguageDetector;
+import org.fao.geonet.repository.MetadataRepository;
 import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
 import org.jdom.Content;
@@ -143,7 +145,7 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
     private Set<String> _tokenizedFieldSet;
     private LuceneConfig _luceneConfig;
     private String _boostQueryClass;
-
+    private static MetadataRepository _metadataRepository;
 
     /**
      * Filter geometry object WKT, used in the logger ugly way to store this object, as
@@ -165,6 +167,7 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
         _luceneConfig = luceneConfig;
         _boostQueryClass = _luceneConfig.getBoostQueryClass();
         _tokenizedFieldSet = luceneConfig.getTokenizedField();
+        _metadataRepository = ApplicationContextHolder.get().getBean(MetadataRepository.class);
     }
 
     //
@@ -813,16 +816,23 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
     private static Element getMetadataFromIndex(Document doc, String id, boolean dumpAllField, String searchLang,
                                                 Set<String> multiLangSearchTerm, Map<String, String> dumpFields,
                                                 Set<String> extraDumpFields) {
+    	
+    	String title = "";
+    	
         // Retrieve the info element
         String schema = doc.get("_schema");
         String source = doc.get("_source");
         String uuid = doc.get("_uuid");
-
+		
         String createDate = doc.get("_createDate");
         if (createDate != null) createDate = createDate.toUpperCase();
         String changeDate = doc.get("_changeDate");
         if (changeDate != null) changeDate = changeDate.toUpperCase();
-
+        
+        if(("s").equals(doc.get("_isTemplate"))){
+        	Metadata m = _metadataRepository.findOneByUuid(uuid);
+        	title = m.getDataInfo().getTitle();
+        }
         // Root element is using root element name if not using only the index content (ie. dumpAllField)
         // probably because the XSL need that info later ?
         Element md = new Element("metadata");
@@ -835,6 +845,7 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
         addElement(info, Edit.Info.Elem.CREATE_DATE, createDate);
         addElement(info, Edit.Info.Elem.CHANGE_DATE, changeDate);
         addElement(info, Edit.Info.Elem.SOURCE, source);
+		addElement(info, Edit.Info.Elem.TITLE, title);
 
         HashSet<String> addedTranslation = new LinkedHashSet<String>();
         if ((dumpAllField || dumpFields != null) && searchLang != null && multiLangSearchTerm != null) {
@@ -845,7 +856,7 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
                     if (f != null) {
                         String stringValue = f.stringValue();
                         if (!stringValue.trim().isEmpty()) {
-                            addedTranslation.add(fieldName);
+							addedTranslation.add(fieldName);
                             md.addContent(new Element(dumpFields.get(fieldName)).setText(stringValue));
                         }
                     }

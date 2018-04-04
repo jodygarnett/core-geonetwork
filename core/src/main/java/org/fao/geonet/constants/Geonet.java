@@ -109,7 +109,8 @@ public final class Geonet {
         public static final String UPDATE_FIXED_INFO = "update-fixed-info.xsl";
         public static final String UPDATE_CHILD_FROM_PARENT_INFO = "update-child-from-parent-info.xsl";
         public static final String EXTRACT_UUID = "extract-uuid.xsl";
-        public static final String EXTRACT_GAID        = "extract-ga-id.xsl";
+        public static final String EXTRACT_GAID = "extract-ga-id.xsl";
+        public static final String EXTRACT_SUBTEMPLATETITLE = "extract-subtemplate-title.xsl";
         public static final String EXTRACT_SKOS_FROM_ISO19135 = "xml_iso19135ToSKOS.xsl";
         public static final String EXTRACT_DATE_MODIFIED = "extract-date-modified.xsl";
         public static final String SET_UUID = "set-uuid.xsl";
@@ -650,6 +651,7 @@ public final class Geonet {
         public static final String SOURCE = "_source";
         public static final String IS_TEMPLATE = "_isTemplate";
         public static final String UUID = "_uuid";
+        public static final String TITLE = "_title";
         public static final String IS_HARVESTED = "_isHarvested";
         public static final String OWNER = "_owner";
         public static final String DUMMY = "_dummy";
