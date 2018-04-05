@@ -38,6 +38,7 @@ import org.fao.geonet.repository.GroupRepositoryImpl;
 import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.UserRepository;
+import org.fao.geonet.repository.specification.UserGroupSpecs;
 import org.fao.geonet.utils.Log;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,9 +47,16 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import static org.springframework.data.jpa.domain.Specifications.where;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.servlet.ServletRequest;
@@ -135,7 +143,7 @@ public class ShibbolethUserUtils {
         	
             // Make sure the profile name is an exact match
             if (profile == null) {
-                profile = Profile.Editor;
+                profile = Profile.Guest;
             }
 
             // TODO add group to user
@@ -158,6 +166,7 @@ public class ShibbolethUserUtils {
                 user.setSurname(surname);
                 user.setName(firstname);
                 user.setProfile(profile);
+                user.getEmailAddresses().add(email);
 
                 // TODO add group to user
                 // Group g = _groupRepository.findByName(group);
@@ -195,28 +204,112 @@ public class ShibbolethUserUtils {
                 
                 User _user = userRepository.findOneByUsername(user.getUsername());
                 if(_user == null){
-                	userRepository.saveAndFlush(user);	
+                	
+                	userRepository.saveAndFlush(user);
+                	
+                	/* Joseph added - Add new user to editors all - Start */ 
+                	List<GroupElem> groups = new LinkedList<>();
+                	List<Integer> grplist = null;
+                	if(user.getProfile() == Profile.Administrator){
+                		grplist = userGroupRepository.findGroupIds(where(UserGroupSpecs.hasProfile(Profile.Administrator)));
+                	}else if(user.getProfile() == Profile.Reviewer){
+                		grplist = userGroupRepository.findGroupIds(where(UserGroupSpecs.hasProfile(Profile.Reviewer)));
+                	}else if(user.getProfile() == Profile.Editor){
+                		grplist = userGroupRepository.findGroupIds(where(UserGroupSpecs.hasProfile(Profile.Editor)));
+                	}
+                	
+                	if(grplist != null){
+                		for (Integer g : grplist) {
+                            groups.add(new GroupElem(profile.name(), g));
+                        }
+                	}
+                	setUserGroups(user, groups);
+                	/* Joseph added - Add new user to editors all - End */
+                	
                 }else{
+                	
                 	final Profile updateProfile = profile;
                 	final String sn = surname;
                 	final String name = firstname;
-                	
+                	final String mail = email;
                 	user = userRepository.update(_user.getId(), new Updater<User>() {
 						@Override
 						public void apply(@Nonnull User u) {
 							u.setSurname(sn);
 							u.setName(name);
 							u.setProfile(updateProfile);
+							u.getEmailAddresses().add(mail);
 						}
 					});
+                	
                 }
             }
-
+            
             return user;
         }
 
         return null;
     }
+    
+    private void setUserGroups(final User user, List<GroupElem> userGroups)
+            throws Exception {
+
+            final GroupRepository groupRepository = ApplicationContextHolder.get().getBean(GroupRepository.class);
+            final UserGroupRepository userGroupRepository = ApplicationContextHolder.get().getBean(UserGroupRepository.class);
+
+            Set<String> listOfAddedProfiles = new HashSet<String>();
+            
+            // New pairs of group-profile we need to add
+            Collection<UserGroup> toAdd = new ArrayList<UserGroup>();
+
+            // For each of the parameters on the request, make sure the group is
+            // updated.
+            for (GroupElem element : userGroups) {
+                Integer groupId = element.getId();
+                Group group = groupRepository.findOne(groupId);
+                String profile = element.getProfile();
+                // The user has a new group and profile
+
+             // Combine all groups editor and reviewer groups
+                if (profile.equals(Profile.Administrator.name())) {
+                    final UserGroup userGroup = new UserGroup().setGroup(group).setProfile(Profile.Reviewer).setUser(user);
+                    String key = Profile.Editor.toString() + group.getId();
+                    final UserGroup userGroup1 = new UserGroup().setGroup(group).setProfile(Profile.Editor).setUser(user);
+                    String key1 = Profile.Reviewer.toString() + group.getId();
+                    if (!listOfAddedProfiles.contains(key)) {
+                        toAdd.add(userGroup);
+                        listOfAddedProfiles.add(key);
+                    }
+                    if (!listOfAddedProfiles.contains(key1)) {
+                        toAdd.add(userGroup1);
+                        listOfAddedProfiles.add(key1);
+                    }
+                }
+                
+                // Combine all groups editor and reviewer groups
+                if (profile.equals(Profile.Reviewer.name())) {
+                    final UserGroup userGroup = new UserGroup().setGroup(group).setProfile(Profile.Editor).setUser(user);
+                    String key = Profile.Editor.toString() + group.getId();
+                    if (!listOfAddedProfiles.contains(key)) {
+                        toAdd.add(userGroup);
+                        listOfAddedProfiles.add(key);
+                    }
+                }
+
+                final UserGroup userGroup = new UserGroup().setGroup(group).setProfile(Profile.findProfileIgnoreCase(profile)).setUser(user);
+                String key = profile + group.getId();
+                if (!listOfAddedProfiles.contains(key)) {
+                    toAdd.add(userGroup);
+                    listOfAddedProfiles.add(key);
+
+                }
+
+            }
+
+            // Add only new usergroups (if any)
+            userGroupRepository.save(toAdd);
+
+        }
 
     public static class MinimalUser {
 
@@ -283,4 +376,23 @@ public class ShibbolethUserUtils {
         }
     }
 
+}
+
+class GroupElem {
+
+    private String profile;
+    private Integer id;
+
+    public GroupElem(String profile, Integer id) {
+        this.id = id;
+        this.profile = profile;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public Integer getId() {
+        return id;
+    }
 }
