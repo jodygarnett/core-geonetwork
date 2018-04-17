@@ -62,7 +62,7 @@
 		<for name="mco:handlingDescription" use="textarea" />
 		<for name="mri:purpose" use="textarea" />
 		<for name="mrd:orderingInstructions" use="textarea" />
-		<for name="mrl:statement" use="textarea" />
+		<!-- <for name="mrl:statement" use="textarea" /> -->
 		<for name="mri:levelOfDetail" use="textarea" />
 		<!-- End Added from 2.10x -->
 

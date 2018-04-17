@@ -220,6 +220,7 @@ public class ShibbolethUserUtils {
                 	
                 	if(grplist != null){
                 		for (Integer g : grplist) {
+                			Log.warning(Geonet.DATA_MANAGER, "Shib, group id: " + g);
                             groups.add(new GroupElem(profile.name(), g));
                         }
                 	}
@@ -261,12 +262,14 @@ public class ShibbolethUserUtils {
             
             // New pairs of group-profile we need to add
             Collection<UserGroup> toAdd = new ArrayList<UserGroup>();
-
+            
             // For each of the parameters on the request, make sure the group is
             // updated.
             for (GroupElem element : userGroups) {
                 Integer groupId = element.getId();
+                Log.warning(Geonet.DATA_MANAGER, "Shib, GroupId to set for the logged in user: " + groupId);
                 Group group = groupRepository.findOne(groupId);
+                Log.warning(Geonet.DATA_MANAGER, "Shib, Group to set for the logged in user: " + group.getName());
                 String profile = element.getProfile();
                 // The user has a new group and profile
 
@@ -298,10 +301,11 @@ public class ShibbolethUserUtils {
 
                 final UserGroup userGroup = new UserGroup().setGroup(group).setProfile(Profile.findProfileIgnoreCase(profile)).setUser(user);
                 String key = profile + group.getId();
+                Log.warning(Geonet.DATA_MANAGER, "Shib, key for userGroup: " + key);
                 if (!listOfAddedProfiles.contains(key)) {
+                	Log.warning(Geonet.DATA_MANAGER, "Shib, listOfAddedProfiles toAdd userGroup...");
                     toAdd.add(userGroup);
                     listOfAddedProfiles.add(key);
-
                 }
 
             }
