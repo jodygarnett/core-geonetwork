@@ -208,7 +208,7 @@ public class ShibbolethUserUtils {
                 	userRepository.saveAndFlush(user);
                 	
                 	/* Joseph added - Add new user to editors all - Start */ 
-                	List<GroupElem> groups = new LinkedList<>();
+                	/*List<GroupElem> groups = new LinkedList<>();
                 	List<Integer> grplist = null;
                 	if(user.getProfile() == Profile.Administrator){
                 		grplist = userGroupRepository.findGroupIds(where(UserGroupSpecs.hasProfile(Profile.Administrator)));
@@ -224,7 +224,7 @@ public class ShibbolethUserUtils {
                             groups.add(new GroupElem(profile.name(), g));
                         }
                 	}
-                	setUserGroups(user, groups);
+                	setUserGroups(user, groups);*/
                 	/* Joseph added - Add new user to editors all - End */
                 	
                 }else{
