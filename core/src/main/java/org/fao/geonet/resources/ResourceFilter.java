@@ -155,7 +155,7 @@ public class ResourceFilter implements Filter {
                         }
 
                         // Return HTTP 404 ? TODO
-                        Log.warning(Geonet.RESOURCES, "Resource not found " + filename +
+                        Log.debug(Geonet.RESOURCES, "Resource not found " + filename +
                             ", default resource returned: " + servletPath);
                         httpServletResponse.setContentType("image/png");
                         httpServletResponse.setHeader("Cache-Control", "no-cache");

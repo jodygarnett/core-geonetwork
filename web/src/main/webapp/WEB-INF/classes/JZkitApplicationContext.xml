@@ -17,11 +17,11 @@
 
   <!-- ========================= GENERAL DEFINITIONS ========================= -->
 
-  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+  <!-- <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basename">
-      <value>messages-JZkitApplicationContext</value>
+      <value>messages</value>
     </property>
-  </bean>
+  </bean> -->
 
 
   <!-- ========================= PERSISTENCE DEFINITIONS ========================= -->

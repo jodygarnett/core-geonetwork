@@ -38,6 +38,7 @@ import org.fao.geonet.repository.GroupRepositoryImpl;
 import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.UserRepository;
+import org.fao.geonet.repository.specification.GroupSpecs;
 import org.fao.geonet.repository.specification.UserGroupSpecs;
 import org.fao.geonet.utils.Log;
 import org.springframework.context.annotation.Bean;
@@ -201,47 +202,19 @@ public class ShibbolethUserUtils {
 
                 user = ldapUserDetails.getUser();
             } else {
-                
                 User _user = userRepository.findOneByUsername(user.getUsername());
                 if(_user == null){
-                	
                 	userRepository.saveAndFlush(user);
                 	
                 	/* Joseph added - Add new user to editors all - Start */ 
-                	/*List<GroupElem> groups = new LinkedList<>();
-                	List<Integer> grplist = null;
-                	if(user.getProfile() == Profile.Administrator){
-                		grplist = userGroupRepository.findGroupIds(where(UserGroupSpecs.hasProfile(Profile.Administrator)));
-                	}else if(user.getProfile() == Profile.Reviewer){
-                		grplist = userGroupRepository.findGroupIds(where(UserGroupSpecs.hasProfile(Profile.Reviewer)));
-                	}else if(user.getProfile() == Profile.Editor){
-                		grplist = userGroupRepository.findGroupIds(where(UserGroupSpecs.hasProfile(Profile.Editor)));
-                	}
+                	Group g = _groupRepository.findByName(group);
+                	List<GroupElem> groups = new LinkedList<>();
                 	
-                	if(grplist != null){
-                		for (Integer g : grplist) {
-                			Log.warning(Geonet.DATA_MANAGER, "Shib, group id: " + g);
-                            groups.add(new GroupElem(profile.name(), g));
-                        }
+                	if(g != null){
+	                    groups.add(new GroupElem(profile.name(), g.getId()));
+	                    setUserGroups(user, groups);
                 	}
-                	setUserGroups(user, groups);*/
                 	/* Joseph added - Add new user to editors all - End */
-                	
-                }else{
-                	
-                	final Profile updateProfile = profile;
-                	final String sn = surname;
-                	final String name = firstname;
-                	final String mail = email;
-                	user = userRepository.update(_user.getId(), new Updater<User>() {
-						@Override
-						public void apply(@Nonnull User u) {
-							u.setSurname(sn);
-							u.setName(name);
-							u.setProfile(updateProfile);
-							u.getEmailAddresses().add(mail);
-						}
-					});
                 	
                 }
             }
@@ -267,43 +240,13 @@ public class ShibbolethUserUtils {
             // updated.
             for (GroupElem element : userGroups) {
                 Integer groupId = element.getId();
-                Log.warning(Geonet.DATA_MANAGER, "Shib, GroupId to set for the logged in user: " + groupId);
                 Group group = groupRepository.findOne(groupId);
-                Log.warning(Geonet.DATA_MANAGER, "Shib, Group to set for the logged in user: " + group.getName());
                 String profile = element.getProfile();
                 // The user has a new group and profile
 
-             // Combine all groups editor and reviewer groups
-                if (profile.equals(Profile.Administrator.name())) {
-                    final UserGroup userGroup = new UserGroup().setGroup(group).setProfile(Profile.Reviewer).setUser(user);
-                    String key = Profile.Editor.toString() + group.getId();
-                    final UserGroup userGroup1 = new UserGroup().setGroup(group).setProfile(Profile.Editor).setUser(user);
-                    String key1 = Profile.Reviewer.toString() + group.getId();
-                    if (!listOfAddedProfiles.contains(key)) {
-                        toAdd.add(userGroup);
-                        listOfAddedProfiles.add(key);
-                    }
-                    if (!listOfAddedProfiles.contains(key1)) {
-                        toAdd.add(userGroup1);
-                        listOfAddedProfiles.add(key1);
-                    }
-                }
-                
-                // Combine all groups editor and reviewer groups
-                if (profile.equals(Profile.Reviewer.name())) {
-                    final UserGroup userGroup = new UserGroup().setGroup(group).setProfile(Profile.Editor).setUser(user);
-                    String key = Profile.Editor.toString() + group.getId();
-                    if (!listOfAddedProfiles.contains(key)) {
-                        toAdd.add(userGroup);
-                        listOfAddedProfiles.add(key);
-                    }
-                }
-
                 final UserGroup userGroup = new UserGroup().setGroup(group).setProfile(Profile.findProfileIgnoreCase(profile)).setUser(user);
                 String key = profile + group.getId();
-                Log.warning(Geonet.DATA_MANAGER, "Shib, key for userGroup: " + key);
                 if (!listOfAddedProfiles.contains(key)) {
-                	Log.warning(Geonet.DATA_MANAGER, "Shib, listOfAddedProfiles toAdd userGroup...");
                     toAdd.add(userGroup);
                     listOfAddedProfiles.add(key);
                 }
