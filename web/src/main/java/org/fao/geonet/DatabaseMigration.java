@@ -55,8 +55,8 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
- * Postprocessor that runs after the jdbcDataSource bean has been initialized and migrates the
- * database as soon as it is.
+ * Postprocessor that runs after the jdbcDataSource bean has been initialized
+ * and migrates the database as soon as it is.
  * <p/>
  * User: Jesse Date: 9/2/13 Time: 8:01 PM
  */
@@ -79,20 +79,19 @@ public class DatabaseMigration implements BeanPostProcessor {
 
     @Override
     public final Object postProcessBeforeInitialization(final Object bean, final String beanName) {
-        return bean;  // Do nothing
+        return bean; // Do nothing
     }
 
     @Override
     public final Object postProcessAfterInitialization(final Object bean, final String beanName) {
         try {
             if (Class.forName(initAfter).isInstance(bean)) {
-                _logger.debug(String.format("DB Migration / Running '%s' after initialization of '%s'.", bean.getClass(), initAfter));
+                _logger.debug(String.format("DB Migration / Running '%s' after initialization of '%s'.",
+                        bean.getClass(), initAfter));
                 try {
                     String version;
-                    String subVersion;
                     ServletContext servletContext;
                     Path path;
-
 
                     try {
                         servletContext = _applicationContext.getBean(ServletContext.class);
@@ -107,7 +106,6 @@ public class DatabaseMigration implements BeanPostProcessor {
                     }
 
                     version = this.systemInfo.getVersion();
-                    subVersion = this.systemInfo.getSubVersion();
                     ServletPathFinder pathFinder = new ServletPathFinder(servletContext);
 
                     path = pathFinder.getAppPath();
@@ -117,14 +115,16 @@ public class DatabaseMigration implements BeanPostProcessor {
                     } else {
                         ds = ((DataSource) bean);
                     }
-                    migrateDatabase(servletContext, path, ds, version, subVersion);
+                    migrateDatabase(servletContext, path, ds, version);
                 } catch (Throwable e) {
                     throw new RuntimeException(e);
                 }
                 return bean;
             }
         } catch (ClassNotFoundException e) {
-            _logger.error(String.format("DB Migration / '%s' is an invalid value for initAfter. Class not found. Error is %s", initAfter, e.getMessage()));
+            _logger.error(
+                    String.format("DB Migration / '%s' is an invalid value for initAfter. Class not found. Error is %s",
+                            initAfter, e.getMessage()));
             e.printStackTrace();
         }
         return bean;
@@ -138,24 +138,26 @@ public class DatabaseMigration implements BeanPostProcessor {
         this._migration = migration;
     }
 
-    private void migrateDatabase(ServletContext servletContext, Path path, final DataSource dataSource, final String webappVersion,
-                                 final String subVersion) throws Exception {
+    private void migrateDatabase(ServletContext servletContext, Path path, final DataSource dataSource,
+            final String webappVersion) throws Exception {
         _logger.info("  - Migration ...");
 
-        try (Connection conn = dataSource.getConnection();
-             Statement statement = conn.createStatement()) {
-
-            this.foundErrors = doMigration(webappVersion, subVersion, servletContext, path, conn, statement);
+        Connection conn = null;
+        Statement statement = null;
+        try {
+            conn = dataSource.getConnection();
+            statement = conn.createStatement();
+            this.foundErrors = doMigration(webappVersion, servletContext, path, conn, statement);
             conn.commit();
         } catch (Exception e) {
             _logger.warning("  - Migration: Exception running migration for version: " + webappVersion + " subversion: "
-                + subVersion + ". " + e.getMessage());
+                   + ". " + e.getMessage());
             throw e;
         }
     }
 
-    boolean doMigration(String webappVersion, String subVersion, ServletContext servletContext, Path path, Connection conn,
-                        Statement statement) throws Exception {
+    boolean doMigration(String webappVersion, ServletContext servletContext, Path path, Connection conn,
+            Statement statement) throws Exception {
         // Get db version and subversion
         Pair<String, String> dbVersionInfo = getDatabaseVersion(statement);
         String dbVersion = dbVersionInfo.one();
@@ -164,93 +166,93 @@ public class DatabaseMigration implements BeanPostProcessor {
         boolean anyMigrationError = false;
 
         // Migrate db if needed
-        _logger.info("      Webapp   version:" + webappVersion + " subversion:" + subVersion);
+        _logger.info("      Webapp   version:" + webappVersion);
         _logger.info("      Database version:" + dbVersion + " subversion:" + dbSubVersion);
         if (dbVersion == null || webappVersion == null) {
-            _logger.warning("      Database does not contain any version information. Check that the database is a GeoNetwork "
-                + "database with data. The database is probably empty, no migration required.");
+            _logger.warning(
+                    "      Database does not contain any version information. Check that the database is a GeoNetwork "
+                            + "database with data. The database is probably empty, no migration required.");
             return true;
         }
 
         Version from = new Version(), to = new Version();
 
         try {
-            from = parseVersionNumber(dbVersion);
-            to = parseVersionNumber(webappVersion);
+            from = parseVersionNumber(dbVersion + dbSubVersion);
+            to = parseVersionNumber(webappVersion.replace("-", ""));
         } catch (Exception e) {
             _logger.warning("      Error parsing version numbers: " + e.getMessage());
             e.printStackTrace();
         }
 
         switch (from.compareTo(to)) {
-            case 1:
-                _logger.info("      Running on a newer database version.");
-                break;
-            case 0:
-                _logger.info("      Webapp version = Database version, no migration task to apply.");
-                break;
-            case -1:
-                boolean anyMigrationAction = false;
+        case 1:
+            _logger.info("      Running on a newer database version.");
+            break;
+        case 0:
+            _logger.info("      Webapp version = Database version, no migration task to apply.");
+            break;
+        case -1:
+            boolean anyMigrationAction = false;
 
-                // Migrating from 2.0 to 2.5 could be done 2.0 -> 2.3 -> 2.4 -> 2.5
-                String dbType = DatabaseType.lookup(conn).toString();
-                _logger.debug("      Migrating from " + from + " to " + to + " (dbtype:" + dbType + ")...");
+            // Migrating from 2.0 to 2.5 could be done 2.0 -> 2.3 -> 2.4 -> 2.5
+            String dbType = DatabaseType.lookup(conn).toString();
+            _logger.debug("      Migrating from " + from + " to " + to + " (dbtype:" + dbType + ")...");
 
-                _logger.info("      Loading SQL migration step configuration from <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n ...");
-                for (Map.Entry<String, List<String>> migrationEntry : _migration.call().entrySet()) {
-                    Version versionNumber = parseVersionNumber(migrationEntry.getKey());
-                    if (versionNumber.compareTo(from) > 0 && versionNumber.compareTo(to) < 1) {
-                        _logger.info("       - running tasks for " + versionNumber + "...");
-                        for (String file : migrationEntry.getValue()) {
-                            if (file.startsWith(JAVA_MIGRATION_PREFIX)) {
-                                anyMigrationAction = true;
-                                anyMigrationError |= runJavaMigration(conn, file);
-                            } else {
-                                int lastSep = file.lastIndexOf('/');
-                                Assert.isTrue(lastSep > -1, file + " has the wrong format");
-                                Path filePath = path.resolve(file.substring(0, lastSep));
+            _logger.info(
+                    "      Loading SQL migration step configuration from <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n ...");
+            for (Map.Entry<String, List<String>> migrationEntry : _migration.call().entrySet()) {
+                Version versionNumber = parseVersionNumber(migrationEntry.getKey());
+                if (versionNumber.compareTo(from) > 0 && versionNumber.compareTo(to) < 1) {
+                    _logger.info("       - running tasks for " + versionNumber + "...");
+                    for (String file : migrationEntry.getValue()) {
+                        if (file.startsWith(JAVA_MIGRATION_PREFIX)) {
+                            anyMigrationAction = true;
+                            anyMigrationError |= runJavaMigration(conn, file);
+                        } else {
+                            int lastSep = file.lastIndexOf('/');
+                            Assert.isTrue(lastSep > -1, file + " has the wrong format");
+                            Path filePath = path.resolve(file.substring(0, lastSep));
 
-                                String filePrefix = file.substring(lastSep + 1);
-                                anyMigrationAction = true;
-                                _logger.info("         - SQL migration file:" + filePath + " prefix:" + filePrefix + " ...");
-                                try {
-                                    Lib.db.insertData(servletContext, statement, path, filePath, filePrefix);
-                                } catch (Exception e) {
-                                    _logger.info("          Errors occurs during SQL migration file: " + e.getMessage());
-                                    e.printStackTrace();
-                                    anyMigrationError = true;
-                                }
+                            String filePrefix = file.substring(lastSep + 1);
+                            anyMigrationAction = true;
+                            _logger.info(
+                                    "         - SQL migration file:" + filePath + " prefix:" + filePrefix + " ...");
+                            try {
+                                Lib.db.insertData(servletContext, statement, path, filePath, filePrefix);
+                            } catch (Exception e) {
+                                _logger.info("          Errors occurs during SQL migration file: " + e.getMessage());
+                                e.printStackTrace();
+                                anyMigrationError = true;
                             }
                         }
                     }
                 }
-                if (anyMigrationAction && !anyMigrationError) {
-                    _logger.info("      Successfull migration.\n"
+            }
+            if (anyMigrationAction && !anyMigrationError) {
+                _logger.info("      Successfull migration.\n"
                         + "      Catalogue administrator still need to update the catalogue\n"
                         + "      logo and data directory in order to complete the migration process.\n"
-                        + "      Lucene index rebuild is also recommended after migration."
-                    );
-                }
+                        + "      Lucene index rebuild is also recommended after migration.");
+            }
 
-                if (!anyMigrationAction) {
-                    _logger.warning("      No migration task found between webapp and database version.\n"
+            if (!anyMigrationAction) {
+                _logger.warning("      No migration task found between webapp and database version.\n"
                         + "      The system may be unstable or may failed to start if you try to run \n"
                         + "      the current GeoNetwork " + webappVersion + " with an older database (ie. " + dbVersion
-                        + "\n"
-                        + "      ). Try to run the migration task manually on the current database\n"
+                        + "\n" + "      ). Try to run the migration task manually on the current database\n"
                         + "      before starting the application or start with a new empty database.\n"
-                        + "      Sample SQL scripts for migration could be found in WEB-INF/sql/migrate folder.\n"
-                    );
+                        + "      Sample SQL scripts for migration could be found in WEB-INF/sql/migrate folder.\n");
 
-                }
+            }
 
-                if (anyMigrationError) {
-                    _logger.warning("      Error occurs during migration. Check the log file for more details.");
-                }
-                // TODO : Maybe some migration stuff has to be done in Java ?
-                break;
-            default:
-                throw new Error("Unrecognized value: " + to.compareTo(from) + " when comparing " + to + " -> " + from);
+            if (anyMigrationError) {
+                _logger.warning("      Error occurs during migration. Check the log file for more details.");
+            }
+            // TODO : Maybe some migration stuff has to be done in Java ?
+            break;
+        default:
+            throw new Error("Unrecognized value: " + to.compareTo(from) + " when comparing " + to + " -> " + from);
         }
 
         return anyMigrationError;
@@ -260,8 +262,10 @@ public class DatabaseMigration implements BeanPostProcessor {
      * Execute a Java database migration.
      *
      * @param conn database connection.
-     * @param file Java migration class name prefixed with JAVA_MIGRATION_PREFIX ("java:")
-     * @return <code>true</code> if there is any error while executing the migration. <code>false</code> if there are no errors.
+     * @param file Java migration class name prefixed with JAVA_MIGRATION_PREFIX
+     *             ("java:")
+     * @return <code>true</code> if there is any error while executing the
+     *         migration. <code>false</code> if there are no errors.
      */
     private boolean runJavaMigration(Connection conn, String file) {
         try {
@@ -321,8 +325,8 @@ public class DatabaseMigration implements BeanPostProcessor {
                 subversion = oldLookup(statement, SUBVERSION_NUMBER_ID_BEFORE_2_11);
             }
         } catch (SQLException e) {
-            _logger.info("     Error getting database version: " + e.getMessage() +
-                ". Probably due to an old version. Trying with new Settings structure.");
+            _logger.info("     Error getting database version: " + e.getMessage()
+                    + ". Probably due to an old version. Trying with new Settings structure.");
         }
 
         return Pair.read(version, subversion);
@@ -364,14 +368,14 @@ public class DatabaseMigration implements BeanPostProcessor {
             number = number.substring(0, number.indexOf("-"));
         }
         switch (numDots(number)) {
-            case 0:
-                number += ".0.0";
-                break;
-            case 1:
-                number += ".0";
-                break;
-            default:
-                break;
+        case 0:
+            number += ".0.0";
+            break;
+        case 1:
+            number += ".0";
+            break;
+        default:
+            break;
         }
 
         final String[] parts = number.split("\\.");

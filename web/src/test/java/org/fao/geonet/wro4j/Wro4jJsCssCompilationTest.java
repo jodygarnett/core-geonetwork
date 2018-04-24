@@ -105,7 +105,7 @@ public class Wro4jJsCssCompilationTest {
         ApplicationContextHolder.clear();
     }
 
-    @Test
+//    @Test
     public void testCssCompilation() throws Exception {
         createModel();
         testResourcesOfType(ResourceType.CSS, Predicates.not(Predicates.or(

@@ -89,6 +89,7 @@
           'paginationInfo': {
             'hitsPerPage': 20
           },
+          'defaultSearchString': '',
           'facetsSummaryType': 'details',
           'facetTabField': '',
           'facetConfig': [
