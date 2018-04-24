@@ -38,9 +38,9 @@
   <url>http://geonetwork-opensource.org</url>
   <scm>
     <connection>
-      scm:git:https://github.com/geonetwork/core-geonetwork
+      scm:git:http://eos.geocat.net/gitlab/geocat/geonetwork-enterprise.git
     </connection>
-    <url>https://github.com/geonetwork/core-geonetwork</url>
+    <url>https://eos.geocat.net/gitlab/geocat/geonetwork-enterprise</url>
   </scm>
   <inceptionYear>2003</inceptionYear>
   <issueManagement>
@@ -290,6 +290,34 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>2.8.2</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>deploy-file</goal>
+                    </goals>
+                    <phase>deploy</phase>
+                    <configuration>
+                        <repositoryId>nexus.proxy</repositoryId>
+                        <url>https://nexus.geocat.net/repository/geonetwork-enterprise</url>
+                        <file>web/target/geonetwork.war</file>
+                        <artifactId>${project.artifactId}</artifactId>
+                        <version>${project.version}</version>
+                        <groupId>${project.groupId}</groupId>
+                    </configuration>
+                </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>3.0.0</version>
+              </dependency>
+            </dependencies>
+        </plugin>
     </plugins>
   </build>
 
@@ -1225,6 +1253,24 @@
       <modules>
         <module>jmeter</module>
       </modules>
+    </profile>
+    <!-- GN-e profiles -->
+    <profile>
+      <id>Live</id>
+      <properties>
+        <db.type>postgres</db.type>
+        <db.host>db</db.host>
+        <db.username>admin</db.username>
+        <db.name>geonetwork</db.name>
+        <db.password>LfmbPNzpQJdKh2w4qr</db.password>
+        <db.pool.maxActive>33</db.pool.maxActive>
+      </properties>
+    </profile>
+    <profile>
+      <id>postgis</id>
+      <properties>
+        <db.type>postgres-postgis</db.type>
+      </properties>
     </profile>
   </profiles>
 
