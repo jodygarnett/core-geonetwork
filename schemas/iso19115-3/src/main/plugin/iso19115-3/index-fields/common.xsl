@@ -244,7 +244,7 @@
 	<!-- author is saved if present into author field within lucene -->
 	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='author']]">		
 		<Field name="author" string="{string(cit:party/cit:CI_Individual/cit:name/gco:CharacterString)}" store="true" index="true"/>
-		<Field name="author" string="{substring-before(string(cit:party/cit:CI_Individual/cit:name/gco:CharacterString), ',')}" store="true" index="true"/>			
+	<!--	<Field name="author" string="{substring-before(string(cit:party/cit:CI_Individual/cit:name/gco:CharacterString), ',')}" store="true" index="true"/>		-->	
 	</xsl:for-each>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -265,12 +265,24 @@
        		<Field name="issueIdentification" string="{string(cit:issueIdentification/gco:CharacterString)}" store="true" index="true"/>
        		<Field name="seriesName" string="{string(cit:name/gco:CharacterString)}" store="true" index="true"/>
      </xsl:for-each>
+	 
+	 <xsl:for-each select="$metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:statement/gco:CharacterString">
+       		<Field name="lineageStatement" string="{string(.)}" store="true" index="true"/>
+     </xsl:for-each>
+	 
   
   	<xsl:for-each select="$metadata/mdb:distributionInfo/mrd:MD_Distribution/mrd:distributor/mrd:MD_Distributor/mrd:distributionOrderProcess/mrd:MD_StandardOrderProcess">
        <Field name="fees" string="{string(mrd:fees/gco:CharacterString)}" store="true" index="true"/>
      </xsl:for-each>
-  	<!-- Martins additions end -->
-	
+  	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:temporalElement/gex:EX_TemporalExtent/gex:extent/gml:TimePeriod/gml:beginPosition">
+        <Field  name="tempExtentBegin" string="{string(.)}" store="true" index="true"/>
+      </xsl:for-each>
+
+	  <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:temporalElement/gex:EX_TemporalExtent/gex:extent/gml:TimePeriod/gml:endPosition">
+        <Field  name="tempExtentEnd" string="{string(.)}" store="true" index="true"/>
+      </xsl:for-each>
+	<!-- Martins additions end -->
 	<!-- Joseph additions start -->
 	<xsl:variable name="geoBoxExtents">
           <!-- TODO: index bounding polygon -->

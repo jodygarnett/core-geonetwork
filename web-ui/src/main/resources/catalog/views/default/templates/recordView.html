@@ -318,6 +318,32 @@
 
 			
  <!-- Martin addition start -->
+ 
+          <tr data-ng-if="::mdView.current.record.geoBox">
+            <th data-translate="">Geographical Bounding Box</th>
+            <td>{{mdView.current.record.geoBox}}</td>
+          </tr>
+		  
+		  <tr data-ng-if="::mdView.current.record.tempExtentBegin">
+            <th data-translate="">Temporal Extent Begin Date</th>
+            <td>{{mdView.current.record.tempExtentBegin}}</td>
+          </tr>
+		  
+		  <tr data-ng-if="::mdView.current.record.tempExtentEnd">
+            <th data-translate="">Temporal Extent End Date</th>
+            <td>{{mdView.current.record.tempExtentEnd}}</td>
+          </tr>
+		  
+		  <!--<tr>
+			<th data-translate="">Temporal Extent Begin Date</th>
+            <td>{{mdView.current.record.tempExtentBegin}}</td>
+          </tr>
+		  
+		  <tr>
+			<th data-translate="">Temporal Extent End Date</th>
+            <td>{{mdView.current.record.tempExtentEnd}}</td>
+          </tr> -->
+		  
 		  <section data-ng-if="mdView.current.record.geoBox.length > 0">
           <h4>
             <i class="fa fa-fw fa-map-marker"></i>
@@ -337,12 +363,17 @@
         </section>
 <!-- Martin addition end -->
 
-<!-- Martin addition start
-		  <tr data-ng-if="::mdView.current.record.lineage"> -->
+<!-- Martin addition start -->
+		  <!--<tr data-ng-if="::mdView.current.record.lineage"> 
             <th data-translate="">lineage</th>
             <td>{{mdView.current.record.lineage}}
-             <!-- <p data-ng-bind-html="::mdView.current.record.lineage | newlines"/> -->
-            </td>
+           <p data-ng-bind-html="::mdView.current.record.lineage | newlines"/> 
+          </td>
+          </tr> -->
+		  
+		  <tr data-ng-if="::mdView.current.record.lineageStatement">
+			<th data-translate="">lineage</th>
+            <td>{{mdView.current.record.lineageStatement}}</td>
           </tr>
 <!-- Martin addition end -->
 		
@@ -525,17 +556,26 @@
         </section>
         </br>
        
-        <section data-ng-if="mdView.current.record.creationDate ||
+        <section data-ng-if="mdView.current.record.eCatId ||
+							 mdView.current.record.creationDate ||
                              mdView.current.record.publicationDate ||
                              mdView.current.record.revisionDate ||
                              mdView.current.record.tempExtentBegin ||
                              mdView.current.record.tempExtentEnd">
-          <h4>
+<!-- Martin comment out start 
+		  <h4>
             <i class="fa fa-fw fa-clock-o"></i>
             <span data-translate="">tempExtent</span>
           </h4>
+Martin comment out end -->
 
           <p>
+<!-- Martin addition start
+		  <dl>
+		    <dt data-translate="">eCat Id</dt>
+			<dd>{{mdView.current.record.eCatId}}</dd>
+		  </dl> 
+<!-- Martin addition end -->
           <dl data-ng-show="mdView.current.record.creationDate">
             <dt data-translate>creationDate</dt>
             <dd data-gn-humanize-time="{{mdView.current.record.creationDate}}"
@@ -551,7 +591,8 @@
             <dd data-gn-humanize-time="{{mdView.current.record.revisionDate}}"
                 data-format="YYYY-MM-DD"/>
           </dl>
-          <dl data-ng-show="mdView.current.record.tempExtentBegin ||
+<!-- Martin comment out start 
+			<dl data-ng-show="mdView.current.record.tempExtentBegin ||
                               mdView.current.record.tempExtentEnd">
             <dt data-translate>tempExtentBegin</dt>
             <dd>
@@ -559,7 +600,8 @@
               &nbsp;<i class="fa fa-forward"></i>&nbsp;
               <span data-gn-humanize-time="{{mdView.current.record.tempExtentEnd}}"/>
             </dd>
-          </dl>
+          </dl> 	
+Martin comment out end -->
           </p>
         </section>
         </br>
