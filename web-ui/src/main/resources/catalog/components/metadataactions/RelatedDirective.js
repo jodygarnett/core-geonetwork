@@ -127,6 +127,12 @@
                 }
                 return angular.isFunction(fn);
               };
+              
+              //Joseph added - To remove displaying file location for external ecat
+              scope.isIntranet = function() {
+  				return gnGlobalSettings.isIntranet;
+  			  };
+  			  
               scope.config = gnRelatedResources;
 
               scope.$watchCollection('md', function(n, o) {
