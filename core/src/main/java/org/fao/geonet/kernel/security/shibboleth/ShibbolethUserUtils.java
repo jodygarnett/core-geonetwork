@@ -216,6 +216,21 @@ public class ShibbolethUserUtils {
                 	}
                 	/* Joseph added - Add new user to editors all - End */
                 	
+                }else{
+					final Profile updateProfile = _user.getProfile();
+					Log.warning(Geonet.DATA_MANAGER, "Shib, user profile: " + updateProfile);
+					final String sn = surname;
+					final String name = firstname;
+					final String mail = email;
+					user = userRepository.update(_user.getId(), new Updater<User>() {
+						@Override
+						public void apply(@Nonnull User u) {
+							u.setSurname(sn);
+							u.setName(name);
+							u.setProfile(updateProfile);
+							u.getEmailAddresses().add(mail);
+						}
+					});
                 }
             }
             
