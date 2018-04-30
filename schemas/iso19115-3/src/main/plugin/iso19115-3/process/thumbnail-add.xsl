@@ -21,17 +21,6 @@
   of URL+Name -->
   <xsl:param name="updateKey"/>
 
-  <xsl:variable name="separator" select="'\|'"/>
-
-  <xsl:variable name="mainLang"
-                select="/mdb:MD_Metadata/mdb:defaultLocale/*/lan:language/*/@codeListValue"
-                as="xs:string"/>
-
-  <xsl:variable name="useOnlyPTFreeText"
-                select="count(//*[lan:PT_FreeText and not(gco:CharacterString)]) > 0"
-                as="xs:boolean"/>
-
-
   <xsl:template match="mri:MD_DataIdentification|
                       *[@gco:isoType='mri:MD_DataIdentification']|
                       srv:SV_ServiceIdentification">
@@ -86,51 +75,15 @@
       <mri:graphicOverview>
         <mcc:MD_BrowseGraphic>
           <mcc:fileName>
-            <xsl:choose>
-              <!--Multilingual-->
-              <xsl:when test="contains($url, '|')">
-                <xsl:for-each select="tokenize($url, $separator)">
-                  <xsl:variable name="nameLang"
-                                select="substring-before(., '#')"></xsl:variable>
-                  <xsl:variable name="nameValue"
-                                select="substring-after(., '#')"></xsl:variable>
-
-                  <xsl:if test="$useOnlyPTFreeText = false() and $nameLang = $mainLang">
-                    <gco:CharacterString>
-                      <xsl:value-of select="$nameValue"/>
-                    </gco:CharacterString>
-                  </xsl:if>
-                </xsl:for-each>
-
-                <lan:PT_FreeText>
-                  <xsl:for-each select="tokenize($url, $separator)">
-                    <xsl:variable name="nameLang"
-                                  select="substring-before(., '#')"></xsl:variable>
-                    <xsl:variable name="nameValue"
-                                  select="substring-after(., '#')"></xsl:variable>
-
-                    <xsl:if test="$useOnlyPTFreeText = true() or
-                                      $nameLang != $mainLang">
-                      <lan:textGroup>
-                        <lan:LocalisedCharacterString locale="{concat('#', $nameLang)}">
-                          <xsl:value-of select="$nameValue"/>
-                        </lan:LocalisedCharacterString>
-                      </lan:textGroup>
-                    </xsl:if>
-                  </xsl:for-each>
-                </lan:PT_FreeText>
-              </xsl:when>
-              <xsl:otherwise>
-                <gco:CharacterString>
-                  <xsl:value-of select="$url"/>
-                </gco:CharacterString>
-              </xsl:otherwise>
-            </xsl:choose>
+            <gco:CharacterString>
+              <xsl:value-of select="$url"/>
+            </gco:CharacterString>
           </mcc:fileName>
           <xsl:if test="$desc!=''">
             <mcc:fileDescription>
-              <xsl:copy-of
-                      select="gn-fn-iso19115-3:fillTextElement($desc, $mainLang, $useOnlyPTFreeText)"/>
+              <gco:CharacterString>
+                <xsl:value-of select="$desc"/>
+              </gco:CharacterString>
             </mcc:fileDescription>
           </xsl:if>
           <xsl:if test="$type!=''">

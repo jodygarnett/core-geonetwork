@@ -90,10 +90,9 @@
 <!-- Martins Changes end -->                                                                                                                                          </cit:identifier>
 		<cit:series>
 			<cit:CI_Series>
-        <!-- Remove name field until picklist can be applied with it 
-				<cit:name>
+        		<cit:name>
 					<gco:CharacterString></gco:CharacterString>
-				</cit:name> -->
+				</cit:name>
 				<cit:issueIdentification>
 					<gco:CharacterString></gco:CharacterString>
 				</cit:issueIdentification>
@@ -146,16 +145,16 @@
           <gex:geographicElement>
             <gex:EX_GeographicBoundingBox>
               <gex:westBoundLongitude>
-                <gco:Decimal>-180</gco:Decimal>
+                <gco:Decimal>112</gco:Decimal>
               </gex:westBoundLongitude>
               <gex:eastBoundLongitude>
-                <gco:Decimal>180</gco:Decimal>
+                <gco:Decimal>154</gco:Decimal>
               </gex:eastBoundLongitude>
               <gex:southBoundLatitude>
-                <gco:Decimal>-90</gco:Decimal>
+                <gco:Decimal>-44</gco:Decimal>
               </gex:southBoundLatitude>
               <gex:northBoundLatitude>
-                <gco:Decimal>90</gco:Decimal>
+                <gco:Decimal>-9</gco:Decimal>
               </gex:northBoundLatitude>
             </gex:EX_GeographicBoundingBox>
           </gex:geographicElement>

@@ -24,8 +24,10 @@ import jeeves.component.ProfileManager;
 
 import org.apache.batik.util.resources.ResourceManager;
 import org.fao.geonet.ApplicationContextHolder;
+import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.Group;
 import org.fao.geonet.domain.LDAPUser;
+import org.fao.geonet.domain.Metadata;
 import org.fao.geonet.domain.Profile;
 import org.fao.geonet.domain.User;
 import org.fao.geonet.domain.UserGroup;
@@ -33,8 +35,12 @@ import org.fao.geonet.kernel.security.GeonetworkAuthenticationProvider;
 import org.fao.geonet.kernel.security.WritableUserDetailsContextMapper;
 import org.fao.geonet.repository.GroupRepository;
 import org.fao.geonet.repository.GroupRepositoryImpl;
+import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.UserRepository;
+import org.fao.geonet.repository.specification.GroupSpecs;
+import org.fao.geonet.repository.specification.UserGroupSpecs;
+import org.fao.geonet.utils.Log;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,10 +48,18 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import static org.springframework.data.jpa.domain.Specifications.where;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
@@ -98,11 +112,12 @@ public class ShibbolethUserUtils {
         String surname = getHeader(req, config.getSurnameKey(), "");
         String firstname = getHeader(req, config.getFirstnameKey(), "");
         String email = getHeader(req, config.getEmailKey(), "");
-        Profile profile = Profile.findProfileIgnoreCase(getHeader(req,
-            config.getProfileKey(), ""));
+        
+        Profile profile = Profile.findProfileIgnoreCase(getHeader(req,config.getProfileKey(), ""));
         // TODO add group to user
-        String group = getHeader(req, config.getGroupKey(), "");
-
+        //String group = getHeader(req, config.getGroupKey(), "");
+        String group = config.getGroupKey();
+        String _profile = config.getProfileKey();
         if (username != null && username.trim().length() > 0) { // ....add other
             // cnstraints to
             // be sure it's
@@ -110,8 +125,23 @@ public class ShibbolethUserUtils {
             // shibbolet
             // login and not
             // fake
-
-
+        	if(_profile != null){
+        		switch (_profile) {
+				case "EDITOR":
+					profile = Profile.Editor;
+					break;
+				case "ADMINISTRATOR":
+					profile = Profile.Administrator;
+					break;
+				case "REVIEWER":
+					profile = Profile.Reviewer;
+					break;
+				default:
+					profile = Profile.Guest;
+					break;
+				}
+        	}
+        	
             // Make sure the profile name is an exact match
             if (profile == null) {
                 profile = Profile.Guest;
@@ -137,13 +167,10 @@ public class ShibbolethUserUtils {
                 user.setSurname(surname);
                 user.setName(firstname);
                 user.setProfile(profile);
+                user.getEmailAddresses().add(email);
 
                 // TODO add group to user
-                
-                Group g = _groupRepository.findByName(group);
-                final UserGroup userGroup = new UserGroup().setGroup(g)
-                        .setUser(user);
-                userGroupRepository.save(Arrays.asList(userGroup));
+                // Group g = _groupRepository.findByName(group);
             }
 
 
@@ -175,14 +202,80 @@ public class ShibbolethUserUtils {
 
                 user = ldapUserDetails.getUser();
             } else {
-                userRepository.saveAndFlush(user);
+                User _user = userRepository.findOneByUsername(user.getUsername());
+                if(_user == null){
+                	userRepository.saveAndFlush(user);
+                	
+                	/* Joseph added - Add new user to editors all - Start */ 
+                	Group g = _groupRepository.findByName(group);
+                	List<GroupElem> groups = new LinkedList<>();
+                	
+                	if(g != null){
+	                    groups.add(new GroupElem(profile.name(), g.getId()));
+	                    setUserGroups(user, groups);
+                	}
+                	/* Joseph added - Add new user to editors all - End */
+                	
+                }else{
+					Profile _prof = _user.getProfile();
+					if(_prof == null){
+						_prof = Profile.Editor;
+					}
+					final Profile updateProfile = _prof;
+					Log.warning(Geonet.DATA_MANAGER, "Shib, user profile: " + updateProfile);
+					final String sn = surname;
+					final String name = firstname;
+					final String mail = email;
+					user = userRepository.update(_user.getId(), new Updater<User>() {
+						@Override
+						public void apply(@Nonnull User u) {
+							u.setSurname(sn);
+							u.setName(name);
+							u.setProfile(updateProfile);
+							u.getEmailAddresses().add(mail);
+						}
+					});
+                }
             }
-
+            
             return user;
         }
 
         return null;
     }
+    
+    private void setUserGroups(final User user, List<GroupElem> userGroups)
+            throws Exception {
+
+            final GroupRepository groupRepository = ApplicationContextHolder.get().getBean(GroupRepository.class);
+            final UserGroupRepository userGroupRepository = ApplicationContextHolder.get().getBean(UserGroupRepository.class);
+
+            Set<String> listOfAddedProfiles = new HashSet<String>();
+            
+            // New pairs of group-profile we need to add
+            Collection<UserGroup> toAdd = new ArrayList<UserGroup>();
+            
+            // For each of the parameters on the request, make sure the group is
+            // updated.
+            for (GroupElem element : userGroups) {
+                Integer groupId = element.getId();
+                Group group = groupRepository.findOne(groupId);
+                String profile = element.getProfile();
+                // The user has a new group and profile
+
+                final UserGroup userGroup = new UserGroup().setGroup(group).setProfile(Profile.findProfileIgnoreCase(profile)).setUser(user);
+                String key = profile + group.getId();
+                if (!listOfAddedProfiles.contains(key)) {
+                    toAdd.add(userGroup);
+                    listOfAddedProfiles.add(key);
+                }
+
+            }
+
+            // Add only new usergroups (if any)
+            userGroupRepository.save(toAdd);
+
+        }
 
     public static class MinimalUser {
 
@@ -201,7 +294,7 @@ public class ShibbolethUserUtils {
             String surname = getHeader(req, config.getSurnameKey(), "");
             String firstname = getHeader(req, config.getFirstnameKey(), "");
             String profile = getHeader(req, config.getProfileKey(), "");
-
+            
             if (username.trim().length() > 0) {
 
                 MinimalUser user = new MinimalUser();
@@ -249,4 +342,23 @@ public class ShibbolethUserUtils {
         }
     }
 
+}
+
+class GroupElem {
+
+    private String profile;
+    private Integer id;
+
+    public GroupElem(String profile, Integer id) {
+        this.id = id;
+        this.profile = profile;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public Integer getId() {
+        return id;
+    }
 }

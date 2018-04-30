@@ -79,7 +79,7 @@
 
   <bean id="coreFilterChain" class="org.springframework.security.web.DefaultSecurityFilterChain">
     <constructor-arg>
-      <bean class="org.springframework.security.web.util.AntPathRequestMatcher">
+      <bean class="org.springframework.security.web.util.matcher.AntPathRequestMatcher">
         <constructor-arg value="/**"/>
       </bean>
     </constructor-arg>

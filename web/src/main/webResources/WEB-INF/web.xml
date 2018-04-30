@@ -352,6 +352,12 @@
         text/html,
         text/plain,
         image/png,
+        image/jpeg,
+        application/pdf,
+        application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+        application/vnd.ms-excel,
+        application/octet-stream,
+        application/x-zip-compressed,
         application/vnd.ogc.se_xml,
         application/vnd.ogc.se+xml,
         application/vnd.ogc.success+xml,
@@ -364,7 +370,7 @@
         application/json
       </param-value>
     </init-param>
-
+            
     <!-- List of host allowed to be accessed by the proxy: If not specified or empty, any hosts is allowed -->
     <init-param>
       <param-name>AllowedHosts</param-name>

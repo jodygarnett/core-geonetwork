@@ -7,7 +7,8 @@
        data-ng-if="type && type !== 'thumbnails'">
     <div class="row list-group-item gn-related-item"
          data-ng-repeat="r in items track by $index"
-         data-ng-init="mainType = config.getType(r, type);">
+         data-ng-init="mainType = config.getType(r, type);"
+         data-ng-if="!r.url.startsWith('file') || (r.url.startsWith('file') && isIntranet())">
       <div class="col-xs-1">
         <strong>
           <i class="fa"
@@ -76,9 +77,9 @@
           {{::((r.title | gnLocalized: lang) || (r.description | gnLocalized: lang) || r.url)}}
         </p>
       </div>
-      <div class="col-xs-4">
+      <div class="col-xs-4" data-ng-if="mainType != 'FILE'">
         <button type="button"
-                class="btn btn-default btn-sm btn-block"
+                class="btn btn-openLink btn-sm btn-block"
                 data-ng-show="hasAction(mainType)"
                 data-ng-click="config.doAction(mainType, r, md)">
 

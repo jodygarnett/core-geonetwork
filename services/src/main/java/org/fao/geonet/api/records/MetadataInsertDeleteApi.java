@@ -39,6 +39,7 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 
 import io.swagger.annotations.*;
 import org.apache.commons.io.FileUtils;
@@ -1006,32 +1007,56 @@ public class MetadataInsertDeleteApi {
     
     private Path amazonS3DownLoadPath(String url) throws Exception {
 
-		if(url.endsWith("/")){
-			url = url.substring(0, url.length() - 1);
-		}
-        
-		Path tempPath = Files.createTempDirectory("imports3_");
-		AmazonS3URI s3uri = new AmazonS3URI(url);
+    	AmazonS3URI s3uri = new AmazonS3URI(url);
+		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(s3uri.getRegion()).build();
 		
-		TransferManager xfer_mgr = TransferManagerBuilder.defaultTransferManager();
-		try {
-			
-			MultipleFileDownload xfer = xfer_mgr.downloadDirectory(s3uri.getBucket(), s3uri.getKey(), tempPath.toFile());
-
-			//block with Transfer.waitForCompletion()
-			xfer.waitForCompletion();
-		} catch (AmazonClientException e) {
-			throw new AmazonClientException("Unable to import files from AWS S3 Bucket, due to " + e.getMessage());
-		} catch (Exception e) {
-			throw new Exception("Unable to import files from AWS S3 Bucket, due to " + e.getMessage());
-		}
-		xfer_mgr.shutdownNow();
-
-		if(s3uri.getKey() != null && !s3uri.getKey().isEmpty()){
-			tempPath = tempPath.resolve(s3uri.getKey());
-		}
+		S3ObjectInputStream content = s3client.getObject(s3uri.getBucket(), s3uri.getKey())
+				.getObjectContent();
 		
-		return tempPath;
+		File f = File.createTempFile(s3uri.getKey(), ".xml");
+		FileUtils.copyInputStreamToFile(content, f);
+		
+		return f.toPath();
 	}
-    
+    	
+	@RequestMapping(path = "/s3files", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	@ResponseBody
+	public String getFiles(@RequestParam(required = false) String url, HttpServletRequest request)
+			throws Exception {
+		List<String> filenames = new ArrayList<>();
+		try {
+
+			AmazonS3URI s3uri = new AmazonS3URI(url);
+			AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(s3uri.getRegion()).build();
+
+			final ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(s3uri.getBucket());
+			ListObjectsV2Result result = null;
+			
+			do {// get object keys in a bucket if more than 1000 (default
+				// max-key)
+				result = s3client.listObjectsV2(req);
+
+				List<S3ObjectSummary> objects = result.getObjectSummaries();
+				for (S3ObjectSummary os: objects) {
+					filenames.add(os.getKey());
+				}
+
+			} while (result.isTruncated() == true);
+			
+		} catch (AmazonServiceException ase) {
+			throw new Exception("Caught an AmazonServiceException, " + "which means your request made it "
+					+ "to Amazon S3, but was rejected with an error response " + "for some reason."
+					+ ase.getRawResponseContent());
+
+		} catch (AmazonClientException ace) {
+			throw new Exception("Caught an AmazonClientException, " + "which means the client encountered "
+					+ "an internal error while trying to communicate" + " with S3, "
+					+ "such as not being able to access the network.");
+		}
+
+		String json = new Gson().toJson(filenames);
+		
+		return json;
+	}
 }

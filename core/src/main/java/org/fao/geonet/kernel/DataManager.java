@@ -1638,7 +1638,7 @@ public class DataManager implements ApplicationEventPublisherAware {
                                    boolean index, boolean updateFixedInfo, UpdateDatestamp updateDatestamp,
                                    boolean fullRightsForGroup, boolean forceRefreshReaders) throws Exception {
         final String schema = newMetadata.getDataInfo().getSchemaId();
-
+        String title = "";
         //--- force namespace prefix for iso19139 metadata
         setNamespacePrefixUsingSchemas(schema, metadataXml);
 
@@ -1647,7 +1647,12 @@ public class DataManager implements ApplicationEventPublisherAware {
             String parentUuid = null;
             metadataXml = updateFixedInfo(schema, Optional.<Integer>absent(), newMetadata.getUuid(), metadataXml, parentUuid, updateDatestamp, context);
         }
-
+        
+        if (newMetadata.getDataInfo().getType() == MetadataType.SUB_TEMPLATE) { // extract a title for subtemplates
+        	title = createSubtemplateTitle(schema, metadataXml);
+        	newMetadata.getDataInfo().setTitle(title);
+		}
+        
         //--- store metadata
         final Metadata savedMetadata = getXmlSerializer().insert(newMetadata, metadataXml, context);
 
@@ -1670,6 +1675,30 @@ public class DataManager implements ApplicationEventPublisherAware {
         return savedMetadata;
     }
 
+    /**
+     * Create Title from a subtemplate using the schema
+     * XSL for subtemplate title ({@link Geonet.File.EXTRACT_SUBTEMPLATE_TITLE})
+     *
+     * @param schema
+     * @param md
+     * @return
+     * @throws Exception
+     */
+	public String createSubtemplateTitle(String schema, Element md) throws Exception {
+		Path styleSheet = getSchemaDir(schema).resolve(Geonet.File.EXTRACT_SUBTEMPLATETITLE);
+		String title = "";
+		if (styleSheet.isAbsolute()) {
+			title = Xml.transform(md, styleSheet).getText().trim();
+			// --- needed to detach md from the document
+			md.detach();
+		} else {
+			title = md.getAttributeValue("title");
+			md.removeAttribute("title");
+		}
+		
+		Log.debug(Geonet.DATA_MANAGER, "Extracted Subtemplate title '" + title + "' for schema '" + schema + "'");
+		return title;
+	}
     /**
      * Retrieves a metadata (in xml) given its id with no geonet:info.
      */

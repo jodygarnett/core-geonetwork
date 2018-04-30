@@ -53,6 +53,7 @@ import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.context.ApplicationContext;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -164,8 +165,16 @@ public class SearchController {
                                                Element result, String outputSchema, ElementSetName elementSetName,
                                                ResultType resultType, String id, String displayLanguage) throws InvalidParameterValueEx {
         Path schemaDir = schemaManager.getSchemaCSWPresentDir(schema);
+        
+        //Joseph added - Add virtual csw request for external
+        String service = context.getService();
+        Path virtualPresentDir = null;
+        if (!service.equals("csw")) {
+          virtualPresentDir = schemaDir.getParent().resolve(service);
+          schemaDir = virtualPresentDir;
+        }
+        
         Path styleSheet = schemaDir.resolve(outputSchema + "-" + elementSetName + ".xsl");
-
         if (!Files.exists(styleSheet)) {
             context.warning(
                 String.format(

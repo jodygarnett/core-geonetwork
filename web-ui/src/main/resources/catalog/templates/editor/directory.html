@@ -61,7 +61,7 @@
               <li class="list-group-item"
                   data-ng-repeat="e in searchResults.records"
                   data-ng-class="e['geonet:info'].id === activeEntry['geonet:info'].id ? 'active' : ''">
-                <a href="" data-ng-click="selectEntry(e)">{{e.title}}</a>
+                <a href="" data-ng-click="selectEntry(e)">{{e.title || e['geonet:info'].title }}</a>
                 <div class="pull-right">
                   <a href=""
                      data-ng-click="copyEntry(e)"

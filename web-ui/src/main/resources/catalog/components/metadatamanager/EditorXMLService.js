@@ -51,25 +51,33 @@
           '</gmd:MD_ReferenceSystem>' +
           '</gmd:referenceSystemInfo>',
       'iso19115-3':
-          '  <mrs:referenceSystemIdentifier ' +
+          '  <mdb:referenceSystemInfo ' +
           "xmlns:mrs='http://standards.iso.org/iso/19115/-3/mrs/1.0' " +
           "xmlns:mcc='http://standards.iso.org/iso/19115/-3/mcc/1.0' " +
           "xmlns:mdb='http://standards.iso.org/iso/19115/-3/mdb/1.0' " +
           "xmlns:cit='http://standards.iso.org/iso/19115/-3/cit/1.0' " +
           "xmlns:gco='http://standards.iso.org/iso/19115/-3/gco/1.0'>" +
-          '    <mcc:MD_Identifier>' +
-          '     <mcc:code>' +
-          '       <gco:CharacterString>' +
-          'http://www.opengis.net/def/crs/EPSG/0/{{code}}' +
-          '</gco:CharacterString>' +
-          '     </mcc:code>' +
-          '     <mcc:description>' +
-          '       <gco:CharacterString>{{description}}</gco:CharacterString>' +
-          '     </mcc:description>' +
-          '   </mcc:MD_Identifier>' +
-          ' </mrs:referenceSystemIdentifier>'
+          '	 <mrs:MD_ReferenceSystem>' +
+          '	   <mrs:referenceSystemIdentifier>' +
+          '      <mcc:MD_Identifier>' +
+          '        <mcc:code>' +
+          '         <gco:CharacterString>' +
+          '				{{description}}' +
+          '         </gco:CharacterString>' +
+          '       </mcc:code>' +
+          '		  <mcc:codeSpace>'+
+          '			<gco:CharacterString>{{codeSpace}}</gco:CharacterString>'+
+          '		  </mcc:codeSpace>'+
+          '       <mcc:version>' +
+          '           <gco:CharacterString>{{version}}</gco:CharacterString>' +
+          '       </mcc:version>' +
+          '     </mcc:MD_Identifier>' +
+          '		</mrs:referenceSystemIdentifier>' + 
+          '		</mrs:MD_ReferenceSystem>' +
+          ' </mdb:referenceSystemInfo>'
     }});
-
+  
+	
   module.factory('gnEditorXMLService',
       ['gnSchemaManagerService',
        'gnXmlTemplates',

@@ -15,8 +15,8 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 exclude-result-prefixes="#all">
-
-
+	<!-- The correct codeList Location goes here -->
+	<xsl:variable name="codeListLocation" select="'codeListLocation'"/>
   <!-- A set of templates use to convert thesaurus concept to
        iso19115-3 fragments. -->
 
@@ -201,7 +201,7 @@
 
     <!-- Add thesaurus theme -->
     <mri:type>
-      <mri:MD_KeywordTypeCode codeList="http://standards.iso.org/iso/19115/-3/resources/codeList.xml#MD_KeywordTypeCode"
+      <mri:MD_KeywordTypeCode codeList="{concat($codeListLocation,'#MD_KeywordTypeCode')}"
                               codeListValue="{$thesauri/thesaurus[key = $currentThesaurus]/dname}" />
     </mri:type>
     <xsl:if test="$thesaurusInfo">
@@ -235,7 +235,7 @@
                 </cit:date>
                 <cit:dateType>
                   <cit:CI_DateTypeCode
-                          codeList="http://standards.iso.org/ittf/PubliclyAvailableStandards/ISO_19139_Schemas/resources/codelist/ML_gmxCodelists.xml#CI_DateTypeCode"
+                            codeList="{concat($codeListLocation,'#CI_DateTypeCode')}"
                           codeListValue="publication" />
                 </cit:dateType>
               </cit:CI_Date>

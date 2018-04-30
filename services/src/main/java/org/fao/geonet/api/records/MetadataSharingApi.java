@@ -255,9 +255,9 @@ public class MetadataSharingApi {
                     	updateMetadataWithModifiedDate(context, schemaManager, dataMan, String.valueOf(metadata.getId()));
                     	groupId = sharing.getPrivileges().get(0).getGroup();
                     	
-                    	String category = (groupId == ReservedGroup.all.getId()) ?  "externalrecords": "internalrecords";
-                    	MetadataCategory mdCat = _catRepository.findOneByNameIgnoreCase(category);
-                    	dataMan.setCategory(context, String.valueOf(metadata.getId()), String.valueOf(mdCat.getId()));
+                    	//String category = (groupId == ReservedGroup.all.getId()) ?  "externalrecords": "internalrecords";
+                    	//MetadataCategory mdCat = _catRepository.findOneByNameIgnoreCase(category);
+                    	//dataMan.setCategory(context, String.valueOf(metadata.getId()), String.valueOf(mdCat.getId()));
                     }
                     
                     //Update the owner as admin

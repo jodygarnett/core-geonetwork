@@ -132,7 +132,7 @@
           {{'signout' | translate}}
         </a>
       </li>
-      <li data-ng-show="!authenticated && service !== 'catalog.signin'">
+      <li data-ng-show="!authenticated && service !== 'catalog.signin' && isIntranet">
         <a href="{{pages.signin}}"
            title="{{'signIn'|translate}}"
            data-ng-keypress="$event">

@@ -65,7 +65,8 @@
   <xsl:variable name="layerGroup" select="/root/request/layergroup"/>
   <xsl:variable name="angularModule"
                 select="if ($angularApp = 'gn_search') then concat('gn_search_', $searchView) else $angularApp"></xsl:variable>
-
+  <xsl:variable name="shibbolethOn" 
+                select="util:existsBean('shibbolethConfiguration')"/>
   <!-- Define which JS module to load using Closure -->
   <xsl:variable name="angularApp" select="
     if ($service = 'admin.console') then 'gn_admin'
@@ -98,6 +99,8 @@
 
   <!-- URL for services - may not be defined FIXME or use fullURL instead -->
   <xsl:variable name="siteURL" select="/root/gui/siteURL"/>
+  
+  <xsl:variable name="isIntranet" select="util:isIntranet()"/>
 
   <!-- URL for webapp root -->
   <xsl:variable name="baseURL" select="substring-before($siteURL,'/srv/')"/>
