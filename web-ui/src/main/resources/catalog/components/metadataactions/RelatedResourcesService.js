@@ -261,6 +261,12 @@
           };
 
           this.getType = function(resource, type) {
+        	
+        	//Joseph added - To fix the file location 
+        	if(resource.url && resource.url.startsWith('file://')){
+        		return 'FILE';
+        	}
+        	  
             var protocolOrType = resource.protocol + resource.serviceType;
             // Cas for links
             if (angular.isString(protocolOrType) &&
