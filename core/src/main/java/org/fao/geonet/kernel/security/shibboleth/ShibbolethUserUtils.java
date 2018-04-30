@@ -217,7 +217,11 @@ public class ShibbolethUserUtils {
                 	/* Joseph added - Add new user to editors all - End */
                 	
                 }else{
-					final Profile updateProfile = _user.getProfile();
+					Profile _prof = _user.getProfile();
+					if(_prof == null){
+						_prof = Profile.Editor;
+					}
+					final Profile updateProfile = _prof;
 					Log.warning(Geonet.DATA_MANAGER, "Shib, user profile: " + updateProfile);
 					final String sn = surname;
 					final String name = firstname;
