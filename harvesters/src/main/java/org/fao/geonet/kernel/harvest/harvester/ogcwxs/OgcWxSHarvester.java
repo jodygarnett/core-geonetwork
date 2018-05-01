@@ -42,19 +42,19 @@ import java.util.UUID;
 //=============================================================================
 
 public class OgcWxSHarvester extends AbstractHarvester<HarvestResult> {
-    //--------------------------------------------------------------------------
-    //---
-    //--- Init
-    //---
-    //--------------------------------------------------------------------------
+    // --------------------------------------------------------------------------
+    // ---
+    // --- Init
+    // ---
+    // --------------------------------------------------------------------------
 
     private OgcWxSParams params;
 
-    //---------------------------------------------------------------------------
-    //---
-    //--- Add
-    //---
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // ---
+    // --- Add
+    // ---
+    // ---------------------------------------------------------------------------
 
     protected void doInit(Element node, ServiceContext context) throws BadInputEx {
         params = new OgcWxSParams(dataMan);
@@ -63,20 +63,20 @@ public class OgcWxSHarvester extends AbstractHarvester<HarvestResult> {
         params.create(node);
     }
 
-    //---------------------------------------------------------------------------
-    //---
-    //--- Update
-    //---
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // ---
+    // --- Update
+    // ---
+    // ---------------------------------------------------------------------------
 
     protected String doAdd(Element node) throws BadInputEx, SQLException {
         params = new OgcWxSParams(dataMan);
         super.setParams(params);
 
-        //--- retrieve/initialize information
+        // --- retrieve/initialize information
         params.create(node);
 
-        //--- force the creation of a new uuid
+        // --- force the creation of a new uuid
         params.setUuid(UUID.randomUUID().toString());
 
         String id = harvesterSettingsManager.add("harvesting", "node", getType());
@@ -84,46 +84,46 @@ public class OgcWxSHarvester extends AbstractHarvester<HarvestResult> {
         storeNode(params, "id:" + id);
         Source source = new Source(params.getUuid(), params.getName(), params.getTranslations(), true);
         context.getBean(SourceRepository.class).save(source);
-        Resources.copyLogo(context, "images" + File.separator + "harvesting" + File.separator + params.icon, params.getUuid());
+        Resources.copyLogo(context, "images" + File.separator + "harvesting" + File.separator + params.icon,
+                params.getUuid());
 
         return id;
     }
 
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
 
-    protected void doUpdate(String id, Element node)
-        throws BadInputEx, SQLException {
+    protected void doUpdate(String id, Element node) throws BadInputEx, SQLException {
         OgcWxSParams copy = params.copy();
 
-        //--- update variables
+        // --- update variables
         copy.update(node);
 
         String path = "harvesting/id:" + id;
 
         harvesterSettingsManager.removeChildren(path);
 
-        //--- update database
+        // --- update database
         storeNode(copy, path);
 
-        //--- we update a copy first because if there is an exception Params
-        //--- could be half updated and so it could be in an inconsistent state
+        // --- we update a copy first because if there is an exception Params
+        // --- could be half updated and so it could be in an inconsistent state
 
         Source source = new Source(copy.getUuid(), copy.getName(), copy.getTranslations(), true);
         context.getBean(SourceRepository.class).save(source);
-        Resources.copyLogo(context, "images" + File.separator + "harvesting" + File.separator + copy.icon, copy.getUuid());
+        Resources.copyLogo(context, "images" + File.separator + "harvesting" + File.separator + copy.icon,
+                copy.getUuid());
 
         params = copy;
         super.setParams(params);
     }
 
-    //---------------------------------------------------------------------------
-    //---
-    //--- Harvest
-    //---
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // ---
+    // --- Harvest
+    // ---
+    // ---------------------------------------------------------------------------
 
-    protected void storeNodeExtra(AbstractParams p, String path,
-                                  String siteId, String optionsId) throws SQLException {
+    protected void storeNodeExtra(AbstractParams p, String path, String siteId, String optionsId) throws SQLException {
         OgcWxSParams params = (OgcWxSParams) p;
         super.setParams(params);
 
@@ -141,15 +141,14 @@ public class OgcWxSHarvester extends AbstractHarvester<HarvestResult> {
         harvesterSettingsManager.add("id:" + optionsId, "outputSchema", params.outputSchema);
     }
 
-    //---------------------------------------------------------------------------
-    //---
-    //--- Variables
-    //---
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // ---
+    // --- Variables
+    // ---
+    // ---------------------------------------------------------------------------
 
     public void doHarvest(Logger log) throws Exception {
         Harvester h = new Harvester(cancelMonitor, log, context, params);
         result = h.harvest(log);
     }
 }
-
