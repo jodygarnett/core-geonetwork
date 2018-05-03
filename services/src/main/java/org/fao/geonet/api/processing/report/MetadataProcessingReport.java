@@ -38,10 +38,6 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * A report related to metadata records.
  */
-@XmlType(propOrder = {
-    "uuid", "startIsoDateTime", "endIsoDateTime",
-    "ellapsedTimeInSeconds", "totalTimeInSeconds", "infos", "errors"
-})
 public abstract class MetadataProcessingReport extends ProcessingReport {
     /**
      * The total number of records to process
@@ -74,8 +70,8 @@ public abstract class MetadataProcessingReport extends ProcessingReport {
     /**
      * The list of records with error and exception details
      */
-    protected Map<Integer, List<Report>> metadataErrors = new HashMap<Integer, List<Report>>();
-    protected Map<Integer, List<InfoReport>> metadataInfos = new HashMap<Integer, List<InfoReport>>();
+    protected Map<Integer, ArrayList<ErrorReport>> metadataErrors = new HashMap<Integer, ArrayList<ErrorReport>>();
+    protected Map<Integer, ArrayList<InfoReport>> metadataInfos = new HashMap<Integer, ArrayList<InfoReport>>();
 
     /**
      * The list of records with error and exception details
@@ -85,13 +81,13 @@ public abstract class MetadataProcessingReport extends ProcessingReport {
     }
 
     @XmlElement(name = "errors")
-    public Map<Integer, List<Report>> getMetadataErrors() {
+    public Map<Integer, ArrayList<ErrorReport>> getMetadataErrors() {
         return metadataErrors;
     }
 
     public synchronized void addMetadataError(int metadataId, Exception error) {
         if (this.metadataErrors.get(metadataId) == null) {
-            List<Report> errors = new ArrayList<>();
+        	ArrayList<ErrorReport> errors = new ArrayList<>();
             errors.add(new ErrorReport(error));
             this.metadataErrors.put(metadataId, errors);
         } else {
@@ -100,13 +96,13 @@ public abstract class MetadataProcessingReport extends ProcessingReport {
     }
 
     @XmlElement(name = "infos")
-    public Map<Integer, List<InfoReport>> getMetadataInfos() {
+    public Map<Integer, ArrayList<InfoReport>> getMetadataInfos() {
         return metadataInfos;
     }
 
     public void addMetadataInfos(int metadataId, String message) {
         if (this.metadataInfos.get(metadataId) == null) {
-            List<InfoReport> infos = new ArrayList<>();
+        	ArrayList<InfoReport> infos = new ArrayList<>();
             infos.add(new InfoReport(message));
             this.metadataInfos.put(metadataId, infos);
         } else {
