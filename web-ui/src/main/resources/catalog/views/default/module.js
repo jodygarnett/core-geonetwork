@@ -94,7 +94,7 @@
       var searchMap = gnSearchSettings.searchMap;
 
 
-
+      $scope.isArray = angular.isArray;
       $scope.modelOptions = angular.copy(gnGlobalSettings.modelOptions);
       $scope.modelOptionsForm = angular.copy(gnGlobalSettings.modelOptions);
       $scope.gnWmsQueue = gnWmsQueue;
