@@ -91,7 +91,7 @@ import static org.springframework.data.jpa.domain.Specifications.where;
 @ReadWriteController
 public class MetadataSharingApi {
 
-    @Autowired
+	@Autowired
     LanguageUtils languageUtils;
 
 
@@ -171,7 +171,6 @@ public class MetadataSharingApi {
         dataManager.indexMetadata(String.valueOf(metadata.getId()), true);
     }
 
-
     @ApiOperation(
         value = "Set sharing settings for one or more records",
         notes = "See record sharing for more details.",
@@ -209,7 +208,6 @@ public class MetadataSharingApi {
     )
         throws Exception {
         MetadataProcessingReport report = new SimpleMetadataProcessingReport();
-
         try {
             Set<String> records = ApiUtils.getUuidsParameterOrSelection(uuids, bucket, ApiUtils.getUserSession(session));
             report.setTotalRecords(records.size());
@@ -292,7 +290,6 @@ public class MetadataSharingApi {
         } finally {
             report.close();
         }
-
         return report;
     }
 
