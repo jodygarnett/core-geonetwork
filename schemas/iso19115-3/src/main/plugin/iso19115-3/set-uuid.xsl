@@ -3,6 +3,7 @@
   xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0"
   xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/1.0"
   xmlns:mcc="http://standards.iso.org/iso/19115/-3/mcc/1.0"
+  xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/1.0"
   exclude-result-prefixes="#all">
   
   <xsl:template match="/root">
@@ -14,15 +15,22 @@
       <xsl:copy-of select="@*"/>
       <mdb:metadataIdentifier>
         <mcc:MD_Identifier>
+	       <mcc:authority>
+	        <cit:CI_Citation>
+	          <cit:title>
+	            <gco:CharacterString>GeoNetwork UUID</gco:CharacterString>
+	          </cit:title>
+	        </cit:CI_Citation>
+	      </mcc:authority>
           <!-- citation could be for this GeoNetwork node ?
             <mcc:citation><cit:CI_Citation>etc</cit:CI_Citation></mcc:citation>
           -->
-          <mcc:codeSpace>
-            <gco:CharacterString>urn:uuid</gco:CharacterString>
-          </mcc:codeSpace>
           <mcc:code>
             <gco:CharacterString><xsl:value-of select="/root/env/uuid"/></gco:CharacterString>
           </mcc:code>
+          <mcc:codeSpace>
+            <gco:CharacterString>urn:uuid</gco:CharacterString>
+          </mcc:codeSpace>
         </mcc:MD_Identifier>
       </mdb:metadataIdentifier>
       <xsl:apply-templates select="node()"/>

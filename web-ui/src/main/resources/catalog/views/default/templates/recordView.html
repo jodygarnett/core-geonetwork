@@ -227,10 +227,15 @@
             </td>
           </tr>
 
-          <tr data-ng-repeat="author in mdView.current.record.author">
+          <tr data-ng-if="isArray(mdView.current.record.author)" data-ng-repeat="author in mdView.current.record.author">
             <th data-translate="">Author</th>
             <td>{{author}}</td>
-          </tr>		
+          </tr>
+		  
+		  <tr data-ng-if="!isArray(mdView.current.record.author)">
+            <th data-translate="">Author</th>
+            <td>{{mdView.current.record.author}}</td>
+          </tr>
 
 		  <tr data-ng-if="mdView.current.record.publisher">
             <th data-translate="">Publisher</th>
