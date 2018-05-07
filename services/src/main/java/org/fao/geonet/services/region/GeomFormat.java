@@ -54,13 +54,17 @@ public enum GeomFormat {
 
         @Override
         public Geometry parse(String geomString) throws Exception {
-            if (geomString.contains("%")) {
-                geomString = URLDecoder.decode(geomString, Constants.ENCODING);
-            }
-            if (geomString.contains("+")) {
-                geomString = geomString.replace("+", " ");
-            }
-            return wktReader.read(geomString);
+			try {
+				if (geomString.contains("%")) {
+					geomString = URLDecoder.decode(geomString, Constants.ENCODING);
+				}
+				if (geomString.contains("+")) {
+					geomString = geomString.replace("+", " ");
+				}
+				return wktReader.read(geomString);
+			} catch (Exception e) {
+				throw new Exception(e.getMessage());
+			}
         }
     },
     GML3 {
