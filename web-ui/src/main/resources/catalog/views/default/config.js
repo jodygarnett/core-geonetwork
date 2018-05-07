@@ -103,8 +103,8 @@
              * Define maps
              */
           var mapsConfig = {
-            center: [280274.03240585705, 6053178.654789996],
-            zoom: 2
+    		  center: [14988995.498610, -2856910.369187],
+              zoom: 2.5
             //maxResolution: 9783.93962050256
           };
 
