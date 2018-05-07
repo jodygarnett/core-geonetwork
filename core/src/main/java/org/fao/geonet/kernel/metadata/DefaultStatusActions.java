@@ -92,17 +92,17 @@ public class DefaultStatusActions implements StatusActions {
         ignoreSslCertificateErrors = sm.getValueAsBool(Settings.SYSTEM_FEEDBACK_MAILSERVER_IGNORE_SSL_CERTIFICATE_ERRORS);
 
         if (host == null || host.length() == 0) {
-            context.error("Mail server host not configure");
+            context.warning("Mail server host not configure");
             emailNotes = false;
         }
 
         if (port == null || port.length() == 0) {
-            context.error("Mail server port not configured, email notifications won't be sent.");
+            context.warning("Mail server port not configured, email notifications won't be sent.");
             emailNotes = false;
         }
 
         if (from == null || from.length() == 0) {
-            context.error("Mail feedback address not configured, email notifications won't be sent.");
+            context.warning("Mail feedback address not configured, email notifications won't be sent.");
             emailNotes = false;
         }
 
