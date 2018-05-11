@@ -8,13 +8,21 @@ Based on [selenium-cucumber](https://github.com/selenium-cucumber/selenium-cucum
 
 Go to your project directory from terminal and hit following command
 
-* `mvn test -Dbrowser=phantomjs -Dphantomjs.binary.path=$DRIVERS_BIN/phantomjs -DendPointToTest=http://localhost:8080/geonewtwork`
+* `mvn test -Dbrowser=phantomjs -Dphantomjs.binary.path=$DRIVERS_BIN/phantomjs -DendPointToTest=http://localhost:8080/geonetwork`
 
 * The url to test could by defined in **src/test/resources/system.properties** by changing the property **endPointToTest.url** or provided to the mvn command with the parameter `-DendPointToTest=YOUR_URL`
 
 * By default the mvn command run all the test in the folder **src/test/resources/features**. To specify a different folder use the parameter `-Dcucumber.options="your path"`
 
 * To specify a path for the reports use the option `-Dcucumber.options="--plugin html:./report` in case you need to specify your path, the path must go after `-Dcucumber.options="--plugin html:./report your path`
+
+## Chrome driver
+
+To run the tests with chrome driver, use:
+
+mvn test -Dbrowser=chrome -Dwebdriver.chrome.driver=$DRIVERS_BIN/chromedriver
+
+The binary can be downloaded [here](https://sites.google.com/a/chromium.org/chromedriver/downloads)
 
 
 ## PhantomJS driver
