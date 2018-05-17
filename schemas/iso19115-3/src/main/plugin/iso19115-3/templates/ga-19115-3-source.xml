@@ -77,8 +77,7 @@
                 <cit:CI_DateTypeCode codeList="codeListLocation#CI_DateTypeCode" codeListValue="creation"/>
               </cit:dateType>
             </cit:CI_Date>
-          </cit:date>
-<!-- Martins changes start -->         
+          </cit:date>       
           <cit:identifier>
              <mcc:MD_Identifier>
                 <mcc:code>
@@ -86,14 +85,12 @@
                 </mcc:code>
                 <mcc:codeSpace>
                    <gco:CharacterString>ga-dataSetURI</gco:CharacterString>                                                                                                  </mcc:codeSpace>
-          </mcc:MD_Identifier>
-<!-- Martins Changes end -->                                                                                                                                          </cit:identifier>
+          </mcc:MD_Identifier>                                                                                                                                         </cit:identifier>
 		<cit:series>
 			<cit:CI_Series>
-        <!-- Remove name field until picklist can be applied with it 
 				<cit:name>
 					<gco:CharacterString></gco:CharacterString>
-				</cit:name> -->
+				</cit:name>
 				<cit:issueIdentification>
 					<gco:CharacterString></gco:CharacterString>
 				</cit:issueIdentification>
