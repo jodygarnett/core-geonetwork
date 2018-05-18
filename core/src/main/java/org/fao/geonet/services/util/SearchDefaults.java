@@ -28,6 +28,7 @@ import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 
 import org.fao.geonet.constants.Geonet;
+import org.fao.geonet.utils.Log;
 import org.jdom.Element;
 
 import java.util.List;
@@ -63,9 +64,16 @@ public class SearchDefaults {
     public static Element getDefaultSearch(ServiceContext srvContext,
                                            Element request) {
         UserSession session = srvContext.getUserSession();
+        
         Element elData = new Element(Jeeves.Elem.REQUEST);
-        Element elSession = (Element) session
-            .getProperty(Geonet.Session.MAIN_SEARCH);
+        Element elSession = null;
+        try{
+        	elSession = (Element) session
+                    .getProperty(Geonet.Session.MAIN_SEARCH);	
+        }catch(Exception e){
+        	Log.error(Geonet.DATA_DIRECTORY, "Exception while getting the property main.search from session.");
+        }
+        
 
         // If request use request info else default info
         if (request != null) {

@@ -125,7 +125,8 @@ public class TransferApi {
         final UserRepository userRepository = applicationContext.getBean(UserRepository.class);
         final UserGroupRepository userGroupRepository = applicationContext.getBean(UserGroupRepository.class);
         List<UserGroupsResponse> list = new ArrayList<>();
-        if (myProfile == Profile.Administrator || myProfile == Profile.UserAdmin) {
+        if (myProfile == Profile.Administrator || myProfile == Profile.UserAdmin 
+        		|| myProfile == Profile.Reviewer || myProfile == Profile.Editor) {
             List<User> allAdmin = userRepository.findAllByProfile(Profile.Administrator);
             List<UserGroup> userGroups = userGroupRepository.findAll();
             for (UserGroup ug : userGroups) {
