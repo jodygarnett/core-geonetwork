@@ -56,6 +56,7 @@
         file: '',
         url: '',
         serverFolder: '',
+		s3location:'',
         recursiveSearch: false,
         rejectIfInvalid: false,
         assignToCatalog: true,
@@ -129,11 +130,21 @@
         }
         $scope.unsupportedFile = false;
       });
+
+	  $scope.resetImportMode = function(){
+			$scope.params.xml = '';
+			$scope.params.file = '';
+			$scope.params.url = '';
+			$scope.params.serverFolder = '';
+			$scope.params.s3location = '';
+		};
+
       $scope.importRecords = function(formId) {
         $scope.reports = [];
         $scope.error = null;
 
         if ($scope.importMode == 'uploadFile') {
+			$scope.params.xml = '';
           if ($scope.uploadScope.queue.length > 0) {
             $scope.importing = true;
             $scope.uploadScope.submit();
@@ -145,21 +156,15 @@
           }
         }else if ($scope.importMode == 'ImportFromS3') {
 			$scope.importing = true;
-        	console.log('ImportFromS3');
-			gnMetadataManager.getFilesFromS3($scope.params.serverFolder)
+			$scope.params.xml = '';
+        	$scope.importing = true;
+			gnMetadataManager.getFilesFromS3($scope.params.s3location)
 				.then(function(response) {
-						var url = $scope.params.serverFolder;
+						var url = $scope.params.s3location;
 						var filenames = response.data;
-						console.log('response --> '+ filenames);
-						console.log('response.length --> ' + filenames.length);
-						angular.forEach(filenames, function(value) {
-						  console.log(value);
-						  $scope.params.serverFolder = url + '/' + value;
-						  console.log('scope.params.serverFolder --> ' + $scope.params.serverFolder); 
-						  //$scope.uploadScope.submit();
-
-						  gnMetadataManager.importFromXml(
-							  $(formId).serialize(), $scope.params.xml).then(
+						angular.forEach(filenames, function(filename) {
+						  gnMetadataManager.importFromS3Bucket(
+							  $(formId).serialize(), filename).then(
 							  onSuccessFn, onErrorFn);
 
 						});

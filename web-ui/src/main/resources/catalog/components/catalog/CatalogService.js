@@ -141,6 +141,25 @@
           });
         },
 
+		/**
+         * @ngdoc method
+         * @name gnMetadataManager#importFromXml
+         * @methodOf gnMetadataManager
+         *
+         * @description
+         * Import records from a xml string.
+         *
+         * @param {Object} data Params to send to md.insert service
+         * @return {HttpPromise} Future object
+         */
+        importFromS3Bucket: function(urlParams, s3key) {
+          return $http.put('../api/records?' + urlParams + '&s3key='+s3key, {
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+        },
+
         /**
          * @ngdoc method
          * @name gnMetadataManager#importFromS3
@@ -153,8 +172,7 @@
          * @return {HttpPromise} Future object
          */
         getFilesFromS3: function(url) {
-        	console.log('url -->' + url);
-          return $http.get('../api/records/s3files?' + url, {
+          return $http.get('../api/records/s3files?url=' + url, {
         	  headers: {
 	              'Accept': 'application/json'
 	            }
