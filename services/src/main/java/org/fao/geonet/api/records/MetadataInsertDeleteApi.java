@@ -23,25 +23,30 @@
 
 package org.fao.geonet.api.records;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.AmazonS3URI;
-import com.amazonaws.services.s3.model.ListObjectsV2Request;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.amazonaws.services.s3.transfer.Download;
-import com.amazonaws.services.s3.transfer.MultipleFileDownload;
-import com.amazonaws.services.s3.transfer.TransferManager;
-import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
+import static org.fao.geonet.api.ApiParams.API_CLASS_RECORD_OPS;
+import static org.fao.geonet.api.ApiParams.API_CLASS_RECORD_TAG;
+import static org.fao.geonet.api.ApiParams.API_PARAM_RECORD_UUID;
+import static org.fao.geonet.api.ApiParams.API_PARAM_RECORD_UUIDS_OR_SELECTION;
+import static org.springframework.data.jpa.domain.Specifications.where;
 
-import io.swagger.annotations.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.annotation.Nonnull;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.ApplicationContextHolder;
@@ -52,7 +57,12 @@ import org.fao.geonet.api.exception.ResourceNotFoundException;
 import org.fao.geonet.api.processing.report.SimpleMetadataProcessingReport;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Params;
-import org.fao.geonet.domain.*;
+import org.fao.geonet.domain.ISODate;
+import org.fao.geonet.domain.Metadata;
+import org.fao.geonet.domain.MetadataType;
+import org.fao.geonet.domain.Pair;
+import org.fao.geonet.domain.Profile;
+import org.fao.geonet.domain.UserGroup;
 import org.fao.geonet.exceptions.BadParameterEx;
 import org.fao.geonet.exceptions.XSDValidationErrorEx;
 import org.fao.geonet.kernel.AccessManager;
@@ -68,7 +78,6 @@ import org.fao.geonet.repository.MetadataRepository;
 import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.specification.UserGroupSpecs;
-import org.fao.geonet.util.ThreadUtils;
 import org.fao.geonet.utils.IO;
 import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
@@ -81,41 +90,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.stream.IntStream;
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.AmazonS3URI;
+import com.amazonaws.services.s3.model.ListObjectsV2Request;
+import com.amazonaws.services.s3.model.ListObjectsV2Result;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 
-import javax.annotation.Nonnull;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.services.ReadWriteController;
 import springfox.documentation.annotations.ApiIgnore;
-
-import static org.fao.geonet.api.ApiParams.API_PARAM_RECORD_UUIDS_OR_SELECTION;
-import static org.fao.geonet.api.ApiParams.API_CLASS_RECORD_OPS;
-import static org.fao.geonet.api.ApiParams.API_CLASS_RECORD_TAG;
-import static org.fao.geonet.api.ApiParams.API_PARAM_RECORD_UUID;
-import static org.springframework.data.jpa.domain.Specifications.where;
 
 @RequestMapping(value = {
     "/api/records",
@@ -331,6 +336,20 @@ public class MetadataInsertDeleteApi {
         )
             String serverFolder,
         @ApiParam(
+                value = "s3 location path.",
+                required = false)
+        @RequestParam(
+                required = false
+            )
+                String s3location,
+        @ApiParam(
+                value = "s3 file.",
+                required = false)                
+        @RequestParam(
+                required = false
+            )
+                String s3key,
+        @ApiParam(
             value = "(Server folder import only) Recursive search in folder.",
             required = false)
         @RequestParam(
@@ -406,13 +425,30 @@ public class MetadataInsertDeleteApi {
         HttpServletRequest request
     )
         throws Exception {
-        if (url == null && xml == null && serverFolder == null) {
+        if (url == null && xml == null && serverFolder == null && s3location == null) {
             throw new IllegalArgumentException(String.format(
                 "XML fragment or a URL or a server folder MUST be provided."));
         }
         SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
 
-        if (xml != null) {
+        if (s3location != null) {
+            Element xmlContent = null;
+            try {
+                xmlContent = Xml.loadFile(ApiUtils.downloadUrlInTemp(s3location + "/" + s3key));
+            } catch (Exception e) {
+                report.addError(e);
+            }
+            if (xmlContent != null) {
+                Pair<Integer, String> pair = loadRecord(
+                    metadataType, xmlContent,
+                    uuidProcessing, group, category, rejectIfInvalid, transformWith, schema, extra, request);
+                report.addMetadataInfos(pair.one(), String.format(
+                    "Metadata imported from URL with UUID '%s'", pair.two())
+                );
+            }
+            report.incrementProcessedRecords();
+       
+        }else if (xml != null) {
             Element element = null;
             try {
                 element = Xml.loadString(xml, false);
@@ -429,8 +465,7 @@ public class MetadataInsertDeleteApi {
                 "Metadata imported from XML with UUID '%s'", pair.two())
             );
             report.incrementProcessedRecords();
-        }
-        if (url != null) {
+        } else if (url != null) {
             for (String u : url) {
                 Element xmlContent = null;
                 try {
@@ -448,15 +483,13 @@ public class MetadataInsertDeleteApi {
                 }
                 report.incrementProcessedRecords();
             }
-        }
-        if (serverFolder != null) {
+        } else if (serverFolder != null) {
         	Path serverFolderPath = null;
         	if (serverFolder.startsWith("https") || serverFolder.startsWith("http")){
         		serverFolderPath = amazonS3DownLoadPath(serverFolder);
             }else{
             	serverFolderPath = IO.toPath(serverFolder);
             }
-        	//Log.warning(Geonet.DATA_MANAGER, "Joseph --> MetadataInsertDeleteApi(insert), serverFolderPath: "+serverFolderPath.toString());
             final List<Path> files = Lists.newArrayList();
             final MEFLib.MefOrXmlFileFilter predicate = new MEFLib.MefOrXmlFileFilter();
             if (recursiveSearch) {
@@ -1039,11 +1072,11 @@ public class MetadataInsertDeleteApi {
 
 				List<S3ObjectSummary> objects = result.getObjectSummaries();
 				for (S3ObjectSummary os: objects) {
+					
 					filenames.add(os.getKey());
 				}
-
+				req.setContinuationToken(result.getNextContinuationToken());
 			} while (result.isTruncated() == true);
-			
 		} catch (AmazonServiceException ase) {
 			throw new Exception("Caught an AmazonServiceException, " + "which means your request made it "
 					+ "to Amazon S3, but was rejected with an error response " + "for some reason."
