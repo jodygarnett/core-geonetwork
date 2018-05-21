@@ -63,7 +63,7 @@ public enum GeomFormat {
 				}
 				return wktReader.read(geomString);
 			} catch (Exception e) {
-				throw new Exception(e.getMessage());
+				throw new Exception(e.getLocalizedMessage());
 			}
         }
     },

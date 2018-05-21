@@ -43,7 +43,7 @@ public class MetadataInsertDeleteApiTest extends AbstractServiceIntegrationTest 
 		mockMvc.perform(get("/api/records/" + query).session(mockHttpSession).accept(MediaType.APPLICATION_JSON));
 	            
 		MetadataInsertDeleteApi api = new MetadataInsertDeleteApi();
-		api.insert(MetadataType.METADATA, null, null, "https://s3-ap-southeast-2.amazonaws.com/ga-ecat-import", false, false, MEFLib.UuidAction.NOTHING, 
+		api.insert(MetadataType.METADATA, null, null, null, "https://s3-ap-southeast-2.amazonaws.com/ga-ecat-import",null, false, false, MEFLib.UuidAction.NOTHING, 
 					"", null, false, "_none_", null, null, null);
 		//api.insert(metadataType, xml, url, serverFolder, recursiveSearch, assignToCatalog, uuidProcessing, 
 					//group, category, rejectIfInvalid, transformWith, schema, extra, request)

@@ -158,6 +158,33 @@
               </gex:northBoundLatitude>
             </gex:EX_GeographicBoundingBox>
           </gex:geographicElement>
+           <gex:verticalElement>
+            <gex:EX_VerticalExtent>
+                <gex:minimumValue>
+                        <gco:Real></gco:Real>
+                </gex:minimumValue>
+                <gex:maximumValue>
+                        <gco:Real></gco:Real>
+                </gex:maximumValue>
+                <gex:verticalCRSId>
+                        <mrs:MD_ReferenceSystem>
+                                <mrs:referenceSystemIdentifier>
+                                        <mcc:MD_Identifier>
+                                                <mcc:code>
+                                                <gco:CharacterString></gco:CharacterString>
+                                                </mcc:code>
+                                                <mcc:codeSpace>
+                                                <gco:CharacterString>EPSG</gco:CharacterString>
+                                                </mcc:codeSpace>
+                                                <mcc:version>
+                                                <gco:CharacterString></gco:CharacterString>
+                                                </mcc:version>
+                                        </mcc:MD_Identifier>
+                                </mrs:referenceSystemIdentifier>
+                        </mrs:MD_ReferenceSystem>
+                </gex:verticalCRSId>
+           </gex:EX_VerticalExtent>
+         </gex:verticalElement>
         </gex:EX_Extent>
       </mri:extent>
       <mri:resourceMaintenance>

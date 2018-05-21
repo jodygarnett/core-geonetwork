@@ -171,6 +171,9 @@
 								</xsl:if>
 					</xsl:for-each>
 				</xsl:when>
+				<xsl:when test="$isTemplate = 's'">
+					<xsl:value-of select="$editorConfig/editor/views/view/tab[@id = $tab]" />
+				</xsl:when>
 				<xsl:otherwise>
 					<xsl:copy-of select="$views"/>
 				</xsl:otherwise>

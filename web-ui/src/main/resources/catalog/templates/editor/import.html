@@ -12,32 +12,32 @@
           <!--Radio button to chose mode of import-->
           <div class="radio">
             <label>
-              <input type="radio" data-ng-model="importMode" value="uploadFile"/>
+              <input type="radio" data-ng-model="importMode" value="uploadFile" data-ng-change="resetImportMode()"/>
               <span data-translate="">uploadFile</span>
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" data-ng-model="importMode" value="uploadFileByUrl"/>
+              <input type="radio" data-ng-model="importMode" value="uploadFileByUrl" data-ng-change="resetImportMode()"/>
               <span data-translate="">uploadFileByUrl</span>
             </label>
           </div>
           <div class="radio">
             <label>
               <input type="radio" data-ng-model="importMode" value="copyPaste"
-                     name="insert_mode" value="0"/>
+                     name="insert_mode" value="0" data-ng-change="resetImportMode()"/>
               <span data-translate="">copyPaste</span>
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" data-ng-model="importMode" value="importFromDir"/>
+              <input type="radio" data-ng-model="importMode" value="importFromDir" data-ng-change="resetImportMode()"/>
               <span data-translate="">importFromDir</span>
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" data-ng-model="importMode" value="ImportFromS3"/>
+              <input type="radio" data-ng-model="importMode" value="ImportFromS3" data-ng-change="resetImportMode()"/>
               <span data-translate="">Import from AWS S3</span>
             </label>
           </div>
@@ -79,8 +79,8 @@
                 <input type="text"
                        class="form-control"
                        id="gn-io-directory"
-                       name="serverFolder"
-                       data-ng-model="params.serverFolder"
+                       name="s3location"
+                       data-ng-model="params.s3location"
                        placeholder="https://s3-region.amazonaws.com/bucketname">
                 <div class="checkbox">
                   <label>
