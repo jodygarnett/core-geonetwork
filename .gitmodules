@@ -22,3 +22,6 @@
 [submodule "web-ui-gne-dutch/src/main/resources/catalog/views/dutch"]
 	path = web-ui-gne-dutch/src/main/resources/catalog/views/dutch
 	url = git@eos.geocat.net:enterprise/geonetwork-dutch-skin.git
+[submodule "geoserver"]
+	path = geoserver
+	url = https://github.com/geonetwork/core-geoserver.git
