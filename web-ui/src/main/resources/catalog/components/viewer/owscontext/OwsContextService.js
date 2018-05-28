@@ -79,9 +79,10 @@
     '$timeout',
     'gnGlobalSettings',
     'wfsFilterService',
+    'gnAlertService',
     function(gnMap, gnOwsCapabilities, $http, gnViewerSettings,
              $translate, $q, $filter, $rootScope, $timeout, gnGlobalSettings,
-             wfsFilterService) {
+             wfsFilterService, gnAlertService) {
 
 
       var firstLoad = true;
@@ -125,7 +126,12 @@
         
         // -- check if projection is available in ol
         if (!ol.proj.get(projection)){
-         console.warn('Projection '+ projection +' is not available, map will be projected in a spherical mercator projection');
+         gnAlertService.addAlert({
+             msg: 'Projection ' + projection +
+             	  ' is not available, map will be projected '+
+             	  'in a spherical mercator projection',
+             type: 'warning'
+           }, 10000);
          projection='EPSG:3857';
          ll=[-10026376,-15048966];
          ur=[10026376,15048966];
@@ -158,7 +164,10 @@
           })
         }
         else {
-          console.warn('Map must be created by mapsManager');
+        	gnAlertService.addAlert({
+                msg: 'Map must be created by mapsManager',
+                type: 'danger'
+              }, 10000);
         }
 
         // load the resources & add additional layers if available
