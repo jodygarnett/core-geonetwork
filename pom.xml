@@ -1258,12 +1258,31 @@
     <profile>
       <id>Live</id>
       <properties>
-        <db.type>postgres</db.type>
-        <db.host>db</db.host>
-        <db.username>admin</db.username>
-        <db.name>geonetwork</db.name>
-        <db.password>LfmbPNzpQJdKh2w4qr</db.password>
-        <db.pool.maxActive>33</db.pool.maxActive>
+        <db.type>POSTGRESQL</db.type>
+      </properties>
+    </profile>
+    <profile>
+      <id>H2</id>
+      <properties>
+        <db.type>H2</db.type>
+      </properties>
+    </profile>
+    <profile>
+      <id>POSTGRESQL</id>
+      <properties>
+        <db.type>POSTGRESQL</db.type>
+      </properties>
+    </profile>
+    <profile>
+      <id>MYSQL</id>
+      <properties>
+        <db.type>MYSQL</db.type>
+      </properties>
+    </profile>
+    <profile>
+      <id>ORACLE</id>
+      <properties>
+        <db.type>ORACLE</db.type>
       </properties>
     </profile>
     <profile>
@@ -1283,24 +1302,10 @@
   </distributionManagement>
 
   <properties>
-    <db.properties>WEB-INF/config-db/jdbc.properties</db.properties>
-    <!--<db.properties>file:/${geonetwork.dir}/jdbc.properties</db.properties>-->
+	<db.type>H2</db.type>
 
     <app.properties>WEB-INF/config.properties</app.properties>
     <!--<app.properties>file:/${geonetwork.dir}/config.properties</app.properties>-->
-
-    <!-- Configure database config file to use. Could be
-     h2, postgres, sqlserver, mysql, oracle, db2, postgres-postgis, jndi-postgres-postgis
-     -->
-    <db.type>h2</db.type>
-    <db.config.file>../config-db/${db.type}.xml</db.config.file>
-    <db.host>localhost</db.host>
-    <db.port>5432</db.port>
-    <db.name>gn</db.name>
-    <db.username>www-data</db.username>
-    <db.password>www-data</db.password>
-    <db.pool.maxActive>10</db.pool.maxActive>
-
 
     <!-- Default catalog language when accessing the home page
     ie. http://localhost:8080/geonetwork. -->
