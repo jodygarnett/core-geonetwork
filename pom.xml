@@ -1256,31 +1256,31 @@
     </profile>
     <!-- GN-e profiles -->
     <profile>
-      <id>Live</id>
+      <id>live</id>
       <properties>
         <db.type>POSTGRESQL</db.type>
       </properties>
     </profile>
     <profile>
-      <id>H2</id>
+      <id>h2</id>
       <properties>
         <db.type>H2</db.type>
       </properties>
     </profile>
     <profile>
-      <id>POSTGRESQL</id>
+      <id>postgresql</id>
       <properties>
         <db.type>POSTGRESQL</db.type>
       </properties>
     </profile>
     <profile>
-      <id>MYSQL</id>
+      <id>mysql</id>
       <properties>
         <db.type>MYSQL</db.type>
       </properties>
     </profile>
     <profile>
-      <id>ORACLE</id>
+      <id>oracle</id>
       <properties>
         <db.type>ORACLE</db.type>
       </properties>
