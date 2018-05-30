@@ -896,7 +896,7 @@
     </profile>
     <!-- GN-e profiles -->
     <profile>
-      <id>Live</id>
+      <id>live</id>
       <build>
         <plugins>
           <plugin>
