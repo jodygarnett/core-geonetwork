@@ -531,9 +531,9 @@
 
 
   <build>
-  
+
     <plugins>
-    
+
       <!-- Generate a properties file with the commit hash to be displayed on the admin.console -->
 	    <plugin>
 	        <groupId>pl.project13.maven</groupId>
@@ -548,7 +548,7 @@
 	                </goals>
 	            </execution>
 	        </executions>
-	
+
 	        <configuration>
 	            <dotGitDirectory>${project.basedir}/../.git</dotGitDirectory>
 	            <prefix>git</prefix>
@@ -589,7 +589,7 @@
 	                <forceLongFormat>false</forceLongFormat>
 	            </gitDescribe>
 	            <!-- @since 2.2.2 -->
-	            <!-- 
+	            <!--
 	                Since version **2.2.2** the maven-git-commit-id-plugin comes equipped with an additional validation utility which can be used to verify if your project properties are set as you would like to have them set.
 	                *Note*: This configuration will only be taken into account when the additional goal `validateRevision` is configured inside an execution.
 	            -->
@@ -599,9 +599,9 @@
 	                         A descriptive name that will be used to be able to identify the validation that does not match up (will be displayed in the error message).
 	                    -->
 	                    <name>validating project version</name>
-	                    <!-- 
+	                    <!--
 	                         the value that needs the validation
-	                         *Note* : In order to be able to validate the generated git-properties inside the pom itself you may need to set the configuration `<injectAllReactorProjects>true</injectAllReactorProjects>`. 
+	                         *Note* : In order to be able to validate the generated git-properties inside the pom itself you may need to set the configuration `<injectAllReactorProjects>true</injectAllReactorProjects>`.
 	                    -->
 	                    <value>${project.version}</value>
 	                    <!--
@@ -613,7 +613,7 @@
 	            </validationProperties>
 	            <validationShouldFailIfNoMatch>false</validationShouldFailIfNoMatch>
 	        </configuration>
-	
+
 	    </plugin>
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
@@ -776,7 +776,7 @@
             catalog/lib/style/bootstrap/Gemfile*,
             catalog/lib/style/bootstrap/.*,
             catalog/lib/style/bootstrap/*.txt,
-            catalog/lib/style/bootstrap/*.md,            
+            catalog/lib/style/bootstrap/*.md,
             catalog/lib/bootstrap-table/*.json,
             catalog/lib/bootstrap-table/Gemfile*,
             catalog/lib/bootstrap-table/.*,
@@ -1041,6 +1041,162 @@
       </build>
     </profile>
 
+    <profile>
+       <id>minimal</id>
+        <dependencies>
+          <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>schema-iso19139</artifactId>
+            <!-- TODO should make sure we update this with project.version -->
+            <version>${project.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>schema-iso19110</artifactId>
+            <!-- TODO should make sure we update this with project.version -->
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+
+        <build>
+          <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.5</version>
+            <executions>
+              <execution>
+                <id>copy-schemas</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <includeEmptyDirs>true</includeEmptyDirs>
+                  <overwrite>true</overwrite>
+                  <outputDirectory>${build.webapp.resources}</outputDirectory>
+                  <resources>
+                    <!-- Copy the schema folder to the webapp folder source directory
+                    in order to be loaded by the application when running mvn jetty:run.
+                    -->
+                    <resource>
+                      <directory>${project.basedir}/../schemas/iso19139/src/main/plugin</directory>
+                      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
+                      </targetPath>
+                    </resource>
+                    <resource>
+                      <directory>${project.basedir}/../schemas/iso19110/src/main/plugin</directory>
+                      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
+                      </targetPath>
+                    </resource>
+                    <resource>
+                      <directory>${project.basedir}/../schemas/dublin-core/src/main/plugin</directory>
+                      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
+                      </targetPath>
+                    </resource>
+                    <resource>
+                      <directory>${project.basedir}/../schemas/csw-record/src/main/plugin</directory>
+                      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
+                      </targetPath>
+                    </resource>
+                    <!-- Copy the documentation in the webapp. -->
+                    <resource>
+                      <directory>${project.basedir}/../docs/manuals/target/doc</directory>
+                      <targetPath>${basedir}/src/main/webapp/doc</targetPath>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+              <archive>
+                <manifest>
+                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                </manifest>
+                <manifestEntries>
+                  <Implementation-Build>${git.commit.id}</Implementation-Build>
+                </manifestEntries>
+              </archive>
+              <archiveClasses>true</archiveClasses>
+              <!-- Filter resources according to current profile properties
+                  (see src/main/filters) and copy them to the webapp -->
+              <webResources>
+                <resource>
+                  <directory>${project.basedir}/../schemas</directory>
+                  <includes>
+                    <include>**/src/main/plugin/*</include>
+                  </includes>
+                  <targetPath>WEB-INF/data/config/schema_plugins</targetPath>
+                </resource>
+                    <!-- The order decides the overriding -->
+                    <!-- First one is the one served -->
+                <resource>
+                  <directory>${project.basedir}/../web-ui-gne-minimal/src/main/resources</directory>
+                </resource>
+                <resource>
+                  <directory>${project.basedir}/../web-ui/src/main/resources</directory>
+                </resource>
+                <resource>
+                  <directory>${build.webapp.resources}</directory>
+                </resource>
+              </webResources>
+              <!-- <packagingExcludes>WEB-INF/data/**</packagingExcludes> -->
+              <packagingExcludes>
+                xml/schemas/**,
+                catalog/lib/style/bootstrap/docs/**,
+                catalog/lib/style/bootstrap/fonts/**,
+                catalog/lib/style/bootstrap/grunt/**,
+                catalog/lib/style/bootstrap/test-infra/**,
+                catalog/lib/style/font-awesome/css/**,
+                catalog/lib/style/font-awesome/src/**,
+                catalog/lib/style/font-awesome/scss/**
+              </packagingExcludes>
+              <!--          <warSourceDirectory>src/main/geonetwork</warSourceDirectory> -->
+              <webXml>${build.webapp.resources}/WEB-INF/web.xml</webXml>
+              <attachClasses>true</attachClasses>
+              <warName>geonetwork</warName>
+              <webappDirectory>${project.build.directory}/geonetwork</webappDirectory>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <configuration>
+              <contextXml>${basedir}/jetty-context.xml</contextXml>
+              <webAppSourceDirectory>${project.build.directory}/geonetwork</webAppSourceDirectory>
+              <webApp>
+                <contextPath>/geonetwork</contextPath>
+                <descriptor>${project.build.directory}/WEB-INF/web.xml</descriptor>
+                <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
+                <resources>
+                <resourceCollection><_associate></_associate></resourceCollection>
+                </resources>
+                  <resourcesAsCSV>
+                    ${project.basedir}/src/main/webapp,
+                    <!-- The order decides the overriding -->
+                    <!-- First one is the one served -->
+                    ${rootProjectDir}/web-ui-gne-minimal/src/main/resources/,
+                    ${rootProjectDir}/web-ui/src/main/resources/,
+                    ${build.webapp.resources}
+                  </resourcesAsCSV>
+                </baseResource>
+              </webApp>
+              <systemProperties>
+                <systemProperty>
+                  <name>org.eclipse.jetty.server.Request.maxFormContentSize</name>
+                  <value>5000000</value>
+                </systemProperty>
+              </systemProperties>
+              <stopKey>JETTY_TOP</stopKey>
+              <stopPort>8090</stopPort>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
        <id>dutch</id>
         <dependencies>
