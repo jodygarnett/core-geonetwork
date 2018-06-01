@@ -25,9 +25,11 @@
     <jsSource webappPath="/catalog/views/default/"/>
     <jsSource webappPath="/catalog/views/api/"/>
     <jsSource webappPath="/catalog/views/dutch/"/>
+    <jsSource webappPath="/catalog/views/minimal/"/>
     <jsSource webappPath="/catalog/components/"/>
     <cssSource webappPath="/catalog/views/default/"/>
     <cssSource webappPath="/catalog/views/dutch/"/>
+    <cssSource webappPath="/catalog/views/minimal/"/>
     <cssSource webappPath="/catalog/views/api/"/>
     <cssSource webappPath="/catalog/style/"/>
     <cssSource webappPath="/catalog/lib/bootstrap-table/dist"/>
