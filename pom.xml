@@ -1254,43 +1254,6 @@
         <module>jmeter</module>
       </modules>
     </profile>
-    <!-- GN-e profiles -->
-    <profile>
-      <id>live</id>
-      <properties>
-        <db.type>POSTGRESQL</db.type>
-      </properties>
-    </profile>
-    <profile>
-      <id>h2</id>
-      <properties>
-        <db.type>H2</db.type>
-      </properties>
-    </profile>
-    <profile>
-      <id>postgresql</id>
-      <properties>
-        <db.type>POSTGRESQL</db.type>
-      </properties>
-    </profile>
-    <profile>
-      <id>mysql</id>
-      <properties>
-        <db.type>MYSQL</db.type>
-      </properties>
-    </profile>
-    <profile>
-      <id>oracle</id>
-      <properties>
-        <db.type>ORACLE</db.type>
-      </properties>
-    </profile>
-    <profile>
-      <id>postgis</id>
-      <properties>
-        <db.type>postgres-postgis</db.type>
-      </properties>
-    </profile>
   </profiles>
 
   <distributionManagement>
