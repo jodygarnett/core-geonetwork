@@ -27,4 +27,4 @@
 	url = https://github.com/geonetwork/core-geoserver.git
 [submodule "geonetwork-minimal-skin"]
 	path = web-ui-gne-minimal/src/main/resources/catalog/views/minimal
-	url = http://eos.geocat.net/gitlab/enterprise/geonetwork-minimal-skin.git
+	url = git@eos.geocat.net:enterprise/geonetwork-minimal-skin.git
