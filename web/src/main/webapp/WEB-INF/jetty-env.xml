@@ -18,7 +18,7 @@
     <Arg>jdbc/geonetwork</Arg>
     <Arg>
       <New class="org.apache.commons.dbcp.BasicDataSource">
-        <Set name="driverClassName">org.postgis.DriverWrapper</Set>
+        <Set name="driverClassName">org.h2.Driver</Set>
         <Set name="url">jdbc:h2:gn;LOCK_TIMEOUT=20000;DB_CLOSE_ON_EXIT=FALSE;MVCC=TRUE</Set>
         <Set name="username">www-data</Set>
         <Set name="password">www-data</Set>
@@ -37,5 +37,10 @@
     <Call name="bindToENC">
       <Arg>jdbc/geonetwork</Arg>
     </Call>
+  </New>
+  <New id="gnparameters" class="org.eclipse.jetty.plus.jndi.Resource">
+    <Arg></Arg>
+    <Arg>gnDatabaseDialect</Arg>
+    <Arg>H2</Arg>
   </New>
 </Configure>
