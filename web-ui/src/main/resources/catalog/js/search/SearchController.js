@@ -98,7 +98,7 @@
                 for (var i = 0; i < data.length; i++) {
                   res.push({
                     id: data[i].id,
-                    name: data[i].name
+                    name: data[i].name + ' ' + data[i].surname + ' (' + data[i].username + ')'
                   });
                 }
                 defer.resolve(res);
