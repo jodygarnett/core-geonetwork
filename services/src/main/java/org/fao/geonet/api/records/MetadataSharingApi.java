@@ -46,6 +46,7 @@ import org.fao.geonet.domain.*;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.SchemaManager;
+import org.fao.geonet.kernel.TransformManager;
 import org.fao.geonet.kernel.metadata.StatusActions;
 import org.fao.geonet.kernel.metadata.StatusActionsFactory;
 import org.fao.geonet.kernel.setting.SettingManager;
@@ -53,9 +54,11 @@ import org.fao.geonet.repository.*;
 import org.fao.geonet.repository.specification.MetadataValidationSpecs;
 import org.fao.geonet.repository.specification.OperationAllowedSpecs;
 import org.fao.geonet.repository.specification.UserGroupSpecs;
+import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom2.xpath.XPathExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.domain.Specification;
@@ -214,16 +217,15 @@ public class MetadataSharingApi {
             Set<Integer> metadataIds = new HashSet<Integer>();
             final ApplicationContext appContext = ApplicationContextHolder.get();
             final DataManager dataMan = appContext.getBean(DataManager.class);
+            final TransformManager transMan = appContext.getBean(TransformManager.class);
             final AccessManager accessMan = appContext.getBean(AccessManager.class);
             final MetadataRepository metadataRepository = appContext.getBean(MetadataRepository.class);
             final GroupRepository _groupRepository = ApplicationContextHolder.get().getBean(GroupRepository.class);
             final SchemaManager schemaManager = ApplicationContextHolder.get().getBean(SchemaManager.class);
             final MetadataCategoryRepository _catRepository = ApplicationContextHolder.get().getBean(MetadataCategoryRepository.class);
-            
             UserSession us = ApiUtils.getUserSession(session);
             boolean isAdmin = Profile.Administrator == us.getProfile();
             boolean isReviewer = Profile.Reviewer == us.getProfile();
-
             ServiceContext context = ApiUtils.createServiceContext(request);
 
             List<String> listOfUpdatedRecords = new ArrayList<>();
@@ -252,11 +254,26 @@ public class MetadataSharingApi {
                     } else {//Add publication date and update category
                     	updateMetadataWithModifiedDate(context, schemaManager, dataMan, String.valueOf(metadata.getId()));
                     	groupId = sharing.getPrivileges().get(0).getGroup();
-                    	
-                    	//String category = (groupId == ReservedGroup.all.getId()) ?  "externalrecords": "internalrecords";
-                    	//MetadataCategory mdCat = _catRepository.findOneByNameIgnoreCase(category);
-                    	//dataMan.setCategory(context, String.valueOf(metadata.getId()), String.valueOf(mdCat.getId()));
                     }
+                    
+                    String publishKeyword = "";
+                    
+                    //Joseph added - To update Keyword with Publish Internal or External - Start
+                    if(groupId == 0){//group 0 - Publish Internally
+                    	publishKeyword = Geonet.Transform.PUBLISHED_INTERNAL; 
+                    }else if(groupId == 1)
+                    	publishKeyword = Geonet.Transform.PUBLISHED_EXTERNAL;
+                    
+                    Element md = dataMan.getMetadata(String.valueOf(metadata.getId()));
+                    md = transMan.
+                    		updatePublishKeyWord(md, "//mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword[gco:CharacterString = '{}']", 
+                    				Geonet.Transform.PUBLISH_KEYWORDS, "{}", publishKeyword, sharing.isClear());
+                    if(md != null){
+                    	dataMan.updateMetadata(context, String.valueOf(metadata.getId()), md, false, false, false, context.getLanguage(), new ISODate().toString(), false);
+                    }else{
+                    	addMetadataWithPublishKeyword(context, schemaManager, dataMan, String.valueOf(metadata.getId()), publishKeyword);
+                    }
+                    //Joseph added - To update Keyword with Publish Internal or External - End
                     
                     //Update the owner as admin
                     dataMan.updateMetadataOwner(metadata.getId(), us.getUserId(), String.valueOf(groupId));
@@ -334,6 +351,17 @@ public class MetadataSharingApi {
         }
     }
 
+    private void addMetadataWithPublishKeyword(ServiceContext context, SchemaManager schemaMan,
+			DataManager dm, String id, String publishKeyword) throws Exception {
+    	String schema = dm.getMetadataSchema(id);
+    	String publishDate = new ISODate().toString();
+		Element md = dm.getMetadata(id);
+		Map<String, Object> xslParameters = new HashMap<String, Object>();
+		xslParameters.put("publish_keyword", publishKeyword);
+		Path file = schemaMan.getSchemaDir(schema).resolve("process").resolve(Geonet.File.SET_KEYWORD);
+		md = Xml.transform(md, file, xslParameters);
+		dm.updateMetadata(context, id, md, false, false, false, context.getLanguage(), publishDate, false);
+	}
     private void updateMetadataWithModifiedDate(ServiceContext context, SchemaManager schemaMan,
 			DataManager dm, String id) throws Exception {
     	String schema = dm.getMetadataSchema(id);

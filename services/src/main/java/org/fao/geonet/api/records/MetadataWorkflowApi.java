@@ -29,12 +29,17 @@ import org.fao.geonet.api.API;
 import org.fao.geonet.api.ApiParams;
 import org.fao.geonet.api.ApiUtils;
 import org.fao.geonet.api.tools.i18n.LanguageUtils;
+import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.ISODate;
 import org.fao.geonet.domain.Metadata;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.DataManager;
+import org.fao.geonet.kernel.SchemaManager;
+import org.fao.geonet.kernel.TransformManager;
 import org.fao.geonet.kernel.metadata.StatusActions;
 import org.fao.geonet.kernel.metadata.StatusActionsFactory;
+import org.fao.geonet.utils.Xml;
+import org.jdom.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -47,8 +52,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -120,8 +128,7 @@ public class MetadataWorkflowApi {
         ApplicationContext appContext = ApplicationContextHolder.get();
         Locale locale = languageUtils.parseAcceptLanguage(request.getLocales());
         ServiceContext context = ApiUtils.createServiceContext(request, locale.getISO3Language());
-
-
+        
         AccessManager am = appContext.getBean(AccessManager.class);
         //--- only allow the owner of the record to set its status
         if (!am.isOwner(context, String.valueOf(metadata.getId()))) {
@@ -143,8 +150,32 @@ public class MetadataWorkflowApi {
 
         sa.statusChange(String.valueOf(status), metadataIds, changeDate, comment);
 
-        //--- reindex metadata
+        TransformManager transMan = appContext.getBean(TransformManager.class);
+        SchemaManager schemaManager = appContext.getBean(SchemaManager.class);
         DataManager dataManager = appContext.getBean(DataManager.class);
+        
+        //Joseph added - To update Keyword with Retired_Internal, if status Retired(3) - Start
+        if(status == 3){
+        	Element md = dataManager.getMetadata(String.valueOf(metadata.getId()));
+        	md = transMan.
+            		updatePublishKeyWord(md, "//mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword[gco:CharacterString = '{}']", 
+            				Geonet.Transform.PUBLISH_KEYWORDS, "{}", Geonet.Transform.RETIRED_INTERNAL, false);
+            if(md != null){
+            	dataManager.updateMetadata(context, String.valueOf(metadata.getId()), md, false, false, false, context.getLanguage(), new ISODate().toString(), false);
+            }else{
+            	String schema = dataManager.getMetadataSchema(String.valueOf(metadata.getId()));
+            	String publishDate = new ISODate().toString();
+            	md = dataManager.getMetadata(String.valueOf(metadata.getId()));
+        		Map<String, Object> xslParameters = new HashMap<String, Object>();
+        		xslParameters.put("publish_keyword", Geonet.Transform.RETIRED_INTERNAL);
+        		Path file = schemaManager.getSchemaDir(schema).resolve("process").resolve(Geonet.File.SET_KEYWORD);
+        		md = Xml.transform(md, file, xslParameters);
+        		dataManager.updateMetadata(context, String.valueOf(metadata.getId()), md, false, false, false, context.getLanguage(), publishDate, false);
+            }
+        }
+        //Joseph added - To update Keyword with Retired_Internal, if status Retired(3) - End
+        
+      //--- reindex metadata
         dataManager.indexMetadata(String.valueOf(metadata.getId()), true);
     }
 }
