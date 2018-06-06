@@ -18,6 +18,11 @@
       <span data-translate="">share</span>
     </button>-->
 
+	<button type="button" class="btn btn-default navbar-btn"
+            title="" gn-click-and-spin="scan()" data-ng-show="gnCurrentEdit.isSourceDataSet">
+      <i class="fa fa-flag-checkered"/>&nbsp;
+	  <a href="sdl://{{gnCurrentEdit.eCatId}}" target="_blank">Open SDL GUI</a>
+    </button>
 
     <div data-gn-metadata-category-updater="mdCategories"
          data-gn-group-owner="groupOwner"

@@ -36,6 +36,15 @@
    */
   module.value('gnCurrentEdit', {});
 
+  module.config( [
+  		'$compileProvider',
+  		function( $compileProvider )
+  		{   
+  			$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|sdl|file):/);
+  			// Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+  		}
+  	]);
+  
   module.factory('gnEditor',
       ['$q',
        '$http',
@@ -283,8 +292,15 @@
                return $(gnCurrentEdit.formId).
                find('input[id="' + id + '"]').val();
              };
+             
+             var geteCatValue = function(name) {
+	             return $(gnCurrentEdit.formId).
+	             find('input[name="' + name + '"]').val();
+	           };
 
              angular.extend(gnCurrentEdit, {
+               eCatId:geteCatValue('_eCat ID'),
+  			   isSourceDataSet: false,
                isService: getInputValue('isService') == 'true',
                isTemplate: getInputValue('template'),
                mdTitle: getInputValue('title'),
@@ -309,6 +325,9 @@
              if (angular.isFunction(gnCurrentEdit.formLoadExtraFn)) {
                gnCurrentEdit.formLoadExtraFn();
              }
+             if (gnCurrentEdit.mdTitle === 'Source Dataset Template') {
+ 				gnCurrentEdit.isSourceDataSet = true;
+              }
            },
            //TODO : move edit services to new editor service
            /**
