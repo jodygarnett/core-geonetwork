@@ -24,7 +24,7 @@
 	url = https://github.com/geonetwork/core-geoserver.git
 [submodule "web-ui/src/main/resources/catalog/views/dutch"]
 	path = web-ui/src/main/resources/catalog/views/dutch
-	url = http://eos.geocat.net/gitlab/enterprise/geonetwork-dutch-skin.git
+	url = git@eos.geocat.net:enterprise/geonetwork-dutch-skin.git
     branch = 3.4.x
 [submodule "web-ui/src/main/resources/catalog/views/minimal"]
 	path = web-ui/src/main/resources/catalog/views/minimal
