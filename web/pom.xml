@@ -719,7 +719,7 @@
         </executions>
       </plugin>
 
-      <plugin>
+	  <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
           <archive>
@@ -778,8 +778,7 @@
             catalog/lib/bootstrap-table/*.txt,
             catalog/lib/bootstrap-table/*.md,
             catalog/lib/bootstrap-table/docs/**,
-            catalog/views/dutch/**,
-            catalog/views/minimal/**
+            catalog/views/dutch/**
           </packagingExcludes>
           <!-- <warSourceDirectory>src/main/geonetwork</warSourceDirectory> -->
           <webXml>${build.webapp.resources}/WEB-INF/web.xml</webXml>
@@ -788,6 +787,7 @@
           <webappDirectory>${project.build.directory}/geonetwork</webappDirectory>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
@@ -1034,149 +1034,6 @@
     </profile>
 
     <profile>
-      <id>minimal</id>
-      <dependencies>
-        <dependency>
-          <groupId>${project.groupId}</groupId>
-          <artifactId>schema-iso19139</artifactId>
-          <!-- TODO should make sure we update this with project.version -->
-          <version>${project.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>${project.groupId}</groupId>
-          <artifactId>schema-iso19110</artifactId>
-          <!-- TODO should make sure we update this with project.version -->
-          <version>${project.version}</version>
-        </dependency>
-      </dependencies>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>2.5</version>
-            <executions>
-              <execution>
-                <id>copy-schemas</id>
-                <phase>process-resources</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <includeEmptyDirs>true</includeEmptyDirs>
-                  <overwrite>true</overwrite>
-                  <outputDirectory>${build.webapp.resources}</outputDirectory>
-                  <resources>
-                    <!-- Copy the schema folder to the webapp folder source directory 
-                      in order to be loaded by the application when running mvn jetty:run. -->
-                    <resource>
-                      <directory>${project.basedir}/../schemas/iso19139/src/main/plugin</directory>
-                      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
-                      </targetPath>
-                    </resource>
-                    <resource>
-                      <directory>${project.basedir}/../schemas/iso19110/src/main/plugin</directory>
-                      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
-                      </targetPath>
-                    </resource>
-                    <resource>
-                      <directory>${project.basedir}/../schemas/dublin-core/src/main/plugin</directory>
-                      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
-                      </targetPath>
-                    </resource>
-                    <resource>
-                      <directory>${project.basedir}/../schemas/csw-record/src/main/plugin</directory>
-                      <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
-                      </targetPath>
-                    </resource>
-                    <!-- Copy the documentation in the webapp. -->
-                    <resource>
-                      <directory>${project.basedir}/../docs/manuals/target/doc</directory>
-                      <targetPath>${basedir}/src/main/webapp/doc</targetPath>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <artifactId>maven-war-plugin</artifactId>
-            <configuration>
-              <archive>
-                <manifest>
-                  <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                </manifest>
-                <manifestEntries>
-                  <Implementation-Build>${git.commit.id}</Implementation-Build>
-                </manifestEntries>
-              </archive>
-              <archiveClasses>true</archiveClasses>
-              <!-- Filter resources according to current profile properties (see 
-                src/main/filters) and copy them to the webapp -->
-              <webResources>
-                <resource>
-                  <directory>${project.basedir}/../schemas</directory>
-                  <includes>
-                    <include>**/src/main/plugin/*</include>
-                  </includes>
-                  <targetPath>WEB-INF/data/config/schema_plugins</targetPath>
-                </resource>
-                <!-- The order decides the overriding -->
-                <!-- First one is the one served -->
-                <resource>
-                  <directory>${project.basedir}/../web-ui-gne-minimal/src/main/resources</directory>
-                </resource>
-                <resource>
-                  <directory>${project.basedir}/../web-ui/src/main/resources</directory>
-                </resource>
-                <resource>
-                  <directory>${build.webapp.resources}</directory>
-                </resource>
-              </webResources>
-              <!-- <packagingExcludes>WEB-INF/data/**</packagingExcludes> -->
-              <packagingExcludes>
-                xml/schemas/**,
-                WEB-INF/data/*.db,
-                WEB-INF/data/index/**,
-                WEB-INF/data/data/backup/**,
-                WEB-INF/data/data/resources/htmlcache/**,
-                catalog/lib/style/bootstrap/docs/**,
-                catalog/lib/style/bootstrap/fonts/**,
-                catalog/lib/style/bootstrap/grunt/**,
-                catalog/lib/style/bootstrap/test-infra/**,
-                catalog/lib/style/font-awesome/css/**,
-                catalog/lib/style/font-awesome/src/**,
-                catalog/lib/style/font-awesome/scss/**,
-                catalog/lib/style/font-awesome/*.json,
-                catalog/lib/style/font-awesome/Gemfile*,
-                catalog/lib/style/font-awesome/.*,
-                catalog/lib/style/font-awesome/*.txt,
-                catalog/lib/style/font-awesome/*.md,
-                catalog/lib/style/bootstrap/*.json,
-                catalog/lib/style/bootstrap/Gemfile*,
-                catalog/lib/style/bootstrap/.*,
-                catalog/lib/style/bootstrap/*.txt,
-                catalog/lib/style/bootstrap/*.md,
-                catalog/lib/bootstrap-table/*.json,
-                catalog/lib/bootstrap-table/Gemfile*,
-                catalog/lib/bootstrap-table/.*,
-                catalog/lib/bootstrap-table/*.txt,
-                catalog/lib/bootstrap-table/*.md,
-                catalog/lib/bootstrap-table/docs/**,
-                catalog/views/dutch/**
-              </packagingExcludes>
-              <!-- <warSourceDirectory>src/main/geonetwork</warSourceDirectory> -->
-              <webXml>${build.webapp.resources}/WEB-INF/web.xml</webXml>
-              <attachClasses>true</attachClasses>
-              <warName>geonetwork</warName>
-              <webappDirectory>${project.build.directory}/geonetwork</webappDirectory>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>dutch</id>
       <dependencies>
         <dependency>
@@ -1265,6 +1122,7 @@
               </execution>
             </executions>
           </plugin>
+
           <plugin>
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
@@ -1329,7 +1187,6 @@
                 catalog/lib/bootstrap-table/*.txt,
                 catalog/lib/bootstrap-table/*.md,
                 catalog/lib/bootstrap-table/docs/**,
-                catalog/views/minimal/**
               </packagingExcludes>
               <!-- <warSourceDirectory>src/main/geonetwork</warSourceDirectory> -->
               <webXml>${build.webapp.resources}/WEB-INF/web.xml</webXml>
