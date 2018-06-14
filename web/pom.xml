@@ -778,7 +778,14 @@
             catalog/lib/bootstrap-table/*.txt,
             catalog/lib/bootstrap-table/*.md,
             catalog/lib/bootstrap-table/docs/**,
-            catalog/views/dutch/**
+            catalog/views/dutch/*.js,
+            catalog/views/dutch/*.xml,
+            catalog/views/dutch/directives/**,
+            catalog/views/dutch/images/**,
+            catalog/views/dutch/javascript/**,
+            catalog/views/dutch/less/**,
+            catalog/views/dutch/locales/**,
+            catalog/views/dutch/templates/**
           </packagingExcludes>
           <!-- <warSourceDirectory>src/main/geonetwork</warSourceDirectory> -->
           <webXml>${build.webapp.resources}/WEB-INF/web.xml</webXml>
