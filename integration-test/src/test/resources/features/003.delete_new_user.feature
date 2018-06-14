@@ -11,6 +11,7 @@ Feature: GeoNetwork Create new user
         And I wait for 1 sec
         And I navigate to "{endPointToTest}/srv/eng/admin.console#/organization"
         And I click on link having partial text "Eta Beta"
-        And I click on element having css "button.btn-danger"  
+        And I click on element having css "button.btn-danger"
+        And I accept alert
         And I hover over element having css ".gn-user-info"  
         When I click on element having css ".fa-sign-out"
