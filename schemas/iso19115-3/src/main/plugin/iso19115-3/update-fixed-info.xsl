@@ -243,7 +243,7 @@
       <!--<xsl:apply-templates select="mdb:distributionInfo"/>-->
 	  <xsl:choose>
 			<xsl:when
-				test="//cit:CI_Citation[starts-with(cit:title/gco:CharacterString, 'Source Dataset Copy Location')]">
+				test="//cit:CI_Citation[starts-with(cit:title/gco:CharacterString, 'Source Dataset Classification')]">
 				<mdb:distributionInfo>
 					<mrd:MD_Distribution>
 					<xsl:for-each select="//mrd:MD_Distribution/mrd:distributionFormat">
@@ -255,7 +255,7 @@
 					  </xsl:for-each>
 						
 						<xsl:for-each
-							select="//mri:MD_Keywords[starts-with(mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString, 'Source Dataset Copy Location')]/mri:keyword">
+							select="//mri:MD_Keywords[starts-with(mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString, 'Source Dataset Classification')]/mri:keyword">
 
 							<xsl:variable name="sdlKeyword" select="gco:CharacterString" />
 							<xsl:variable name="eCatId"
