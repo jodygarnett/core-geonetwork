@@ -8,7 +8,7 @@
 
 <rdf:Description rdf:about="http://geonetwork-opensource.org/Source Dataset Copy Location">
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
-	<ns3:title>Source Dataset Copy Location</ns3:title>
+	<ns3:title>Source Dataset Classification</ns3:title>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://www.ecat.ga.gov.au/thesaurus#7687bbf9-7596-4cfb-ae10-3329ede7903e">

@@ -112,12 +112,14 @@
       </xsl:if>
 
 
+	  <xsl:apply-templates select="mdb:dateInfo"/>
+
       <!-- Preserve date order -->
-      <xsl:for-each select="mdb:dateInfo">
-        <xsl:variable name="currentDateType" select="*/cit:dateType/*/@codeListValue"/>
+      <!-- <xsl:for-each select="mdb:dateInfo">
+        <xsl:variable name="currentDateType" select="*/cit:dateType/*/@codeListValue"/> -->
 
         <!-- Update revision date-->
-        <xsl:choose>
+        <!-- <xsl:choose>
           <xsl:when test="$currentDateType = 'revision' and /root/env/changeDate">
             <mdb:dateInfo>
               <cit:CI_Date>
@@ -134,7 +136,7 @@
             <xsl:copy-of select="."/>
           </xsl:otherwise>
         </xsl:choose>
-      </xsl:for-each>
+      </xsl:for-each> -->
 
 
 
@@ -144,8 +146,11 @@
           <mdb:metadataStandard>
             <cit:CI_Citation>
               <cit:title>
-                <gco:CharacterString>ISO 19115-3</gco:CharacterString>
+                <gco:CharacterString>ISO19115-1:2014/ISO19115-3:2015</gco:CharacterString>
               </cit:title>
+              <cit:edition>
+                <gco:CharacterString>2015</gco:CharacterString>
+              </cit:edition>
             </cit:CI_Citation>
           </mdb:metadataStandard>
         </xsl:when>

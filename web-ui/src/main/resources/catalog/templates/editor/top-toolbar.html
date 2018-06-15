@@ -18,6 +18,11 @@
       <span data-translate="">share</span>
     </button>-->
 
+	<button type="button" class="btn btn-default navbar-btn"
+            title="" gn-click-and-spin="scan()" data-ng-show="gnCurrentEdit.isSourceDataSet">
+      <i class="fa fa-flag-checkered"/>&nbsp;
+	  <a href="sdl://{{gnCurrentEdit.eCatId}}" target="_blank">Open SDL GUI</a>
+    </button>
 
     <div data-gn-metadata-category-updater="mdCategories"
          data-gn-group-owner="groupOwner"
@@ -26,7 +31,7 @@
     <div data-gn-metadata-group-updater="groupOwner"
          data-metadata-id="gnCurrentEdit.id" title="{{'group'|translate}}"/>
 
-    <div class="btn-group">
+    <!--<div class="btn-group">
       <button class="btn btn-default dropdown-toggle"
               type="button"
               data-toggle="dropdown" aria-expanded="true">
@@ -43,7 +48,7 @@
           </a>
         </li>
       </ul>
-    </div>
+    </div> -->
 
     <button type="button" class="btn btn-default navbar-btn"
             title="{{'validate'|translate}}" gn-click-and-spin="validate()">

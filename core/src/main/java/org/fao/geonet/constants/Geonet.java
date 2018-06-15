@@ -121,6 +121,7 @@ public final class Geonet {
         public static final String SET_THUMBNAIL = "set-thumbnail.xsl";
         public static final String UNSET_THUMBNAIL = "unset-thumbnail.xsl";
         public static final String PUBLICATION_DATE = "publicationdate-add.xsl";
+        public static final String SET_KEYWORD = "set-keyword.xsl";
         public static final String SCHEMA_SUGGESTIONS = "schema-suggestions.xml";
         public static final String SCHEMA_SUBSTITUTES = "schema-substitutes.xml";
         public static final String SCHEMA_CONVERSIONS = "schema-conversions.xml";
@@ -638,6 +639,33 @@ public final class Geonet {
         public static final Namespace SLD = Namespace.getNamespace("sld", "http://www.opengis.net/sld");
         public static final Namespace SE = Namespace.getNamespace("se", "http://www.opengis.net/se");
         public static final Namespace XML = Namespace.getNamespace("xml", "http://www.w3.org/XML/1998/namespace");
+        
+    	public static final Namespace MDB = Namespace.getNamespace("mdb", "http://standards.iso.org/iso/19115/-3/mdb/1.0");
+    	public static final Namespace MCC = Namespace.getNamespace("mcc", "http://standards.iso.org/iso/19115/-3/mcc/1.0");
+    	public static final Namespace CIT = Namespace.getNamespace("cit", "http://standards.iso.org/iso/19115/-3/cit/1.0");
+    	public static final Namespace CAT = Namespace.getNamespace("cat", "http://standards.iso.org/iso/19115/-3/cat/1.0");
+    	public static final Namespace GCX = Namespace.getNamespace("gcx", "http://standards.iso.org/iso/19115/-3/gcx/1.0");
+    	public static final Namespace GEX = Namespace.getNamespace("gex", "http://standards.iso.org/iso/19115/-3/gex/1.0");
+    	public static final Namespace LAN = Namespace.getNamespace("lan", "http://standards.iso.org/iso/19115/-3/lan/1.0");
+
+    	public static final Namespace MAC = Namespace.getNamespace("mac", "http://standards.iso.org/iso/19115/-3/mac/1.0");
+    	public static final Namespace MAS = Namespace.getNamespace("mas", "http://standards.iso.org/iso/19115/-3/mas/1.0");
+    	public static final Namespace MCO = Namespace.getNamespace("mco", "http://standards.iso.org/iso/19115/-3/mco/1.0");
+    	public static final Namespace MDA = Namespace.getNamespace("mda", "http://standards.iso.org/iso/19115/-3/mda/1.0");
+    	public static final Namespace MDQ = Namespace.getNamespace("mdq", "http://standards.iso.org/iso/19157/-2/mdq/1.0");
+    	public static final Namespace MDS = Namespace.getNamespace("mds", "http://standards.iso.org/iso/19115/-3/mds/1.0");
+    	public static final Namespace MDT = Namespace.getNamespace("mdt", "http://standards.iso.org/iso/19115/-3/mdt/1.0");
+    	public static final Namespace MEX = Namespace.getNamespace("mex", "http://standards.iso.org/iso/19115/-3/mex/1.0");
+    	public static final Namespace MMI = Namespace.getNamespace("mmi", "http://standards.iso.org/iso/19115/-3/mmi/1.0");
+    	public static final Namespace MPC = Namespace.getNamespace("mpc", "http://standards.iso.org/iso/19115/-3/mpc/1.0");
+    	public static final Namespace MRC = Namespace.getNamespace("mrc", "http://standards.iso.org/iso/19115/-3/mrc/1.0");
+    	public static final Namespace MRD = Namespace.getNamespace("mrd", "http://standards.iso.org/iso/19115/-3/mrd/1.0");
+    	public static final Namespace MRI = Namespace.getNamespace("mri", "http://standards.iso.org/iso/19115/-3/mri/1.0");
+    	public static final Namespace MRL = Namespace.getNamespace("mrl", "http://standards.iso.org/iso/19115/-3/mrl/1.0");
+    	public static final Namespace MRS = Namespace.getNamespace("mrs", "http://standards.iso.org/iso/19115/-3/mrs/1.0");
+    	public static final Namespace MSR = Namespace.getNamespace("msr", "http://standards.iso.org/iso/19115/-3/msr/1.0");
+    	public static final Namespace SRV_3 = Namespace.getNamespace("srv", "http://standards.iso.org/iso/19115/-3/srv/2.0");
+    	
     }
 
     public static class IndexFieldNames {
@@ -672,5 +700,13 @@ public final class Geonet {
         public static final String ID = "_id";
         public static final String ANY = "any";
         public static final String LOCALE = "locale";
+    }
+    
+    public static class Transform {
+		public static final String[] PUBLISH_KEYWORDS = { "Published_Internal", "Published_External",
+				"Retired_Internal" };
+		public static final String PUBLISHED_INTERNAL = "Published_Internal";
+		public static final String PUBLISHED_EXTERNAL = "Published_External";
+		public static final String RETIRED_INTERNAL = "Retired_Internal";
     }
 }
