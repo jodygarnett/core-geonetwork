@@ -140,17 +140,26 @@
              * Sort by combo values configuration. The first one is the default.
              */
           searchSettings.sortbyValues = [{
-	        sortBy: 'changeDate',
+	        sortBy: 'changeDateDesc',
+	        sortOrder: ''
+          },{
+	        sortBy: 'changeDateAsc',
+	        sortOrder: 'reverse'
+          },{
+	        sortBy: 'eCatId',
 	        sortOrder: ''
           }, {
             sortBy: 'relevance',
             sortOrder: ''
-          }, {
-            sortBy: 'title',
-            sortOrder: 'reverse'
-          }, {
-            sortBy: 'rating',
-            sortOrder: ''
+	      }, {
+	        sortBy: 'titleAZ',
+	        sortOrder: 'reverse'
+	      },{
+	        sortBy: 'titleZA',
+	        sortOrder: ''
+	      }, {
+	        sortBy: 'rating',
+	        sortOrder: ''
           }, {
             sortBy: 'popularity',
             sortOrder: ''
