@@ -189,7 +189,7 @@
       <mri:resourceMaintenance>
         <mmi:MD_MaintenanceInformation>
           <mmi:maintenanceAndUpdateFrequency>
-            <mmi:MD_MaintenanceFrequencyCode codeListValue="asNeeded"
+            <mmi:MD_MaintenanceFrequencyCode codeListValue="notPlanned"
               codeList="./resources/codeList.xml#MD_MaintenanceFrequencyCode"/>
           </mmi:maintenanceAndUpdateFrequency>
         </mmi:MD_MaintenanceInformation>
