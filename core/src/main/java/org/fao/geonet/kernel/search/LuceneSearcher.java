@@ -1621,6 +1621,15 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
         _filter = new CachingWrapperFilter(filter);
 
         String sortBy = Util.getParam(request, Geonet.SearchResult.SORT_BY, Geonet.SearchResult.SortBy.RELEVANCE);
+        
+        //Added by Joseph - Sort by Change date with Asc and Desc
+        if(sortBy.startsWith(Geonet.SearchResult.SortBy.DATE)){
+        	sortBy = Geonet.SearchResult.SortBy.DATE;
+        }
+        if(sortBy.startsWith(Geonet.SearchResult.SortBy.TITLE)){
+        	sortBy = Geonet.SearchResult.SortBy.TITLE;
+        }
+        
         boolean sortOrder = (Util.getParam(request, Geonet.SearchResult.SORT_ORDER, "").equals(""));
         if (Log.isDebugEnabled(Geonet.SEARCH_ENGINE))
             Log.debug(Geonet.SEARCH_ENGINE, "Sorting by : " + sortBy);
