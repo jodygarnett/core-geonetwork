@@ -1355,7 +1355,7 @@
     <description>Authority responsible for codification. i.e. EPSG</description>
   </element>
   <element name="cit:date" id="393.0">
-    <label>Date</label>
+    <label>Date for the resource</label>
     <description>Formatted as 2007-09-12 (YYYY-MM-DD)</description>
     <help>reference date and event used to describe it</help>
     <_condition>Use obligation/condition from referencing object</_condition>
@@ -2177,7 +2177,7 @@
   </element>
   <element name="mdb:contact" id="19.0">
     <condition>mandatory</condition>
-    <label>Contact</label>
+    <label>Metadata Contact</label>
     <description>Party responsible for the metadata information</description>
   </element>
   <element name="mmi:contact" id="148.1"
@@ -3102,7 +3102,7 @@
     </description>
   </element>
   <element name="gex:maximumValue" id="356.0">
-    <label>Maximum value</label>
+    <label>Vertical maximum value</label>
     <description>Highest vertical extent contained in the dataset</description>
     <condition>mandatory</condition>
   </element>
@@ -3157,7 +3157,7 @@
     </description>
   </element>
   <element name="gex:minimumValue" id="355.0">
-    <label>Minimum value</label>
+    <label>Vertical minimum value</label>
     <description>Lowest vertical extent contained in the dataset</description>
     <condition>mandatory</condition>
   </element>
@@ -3822,10 +3822,9 @@
     <condition>mandatory</condition>
   </element>
   <element name="mri:pointOfContact" id="29.0">
-    <label>Point of contact</label>
+    <label>Point of contact for the resource</label>
     <description>Identification of, and means of communication with, person(s)
-      and
-      organizations(s) associated with the resource(s)
+      and organizations(s) associated with the resource(s)
     </description>
   </element>
   <element name="gex:polygon" id="342.0">
@@ -3942,7 +3941,7 @@
     </helper>
   </element>
   <element name="mri:purpose" id="26.0">
-    <label>Purpose</label>
+    <label>Purpose of the resource</label>
     <description>Summary of the intentions with which the resource(s) was
       developed
     </description>
@@ -4056,7 +4055,7 @@
     <description>Angular sampling measure</description>
   </element>
   <element name="mri:levelOfDetail">
-    <label>Level of detail</label>
+    <label>Resolution / Accuracy of the Dataset</label>
     <description>Brief textual description of the spatial resolution of the
       resource
     </description>
@@ -4269,10 +4268,9 @@
     <label>Specification</label>
   </element>
   <element name="mrl:statement" id="83.0">
-    <label>Statement</label>
+    <label>Lineage Statement</label>
     <description>General explanation of the data producer_s knowledge about the
-      lineage of a
-      dataset
+      lineage of a dataset. (A datasets life cycle that includes it's origins and where it moves over time. It describes what happens to dataset as it goes through diverse processes.)
     </description>
     <condition>conditional</condition>
   </element>
@@ -4661,14 +4659,14 @@
     <condition>mandatory</condition>
   </element>
   <element name="gml:beginPosition">
-    <label>Begin date</label>
-    <description>Formatted as 2007-09-12T15:00:00 (YYYY-MM-DDTHH:mm:ss)
+    <label>Acquisition or compilation begin date</label>
+    <description>The acquisition/compilation start date of the dataset. Formatted as 2007-09-12T15:00:00 (YYYY-MM-DDTHH:mm:ss)
     </description>
   </element>
 
   <element name="gml:endPosition">
-    <label>End date</label>
-    <description>Formatted as 2007-09-12T15:00:00 (YYYY-MM-DDTHH:mm:ss)
+    <label>Acquisition or compilation end date</label>
+    <description>The acquisition/compilation end date of the dataset. Formatted as 2007-09-12T15:00:00 (YYYY-MM-DDTHH:mm:ss)
     </description>
   </element>
 
