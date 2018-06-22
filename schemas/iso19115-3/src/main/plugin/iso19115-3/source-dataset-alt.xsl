@@ -15,7 +15,7 @@
         <xsl:variable name="url" select="'file://prod.lan/active/data/sdl/'" />
                 <xsl:variable name="urlNEMO" select="'https://s3-ap-southeast-2.amazonaws.com/nemo-test/'" />
 
-                        <xsl:if test="not($sdlKeyword='National Location Information')">
+                        <xsl:if test="not($sdlKeyword='National Location Information') and not($sdlKeyword='Exploring for the future')">
 
                                 <mrd:distributionFormat>
                                         <mrd:MD_Format>

@@ -294,8 +294,13 @@
              };
              
              var geteCatValue = function(name) {
-	             return $(gnCurrentEdit.formId).
-	             find('input[name="' + name + '"]').val();
+            	 var eCatId = $(gnCurrentEdit.formId).find('input[name="' + name + '"]').val();
+				 if(eCatId){
+					 sessionStorage.setItem("ecat-id", eCatId);
+	             }else{
+					 eCatId = sessionStorage.getItem("ecat-id");
+	             }
+	             return eCatId;
 	           };
 
              angular.extend(gnCurrentEdit, {

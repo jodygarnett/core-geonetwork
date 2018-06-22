@@ -460,6 +460,8 @@
   <!-- Joseph added - For source dataset online resource, append eCatId to linkage -->
    <xsl:template match="cit:CI_OnlineResource[(cit:name/gco:CharacterString='Link to Source Dataset')]">
  
+ 	<xsl:variable name="eCatIdzip" select="concat(/root/env/gaid,'.zip')"/>
+ 		
     <xsl:variable name="mimeType">
       <xsl:call-template name="getMimeTypeUrl">
         <xsl:with-param name="linkage" select="cit:linkage/gco:CharacterString"/>
@@ -470,7 +472,7 @@
       <xsl:copy-of select="@*"/>
       <cit:linkage>
         <gco:CharacterString>
-			<xsl:value-of select="concat($srclinkage,/root/env/gaid)"/>
+			<xsl:value-of select="concat($srclinkage,/root/env/gaid,'/', $eCatIdzip)"/>
         </gco:CharacterString>
       </cit:linkage>
       <xsl:copy-of select="cit:protocol"/>
