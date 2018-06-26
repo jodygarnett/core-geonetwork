@@ -345,7 +345,7 @@
                            <mrd:onLine>
                               <cit:CI_OnlineResource>
                                  <cit:linkage>
-                                    <gco:CharacterString>https://s3-ap-southeast-2.amazonaws.com/ga-source-data-library/</gco:CharacterString>
+                                    <gco:CharacterString>https://s3-ap-southeast-2.amazonaws.com/source-data-library/</gco:CharacterString>
                                  </cit:linkage>
                                  <cit:protocol>
                                     <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
