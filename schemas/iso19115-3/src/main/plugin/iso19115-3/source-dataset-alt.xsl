@@ -114,13 +114,13 @@
                                                                                                         <gco:CharacterString>
 
 
-                                                                                                        <xsl:if test="$sdlKeyword='NEMO'">
+                                                                                                       <!-- <xsl:if test="$sdlKeyword='NEMO'">
                                                                                                                 <xsl:variable name="urlFINAL" select="concat($urlNEMO, $sdlKeyword, '/', $eCatId)" /> <xsl:value-of select="$urlFINAL"></xsl:value-of>
                                                                                                         </xsl:if>
                                                                                                                 <xsl:if test="not($sdlKeyword='NEMO')">
                                                                                                                 <xsl:variable name="urlFINAL" select="concat($url, $sdlKeyword, '/', $eCatId)" />
                                                                                                                 <xsl:value-of select="$urlFINAL"></xsl:value-of>
-                                                                                                         </xsl:if>
+                                                                                                         </xsl:if> -->
                                                                                                         </gco:CharacterString>
                                                                                                 </cit:linkage>
                                                                                                 <cit:protocol>
