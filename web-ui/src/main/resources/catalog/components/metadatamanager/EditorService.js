@@ -293,19 +293,7 @@
                find('input[id="' + id + '"]').val();
              };
              
-             var geteCatValue = function(name) {
-            	 var eCatId = $(gnCurrentEdit.formId).find('input[name="' + name + '"]').val();
-				 if(eCatId){
-					 sessionStorage.setItem("ecat-id", eCatId);
-	             }else{
-					 eCatId = sessionStorage.getItem("ecat-id");
-	             }
-	             return eCatId;
-	           };
-
              angular.extend(gnCurrentEdit, {
-               eCatId:geteCatValue('_eCat ID'),
-  			   isSourceDataSet: false,
                isService: getInputValue('isService') == 'true',
                isTemplate: getInputValue('template'),
                mdTitle: getInputValue('title'),
@@ -330,9 +318,7 @@
              if (angular.isFunction(gnCurrentEdit.formLoadExtraFn)) {
                gnCurrentEdit.formLoadExtraFn();
              }
-             if (gnCurrentEdit.mdTitle === 'Source Dataset Template') {
- 				gnCurrentEdit.isSourceDataSet = true;
-              }
+             
            },
            //TODO : move edit services to new editor service
            /**
