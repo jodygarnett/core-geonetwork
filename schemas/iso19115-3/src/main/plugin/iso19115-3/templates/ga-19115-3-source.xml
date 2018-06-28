@@ -157,7 +157,7 @@
               </gex:northBoundLatitude>
             </gex:EX_GeographicBoundingBox>
           </gex:geographicElement>
-          <gex:verticalElement>
+        <!--  <gex:verticalElement>
 			<gex:EX_VerticalExtent>
 				<gex:minimumValue>
 					<gco:Real></gco:Real>
@@ -183,7 +183,7 @@
 					</mrs:MD_ReferenceSystem>
 				</gex:verticalCRSId>
 			</gex:EX_VerticalExtent>
-		</gex:verticalElement>
+		</gex:verticalElement> -->
         </gex:EX_Extent>
       </mri:extent>
       <mri:resourceMaintenance>
