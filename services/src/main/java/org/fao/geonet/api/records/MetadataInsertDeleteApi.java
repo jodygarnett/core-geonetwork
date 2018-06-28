@@ -439,7 +439,16 @@ public class MetadataInsertDeleteApi {
         	}
             Element xmlContent = null;
             try {
+            	if(s3key.equals("invalid")){
+            		report.addError(new Exception("Either s3 bucket has no public access or no files exist within the s3 bucket."));
+                	return report;
+            	}
                 xmlContent = Xml.loadFile(ApiUtils.downloadUrlInTemp(s3location + "/" + s3key));
+                String canAccess = xmlContent.getContent(0).getValue();
+                if(canAccess.equals("AccessDenied")){
+                	report.addError(new Exception("Unable to access file " + s3key + " within s3 bucket. Need to make public in order to process."));
+                	return report;
+                }
             } catch (Exception e) {
                 report.addError(e);
             }
@@ -1107,12 +1116,9 @@ public class MetadataInsertDeleteApi {
 				listObjectsRequest.setMarker(objectListing.getNextMarker());
 			} while (objectListing.isTruncated());
 		} catch (AmazonServiceException ase) {
-			throw new Exception("Caught an AmazonServiceException, " + "which means your request made it "
-					+ "to Amazon S3Client, but was rejected with an error response " + "for some reason.");
+			return null;
 		} catch (AmazonClientException ace) {
-			throw new Exception("Caught an AmazonClientException, " + "which means the client encountered "
-					+ "an internal error while trying to communicate" + " with S3Client, "
-					+ "such as not being able to access the network.");
+			return null;
 		}
 		return s3ObjectSummaries;
 	}
@@ -1121,6 +1127,10 @@ public class MetadataInsertDeleteApi {
 		List<String> s3ObjectNames = new ArrayList<String>();
 		List<S3ObjectSummary> s3ObjectSummaries = getBucketObjectSummaries(url);
 
+		if(s3ObjectSummaries == null || s3ObjectSummaries.size() == 0){
+			s3ObjectNames.add("invalid");
+			return s3ObjectNames;
+		}
 		for (S3ObjectSummary s3ObjectSummary : s3ObjectSummaries) {
 			s3ObjectNames.add(s3ObjectSummary.getKey());
 		}
