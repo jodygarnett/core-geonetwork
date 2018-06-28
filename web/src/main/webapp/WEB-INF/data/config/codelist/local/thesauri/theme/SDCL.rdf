@@ -15,13 +15,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">AdminBoundaries</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Clearly defined administrative areas of a political, natural, or regulatory boundary nature, excluding scientific speculative boundaries such as geological boundaries, ecological/ecosystem boundaries etc.  Examples include coastlines (because coastlines define certain administrative boundaries), state boundaries, electoral boundaries, mineral tenement boundaries, petroleum title boundaries and marine protected areas.</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrh2i4x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx1"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrh2i4x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx1">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -29,13 +27,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Boreholes</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">For storing borehole header data only. Any data that may have been recorded such as geophysics or lithology to be stored in the relevant thematic location</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrhnhdx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx2"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrhnhdx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx2">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -43,13 +39,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Compilations</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Significant compilations of data which do not comprise a single theme or major theme</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajriafgx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx3"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajriafgx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx3">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -57,13 +51,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">EarthObservationImagery/AerialPhoto</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Photographs of a part of the earth’s surface taken by a camera mounted in an aircraft for mapping purposes. This usually consists of a series of overlapping vertical photos taken in strips which can form the basis for mapping.</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrj0o1x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx4"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrj0o1x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx4">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -71,13 +63,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">EarthObservationImagery/ASTER</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Satellite and air platform imagery. This includes imagery designed to represent surficial condition of the earth such as Landsat, SPOT, MODIS,ASTER,HYMAP and Aerial Photography. Remotely sensed data acquired from earth observation satellites and Sensing Instruments for both scientific and operational applications, such as LANDSAT 5,LANDSAT 7,RADARSAT 1 (Synthetic Aperture Radar – SAR), ERS 2 (Synthetic Aperture Radar – SAR) TERRA Modis,AQUA Modis ,NOAA 17, SPOT,ASTER,HYMAP and Aerial Photography</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrk2p7x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx5"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrk2p7x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx5">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -85,13 +75,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">EarthObservationImagery/Landsat</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Satellite and air platform imagery. This includes imagery designed to represent surficial condition of the earth such as Landsat, SPOT, MODIS,ASTER,HYMAP and Aerial Photography. Remotely sensed data acquired from earth observation satellites and Sensing Instruments for both scientific and operational applications, such as LANDSAT 5,LANDSAT 7,RADARSAT 1 (Synthetic Aperture Radar – SAR), ERS 2 (Synthetic Aperture Radar – SAR) TERRA Modis,AQUA Modis ,NOAA 17, SPOT,ASTER,HYMAP and Aerial Photography</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrl3orx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx6"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrl3orx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx6">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -99,13 +87,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">EarthObservationImagery/Lidar</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Satellite and air platform imagery. This includes imagery designed to represent surficial condition of the earth such as Landsat, SPOT, MODIS,ASTER,HYMAP and Aerial Photography. Remotely sensed data acquired from earth observation satellites and Sensing Instruments for both scientific and operational applications, such as LANDSAT 5,LANDSAT 7,RADARSAT 1 (Synthetic Aperture Radar – SAR), ERS 2 (Synthetic Aperture Radar – SAR) TERRA Modis,AQUA Modis ,NOAA 17, SPOT,ASTER,HYMAP and Aerial Photography</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrljlsx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx7"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrljlsx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx7">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -113,13 +99,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">EarthObservationImagery/Radar</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Satellite and air platform imagery. This includes imagery designed to represent surficial condition of the earth such as Landsat, SPOT, MODIS,ASTER,HYMAP and Aerial Photography. Remotely sensed data acquired from earth observation satellites and Sensing Instruments for both scientific and operational applications, such as LANDSAT 5,LANDSAT 7,RADARSAT 1 (Synthetic Aperture Radar – SAR), ERS 2 (Synthetic Aperture Radar – SAR) TERRA Modis,AQUA Modis ,NOAA 17, SPOT,ASTER,HYMAP and Aerial Photography</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrm1o0x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx8"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrm1o0x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx8">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -127,13 +111,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">EarthObservationImagery/SPOT</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Satellite and air platform imagery. This includes imagery designed to represent surficial condition of the earth such as Landsat, SPOT, MODIS,ASTER,HYMAP and Aerial Photography. Remotely sensed data acquired from earth observation satellites and Sensing Instruments for both scientific and operational applications, such as LANDSAT 5,LANDSAT 7,RADARSAT 1 (Synthetic Aperture Radar – SAR), ERS 2 (Synthetic Aperture Radar – SAR) TERRA Modis,AQUA Modis ,NOAA 17, SPOT,ASTER,HYMAP and Aerial Photography</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrmfdmx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx9"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrmfdmx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx9">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -141,13 +123,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">EarthObservationImagery/Thermal</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Satellite and air platform imagery. This includes imagery designed to represent surficial condition of the earth such as Landsat, SPOT, MODIS,ASTER,HYMAP and Aerial Photography. Remotely sensed data acquired from earth observation satellites and Sensing Instruments for both scientific and operational applications, such as LANDSAT 5,LANDSAT 7,RADARSAT 1 (Synthetic Aperture Radar – SAR), ERS 2 (Synthetic Aperture Radar – SAR) TERRA Modis,AQUA Modis ,NOAA 17, SPOT,ASTER,HYMAP and Aerial Photography</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrmuf7x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx10"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrmuf7x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx10">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -155,13 +135,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">ElevationAndBathymetry</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">DEM, DSM, Digital subaqueous datasets</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrnfe5x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx11"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrnfe5x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx11">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -169,13 +147,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geochemistry</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Data related to the chemical analyses and composition of earth materials. This includes information related to the chemical analysis of organic material, surficial, groundwater and pore water samples, benthic chemical analysis, and stable isotope studies</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrodpux1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx12"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrodpux1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx12">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -183,13 +159,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geochronology</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Age approximations of earth materials such as rocks, sediments and minerals. Age data resulting from scientific techniques such as radio isotopes and chemical dating.</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrqqsrx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx13"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrqqsrx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx13">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -197,13 +171,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geology/Lithology</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Datasets relating to the general physical characteristics of rocks. Includes petrographic observations and measurements such as mineralogy, lithology, alteration, mineralisation, metamorphic grade, weathering and grainsize in specimens and thin sections (micro scale).</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrrcfdx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx14"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrrcfdx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx14">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -211,13 +183,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geology/Stratigraphy</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Datasets relating to the order and relative position of strata and their relationship to the geological timescale</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrrrs8x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx15"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrrrs8x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx15">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -225,13 +195,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geomorphology</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Data related to the physical expression of the earths surface either terrestrial or marine. Examples include marine bathymetric information, seafloor expressions (mounts, slopes, shelf, rise) freshwater/estuarine bed profiles and  Digital Elevation Models</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrsc6ax1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx16"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrsc6ax1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx16">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -239,13 +207,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geophysics/ActiveSeismic</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">SEGY, seismic profiles, images, of data collected using artificially-generated seismic energy</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrsti9x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx17"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrsti9x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx17">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -253,13 +219,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geophysics/AirborneGravity</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Gravity collected from airborne platforms, including point located data, grids, derivative grids (reduced to pole, upward continued, etc), algorithms, images</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrtf4jx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx18"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrtf4jx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx18">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -267,13 +231,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geophysics/Electromagnetics</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Active-source electromagnetic data including AEM</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajru804x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx19"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajru804x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx19">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -281,13 +243,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geophysics/GroundGravity</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Including ground, point located data, grids, derivative grids (reduced to pole, upward continued, etc), algorithms, images</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrut9gx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx20"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrut9gx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx20">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -295,13 +255,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geophysics/Magnetics</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Point located data, grids, derivative grids (reduced to pole, upward continued, etc), algorithms, images</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajrvhllx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx21"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajrvhllx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx21">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -309,13 +267,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geophysics/Magnetotellurics</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Passive-source electromagnetic data</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajs077jx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx22"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajs077jx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx22">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -323,13 +279,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geophysics/PassiveSeismic</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">“Listening” data eg Data, weak and strong motion from seismographs and accelerators. SEGY, seismic profiles, images,</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajs0p6ax1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx23"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajs0p6ax1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx23">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -337,13 +291,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Geophysics/Radiometrics</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Point located data, grids, derivative grids (filtered, etc), algorithms, images</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajs19c1x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx24"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajs19c1x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx24">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -351,13 +303,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">HazardEvents</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Natural  and human environmental phenomena, whether slow or fast acting.  Information on the natural environment and its interaction with geology, eg waste disposal and pollution such as geological disposal of CO2.</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajs3alex1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx25"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajs3alex1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx25">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -365,13 +315,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Hydrogeology</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">The distribution and movement of groundwater and dissolved materials in the soil and rocks of the Earth's crust (commonly in aquifers).</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajs3qoex1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx26"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajs3qoex1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx26">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -379,13 +327,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Hydrology</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Data relating to surface water, for example: SW gauge data; exceedance calculations; dam volumes, areas, construction; stream transacts; drainage catchments; Geofabric data; inundation areas; flood extents</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajs4l6gx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx27"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajs4l6gx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx27">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -393,13 +339,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Infrastructure</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Datasets relating to any built environment , egroads, rail, fences, airports, pipelines). Any structure fixed to a terrestrial or marine location to facilitate commercial or daily activities, or the supply of essential services. Examples include processing plants / factories, ports, oil rigs etc. This includes information regarding the facilitation of transporting  people or commodities.</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajs58i4x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx28"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajs58i4x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx28">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -407,13 +351,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">National Location Information</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Keyword for the National Location Information group</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajsa93jx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx29"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajsa93jx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx29">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -421,13 +363,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">NaturalHabitat</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">The distribution of plants, animals; natural biotic distribution patterns and habitats for aerial, terrestrial, marine, and other life. BIOME: are distinct ecological communities of plants and animals living together in a particular climate. Scientists classify biomes in various ways, but the major biomes include aquatic, deserts, forests, grasslands, and tundra.</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajsar7mx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx30"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajsar7mx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx30">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -435,13 +375,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">NEMO</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">AWS S3 bucket location for the Source Dataset Copy Location for NEMO</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajsb942x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx31"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajsb942x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx31">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -449,13 +387,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Paleontology</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">The study of life in past geologic time, based on fossil plants and animals. Chronology of the Earth's history.</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajsbldlx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx32"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajsbldlx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx32">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -463,13 +399,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Resources/Energy</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">DefinitionData on resource production and/or commodity potential or information. Examples include minerals and petroleum potential, oil and gas fields information, resource and production tonnage and grade information, deposit types and mineralisation styles</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajsc5hhx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx33"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajsc5hhx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx33">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -477,13 +411,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Resources/Mineral</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Data on resource production and/or commodity potential or information. Examples include minerals and petroleum potential, oil and gas fields information, resource and production tonnage and grade information, deposit types and mineralisation styles</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajscim5x1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx34"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajscim5x1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx34">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -491,13 +423,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Resources/Water</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Data on resource production and/or commodity potential or information. Examples include minerals and petroleum potential, oil and gas fields information, resource and production tonnage and grade information, deposit types and mineralisation styles</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajserfjx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx35"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajserfjx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx35">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -505,13 +435,11 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">RockProperties</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Physical measurements of rock properties such as density and susceptibility for use in predictive modelling studies such as seismic predictions, geophysical inversions, and groundwater distribution, or engineering work.</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajsfinex1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx36"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajsfinex1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx36">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
-	<ns5:lowerCorner> </ns5:lowerCorner>
-	<ns5:upperCorner> </ns5:upperCorner>
 	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
 </rdf:Description>
 
@@ -519,10 +447,22 @@
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 	<ns2:prefLabel xml:lang="en">Survey</ns2:prefLabel>
 	<ns2:scopeNote xml:lang="en">Information regarding the location, purpose and methodology related to particular surveys of any kind. This includes, for example navigational data for seismic surveys, landsat path row diagrams. This category can be summarised as metadata regarding any type of survey undertaken or managed within the Organisation. DGPS</ns2:scopeNote>
-	<ns5:BoundedBy rdf:nodeID="node1cajsge0hx1"/>
+	<ns5:BoundedBy rdf:nodeID="node1cgfgu3dpx37"/>
 </rdf:Description>
 
-<rdf:Description rdf:nodeID="node1cajsge0hx1">
+<rdf:Description rdf:nodeID="node1cgfgu3dpx37">
+	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
+	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.ecat.ga.gov.au/thesaurus#66866582-8eed-4a74-9e95-b5a153d29064">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<ns2:prefLabel xml:lang="en">Exploring for the future</ns2:prefLabel>
+	<ns2:scopeNote xml:lang="en">Keyword for the Exploring for the future</ns2:scopeNote>
+	<ns5:BoundedBy rdf:nodeID="node1cggf4o58x1"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="node1cggf4o58x1">
 	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
 	<ns5:lowerCorner> </ns5:lowerCorner>
 	<ns5:upperCorner> </ns5:upperCorner>

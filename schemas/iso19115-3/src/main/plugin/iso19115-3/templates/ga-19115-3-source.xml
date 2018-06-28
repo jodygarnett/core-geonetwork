@@ -88,9 +88,10 @@
           </mcc:MD_Identifier>                                                                                                                                         </cit:identifier>
 		<cit:series>
 			<cit:CI_Series>
-				<cit:name>
+			    <!-- Remove name field until picklist can be applied with it -->
+				<!-- <cit:name>
 					<gco:CharacterString></gco:CharacterString>
-				</cit:name>
+				</cit:name>  -->
 				<cit:issueIdentification>
 					<gco:CharacterString></gco:CharacterString>
 				</cit:issueIdentification>
@@ -156,12 +157,39 @@
               </gex:northBoundLatitude>
             </gex:EX_GeographicBoundingBox>
           </gex:geographicElement>
+          <gex:verticalElement>
+			<gex:EX_VerticalExtent>
+				<gex:minimumValue>
+					<gco:Real></gco:Real>
+				</gex:minimumValue>
+				<gex:maximumValue>
+					<gco:Real></gco:Real>
+				</gex:maximumValue>
+				<gex:verticalCRSId>
+					<mrs:MD_ReferenceSystem>
+						<mrs:referenceSystemIdentifier>
+							<mcc:MD_Identifier>
+								<mcc:code>
+									<gco:CharacterString></gco:CharacterString>
+								</mcc:code>
+								<mcc:codeSpace>
+									<gco:CharacterString>EPSG</gco:CharacterString>
+								</mcc:codeSpace>
+								<mcc:version>
+									<gco:CharacterString></gco:CharacterString>
+								</mcc:version>
+							</mcc:MD_Identifier>
+						</mrs:referenceSystemIdentifier>
+					</mrs:MD_ReferenceSystem>
+				</gex:verticalCRSId>
+			</gex:EX_VerticalExtent>
+		</gex:verticalElement>
         </gex:EX_Extent>
       </mri:extent>
       <mri:resourceMaintenance>
         <mmi:MD_MaintenanceInformation>
           <mmi:maintenanceAndUpdateFrequency>
-            <mmi:MD_MaintenanceFrequencyCode codeListValue="asNeeded"
+            <mmi:MD_MaintenanceFrequencyCode codeListValue="notPlanned"
               codeList="./resources/codeList.xml#MD_MaintenanceFrequencyCode"/>
           </mmi:maintenanceAndUpdateFrequency>
         </mmi:MD_MaintenanceInformation>
@@ -317,7 +345,7 @@
                            <mrd:onLine>
                               <cit:CI_OnlineResource>
                                  <cit:linkage>
-                                    <gco:CharacterString>https://s3-ap-southeast-2.amazonaws.com/ga-source-data-library/</gco:CharacterString>
+                                    <gco:CharacterString>https://s3-ap-southeast-2.amazonaws.com/source-data-library/</gco:CharacterString>
                                  </cit:linkage>
                                  <cit:protocol>
                                     <gco:CharacterString>WWW:LINK-1.0-http--link</gco:CharacterString>
