@@ -13,7 +13,7 @@
                 <xsl:param name="eCatId" />
 
         <xsl:variable name="url" select="'file://prod.lan/active/data/sdl/'" />
-                <xsl:variable name="urlNEMO" select="'https://s3-ap-southeast-2.amazonaws.com/nemo-test/'" />
+                <!-- <xsl:variable name="urlNEMO" select="'https://s3-ap-southeast-2.amazonaws.com/nemo-test/'" /> -->
 
                         <xsl:if test="not($sdlKeyword='National Location Information') and not($sdlKeyword='Exploring for the future') and not($sdlKeyword='NEMO')">
 
@@ -117,10 +117,10 @@
                                                                                                        <!-- <xsl:if test="$sdlKeyword='NEMO'">
                                                                                                                 <xsl:variable name="urlFINAL" select="concat($urlNEMO, $sdlKeyword, '/', $eCatId)" /> <xsl:value-of select="$urlFINAL"></xsl:value-of>
                                                                                                         </xsl:if>
-                                                                                                                <xsl:if test="not($sdlKeyword='NEMO')">
+                                                                                                                <xsl:if test="not($sdlKeyword='NEMO')">-->
                                                                                                                 <xsl:variable name="urlFINAL" select="concat($url, $sdlKeyword, '/', $eCatId)" />
                                                                                                                 <xsl:value-of select="$urlFINAL"></xsl:value-of>
-                                                                                                         </xsl:if> -->
+                                                                                                         <!-- </xsl:if> -->
                                                                                                         </gco:CharacterString>
                                                                                                 </cit:linkage>
                                                                                                 <cit:protocol>

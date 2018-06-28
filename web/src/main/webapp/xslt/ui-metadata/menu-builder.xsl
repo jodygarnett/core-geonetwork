@@ -47,6 +47,7 @@
       <li class="dropdown" id="gn-view-menu-{$metadataId}">
         <a class="dropdown-toggle" data-toggle="dropdown" href=""
            title="{$i18n/selectView}">
+           <h4 style="font-size:75%;  margin-bottom: 0.05em;">Tooltips</h4>
           <i class="fa fa-eye"></i>
           <b class="caret"/>
         </a>
@@ -99,14 +100,14 @@
               </xsl:for-each>
 
               <li class="divider"/>
-              <li>
+              <!-- <li>
                 <a data-ng-click="toggleAttributes(true)" href="">
                   <i class="fa"
                      data-ng-class="gnCurrentEdit.displayAttributes ? 'fa-check-square-o' : 'fa-square-o'"/>
                   &#160;
                   <span data-translate="">toggleAttributes</span>
                 </a>
-              </li>
+              </li> -->
               <li>
                 <a data-ng-click="toggleTooltips(true)" href="">
                   <i class="fa"

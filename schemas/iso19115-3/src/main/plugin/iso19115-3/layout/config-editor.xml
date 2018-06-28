@@ -346,7 +346,8 @@
 
     <tab id="resourceOptional" mode="flat">
         <section name=" ">
-                        <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent"/>
+                        <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:temporalElement"/>
+                        <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:geographicElement"/>
                         <field xpath="/mdb:MD_Metadata/mdb:referenceSystemInfo" or="referenceSystemInfo" in="/mdb:MD_Metadata"/>
                 </section>
         </tab>
