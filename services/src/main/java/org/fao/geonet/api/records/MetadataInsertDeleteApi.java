@@ -104,8 +104,10 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.AmazonS3URI;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ListObjectsV2Request;
 import com.amazonaws.services.s3.model.ListObjectsV2Result;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.google.common.collect.Lists;
@@ -432,9 +434,21 @@ public class MetadataInsertDeleteApi {
         SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
 
         if (s3location != null) {
+        	if(s3location.endsWith("/")){
+    			s3location = s3location.substring(0, s3location.length()-1);
+        	}
             Element xmlContent = null;
             try {
+            	if(s3key.equals("invalid")){
+            		report.addError(new Exception("Either s3 bucket has no public access or no files exist within the s3 bucket."));
+                	return report;
+            	}
                 xmlContent = Xml.loadFile(ApiUtils.downloadUrlInTemp(s3location + "/" + s3key));
+                String canAccess = xmlContent.getContent(0).getValue();
+                if(canAccess.equals("AccessDenied")){
+                	report.addError(new Exception("Unable to access file " + s3key + " within s3 bucket. Need to make public in order to process."));
+                	return report;
+                }
             } catch (Exception e) {
                 report.addError(e);
             }
@@ -1058,38 +1072,69 @@ public class MetadataInsertDeleteApi {
 	public String getFiles(@RequestParam(required = false) String url, HttpServletRequest request)
 			throws Exception {
 		List<String> filenames = new ArrayList<>();
-		try {
-
-			AmazonS3URI s3uri = new AmazonS3URI(url);
-			AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(s3uri.getRegion()).build();
-
-			final ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(s3uri.getBucket());
-			ListObjectsV2Result result = null;
-			
-			do {// get object keys in a bucket if more than 1000 (default
-				// max-key)
-				result = s3client.listObjectsV2(req);
-
-				List<S3ObjectSummary> objects = result.getObjectSummaries();
-				for (S3ObjectSummary os: objects) {
-					
-					filenames.add(os.getKey());
-				}
-				req.setContinuationToken(result.getNextContinuationToken());
-			} while (result.isTruncated() == true);
-		} catch (AmazonServiceException ase) {
-			throw new Exception("Caught an AmazonServiceException, " + "which means your request made it "
-					+ "to Amazon S3, but was rejected with an error response " + "for some reason."
-					+ ase.getRawResponseContent());
-
-		} catch (AmazonClientException ace) {
-			throw new Exception("Caught an AmazonClientException, " + "which means the client encountered "
-					+ "an internal error while trying to communicate" + " with S3, "
-					+ "such as not being able to access the network.");
+		List<String> s3ObjectNames = getBucketObjectNames(url);
+		for (String s3ObjectName : s3ObjectNames) {
+			if(s3ObjectName.contains("/")){
+				s3ObjectName = s3ObjectName.substring(s3ObjectName.lastIndexOf("/")+1);
+			}
+			if(StringUtils.isNotEmpty(s3ObjectName.trim())){
+				filenames.add(s3ObjectName);
+			}
 		}
 
 		String json = new Gson().toJson(filenames);
 		
 		return json;
 	}
+	
+	public List<S3ObjectSummary> getBucketObjectSummaries(String url) throws Exception {
+
+		List<S3ObjectSummary> s3ObjectSummaries = new ArrayList<S3ObjectSummary>();
+		AmazonS3URI s3uri = new AmazonS3URI(url);
+		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(s3uri.getRegion()).build();
+		String bucketname = s3uri.getBucket();
+		try {
+			
+			int index = url.indexOf(bucketname);
+			String prefix = url.substring(index + bucketname.length());
+			if(prefix.length() > 0 && prefix.startsWith("/")){
+				prefix = prefix.substring(1, prefix.length());
+			}
+			if(prefix.length() > 0 && !prefix.endsWith("/")){
+				prefix = prefix + "/";
+			}
+			
+			ListObjectsRequest listObjectsRequest = new ListObjectsRequest().withBucketName(bucketname)
+					.withPrefix(prefix.trim()).withDelimiter("/");
+			ObjectListing objectListing;
+
+			do {
+				objectListing = s3client.listObjects(listObjectsRequest);
+				for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+					s3ObjectSummaries.add(objectSummary);
+				}
+				listObjectsRequest.setMarker(objectListing.getNextMarker());
+			} while (objectListing.isTruncated());
+		} catch (AmazonServiceException ase) {
+			return null;
+		} catch (AmazonClientException ace) {
+			return null;
+		}
+		return s3ObjectSummaries;
+	}
+
+	public List<String> getBucketObjectNames(String url) throws Exception{
+		List<String> s3ObjectNames = new ArrayList<String>();
+		List<S3ObjectSummary> s3ObjectSummaries = getBucketObjectSummaries(url);
+
+		if(s3ObjectSummaries == null || s3ObjectSummaries.size() == 0){
+			s3ObjectNames.add("invalid");
+			return s3ObjectNames;
+		}
+		for (S3ObjectSummary s3ObjectSummary : s3ObjectSummaries) {
+			s3ObjectNames.add(s3ObjectSummary.getKey());
+		}
+		return s3ObjectNames;
+	}
+	
 }
