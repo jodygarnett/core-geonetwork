@@ -148,6 +148,6 @@
   <!-- Source Dataset Template -->
   <resourceMandatory>Mandatory</resourceMandatory>
   <resourceOptional>Optional</resourceOptional>
-
+  <NLI>NLI additional Fields</NLI>
   
 </strings>

@@ -243,7 +243,7 @@
       <!--<xsl:apply-templates select="mdb:distributionInfo"/>-->
 	  <xsl:choose>
 			<xsl:when
-				test="//cit:CI_Citation[starts-with(cit:title/gco:CharacterString, 'Source Dataset Copy Location')]">
+				test="//cit:CI_Citation[starts-with(cit:title/gco:CharacterString, 'Source Dataset Classification')]">
 				<mdb:distributionInfo>
 					<mrd:MD_Distribution>
 					<xsl:for-each select="//mrd:MD_Distribution/mrd:distributionFormat">
@@ -255,7 +255,7 @@
 					  </xsl:for-each>
 						
 						<xsl:for-each
-							select="//mri:MD_Keywords[starts-with(mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString, 'Source Dataset Copy Location')]/mri:keyword">
+							select="//mri:MD_Keywords[starts-with(mri:thesaurusName/cit:CI_Citation/cit:title/gco:CharacterString, 'Source Dataset Classification')]/mri:keyword">
 
 							<xsl:variable name="sdlKeyword" select="gco:CharacterString" />
 							<xsl:variable name="eCatId"
@@ -460,6 +460,8 @@
   <!-- Joseph added - For source dataset online resource, append eCatId to linkage -->
    <xsl:template match="cit:CI_OnlineResource[(cit:name/gco:CharacterString='Link to Source Dataset')]">
  
+ 	<xsl:variable name="eCatIdzip" select="concat(/root/env/gaid,'.zip')"/>
+ 		
     <xsl:variable name="mimeType">
       <xsl:call-template name="getMimeTypeUrl">
         <xsl:with-param name="linkage" select="cit:linkage/gco:CharacterString"/>
@@ -470,7 +472,7 @@
       <xsl:copy-of select="@*"/>
       <cit:linkage>
         <gco:CharacterString>
-			<xsl:value-of select="concat($srclinkage,/root/env/gaid)"/>
+			<xsl:value-of select="concat($srclinkage,/root/env/gaid,'/', $eCatIdzip)"/>
         </gco:CharacterString>
       </cit:linkage>
       <xsl:copy-of select="cit:protocol"/>
