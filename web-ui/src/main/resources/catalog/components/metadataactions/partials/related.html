@@ -79,13 +79,12 @@
       </div>
       <div class="col-xs-4" data-ng-if="mainType != 'FILE'">
         <button type="button"
-                class="btn btn-openLink btn-sm btn-block"
+                data-ng-class="'{{r.title | gnLocalized: lang }}' !== 'Purchase this product'?'btn btn-openLink btn-sm btn-block' : 'btn btn-NETO btn-sm btn-block'"
                 data-ng-show="hasAction(mainType)"
                 data-ng-click="config.doAction(mainType, r, md)">
 
-        <span class="visible-lg-*">
-          {{::(config.getLabel(mainType, type)) | translate}}
-        </span>
+        <span class="visible-lg-*" ng-show="'{{r.title | gnLocalized: lang }}' !== 'Purchase this product'">{{::(config.getLabel(mainType, type)) | translate}}</span>
+		 <span class="visible-lg-*" ng-show="'{{r.title | gnLocalized: lang }}' === 'Purchase this product'">Buy</span>
         </button>
       </div>
     </div>
