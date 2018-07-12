@@ -665,12 +665,23 @@
                     select="if ($btnOverrideName)
                             then $strings/*[name() = $btnOverrideName]
                             else ''"/>
-      <xsl:variable name="labelConfig"
-                    select="gn-fn-metadata:getLabel($schema, $elementName, $labels)"/>
+      <!-- <xsl:variable name="labelConfig"
+                    select="gn-fn-metadata:getLabel($schema, $elementName, $labels)"/> -->
+      <xsl:variable name="labelConfig">
+		<xsl:choose>
+			<xsl:when test="count($elementName) > 1">
+				<xsl:value-of select="gn-fn-metadata:getLabel($schema, $elementName[1], $labels)/label" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="gn-fn-metadata:getLabel($schema, $elementName, $labels)/label" />
+			</xsl:otherwise>
+		</xsl:choose>
+	  </xsl:variable>
+	  
       <xsl:variable name="name"
                     select="if ($btnName != '')
                             then $btnName
-                            else $labelConfig/label"/>
+                            else $labelConfig"/>
       <xsl:variable name="btnLabel" select="if (@btnLabel != '') then @btnLabel else $labelConfig/btnLabel"/>
       <xsl:variable name="btnClass" select="if (@btnClass != '') then @btnLabel else $labelConfig/btnClass"/>
       <xsl:variable name="btnLabelTranslation" select="$strings/*[name() = $btnLabel]"/>

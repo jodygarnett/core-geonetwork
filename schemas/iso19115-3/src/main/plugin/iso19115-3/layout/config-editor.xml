@@ -359,7 +359,39 @@
                         <field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:status"/>
 						<field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty" or="citedResponsibleParty" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation"/>
 						<field xpath="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent/gex:verticalElement/gex:EX_VerticalExtent"/>
-                        
+                        <action type="add" name="verticalElement" or="verticalElement" in="/mdb:MD_Metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:extent/gex:EX_Extent">
+							<template>
+								<snippet>
+									<gex:verticalElement>
+										<gex:EX_VerticalExtent>
+											<gex:minimumValue>
+												<gco:Real></gco:Real>
+											</gex:minimumValue>
+											<gex:maximumValue>
+												<gco:Real></gco:Real>
+											</gex:maximumValue>
+											<gex:verticalCRSId>
+												<mrs:MD_ReferenceSystem>
+													<mrs:referenceSystemIdentifier>
+														<mcc:MD_Identifier>
+															<mcc:code>
+																<gco:CharacterString></gco:CharacterString>
+															</mcc:code>
+															<mcc:codeSpace>
+																<gco:CharacterString>EPSG</gco:CharacterString>
+															</mcc:codeSpace>
+															<mcc:version>
+																<gco:CharacterString></gco:CharacterString>
+															</mcc:version>
+														</mcc:MD_Identifier>
+													</mrs:referenceSystemIdentifier>
+												</mrs:MD_ReferenceSystem>
+											</gex:verticalCRSId>
+										</gex:EX_VerticalExtent>
+									</gex:verticalElement>
+								</snippet>
+							</template>
+						</action>
                 </section>
 	</tab>
       <!-- Elements that should not use the "flat" mode -->
@@ -492,7 +524,7 @@
 						xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:statement" />
 					<field
 						xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:scope" />
-					<field
+					<!-- <field
 						xpath="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage/mrl:source" />
 					<action type="add" name="source" or="source"
 						in="/mdb:MD_Metadata/mdb:resourceLineage/mrl:LI_Lineage">
@@ -505,7 +537,6 @@
 										</mrl:description>
 										<mrl:sourceSpatialResolution>
 											<mri:MD_Resolution>
-												<!-- TODO: Fix this should be used mri:levelOfDetail -->
 												<mri:equivalentScale>
 													<mri:MD_RepresentativeFraction>
 														<mri:denominator>
@@ -547,7 +578,7 @@
 								</mrl:source>
 							</snippet>
 						</template>
-					</action>
+					</action>  -->
 				</section>
 			</tab>
 
