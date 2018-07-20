@@ -145,7 +145,8 @@
         $scope.selectedStep = step;
       };
       $scope.$watch('selectedStep', function(newValue) {
-        if (newValue === 2) {
+		  console.log('watch , newValue --> ' + newValue);
+        if (newValue === 3) {
           // Initialize map size when tab is rendered.
           var map = $('div.gn-drawmap-panel');
           if (map == undefined) {
@@ -162,8 +163,16 @@
           });
         }
       });
-
-
+	  
+	  $scope.skipCSV = false;
+  	  $scope.doSkipcsv = function(){
+		$scope.skipCSV = true;
+	  };
+	
+	  $scope.uploadCsv = function(){
+		console.log('upload csv...');
+	  };
+	  
       // Search setup
       gnSearchSettings.resultViewTpls = [{
         tplUrl: '../../catalog/components/search/resultsview/' +

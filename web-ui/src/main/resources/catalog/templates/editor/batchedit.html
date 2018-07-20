@@ -6,25 +6,71 @@
 
 
     <ul class="nav nav-tabs">
-      <li role="presentation"
+	  <li role="presentation"
           data-ng-class="{'active' : selectedStep === 1}"
           data-ng-click="setStep(1)">
+        <a href="" data-translate="">Upload CSV</a></li>
+      <li role="presentation"
+          data-ng-class="{'active' : selectedStep === 2 }"
+          data-ng-click="setStep(2)">
         <a href="" data-translate="">chooseASet</a></li>
       <li role="presentation"
-          data-ng-class="{'active': selectedStep === 2, 'disabled': searchResults.selectedCount < 1}"
-          data-ng-click="searchResults.selectedCount > 0 && setStep(2)">
+          data-ng-class="{'active': selectedStep === 3, 'disabled': searchResults.selectedCount < 1 }"
+          data-ng-click="searchResults.selectedCount > 0 && setStep(3)">
         <a href="" data-translate="">defineEdits</a></li>
       <li role="presentation"
-          data-ng-class="{'active' : selectedStep === 3, 'disabled': searchResults.selectedCount < 1}"
-          data-ng-click="searchResults.selectedCount > 0 && setStep(3)">
+          data-ng-class="{'active' : selectedStep === 4, 'disabled': searchResults.selectedCount < 1}"
+          data-ng-click="searchResults.selectedCount > 0 && setStep(4)">
         <a href="" data-translate="">confirmAndSave</a></li>
       <li class="gn-batch-editor-info">{{searchResults.selectedCount}} <span data-translate="">recordsInSelection</span>
       </li>
     </ul>
     <br/>
 
+	<div class="panel panel-default" data-ng-class="{'hidden' : selectedStep !== 1}">
+		<div class="panel-body">
+			<p class="alert alert-info" data-translate="">Batch Edit records by uploading CSV file.</p>
+			<div class="row">
+				<div class="col-sm-6">
+					<textarea class="form-control"/>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-sm-2">
+					<span class="btn btn-success btn-block fileinput-button">
+					  <i class="fa fa-upload"/><span data-translate="">&nbsp;Choose file</span>
+							<input type="file" onchange="angular.element(this).scope().setFile(this)">
+					  <!--<input type="file" multiple="true" id="md-import-csv" name="file">-->
+					</span>
+					
+				</div>
+				<div ng-show="isfileSelected">
+						<label>{{theFile.name}}</label>&nbsp;&nbsp;<i class="fa fa-times" data-ng-click="clear()"/>
+					</div>
+					
+			</div>
+			<div class="row">
+				<div class="alert alert-warning"
+							 data-ng-show="unsupportedFile"
+							 data-translate="">Only csv format is supported
+				</div>		
+			</div>
+			<br/>
+			<div class="row">
+				<div div class="col-sm-2">
+				<button class="btn btn-default"
+                data-gn-click-and-spin="uploadcsv()">
+				  <i class="fa fa-save"/>
+				  <span data-translate="">save</span>
+				</button>
+				</div>
+			</div>
+		</div>
+	
+	</div>
     <div class="panel panel-default"
-         data-ng-class="{'hidden' : selectedStep !== 1}">
+         data-ng-class="{'hidden' : selectedStep !== 2}">
       <div class="panel-body">
         <p class="alert alert-info"
            data-translate="">chooseASetOfRecordHelp</p>
@@ -142,7 +188,7 @@
 
 
     <div class="panel panel-default"
-         data-ng-class="{'hidden' : selectedStep !== 2}">
+         data-ng-class="{'hidden' : selectedStep !== 3}">
       <div class="panel-body">
 
         <p class="alert alert-info"
@@ -359,7 +405,7 @@
     </div>
 
     <div class="panel panel-default"
-         data-ng-class="{'hidden' : selectedStep !== 3}">
+         data-ng-class="{'hidden' : selectedStep !== 4}">
 
       <div class="panel-body">
 

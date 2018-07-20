@@ -25,6 +25,11 @@ package org.fao.geonet.api.records.editing;
 import com.google.common.collect.Sets;
 
 import io.swagger.annotations.*;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.FileUtils;
 import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.api.API;
 import org.fao.geonet.api.ApiParams;
@@ -32,10 +37,12 @@ import org.fao.geonet.api.ApiUtils;
 import org.fao.geonet.api.processing.report.IProcessingReport;
 import org.fao.geonet.api.processing.report.SimpleMetadataProcessingReport;
 import org.fao.geonet.api.records.model.BatchEditParameter;
+import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.Metadata;
 import org.fao.geonet.domain.Profile;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.AddElemValue;
+import org.fao.geonet.kernel.CSVBatchEdit;
 import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.EditLib;
 import org.fao.geonet.kernel.SchemaManager;
@@ -44,6 +51,7 @@ import org.fao.geonet.kernel.schema.MetadataSchema;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.kernel.setting.Settings;
 import org.fao.geonet.repository.MetadataRepository;
+import org.fao.geonet.utils.Log;
 import org.jdom.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -54,7 +62,10 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -208,4 +219,44 @@ public class BatchEditsApi implements ApplicationContextAware {
         report.close();
         return report;
     }
+    
+    /**
+	 * The service updates records by uploading the csv file
+	 */
+	@ApiOperation(value = "Updates records by uploading the csv file")
+	@RequestMapping(value = "/batchediting/csv", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ApiResponses(value = { 
+			@ApiResponse(code = 201, message = "Return a report of what has been done."),
+			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) 
+			})
+	@PreAuthorize("hasRole('Administrator')")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public SimpleMetadataProcessingReport batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,
+	        HttpServletRequest request) {
+
+		SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
+		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
+		
+		if (Log.isDebugEnabled(Geonet.SEARCH_ENGINE))
+			Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi ########## batchUpdateUsingCSV ##########");
+
+		File csvFile = new File(file.getOriginalFilename());
+		try {
+			csvFile.createNewFile();
+			FileUtils.copyInputStreamToFile(file.getInputStream(), csvFile);
+			
+			final CSVBatchEdit cbe = context.getBean(CSVBatchEdit.class);
+			
+			//CSVBatchEdit batchEdit = new CSVBatchEdit();
+			cbe.processCsv(csvFile, context, serviceContext);
+			
+		} catch (Exception e) {
+			report.addError(e);
+			report.addInfos(String.format("Failed to import CSV file '%s'. Check error for details.",
+					file.getOriginalFilename()));
+		}
+
+		return report;
+	}
 }
