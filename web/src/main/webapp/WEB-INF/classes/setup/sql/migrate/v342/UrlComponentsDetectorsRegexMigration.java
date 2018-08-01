@@ -20,7 +20,7 @@
  * Contact: Jeroen Ticheler - FAO - Viale delle Terme di Caracalla 2,
  * Rome - Italy. email: geonetwork@osgeo.org
  */
-package v350;
+package v342;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.fao.geonet.DatabaseMigrationTask;

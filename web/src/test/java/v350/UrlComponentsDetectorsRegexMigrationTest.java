@@ -32,6 +32,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import v342.UrlComponentsDetectorsRegexMigration;
 
 import java.io.IOException;
 import java.sql.Connection;
