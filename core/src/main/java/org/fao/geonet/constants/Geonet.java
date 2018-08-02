@@ -647,7 +647,7 @@ public final class Geonet {
     	public static final Namespace GCX = Namespace.getNamespace("gcx", "http://standards.iso.org/iso/19115/-3/gcx/1.0");
     	public static final Namespace GEX = Namespace.getNamespace("gex", "http://standards.iso.org/iso/19115/-3/gex/1.0");
     	public static final Namespace LAN = Namespace.getNamespace("lan", "http://standards.iso.org/iso/19115/-3/lan/1.0");
-
+    	public static final Namespace GCO_3 = Namespace.getNamespace("gco", "http://standards.iso.org/iso/19115/-3/gco/1.0");
     	public static final Namespace MAC = Namespace.getNamespace("mac", "http://standards.iso.org/iso/19115/-3/mac/1.0");
     	public static final Namespace MAS = Namespace.getNamespace("mas", "http://standards.iso.org/iso/19115/-3/mas/1.0");
     	public static final Namespace MCO = Namespace.getNamespace("mco", "http://standards.iso.org/iso/19115/-3/mco/1.0");
@@ -708,5 +708,21 @@ public final class Geonet {
 		public static final String PUBLISHED_INTERNAL = "Published_Internal";
 		public static final String PUBLISHED_EXTERNAL = "Published_External";
 		public static final String RETIRED_INTERNAL = "Retired_Internal";
+    }
+    
+    /**
+     * Container for element values.
+     */
+    public static final class EditType {
+    	public static final String KEYWORD = "keyword";
+    	public static final String KEYWORD_THESAURUS = "keyword-thesaurus";
+        public static final String CONTACT = "contact";
+        public static final String RESPONSIBLE_PARTY = "responsibleparty";
+        public static final String GEOBOX = "geobox";
+        public static final String VERTICAL = "verticalextent";
+        public static final String TEMPORAL = "temporalextent";
+        public static final String ASSOCIATED_RES = "associatedresource";
+        public static final String ONLINE_RES = "resourcelinkage";
+        public static final String ADDITIONAL_INFO = "additionalinfo";
     }
 }
