@@ -103,7 +103,7 @@ public interface MetadataRepositoryCustom {
      */
     @Nullable
     Metadata findOneOldestByChangeDate();
-
+    
     /**
      * Load the source info objects for all the metadata selected by the spec.
      *
@@ -122,4 +122,14 @@ public interface MetadataRepositoryCustom {
      * @return
      */
     BigInteger getGaid();
+    
+    
+    /**
+     * Find the metadata that match the title.
+     * 
+     * @param title - the title of the metadata to find
+     * @return
+     */
+    @Nullable
+    Metadata findOneByTitle(@Nonnull String title);
 }

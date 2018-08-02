@@ -27,6 +27,7 @@ import com.google.common.collect.Maps;
 
 import org.fao.geonet.domain.ISODate;
 import org.fao.geonet.domain.Metadata;
+import org.fao.geonet.domain.MetadataCategory_;
 import org.fao.geonet.domain.MetadataDataInfo_;
 import org.fao.geonet.domain.MetadataSourceInfo;
 import org.fao.geonet.domain.Metadata_;
@@ -53,6 +54,7 @@ import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
@@ -182,6 +184,19 @@ public class MetadataRepositoryImpl implements MetadataRepositoryCustom {
 	public BigInteger getGaid() {
 		Query q = _entityManager.createNativeQuery("select nextval('metadataid')");
 		return (BigInteger)q.getSingleResult();
+	}
+
+	@Override
+	public Metadata findOneByTitle(String title) {
+		final CriteriaBuilder cb = _entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Metadata> query = cb.createQuery(Metadata.class);
+        final Root<Metadata> metadataRoot = query.from(Metadata.class);
+      
+        final Expression<String> _title = metadataRoot.get(Metadata_.dataInfo).get(MetadataDataInfo_.title);
+        final Expression<String> requiredTitle = cb.lower(cb.literal(title));
+        query.where(cb.equal(_title, requiredTitle));
+        return _entityManager.createQuery(query).getSingleResult();
+        
 	}
 
 }
