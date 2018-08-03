@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
@@ -56,7 +57,9 @@ public class Env {
 
         case "ch":
         case "chrome":
-            Env.driver = new ChromeDriver();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("headless", "no-sandbox", "testing-fixed-http-port", "testing-fixed-https-port");
+            Env.driver = new ChromeDriver(chromeOptions);
             break;
 
         case "phantom":
