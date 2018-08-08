@@ -66,13 +66,16 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		xpathExpr.put("metadataScope", getXPath("//mdb:metadataScope"));
 		xpathExpr.put("responsibleParty", getXPath(
 				"//mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty"));
+		
 		xpathExpr.put("resourceLinkage", getXPath(
 				"//mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:onlineResource"));
 		xpathExpr.put("associatedResource", getXPath(
 				"//mdb:identificationInfo/mri:MD_DataIdentification/mri:associatedResource/mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:onlineResource"));
 		xpathExpr.put("additionalInfo", getXPath(
-				"//mdb:identificationInfo/mri:MD_DataIdentification/mri:additionalDocumentation/cit:CI_Citation/cit:onlineResource"));
+				"//mdb:identificationInfo/mri:MD_DataIdentification/mri:additionalDocumentation"));
 		
+		xpathExpr.put("transferOptions", getXPath(
+				"//mdb:distributionInfo/mrd:MD_Distribution/mrd:transferOptions/mrd:MD_DigitalTransferOptions"));
 		
 		// xpathExpr.put("LegalConstraints", getXPath("//mdb:identificationInfo/*/*/mco:MD_LegalConstraints/*"));
 		// xpathExpr.put("contact", getXPath("//mdb:identificationInfo/*/mri:pointOfContact/*/cit:party/*/cit:name/gco:CharacterString"));
@@ -185,6 +188,12 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		String headerVal = header.getKey();
 		EditElement editElement = EditElementFactory.getElementType(headerVal);
 		
+		if(editElement == null){
+			Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> editElement == null....");
+		}
+		if(editElement instanceof OnlineResourceEditElement){
+			Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> instanceof OnlineResourceEditElement....");
+		}
 		if(StringUtils.isNotEmpty(csvr.get(headerVal).trim())){
 			if(editElement != null){
 				

@@ -724,5 +724,6 @@ public final class Geonet {
         public static final String ASSOCIATED_RES = "associatedresource";
         public static final String ONLINE_RES = "resourcelinkage";
         public static final String ADDITIONAL_INFO = "additionalinfo";
+        public static final String TRANSFER_OPTION = "transferoptions";
     }
 }

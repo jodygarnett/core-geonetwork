@@ -1,10 +1,13 @@
 package org.fao.geonet.kernel.batchedit;
 
 import org.fao.geonet.constants.Geonet;
+import org.fao.geonet.utils.Log;
 
 public class EditElementFactory {
 
 	public static EditElement getElementType(String type) {
+		
+		Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> type.toLowerCase(): " + type.toLowerCase());
 		
 		switch (type.toLowerCase()) {
 		case Geonet.EditType.KEYWORD:
@@ -20,6 +23,7 @@ public class EditElementFactory {
 		case Geonet.EditType.ONLINE_RES:
 		case Geonet.EditType.ASSOCIATED_RES:
 		case Geonet.EditType.ADDITIONAL_INFO:
+		case Geonet.EditType.TRANSFER_OPTION:
 			return new OnlineResourceEditElement();
 		default:
 			return null;

@@ -42,7 +42,14 @@ public class OnlineResourceEditElement implements EditElement{
 			if(values.length > 2)
 				linkage = values[2];
 			
-			Element rootE = getOnlineResourceElement(name, desc, linkage);
+			Element rootE;
+			if(Arrays.asList(Geonet.EditType.ONLINE_RES, Geonet.EditType.ASSOCIATED_RES).contains(headerVal.toLowerCase())){
+				rootE = getOnlineResourceElement(name, desc, linkage);
+			}else if(Geonet.EditType.ASSOCIATED_RES.equalsIgnoreCase(headerVal)){
+				rootE = additionalInformation(name, desc, linkage);
+			}else{
+				rootE = getOnlineElement(name, desc, linkage);
+			}
 			
 			String strEle = out.outputString(rootE);
 			
@@ -58,7 +65,39 @@ public class OnlineResourceEditElement implements EditElement{
 
 	private Element getOnlineResourceElement(String _name, String description, String link) throws IOException {
 		
+		Element onlineResource = new Element("onlineResource", Geonet.Namespaces.CIT);
+		
+		onlineResource.addContent(onlineResElement(_name, description, link));
+
+		// out.output(descK, System.out);
+		return onlineResource;
+
+	}
+	
+	private Element getOnlineElement(String _name, String description, String link) throws IOException {
+		
+		
+		Element online = new Element("onLine", Geonet.Namespaces.MRD);
+		
+		online.addContent(onlineResElement(_name, description, link));
+		
+		// out.output(descK, System.out);
+		return online;
+
+	}
+
+	private Element additionalInformation(String _name, String description, String link){
+		Element addInfo = new Element("additionalDocumentation", Geonet.Namespaces.MRI);
 		Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
+		Element title = new Element("title", Geonet.Namespaces.CIT);
+		
+		citation.addContent(title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(_name)));
+		citation.addContent(onlineResElement(_name, description, link));
+		addInfo.addContent(citation);
+		
+		return addInfo;
+	}
+	private Element onlineResElement(String _name, String description, String link){
 		Element onlineRes = new Element("CI_OnlineResource", Geonet.Namespaces.CIT);
 
 		Element linkage = new Element("linkage", Geonet.Namespaces.CIT);
@@ -79,13 +118,8 @@ public class OnlineResourceEditElement implements EditElement{
 		cl.setAttribute("codeListValue", "information");
 		function.addContent(cl);
 		
-		citation.addContent(onlineRes.addContent(
-				Arrays.asList(linkage, protocol, name, desc, function)
-				));
-
-		// out.output(descK, System.out);
-		return citation;
-
+		onlineRes.addContent(Arrays.asList(linkage, protocol, name, desc, function));
+				
+		return onlineRes;
 	}
-	
 }
