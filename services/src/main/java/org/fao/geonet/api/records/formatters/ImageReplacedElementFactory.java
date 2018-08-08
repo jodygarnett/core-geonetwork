@@ -104,7 +104,7 @@ public class ImageReplacedElementFactory implements ReplacedElementFactory {
                     builder.append(URLEncoder.encode(param[1], "UTF-8"));
                 }
             } catch (Exception e) {
-                Log.warning(Geonet.GEONETWORK, "Error writing metadata to PDF", e);
+                Log.warning(Geonet.GEONETWORK, "Error writing metadata to PDF");
             }
             float factor = layoutContext.getDotsPerPixel();
             return loadImage(layoutContext, box, userAgentCallback, cssWidth, cssHeight, builder.toString(), factor);
@@ -149,7 +149,7 @@ public class ImageReplacedElementFactory implements ReplacedElementFactory {
 
             return new ITextImageElement(fsImage);
         } catch (Exception e) {
-            Log.error(Geonet.GEONETWORK, "Error writing metadata to PDF", e);
+            Log.error(Geonet.GEONETWORK, "Error writing metadata to PDF");
 
             try {
                 return superFactory.createReplacedElement(layoutContext, box, userAgentCallback, cssWidth, cssHeight);
