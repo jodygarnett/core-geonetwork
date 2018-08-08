@@ -877,8 +877,14 @@
                 }
               }
 
+              url = getCapLayer.url || url;
+              if(getCapLayer.useProxy
+                  && url.indexOf(gnGlobalSettings.proxyUrl) != 0) {
+                url = gnGlobalSettings.proxyUrl + encodeURIComponent(url);
+              }
+
               var layer = this.createOlWMS(map, layerParam, {
-                url: url || getCapLayer.url,
+                url: url,
                 label: getCapLayer.Title,
                 attribution: attribution,
                 attributionUrl: attributionUrl,
