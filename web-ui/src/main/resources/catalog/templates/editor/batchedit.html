@@ -30,10 +30,13 @@
 	<div class="panel panel-default" data-ng-class="{'hidden' : selectedStep !== 1}">
 		<div class="panel-body">
 			<p class="alert alert-info" data-translate="">Batch Edit records by uploading CSV file.</p>
+			<p ng-show="modewarning" class="alert alert-danger" data-translate="">Warning: Selecting "Remove existing elements and Add" options will remove existing elements and add new elements.</p>
 			<div class="row">
 				<div class="col-sm-6">
-					<textarea class="form-control"/>
-				</div>
+						<select ng-init="updatemode = updateModes[0]"
+							ng-model="updatemode" ng-change="changedValue(updatemode)"
+							data-ng-options="mode as mode.value for mode in updateModes"></select>
+					</div>
 			</div>
 			<br/>
 			<div class="row">

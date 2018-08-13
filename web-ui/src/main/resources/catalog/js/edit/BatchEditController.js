@@ -375,6 +375,56 @@
 
       $scope.processReport = null;
 
+      $scope.unsupportedFile = false;
+	  $scope.isfileSelected = false;
+	  $scope.setFile = function(element) {
+      $scope.$apply(function($scope) {
+            $scope.theFile = element.files[0];
+			if ($scope.theFile.name.match(/.csv$/i) !== null) {
+				$scope.isfileSelected = true;
+				$scope.unsupportedFile = false;
+			  } else {
+				$scope.unsupportedFile = true;
+			  }
+        });
+     };
+	  $scope.clear = function () {
+		  $scope.unsupportedFile = false;
+		  $scope.isfileSelected = false;
+		  console.log('clear.....');
+		  angular.element("input[type='file']").val(null);
+		};
+	  
+	  $scope.updateModes = [
+		{value : "Add Element", key : "add"},
+		{value : "Remove existing elements and Add", key : "remove"}
+	  ];
+		 
+	  $scope.updatemode = updateModes[0];
+	  $scope.modewarning = false;
+	  $scope.changedValue = function(item) {
+		$scope.updatemode = item;
+		if($scope.updatemode.key === 'remove'){
+			$scope.modewarning = true;
+		}else{
+			$scope.modewarning = false;
+		}
+	  }   
+	  
+	  $scope.uploadcsv = function(){
+		$scope.unsupportedFile = false;
+		 var fd = new FormData();
+			fd.append("file", $scope.theFile);
+			fd.append("mode", $scope.updatemode.key);
+			$http.post('../api/records/batchediting/csv', fd, {
+				headers: {'Content-Type': undefined }
+			}).success(function(data){
+				console.log('Success.....');
+			}).error( function(err){
+				console.log('Error.....');
+			});
+	  };
+	  
       $scope.applyChanges = function() {
         var params = [], i = 0;
         angular.forEach($scope.changes, function(field) {
