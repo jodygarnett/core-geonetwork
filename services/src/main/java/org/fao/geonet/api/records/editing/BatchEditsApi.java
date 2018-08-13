@@ -236,14 +236,15 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public SimpleMetadataProcessingReport batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,
-	        HttpServletRequest request) {
+			@RequestParam(value = "mode") String mode, HttpServletRequest request) {
 
 		SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
 		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
 		
-		if (Log.isDebugEnabled(Geonet.SEARCH_ENGINE))
-			Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi ########## batchUpdateUsingCSV ##########");
+		Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi ########## batchUpdateUsingCSV ##########");
 
+		Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi mode: " + mode);
+		
 		File csvFile = new File(file.getOriginalFilename());
 		try {
 			csvFile.createNewFile();
@@ -252,7 +253,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 			final CSVBatchEdit cbe = context.getBean(CSVBatchEdit.class);
 			
 			//CSVBatchEdit batchEdit = new CSVBatchEdit();
-			cbe.processCsv(csvFile, context, serviceContext);
+			cbe.processCsv(csvFile, context, serviceContext, mode);
 			
 		} catch (Exception e) {
 			report.addError(e);
