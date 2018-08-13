@@ -21,7 +21,7 @@ public class MdScopeEditElement implements EditElement {
 	XMLOutputter out = new XMLOutputter();
 
 	@Override
-	public void removeAndAddElement(ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr,
+	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr,
 			XPath _xpath, List<BatchEditParameter> listOfUpdates) throws JDOMException, IOException {
 
 		String headerVal = header.getKey();

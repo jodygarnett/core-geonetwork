@@ -25,7 +25,7 @@ public class KeywordEditElement implements EditElement {
 	XMLOutputter out = new XMLOutputter();
 
 	@Override
-	public void removeAndAddElement(ApplicationContext context, ServiceContext serContext,
+	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext,
 			Entry<String, Integer> header, CSVRecord csvr, XPath _xpath, List<BatchEditParameter> listOfUpdates)
 			throws IOException, JDOMException {
 

@@ -21,7 +21,7 @@ public class OnlineResourceEditElement implements EditElement{
 	XMLOutputter out = new XMLOutputter();
 	
 	@Override
-	public void removeAndAddElement(ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr, 
+	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr, 
 			XPath _xpath, List<BatchEditParameter> listOfUpdates)
 			throws JDOMException, IOException {
 		
@@ -43,9 +43,9 @@ public class OnlineResourceEditElement implements EditElement{
 				linkage = values[2];
 			
 			Element rootE;
-			if(Arrays.asList(Geonet.EditType.ONLINE_RES, Geonet.EditType.ASSOCIATED_RES).contains(headerVal.toLowerCase())){
+			if(Arrays.asList(Geonet.EditType.RES_LINKAGE, Geonet.EditType.ASSOCIATED_RES).contains(headerVal)){
 				rootE = getOnlineResourceElement(name, desc, linkage);
-			}else if(Geonet.EditType.ASSOCIATED_RES.equalsIgnoreCase(headerVal)){
+			}else if(Geonet.EditType.ADDITIONAL_INFO.equalsIgnoreCase(headerVal)){
 				rootE = additionalInformation(name, desc, linkage);
 			}else{
 				rootE = getOnlineElement(name, desc, linkage);
@@ -89,10 +89,11 @@ public class OnlineResourceEditElement implements EditElement{
 	private Element additionalInformation(String _name, String description, String link){
 		Element addInfo = new Element("additionalDocumentation", Geonet.Namespaces.MRI);
 		Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
+		Element onlineres = new Element("onlineResource", Geonet.Namespaces.CIT);
 		Element title = new Element("title", Geonet.Namespaces.CIT);
 		
 		citation.addContent(title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(_name)));
-		citation.addContent(onlineResElement(_name, description, link));
+		citation.addContent(onlineres.addContent(onlineResElement(_name, description, link)));
 		addInfo.addContent(citation);
 		
 		return addInfo;

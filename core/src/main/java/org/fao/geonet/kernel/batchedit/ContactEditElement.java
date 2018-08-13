@@ -22,63 +22,83 @@ import org.springframework.data.jpa.domain.Specifications;
 
 import jeeves.server.context.ServiceContext;
 
-public class ContactEditElement implements EditElement{
-
+public class ContactEditElement implements EditElement {
+	
 	@Override
-	public void removeAndAddElement(ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr, 
-			XPath _xpath, List<BatchEditParameter> listOfUpdates) throws JDOMException, IOException {
+	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext srvContext,
+			Entry<String, Integer> header, CSVRecord csvr, XPath _xpath, List<BatchEditParameter> listOfUpdates)
+			throws JDOMException, IOException {
 
-		MetadataRepository mdRepo = context.getBean(MetadataRepository.class);
-		
 		String headerVal = header.getKey();
 		String[] contacts = csvr.get(headerVal).split(content_separator);
-		
+
 		ElementFilter filter = new ElementFilter("CI_RoleCode", Geonet.Namespaces.CIT);
-		
+
 		for (String con : contacts) {
 
 			String[] contact = con.split(type_separator);
-			
-			if(contact.length > 0){
+
+			if (contact.length > 0) {
 				String value = contact[0];
-				Specification<Metadata> title = MetadataSpecs.hasTitle(contact[0]);
-				
-				//Metadata md = mdRepo.findOneByTitle(contact);
-				List<Metadata> mds = mdRepo.findAll(Specifications.where(title));
-				
-				if(mds != null && mds.size() > 0){
-				
-					Metadata md = mds.get(0);
-					
-					// String contactData = md.getData();
-					Element xmlEle = md.getXmlData(false);
-					
-					String type = "";
-					
-					if (contact.length >= 2) {
-						type = contact[1];
-						Log.debug(Geonet.SEARCH_ENGINE, "KeywordEditElement --> keyword : " + value + ", keywordType: " + type);
-					}
-					
-					Iterator elements = xmlEle.getDescendants(filter);
-					
-					while ( elements.hasNext() ) {
-				        Element e = (Element) elements.next();
-				        Log.debug(Geonet.SEARCH_ENGINE, "ContactEditElement --> codeListValue --> "+ value);
-				        e.setAttribute("codeListValue", value);
-					}
-					
-	//				Log.debug(Geonet.SEARCH_ENGINE, "ContactEditElement --> xmlEle : " + Xml.getString(xmlEle));
-					
-					String _val = "<gn_add>" + Xml.getString(xmlEle) + "</gn_add>";
-					BatchEditParameter e = new BatchEditParameter(_xpath.getXPath(), _val);
-					listOfUpdates.add(e);
+
+				Element xmlEle = getContactElement(batchEdit, context, srvContext, value);
+
+				String type = "";
+
+				if (contact.length >= 2) {
+					type = contact[1];
+					Log.debug(Geonet.SEARCH_ENGINE, "KeywordEditElement --> keyword : " + value + ", keywordType: " + type);
 				}
+
+				Iterator elements = xmlEle.getDescendants(filter);
+
+				while (elements.hasNext()) {
+					Element e = (Element) elements.next();
+					Log.debug(Geonet.SEARCH_ENGINE, "ContactEditElement --> codeListValue --> " + type);
+					e.setAttribute("codeListValue", type);
+				}
+
+				Log.debug(Geonet.SEARCH_ENGINE, "ContactEditElement --> xmlEle : " + Xml.getString(xmlEle));
+
+				String _val = "<gn_add>" + Xml.getString(xmlEle) + "</gn_add>";
+				BatchEditParameter e = new BatchEditParameter(_xpath.getXPath(), _val);
+				listOfUpdates.add(e);
+
 			}
 		}
 
-	
-		
 	}
 
+	public Element getContactElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext srvContext, String contact)
+			throws IOException, JDOMException {
+
+		Element request = Xml.loadString(
+				"<request><isAdmin>true</isAdmin><_isTemplate>s</_isTemplate><_root>cit:CI_Responsibility</_root><any>*"
+						+ contact + "*</any><fast>index</fast></request>",
+				false);
+		
+		Metadata md = batchEdit.getMetadataByLuceneSearch(context, srvContext, request);
+		
+		return md.getXmlData(false);
+	}
+
+	public Element getContactElementfromDB(ApplicationContext context, ServiceContext srvContext, String contact)
+			throws IOException, JDOMException {
+		Specification<Metadata> title = MetadataSpecs.hasTitle(contact);
+		MetadataRepository mdRepo = context.getBean(MetadataRepository.class);
+		// Metadata md = mdRepo.findOneByTitle(contact);
+		List<Metadata> mds = mdRepo.findAll(Specifications.where(title));
+
+		if (mds != null && mds.size() > 0) {
+
+			Metadata md = mds.get(0);
+
+			// String contactData = md.getData();
+			Element xmlEle = md.getXmlData(false);
+
+			return xmlEle;
+		}
+
+		return null;
+	}
 }

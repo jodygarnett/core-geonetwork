@@ -18,6 +18,6 @@ public interface EditElement {
 	public static final String content_separator = "###";
 	public static final String type_separator = "~";
 	
-	public void removeAndAddElement(ApplicationContext context, ServiceContext serContext, Map.Entry<String, Integer> header, CSVRecord csvr, XPath _xpath,
+	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext, Map.Entry<String, Integer> header, CSVRecord csvr, XPath _xpath,
 			List<BatchEditParameter> listOfUpdates) throws JDOMException, IOException;
 }

@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang.math.NumberUtils;
 import org.fao.geonet.constants.Geonet;
-import org.fao.geonet.utils.Log;
-import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
@@ -21,7 +20,7 @@ public class ExtentEditElement implements EditElement {
 	XMLOutputter out = new XMLOutputter();
 	
 	@Override
-	public void removeAndAddElement(ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr, XPath _xpath, 
+	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr, XPath _xpath, 
 			List<BatchEditParameter> listOfUpdates) throws IOException {
 
 
@@ -36,7 +35,9 @@ public class ExtentEditElement implements EditElement {
 			if(headerVal.equalsIgnoreCase(Geonet.EditType.GEOBOX))
 				rootE = getGeographicBoundingBox(values);
 			if(headerVal.equalsIgnoreCase(Geonet.EditType.VERTICAL))
-				rootE = getVerticalExtent(values);
+				rootE = getVerticalExtent(batchEdit, values);
+			if(headerVal.equalsIgnoreCase(Geonet.EditType.VERTICAL_CRS))
+				rootE = getVerticalRefSystemElement(batchEdit, values);
 			if(headerVal.equalsIgnoreCase(Geonet.EditType.TEMPORAL))
 				rootE = getTemporalExtent(values);
 			
@@ -85,11 +86,22 @@ public class ExtentEditElement implements EditElement {
 
 	}
 	
-	private Element getVerticalExtent(String[] value) throws IOException {
+	private Element getVerticalExtent(CSVBatchEdit batchEdit, String[] value) throws IOException {
 
 		Element ex = new Element("extent", Geonet.Namespaces.MRI);
 		Element exEx = new Element("Ex_Extent", Geonet.Namespaces.GEX);
 		Element vertE = new Element("verticalElement", Geonet.Namespaces.GEX);
+		Element exVertE = verticalMinMaxElement(batchEdit, value);
+		
+		ex.addContent(exEx.addContent(vertE.addContent(exVertE)));
+
+		// out.output(ex, System.out);
+		return ex;
+
+	}
+	
+		
+	private Element verticalMinMaxElement(CSVBatchEdit batchEdit, String[] value){
 		Element exVertE = new Element("EX_VerticalExtent", Geonet.Namespaces.GEX);
 
 		Element min = new Element("minimumValue", Geonet.Namespaces.GEX);
@@ -100,13 +112,49 @@ public class ExtentEditElement implements EditElement {
 
 		if (value.length > 1)
 			max.addContent(new Element("Real", Geonet.Namespaces.GCO_3).setText(value[1]));
-
+		
 		exVertE.addContent(Arrays.asList(min, max));
-		ex.addContent(exEx.addContent(vertE.addContent(exVertE)));
+		
+//		if (value.length > 2)
+//			exVertE.addContent(verticalRefSystemElement(batchEdit, value));
 
-		// out.output(ex, System.out);
-		return ex;
+		return exVertE;
+	}
+	
+	private Element getVerticalRefSystemElement(CSVBatchEdit batchEdit, String[] value){
+		
+		
+		Element exVertCrs = new Element("verticalCRSId", Geonet.Namespaces.GEX);
+		Element refSys = new Element("MD_ReferenceSystem", Geonet.Namespaces.MRS);
+		Element refSysId = new Element("referenceSystemIdentifier", Geonet.Namespaces.MRS);
+		Element mdId = new Element("MD_Identifier", Geonet.Namespaces.MCC);
 
+		
+		if(value.length > 0){
+			String ref_code = "";
+			if(!NumberUtils.isDigits(value[0])){
+				String desc = value[0];
+				int _1 = desc.indexOf(":") + 1;
+				int _2 = desc.lastIndexOf(")");
+				ref_code =  desc.substring(_1, _2);
+			}
+			
+			Crs crs = batchEdit.getById(ref_code);
+			Element code = new Element("code", Geonet.Namespaces.MCC);
+			code.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(crs.getDescription()));
+			
+			Element codeSpace = new Element("codeSpace", Geonet.Namespaces.MCC);
+			codeSpace.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(crs.getCodeSpace()));
+			
+			Element version = new Element("version", Geonet.Namespaces.MCC);
+			version.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(crs.getVersion()));
+
+			mdId.addContent(Arrays.asList(code, codeSpace, version));
+		}
+		
+		exVertCrs.addContent(refSys.addContent(refSysId.addContent(mdId)));
+		
+		return exVertCrs;
 	}
 	
 	private Element getTemporalExtent(String[] value) throws IOException {

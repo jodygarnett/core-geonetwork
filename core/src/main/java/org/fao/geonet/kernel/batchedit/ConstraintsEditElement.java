@@ -14,7 +14,7 @@ import jeeves.server.context.ServiceContext;
 public class ConstraintsEditElement implements EditElement {
 
 	@Override
-	public void removeAndAddElement(ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr,
+	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext, Entry<String, Integer> header, CSVRecord csvr,
 			XPath _xpath, List<BatchEditParameter> listOfUpdates) throws JDOMException, IOException {
 
 		

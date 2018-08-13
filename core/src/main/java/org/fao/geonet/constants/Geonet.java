@@ -714,16 +714,38 @@ public final class Geonet {
      * Container for element values.
      */
     public static final class EditType {
+    	public static final String TITLE = "title";
+    	public static final String ABSTRACT = "abstract";
+    	public static final String PURPOSE = "purpose";
+    	public static final String STATUS = "status";
+    	public static final String MAINTENANCE_FREQ = "maintenanceFrequency";
+    	public static final String TOPIC_CAT = "topicCategory";
+        public static final String MD_SCOPE = "metadataScope";
+        public static final String MD_SECURITY_CONSTRAINT = "metadataSecurityConstraint";
+        public static final String RES_SECURITY_CONSTRAINT = "resourceSecurityConstraint";
+        public static final String USE_LIMITATION = "useLimitations";
+        public static final String SPACIAL_REF_SYSYTEM = "spacialReferenceSystem";
+        
     	public static final String KEYWORD = "keyword";
     	public static final String KEYWORD_THESAURUS = "keyword-thesaurus";
-        public static final String CONTACT = "contact";
-        public static final String RESPONSIBLE_PARTY = "responsibleparty";
-        public static final String GEOBOX = "geobox";
-        public static final String VERTICAL = "verticalextent";
-        public static final String TEMPORAL = "temporalextent";
-        public static final String ASSOCIATED_RES = "associatedresource";
-        public static final String ONLINE_RES = "resourcelinkage";
-        public static final String ADDITIONAL_INFO = "additionalinfo";
-        public static final String TRANSFER_OPTION = "transferoptions";
+        
+        public static final String POINT_OF_CONTACT = "contact";
+        public static final String RESPONSIBLE_PARTY = "responsibleParty";
+        
+        public static final String CITATION_DATE = "citationDate";
+        
+        public static final String GEOBOX = "geoBox";
+        public static final String VERTICAL = "verticalExtent";
+        public static final String VERTICAL_CRS = "verticalCrs";
+        public static final String TEMPORAL = "temporalExtent";
+        
+        public static final String ASSOCIATED_RES = "associatedResource";
+        public static final String RES_LINKAGE = "resourceLinkage";
+        public static final String ADDITIONAL_INFO = "additionalInfo";
+        public static final String TRANSFER_OPTION = "transferOptions";
+        
+        public static final String DISTRIBUTION_FORMAT = "distributionFormat";
+        public static final String RESOURCE_FORMAT = "resourceFormat";
+        
     }
 }
