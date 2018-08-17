@@ -44,7 +44,7 @@ public class EditElementFactory {
 		case Geonet.EditType.MD_CONTACT:
 		case Geonet.EditType.RESPONSIBLE_PARTY:
 			return new ContactEditElement();
-		case Geonet.EditType.RES_LINKAGE:
+		case Geonet.EditType.DATA_STORAGE_LINK:
 		case Geonet.EditType.ASSOCIATED_RES:
 		case Geonet.EditType.ADDITIONAL_INFO:
 		case Geonet.EditType.DISTRIBUTION_LINK:
