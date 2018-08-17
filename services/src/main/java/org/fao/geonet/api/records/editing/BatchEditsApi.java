@@ -23,13 +23,23 @@
 package org.fao.geonet.api.records.editing;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.api.API;
@@ -40,19 +50,28 @@ import org.fao.geonet.api.processing.report.SimpleMetadataProcessingReport;
 import org.fao.geonet.api.records.model.BatchEditParameter;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.Metadata;
+import org.fao.geonet.exceptions.BatchEditException;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.AddElemValue;
 import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.EditLib;
 import org.fao.geonet.kernel.SchemaManager;
 import org.fao.geonet.kernel.SelectionManager;
+import org.fao.geonet.kernel.batchedit.BatchEditParam;
+import org.fao.geonet.kernel.batchedit.BatchEditReport;
+import org.fao.geonet.kernel.batchedit.BatchEditXpath;
 import org.fao.geonet.kernel.batchedit.CSVBatchEdit;
 import org.fao.geonet.kernel.schema.MetadataSchema;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.kernel.setting.Settings;
 import org.fao.geonet.repository.MetadataRepository;
 import org.fao.geonet.utils.Log;
+import org.fao.geonet.utils.Xml;
+import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.xpath.XPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -93,7 +112,10 @@ public class BatchEditsApi implements ApplicationContextAware {
     @Autowired
     SchemaManager _schemaManager;
     private ApplicationContext context;
-
+    //List<BatchEditReport> reports;
+    
+    Map<String, XPath> xpathExpr = new HashMap<>();
+    
     public synchronized void setApplicationContext(ApplicationContext context) {
         this.context = context;
     }
@@ -237,8 +259,9 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@ResponseBody
 	public SimpleMetadataProcessingReport batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,
 			@RequestParam(value = "mode") String mode, HttpServletRequest request) {
-
+		
 		SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
+		
 		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
 		
 		Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi ########## batchUpdateUsingCSV ##########");
@@ -250,17 +273,178 @@ public class BatchEditsApi implements ApplicationContextAware {
 			csvFile.createNewFile();
 			FileUtils.copyInputStreamToFile(file.getInputStream(), csvFile);
 			
-			final CSVBatchEdit cbe = context.getBean(CSVBatchEdit.class);
-			
-			//CSVBatchEdit batchEdit = new CSVBatchEdit();
-			cbe.processCsv(csvFile, context, serviceContext, mode);
+			processCsv(csvFile, context, serviceContext, mode, report);
 			
 		} catch (Exception e) {
 			report.addError(e);
-			report.addInfos(String.format("Failed to import CSV file '%s'. Check error for details.",
-					file.getOriginalFilename()));
+		}
+		
+		return report;
+
+	}
+	
+	
+	/**
+	 * 
+	 * @param csvFile
+	 * @param context
+	 * @param serviceContext
+	 * @param mode
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public SimpleMetadataProcessingReport processCsv(File csvFile, ApplicationContext context, 
+			ServiceContext serviceContext, String mode, SimpleMetadataProcessingReport report) {
+
+		try {
+			xpathExpr = new BatchEditXpath().loadXpath();
+		} catch (JDOMException e) {
+			Log.error(Geonet.SEARCH_ENGINE, "Unable to loadXpath, "+e.getMessage());
+		}
+
+		SAXBuilder sb = new SAXBuilder();
+		//final CSVBatchEdit cbe = context.getBean(CSVBatchEdit.class);
+		CSVBatchEdit cbe = new CSVBatchEdit(context);
+		final MetadataRepository metadataRepository = context.getBean(MetadataRepository.class);
+		final SchemaManager schemaManager = context.getBean(SchemaManager.class);
+		final DataManager dataMan = context.getBean(DataManager.class);
+		EditLib editLib = new EditLib(schemaManager);
+		
+		CSVParser parser = null;
+		try {
+			//Parse the csv file
+			parser = CSVParser.parse(csvFile, Charset.defaultCharset(), CSVFormat.EXCEL.withHeader());
+			//report.setTotalRecords(parser.getRecords().size());
+		} catch (IOException e1) {
+			Log.error(Geonet.SEARCH_ENGINE, e1.getMessage());
+		}
+		//Currently only supports iso19115-3 standard
+		Path p = schemaManager.getSchemaDir("iso19115-3");
+
+		for (CSVRecord csvr : parser) {
+			
+			final int id;
+			
+			Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> csvRecord.toString() : " + csvr.toString());
+			try {
+				Metadata record = null;
+				if(!csvr.isMapped("uuid")){
+					if(csvr.isMapped("eCatId")){
+						id = Integer.parseInt(csvr.get("eCatId"));
+						
+						Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> csvRecord.get(eCatId) : " + csvr.get("eCatId"));
+						
+						//Search record based on eCatId from lucene index 
+						Element request = Xml.loadString(
+								"<request><isAdmin>true</isAdmin><_isTemplate>n</_isTemplate><eCatId>" + csvr.get("eCatId") + "</eCatId><fast>index</fast></request>",
+								false);
+						try{
+							record = cbe.getMetadataByLuceneSearch(context, serviceContext, request);	
+						}catch(BatchEditException e){
+							report.addMetadataError(id, new Exception(e.getMessage()));
+							//report.incrementNullRecords();
+							continue;
+						}
+					}else{//If there is no valid uuid and ecatId, doesn't process this record and continue to execute next record
+						report.addError(new Exception("Unable to process record number " + csvr.getRecordNumber()));
+						//report.incrementNullRecords();
+						continue;
+					}
+					 
+				}else{//find record by uuid, if its defined in csv file
+					record = metadataRepository.findOneByUuid(csvr.get("uuid"));
+					if(csvr.isMapped("eCatId")){
+						id = Integer.parseInt(csvr.get("eCatId"));
+					}else{
+						id = record.getId();
+					}
+					
+				}
+				
+				if(record == null){
+					report.addError(new Exception("No metadata found, Unable to process record number " + csvr.getRecordNumber()));
+					//report.incrementNullRecords();
+					continue;
+				}
+				
+				MetadataSchema metadataSchema = schemaManager.getSchema(record.getDataInfo().getSchemaId());
+				Element metadata = record.getXmlData(false);
+				
+				Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> record.getDataInfo().getRoot() : "
+						+ record.getDataInfo().getRoot());
+				
+				Document document = sb.build(new StringReader(record.getData()));
+
+				Iterator iter = parser.getHeaderMap().entrySet().iterator();
+				List<BatchEditParam> listOfUpdates = new ArrayList<>();
+
+				//Iterate through all csv records, and create list of batchedit parameter with xpath and values 
+				while (iter.hasNext()) {
+					Map.Entry<String, Integer> header = (Map.Entry<String, Integer>) iter.next();
+					Log.debug(Geonet.SEARCH_ENGINE, header.getKey() + " - " + header.getValue());
+
+					XPath _xpath = xpathExpr.get(header.getKey());
+
+					if (_xpath != null) {
+						BatchEditReport batchreport = cbe.removeOrAddElements(context, serviceContext, header, csvr, _xpath, document, listOfUpdates, mode);
+						batchreport.getErrorInfo().stream().forEach(err -> {
+							report.addMetadataError(id, new Exception(err));	
+						});
+						batchreport.getProcessInfo().stream().forEach(info -> {
+							report.addMetadataInfos(id, info);	
+						});
+					}
+				}
+
+				boolean metadataChanged = false;
+				
+				Iterator<BatchEditParam> listOfUpdatesIterator = listOfUpdates.iterator();
+				Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit --> listOfUpdates : " + listOfUpdates.size());
+                
+				metadata = document.getRootElement();
+				
+				//Iterate through batchedit parameter list and add elements
+                while (listOfUpdatesIterator.hasNext()) {
+                    BatchEditParam batchEditParam = listOfUpdatesIterator.next();
+
+                    Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit --> batchEditParameter : " + batchEditParam.toString());
+    				
+                    AddElemValue propertyValue = new AddElemValue(batchEditParam.getValue());
+                    
+                    metadataChanged = editLib.addElementOrFragmentFromXpath(metadata, metadataSchema, batchEditParam.getXpath(),
+                        propertyValue, true);
+                }
+               
+                if (metadataChanged) {
+                	Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit --> updating Metadata.........");
+                	dataMan.updateMetadata(serviceContext, record.getId() + "", metadata, false, false, true, "eng", null, false);
+                	report.addMetadataInfos(id, "Metadata updated, uuid: " + record.getUuid());
+                	report.incrementProcessedRecords();
+                }
+
+			} catch (Exception e) {
+				Log.error(Geonet.SEARCH_ENGINE, "Exception :" + e.getMessage());
+			}
+			
 		}
 
 		return report;
 	}
+	
+	 /**
+		 * The service updates records by uploading the csv file
+		 */
+		@ApiOperation(value = "Reports for uploading the csv file")
+		@RequestMapping(value = "/batchediting/csvreport", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
+		@ApiResponses(value = { 
+				@ApiResponse(code = 201, message = "Return a report of what has been done."),
+				@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) 
+				})
+		@PreAuthorize("hasRole('Administrator')")
+		@ResponseStatus(HttpStatus.CREATED)
+		@ResponseBody
+		public List<BatchEditReport> batchUpdateReport(HttpServletRequest request) {
+			return null;
+		}
 }

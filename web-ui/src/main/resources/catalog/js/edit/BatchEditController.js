@@ -385,6 +385,7 @@
 				$scope.unsupportedFile = false;
 			  } else {
 				$scope.unsupportedFile = true;
+				angular.element("input[type='file']").val(null);
 			  }
         });
      };
@@ -413,17 +414,35 @@
 	  
 	  $scope.uploadcsv = function(){
 		$scope.unsupportedFile = false;
-		 var fd = new FormData();
-			fd.append("file", $scope.theFile);
-			fd.append("mode", $scope.updatemode.key);
-			$http.post('../api/records/batchediting/csv', fd, {
-				headers: {'Content-Type': undefined }
-			}).success(function(data){
-				console.log('Success.....');
-			}).error( function(err){
-				console.log('Error.....');
-			});
+		$scope.isCompleted = false;
+		var fd = new FormData();
+		fd.append("file", $scope.theFile);
+		fd.append("mode", $scope.updatemode.key);
+		$http.post('../api/records/batchediting/csv', fd, {
+			headers: {'Content-Type': undefined }
+		}).success(function(data){
+			$scope.isCompleted = true;
+			console.log('Success.....');
+		}).error( function(err){
+			console.log('Error.....');
+		});
 	  };
+	  
+	  $scope.isCompleted = true;
+	  var updateCheckInterval = 5000;
+	  
+	  function checkIsCompleted() {
+        // Check if indexing
+        return $http.get('../api/records/batchediting/csvreport').
+            success(function(data, status) {
+            	if(data.numberOfRecords == data.numberOfRecordsProcessed + numberOfRecordsWithErrors){
+              	  $scope.isCompleted = true;  
+                }
+              if (!$scope.isCompleted) {
+                $timeout(checkIsCompleted, indexCheckInterval);
+              }
+            });
+      }
 	  
       $scope.applyChanges = function() {
         var params = [], i = 0;

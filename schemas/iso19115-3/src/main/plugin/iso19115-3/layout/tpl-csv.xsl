@@ -16,6 +16,9 @@
                 xmlns:cit="http://standards.iso.org/iso/19115/-3/cit/1.0"
                 xmlns:mdb="http://standards.iso.org/iso/19115/-3/mdb/1.0"
                 xmlns:gco="http://standards.iso.org/iso/19115/-3/gco/1.0"
+				xmlns:mmi="http://standards.iso.org/iso/19115/-3/mmi/1.0"
+				xmlns:mrl="http://standards.iso.org/iso/19115/-3/mrl/1.0"
+				xmlns:gml="http://www.opengis.net/gml/3.2"
                 xmlns:gn="http://www.fao.org/geonetwork"
                 xmlns:gn-fn-core="http://geonetwork-opensource.org/xsl/functions/core"
                 xmlns:gn-fn-iso19115-3="http://geonetwork-opensource.org/xsl/functions/profiles/iso19115-3"
@@ -29,132 +32,235 @@
                 priority="2">
     <metadata>
       <xsl:variable name="langId" select="gn-fn-iso19115-3:getLangId(., $lang)"/>
-      <!-- <id>
-        <xsl:value-of select="gn:info/id"/>
-      </id>
-      <uuid>
-        <xsl:value-of select="gn:info/uuid"/>
-      </uuid> -->
-      <title>
+      
+	  <eCatId>
+         <xsl:value-of select="mdb:alternativeMetadataReference/*/cit:identifier/*/mcc:code"/>
+	  </eCatId>
+      
+	  <Title>
         <xsl:apply-templates mode="localised"
                              select="mdb:identificationInfo/*/mri:citation/*/cit:title">
           <xsl:with-param name="langId" select="$langId"/>
         </xsl:apply-templates>
-      </title>
-      <abstract>
+      </Title>
+      
+	  <Abstract>
         <xsl:apply-templates mode="localised" select="mdb:identificationInfo/*/mri:abstract">
           <xsl:with-param name="langId" select="$langId"/>
         </xsl:apply-templates>
-      </abstract>
+      </Abstract>
 
-      <category>
+	  <Category>
         <xsl:value-of select="mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue"/>
-      </category>
-      <metadatacreationdate>
-        <xsl:value-of select="mdb:dateInfo/*/cit:date/*"/>
-      </metadatacreationdate>
-
-      <xsl:for-each select="mdb:identificationInfo/*/mri:citation/*/cit:date">
-        <xsl:element name="date-{*/cit:dateType/*/@codeListValue}">
-          <xsl:value-of select="*/cit:date/*/text()"/>
+      </Category>
+	  
+	  <MetadataScope>
+	    <xsl:value-of select="mdb:metadataScope/*/mdb:name"/>~<xsl:value-of select="mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue"/>
+      </MetadataScope>
+	  
+	  <ParentMetadata>
+        <xsl:value-of select="mdb:parentMetadata/cit:CI_Citation/cit:identifier[last()]/mcc:MD_Identifier/mcc:code/gcx:FileName/text()"/>
+      </ParentMetadata>
+	  
+	  	      
+      <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:date/cit:CI_Date">
+        <xsl:element name="CitationDate">
+          <xsl:value-of select="cit:date/*/text()"/>~<xsl:value-of select="cit:dateType/*/@codeListValue"/>
         </xsl:element>
       </xsl:for-each>
-
+	  
+	  <Purpose>
+        <xsl:value-of select="mdb:identificationInfo/*/mri:purpose/gco:CharacterString"/>
+      </Purpose>
+	  
+	  <Status>
+        <xsl:value-of select="mdb:identificationInfo/*/mri:status/mcc:MD_ProgressCode/@codeListValue"/>
+      </Status>
+	  
       <xsl:for-each select="mdb:identificationInfo/*/mri:graphicOverview/*/mcc:fileName">
         <image>
           <xsl:value-of select="*/text()"/>
         </image>
       </xsl:for-each>
 
-      <!-- All keywords not having thesaurus reference -->
-      <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/*[not(mri:thesaurusName)]/mri:keyword[not(@gco:nilReason)]">
-        <keyword>
-          <xsl:apply-templates mode="localised" select=".">
-            <xsl:with-param name="langId" select="$langId"/>
-          </xsl:apply-templates>
-        </keyword>
+	  <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/*[not(mri:thesaurusName)]">
+			<Keyword>
+				<xsl:value-of select="mri:keyword/gco:CharacterString" />~<xsl:value-of select="mri:type/mri:MD_KeywordTypeCode/@codeListValue" />
+			</Keyword>
+		</xsl:for-each>
+	  
+	  <xsl:for-each
+			select="mdb:identificationInfo/*/mri:descriptiveKeywords/*[mri:thesaurusName]">
+			<Keyword-Thesaurus>
+				<xsl:value-of select="mri:thesaurusName/*/cit:title/gco:CharacterString" />~<xsl:value-of select="mri:type/mri:MD_KeywordTypeCode/@codeListValue" />:
+				<xsl:for-each select="mri:keyword">
+					<xsl:value-of select="gco:CharacterString" />
+					<xsl:if test="position() != last()">
+						<xsl:value-of select="','"/>
+					  </xsl:if>
+				</xsl:for-each>
+			</Keyword-Thesaurus>
+		</xsl:for-each>
+	  
+	  <TopicCategory>
+                <xsl:value-of select="mdb:identificationInfo/*/mri:topicCategory/mri:MD_TopicCategoryCode"/>
+	  </TopicCategory>
+	  
+	 <MaintenanceFrequency>
+                <xsl:value-of select="mdb:identificationInfo/*/mri:resourceMaintenance/*/mmi:MD_MaintenanceFrequencyCode/@codeListValue"/>
+	  </MaintenanceFrequency>
+
+	  <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility">
+        <ResponsibleParty>
+			<xsl:value-of select="cit:party/*/cit:name/*/text()"/>~<xsl:value-of select="cit:role/cit:CI_RoleCode/@codeListValue"/>
+        </ResponsibleParty>
       </xsl:for-each>
-
-      <!-- One column per thesaurus -->
-      <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/*[mri:thesaurusName]">
-        <xsl:variable name="thesaurusId" select="mri:thesaurusName/*/cit:identifier/*/mcc:code/*/text()"/>
-        <xsl:variable name="thesaurusKey" select="if ($thesaurusId != '') then $thesaurusId else position()"/>
-
-        <xsl:for-each select="mri:keyword[not(@gco:nilReason)]">
-          <xsl:element name="keyword-{$thesaurusKey}">
-            <xsl:apply-templates mode="localised" select=".">
-              <xsl:with-param name="langId" select="$langId"/>
-            </xsl:apply-templates>
-          </xsl:element>
-        </xsl:for-each>
-      </xsl:for-each>
-
+	  
+	  
       <!-- One column per contact role -->
-      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
-        <xsl:variable name="key" select="*/cit:role/*/@codeListValue"/>
-
-        <xsl:element name="contact-{$key}">
+	  <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
+        <xsl:element name="ResourceContact">
           <xsl:apply-templates mode="localised" select="*/cit:party/*/cit:name">
             <xsl:with-param name="langId" select="$langId"/>
-          </xsl:apply-templates>/
-          <xsl:apply-templates mode="localised" select="*/cit:contactInfo/*/cit:onlineResource/*/cit:linkage">
+          </xsl:apply-templates>~
+          <xsl:apply-templates mode="localised" select="*/cit:role/*/@codeListValue">
+            <xsl:with-param name="langId" select="$langId"/>
+          </xsl:apply-templates>
+        </xsl:element>
+      </xsl:for-each>
+	  
+	  <xsl:for-each select="mdb:contact">
+        <xsl:element name="MetadataContact">
+          <xsl:apply-templates mode="localised" select="*/cit:party/*/cit:name">
+            <xsl:with-param name="langId" select="$langId"/>
+          </xsl:apply-templates>~
+          <xsl:apply-templates mode="localised" select="*/cit:role/*/@codeListValue">
             <xsl:with-param name="langId" select="$langId"/>
           </xsl:apply-templates>
         </xsl:element>
       </xsl:for-each>
 
+	  
       <xsl:for-each select="mdb:identificationInfo/*//gex:EX_GeographicBoundingBox">
-        <geoBox>
-          <westBL>
-            <xsl:value-of select="gex:westBoundLongitude"/>
-          </westBL>
-          <eastBL>
-            <xsl:value-of select="gex:eastBoundLongitude"/>
-          </eastBL>
-          <southBL>
-            <xsl:value-of select="gex:southBoundLatitude"/>
-          </southBL>
-          <northBL>
+        <GeographicalExtent>
+            <xsl:value-of select="gex:westBoundLongitude"/>~
+            <xsl:value-of select="gex:eastBoundLongitude"/>~
+            <xsl:value-of select="gex:southBoundLatitude"/>~
             <xsl:value-of select="gex:northBoundLatitude"/>
-          </northBL>
-        </geoBox>
+        </GeographicalExtent>
       </xsl:for-each>
-
-      <xsl:for-each select="mdb:identificationInfo/*/*/mco:MD_Constraints/*">
-        <Constraints>
+	  
+	  <SpatialExtentDescription>
+                <xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:description/gco:CharacterString"/>
+	  </SpatialExtentDescription>
+	  
+	  <HorizontalSpatialReferenceSystem>
+                <xsl:value-of select="mdb:referenceSystemInfo/*/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/>
+	  </HorizontalSpatialReferenceSystem>
+	  
+	  <VerticalExtent>
+		<xsl:if test="mdb:identificationInfo/*/mri:extent/*/gex:verticalElement">
+            <xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:verticalElement/*/gex:minimumValue/gco:Real"/>~<xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:verticalElement/*/gex:maximumValue/gco:Real"/>
+		</xsl:if>
+	  </VerticalExtent>
+	  
+	   <VerticalCRS>
+		        <xsl:value-of select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/*/gex:verticalCRSId/*/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/>
+	  </VerticalCRS>
+	  
+	  
+	 <TemporalExtent>
+		<xsl:if test="mdb:identificationInfo/*/mri:extent/*/gex:temporalElement">
+                <xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:temporalElement/*/gex:extent/gml:TimePeriod/gml:beginPosition"/>~<xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:temporalElement/*/gex:extent/gml:TimePeriod/gml:endPosition"/>
+		</xsl:if>
+	 </TemporalExtent>
+	  
+	  
+     <xsl:for-each select="mdb:metadataConstraints/*">
+        <MetadataConstraints>
           <xsl:copy-of select="."/>
-        </Constraints>
+        </MetadataConstraints>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/*/*/mco:MD_SecurityConstraints/*">
+      <xsl:for-each select="mdb:identificationInfo/*/*/mco:MD_SecurityConstraints">
         <SecurityConstraints>
-          <xsl:copy-of select="."/>
+          <xsl:value-of select="*/mco:classification/*/@codeListValue"/>
         </SecurityConstraints>
       </xsl:for-each>
 
-      <xsl:for-each select="mdb:identificationInfo/*/*/mco:MD_LegalConstraints/*">
-        <LegalConstraints>
-          <xsl:value-of select="*/text()|*/@codeListValue"/>
-        </LegalConstraints>
+      <xsl:for-each select="mdb:identificationInfo/*/mri:resourceConstraints/mco:MD_LegalConstraints">
+        <ResourceLegalConstraints>
+			<xsl:value-of select="mco:reference/cit:CI_Citation/cit:title/*/text()"/>~<xsl:value-of select="mco:accessConstraints/*/@codeListValue"/>~<xsl:value-of select="mco:useConstraints/*/@codeListValue"/>~<xsl:value-of select="mco:otherConstraints/*/text()"/>
+        </ResourceLegalConstraints>
       </xsl:for-each>
+	  
+	  <UseLimitations>
+                <xsl:value-of select="mdb:identificationInfo/*/mri:resourceConstraints/mco:MD_LegalConstraints/mco:useLimitation/gco:CharacterString"/>
+	  </UseLimitations>
 
-      <xsl:for-each select="mdb:distributionInfo//cit:linkage">
-        <link>
-          <xsl:value-of select="*/text()"/>
-        </link>
+      <xsl:for-each select="mdb:distributionInfo/*/mrd:transferOptions/*/mrd:onLine/*">
+        <DistributionLink>
+			<xsl:value-of select="cit:name/*/text()"/>~<xsl:value-of select="cit:description/*/text()"/>~<xsl:value-of select="cit:linkage/*/text()"/>
+        </DistributionLink>
       </xsl:for-each>
-
-      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
-        <xsl:variable name="email"
-                      select="*/cit:party/*/cit:contactInfo/*/cit:address/*/cit:electronicMailAddress/gco:CharacterString"/>
-        <contact>
-          <xsl:value-of select="*/cit:party/*/cit:name/gco:CharacterString"/>
-          <xsl:if test="$email">
-          (<xsl:value-of select="$email"/>)
-          </xsl:if>
-        </contact>
+	  
+	  <xsl:for-each select="mdb:distributionInfo/*/mrd:distributionFormat">
+        <DistributionFormat>
+			<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:title/*/text()"/>~<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:edition/*/text()"/>
+        </DistributionFormat>
       </xsl:for-each>
+	  
+	  <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
+        <DataStorageLink>
+          <xsl:value-of select="cit:name/*/text()"/>~<xsl:value-of select="cit:description/*/text()"/>~<xsl:value-of select="cit:linkage/*/text()"/> 
+        </DataStorageLink>
+      </xsl:for-each>
+      
+	  <xsl:for-each select="mdb:identificationInfo/*/mri:resourceFormat">
+        <DataStorageFormat>
+			<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:title/*/text()"/>~<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:edition/*/text()"/>
+        </DataStorageFormat>
+      </xsl:for-each>
+ 
+	<Lineage>
+		<xsl:value-of
+			select="mdb:resourceLineage/mrl:LI_Lineage/mrl:statement/gco:CharacterString" />
+	</Lineage>
 
+	<SourceDescription>
+		<xsl:value-of
+			select="mdb:resourceLineage/mrl:LI_Lineage/mrl:source/mrl:LI_Source/mrl:description/gco:CharacterString" />
+	</SourceDescription>
+
+	  
+<!--	   <AssociatedResourcesCode>
+                <xsl:value-of select="mdb:identificationInfo/*/mri:associatedResource/mri:MD_AssociatedResource/mri:associationType/mri:DS_AssociationTypeCode/@codeListValue"/>
+	  </AssociatedResourcesCode>
+	  
+	   <AssociatedResourcesTitle>
+                <xsl:value-of select="mdb:identificationInfo/mri:MD_DataIdentification/mri:associatedResource/mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString"/>
+	  </AssociatedResourcesTitle>
+	  
+	   <AssociatedResourcesIdentifier>
+                <xsl:value-of select="mdb:identificationInfo/mri:MD_DataIdentification/mri:associatedResource/mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/>
+	  </AssociatedResourcesIdentifier>
+	  
+	   <AssociatedResourcesIdentifierDescription>
+                <xsl:value-of select="mdb:identificationInfo/mri:MD_DataIdentification/mri:associatedResource/mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:description/gco:CharacterString"/>
+	  </AssociatedResourcesIdentifierDescription>
+	-->  
+	  <xsl:for-each select="mdb:identificationInfo/*/mri:associatedResource/*/mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
+        <AssociatedResourcesLink>
+          <xsl:value-of select="cit:name/*/text()"/>~<xsl:value-of select="cit:description/*/text()"/>~<xsl:value-of select="cit:linkage/*/text()"/> 
+        </AssociatedResourcesLink>
+      </xsl:for-each>
+	
+	 <xsl:for-each select="mdb:identificationInfo/*/mri:additionalDocumentation/cit:CI_Citation">
+        <AdditionalInformationLink>
+          <xsl:value-of select="cit:title/*/text()"/>~<xsl:value-of select="cit:onlineResource/*/cit:description/*/text()"/>~<xsl:value-of select="cit:onlineResource/*/cit:linkage/*/text()"/>
+        </AdditionalInformationLink>
+      </xsl:for-each>
+	  
       <xsl:copy-of select="gn:info"/>
     </metadata>
   </xsl:template>

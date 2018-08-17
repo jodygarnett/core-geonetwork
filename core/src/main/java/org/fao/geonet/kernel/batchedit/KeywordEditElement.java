@@ -1,3 +1,22 @@
+//==============================================================================
+//===
+//===	This program is free software; you can redistribute it and/or modify
+//===	it under the terms of the GNU General Public License as published by
+//===	the Free Software Foundation; either version 2 of the License, or (at
+//===	your option) any later version.
+//===
+//===	This program is distributed in the hope that it will be useful, but
+//===	WITHOUT ANY WARRANTY; without even the implied warranty of
+//===	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//===	General Public License for more details.
+//===
+//===	You should have received a copy of the GNU General Public License
+//===	along with this program; if not, write to the Free Software
+//===	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+//===
+//===	Contact: Joseph John,
+//===	Canberra - Australia. email: joseph.john@ga.gov.au
+//==============================================================================
 package org.fao.geonet.kernel.batchedit;
 
 import java.io.IOException;
@@ -8,6 +27,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.csv.CSVRecord;
 import org.fao.geonet.constants.Geonet;
+import org.fao.geonet.exceptions.BatchEditException;
 import org.fao.geonet.kernel.Thesaurus;
 import org.fao.geonet.kernel.ThesaurusManager;
 import org.fao.geonet.utils.Log;
@@ -20,14 +40,19 @@ import org.springframework.context.ApplicationContext;
 
 import jeeves.server.context.ServiceContext;
 
+/**
+ * 
+ * @author Joseph John - U89263
+ *
+ */
 public class KeywordEditElement implements EditElement {
 
 	XMLOutputter out = new XMLOutputter();
 
 	@Override
 	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext,
-			Entry<String, Integer> header, CSVRecord csvr, XPath _xpath, List<BatchEditParameter> listOfUpdates)
-			throws IOException, JDOMException {
+			Entry<String, Integer> header, CSVRecord csvr, XPath _xpath, List<BatchEditParam> listOfUpdates,
+			BatchEditReport report) {
 
 		String headerVal = header.getKey();
 
@@ -37,140 +62,153 @@ public class KeywordEditElement implements EditElement {
 
 			Element rootE = null;
 
-			if (headerVal.equalsIgnoreCase(Geonet.EditType.KEYWORD))
-				rootE = getKeywordElement(keyword);
-			if (headerVal.equalsIgnoreCase(Geonet.EditType.KEYWORD_THESAURUS))
-				rootE = getKeywordElementWithThesaurus(keyword, context, serContext);
+			try {
 
-			String strEle = out.outputString(rootE);
+				if (headerVal.equalsIgnoreCase(Geonet.EditType.KEYWORD))
+					rootE = getKeywordElement(keyword);
+				if (headerVal.equalsIgnoreCase(Geonet.EditType.KEYWORD_THESAURUS))
+					rootE = getKeywordElementWithThesaurus(keyword, context, serContext);
 
-			// Log.debug(Geonet.SEARCH_ENGINE, "KeywordEditElement -->
-			// strEle : " + strEle);
+			} catch (BatchEditException e) {
+				report.getErrorInfo().add(e.getMessage());
+			}
 
-			String _val = "<gn_add>" + strEle + "</gn_add>";
-			BatchEditParameter e = new BatchEditParameter(_xpath.getXPath(), _val);
-			listOfUpdates.add(e);
+			if (rootE != null) {
+				String strEle = out.outputString(rootE);
 
+				String _val = "<gn_add>" + strEle + "</gn_add>";
+				BatchEditParam e = new BatchEditParam(_xpath.getXPath(), _val);
+				listOfUpdates.add(e);
+			}
 		}
 
 	}
 
-	private Element getKeywordElement(String keyword) throws IOException {
+	private Element getKeywordElement(String keyword) throws BatchEditException {
 
-		String[] values = keyword.split(type_separator);
+		try {
+			String[] values = keyword.split(type_separator);
 
-		Element descK = new Element("descriptiveKeywords", Geonet.Namespaces.MRI);
-		Element mdK = new Element("MD_Keywords", Geonet.Namespaces.MRI);
+			Element descK = new Element("descriptiveKeywords", Geonet.Namespaces.MRI);
+			Element mdK = new Element("MD_Keywords", Geonet.Namespaces.MRI);
 
-		Element k = new Element("keyword", Geonet.Namespaces.MRI);
-		String value = "", codelist = "";
+			Element k = new Element("keyword", Geonet.Namespaces.MRI);
+			String value = "", codelist = "";
 
-		if (values.length > 0)
-			value = values[0];
-		Element ch = new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(value);
+			if (values.length > 0)
+				value = values[0];
+			Element ch = new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(value);
 
-		Element type = new Element("type", Geonet.Namespaces.MRI);
-		Element cl = new Element("MD_KeywordTypeCode", Geonet.Namespaces.MRI);
-		cl.setAttribute("codeList", "codeListLocation#MD_KeywordTypeCode");
+			Element type = new Element("type", Geonet.Namespaces.MRI);
+			Element cl = new Element("MD_KeywordTypeCode", Geonet.Namespaces.MRI);
+			cl.setAttribute("codeList", "codeListLocation#MD_KeywordTypeCode");
 
-		if (values.length > 1)
-			codelist = values[1];
-		cl.setAttribute("codeListValue", codelist);
+			if (values.length > 1)
+				codelist = values[1];
+			cl.setAttribute("codeListValue", codelist);
 
-		descK.addContent(mdK.addContent(Arrays.asList(k.addContent(ch), type.addContent(cl))));
+			descK.addContent(mdK.addContent(Arrays.asList(k.addContent(ch), type.addContent(cl))));
 
-		// out.output(descK, System.out);
-		return descK;
+			// out.output(descK, System.out);
+			return descK;
+		} catch (Exception e) {
+			throw new BatchEditException("Unable to process Keyword Element having keyword: " + keyword);
+		}
 
 	}
 
 	private Element getKeywordElementWithThesaurus(String title_keyword, ApplicationContext context,
-			ServiceContext serContext) throws IOException, JDOMException {
+			ServiceContext serContext) throws BatchEditException {
 
-		String[] values = title_keyword.split(type_separator);
-		ThesaurusManager thesaurusMan = context.getBean(ThesaurusManager.class);
-		Thesaurus thes = null;
+		try {
+			String[] values = title_keyword.split(type_separator);
+			ThesaurusManager thesaurusMan = context.getBean(ThesaurusManager.class);
+			Thesaurus thes = null;
 
-		if (values.length > 0) {
+			if (values.length > 0) {
 
-			Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit, KeywordEditElement --> title: " + values[0]);
-			// thes = thesaurusMan.getThesaurusByName(values[0]);
-			Collection<Thesaurus> thesColl = thesaurusMan.getThesauriMap().values();
+				Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit, KeywordEditElement --> title: " + values[0]);
+				// thes = thesaurusMan.getThesaurusByName(values[0]);
+				Collection<Thesaurus> thesColl = thesaurusMan.getThesauriMap().values();
 
-			thes = thesColl.stream().filter(t -> t.getTitle().equalsIgnoreCase(values[0].trim())).findFirst().get();
+				thes = thesColl.stream().filter(t -> t.getTitle().equalsIgnoreCase(values[0].trim())).findFirst().get();
 
-			if (thes != null && values.length > 1) {
+				if (thes != null && values.length > 1) {
 
-				Element descK = new Element("descriptiveKeywords", Geonet.Namespaces.MRI);
-				Element mdK = new Element("MD_Keywords", Geonet.Namespaces.MRI);
+					Element descK = new Element("descriptiveKeywords", Geonet.Namespaces.MRI);
+					Element mdK = new Element("MD_Keywords", Geonet.Namespaces.MRI);
 
-				String[] keywords = values[1].split(",");
+					String[] keywords = values[1].split(",");
 
-				for (String keyword : keywords) {
-					Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit, KeywordEditElement --> keyword -> " + keyword);
-					Element k = new Element("keyword", Geonet.Namespaces.MRI);
-					Element ch = new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(keyword);
-					k.addContent(ch);
-					mdK.addContent(k);
+					for (String keyword : keywords) {
+						Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit, KeywordEditElement --> keyword -> " + keyword);
+						Element k = new Element("keyword", Geonet.Namespaces.MRI);
+						Element ch = new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(keyword);
+						k.addContent(ch);
+						mdK.addContent(k);
+					}
+
+					Element type = new Element("type", Geonet.Namespaces.MRI);
+					Element cl = new Element("MD_KeywordTypeCode", Geonet.Namespaces.MRI);
+					cl.setAttribute("codeList", "codeListLocation#MD_KeywordTypeCode");
+					cl.setAttribute("codeListValue", thes.getDname());
+
+					descK.addContent(mdK.addContent(Arrays.asList(type, getThesaurus(thes))));
+
+					return descK;
+				} else {
+					Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit, KeywordEditElement --> ThesaurusByName is null");
 				}
 
-				Element type = new Element("type", Geonet.Namespaces.MRI);
-				Element cl = new Element("MD_KeywordTypeCode", Geonet.Namespaces.MRI);
-				cl.setAttribute("codeList", "codeListLocation#MD_KeywordTypeCode");
-				cl.setAttribute("codeListValue", thes.getDname());
-
-				descK.addContent(mdK.addContent(Arrays.asList(type, getThesaurus(thes))));
-
-				return descK;
-			} else {
-				Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit, KeywordEditElement --> ThesaurusByName is null");
 			}
-
+		} catch (Exception e) {
+			throw new BatchEditException("Unable to process Keyword Element with Thesaurus having keyword "
+					+ title_keyword + "due to " + e.getMessage());
 		}
-
 		return null;
 
 	}
 
-	private Element getThesaurus(Thesaurus the) throws IOException, JDOMException {
+	private Element getThesaurus(Thesaurus the) throws BatchEditException {
 
-		
-		Element theName = new Element("thesaurusName", Geonet.Namespaces.MRI);
-		Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
-		Element title = new Element("title", Geonet.Namespaces.CIT);
-		Element date = new Element("date", Geonet.Namespaces.CIT);
-		Element ciDate = new Element("CI_Date", Geonet.Namespaces.CIT);
-		Element date1 = new Element("date", Geonet.Namespaces.CIT);
-		Element dateType = new Element("dateType", Geonet.Namespaces.CIT);
-		Element identifier = new Element("identifier", Geonet.Namespaces.CIT);
-		Element mdIdentifier = new Element("MD_Identifier", Geonet.Namespaces.MCC);
-		Element code = new Element("code", Geonet.Namespaces.MCC);
-		Element anchor = new Element("Anchor", Geonet.Namespaces.GCX);
-		
-		title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(the.getTitle()));
-		
-		if(the.getDate().contains("T")){
-			date1.addContent(new Element("DateTime", Geonet.Namespaces.GCO_3).setText(the.getDate()));
-		}else{
-			date1.addContent(new Element("Date", Geonet.Namespaces.GCO_3).setText(the.getDate()));
+		try {
+			Element theName = new Element("thesaurusName", Geonet.Namespaces.MRI);
+			Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
+			Element title = new Element("title", Geonet.Namespaces.CIT);
+			Element date = new Element("date", Geonet.Namespaces.CIT);
+			Element ciDate = new Element("CI_Date", Geonet.Namespaces.CIT);
+			Element date1 = new Element("date", Geonet.Namespaces.CIT);
+			Element dateType = new Element("dateType", Geonet.Namespaces.CIT);
+			Element identifier = new Element("identifier", Geonet.Namespaces.CIT);
+			Element mdIdentifier = new Element("MD_Identifier", Geonet.Namespaces.MCC);
+			Element code = new Element("code", Geonet.Namespaces.MCC);
+			Element anchor = new Element("Anchor", Geonet.Namespaces.GCX);
+
+			title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(the.getTitle()));
+
+			if (the.getDate().contains("T")) {
+				date1.addContent(new Element("DateTime", Geonet.Namespaces.GCO_3).setText(the.getDate()));
+			} else {
+				date1.addContent(new Element("Date", Geonet.Namespaces.GCO_3).setText(the.getDate()));
+			}
+
+			dateType.addContent(new Element("CI_DateTypeCode", Geonet.Namespaces.CIT)
+					.setAttribute("codeList", "codeListLocation#CI_DateTypeCode")
+					.setAttribute("codeListValue", "publication"));
+			date.addContent(ciDate.addContent(Arrays.asList(date1, dateType)));
+
+			Namespace xlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
+			anchor.addNamespaceDeclaration(xlink);
+			anchor.setAttribute("href", the.getDownloadUrl(), xlink).setText("geonetwork.thesaurus." + the.getKey());
+
+			identifier.addContent(mdIdentifier.addContent(code.addContent(anchor)));
+
+			theName.addContent(citation.addContent(Arrays.asList(title, date, identifier)));
+
+			return theName;
+		} catch (Exception e) {
+			throw new BatchEditException("Exception while creating Thesaurus element..");
 		}
-		
-		
-		dateType.addContent(new Element("CI_DateTypeCode", Geonet.Namespaces.CIT)
-				.setAttribute("codeList", "codeListLocation#CI_DateTypeCode")
-				.setAttribute("codeListValue", "publication"));
-		date.addContent(ciDate.addContent(Arrays.asList(date1, dateType)));
-		
-		Namespace xlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
-		anchor.addNamespaceDeclaration(xlink);
-		anchor.setAttribute("href",the.getDownloadUrl(), xlink)
-				.setText("geonetwork.thesaurus." + the.getKey());
-		
-		identifier.addContent(mdIdentifier.addContent(code.addContent(anchor)));
-		
-		theName.addContent(citation.addContent(Arrays.asList(title, date, identifier)));
-		
-		return theName;
 	}
 
 }

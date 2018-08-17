@@ -30,7 +30,7 @@
 	<div class="panel panel-default" data-ng-class="{'hidden' : selectedStep !== 1}">
 		<div class="panel-body">
 			<p class="alert alert-info" data-translate="">Batch Edit records by uploading CSV file.</p>
-			<p ng-show="modewarning" class="alert alert-danger" data-translate="">Warning: Selecting "Remove existing elements and Add" options will remove existing elements and add new elements.</p>
+			<p ng-show="modewarning" class="alert alert-danger" data-translate="">Warning: Selecting "Remove existing elements and Add" option will remove existing elements and add new elements.</p>
 			<div class="row">
 				<div class="col-sm-6">
 						<select ng-init="updatemode = updateModes[0]"
@@ -60,12 +60,21 @@
 				</div>		
 			</div>
 			<br/>
+			<div data-ng-hide="isCompleted">
+              <h4 class="text-warning" data-translate="">Batch Editing inprogress</h4>
+
+              <div class="progress progress-striped active">
+                <div class="progress-bar" style="width: 100%"/>
+              </div>
+
+            </div>
+            
 			<div class="row">
-				<div div class="col-sm-2">
+				<div class="col-sm-2">
 				<button class="btn btn-default"
                 data-gn-click-and-spin="uploadcsv()">
-				  <i class="fa fa-save"/>
-				  <span data-translate="">save</span>
+				  <i class="fa fa-edit"/>
+				  <span data-translate="">Apply Batch Edit</span>
 				</button>
 				</div>
 			</div>

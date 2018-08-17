@@ -634,7 +634,8 @@ public final class Geonet {
         public static final Namespace XSI = Namespace.getNamespace("xsi", XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
         public static final Namespace OWS = Namespace.getNamespace("ows", "http://www.opengis.net/ows");
         public static final Namespace OGC = Namespace.getNamespace("ogc", "http://www.opengis.net/ogc");
-        public static final Namespace GML = Namespace.getNamespace("gml", "http://www.opengis.net/gml");
+        //public static final Namespace GML = Namespace.getNamespace("gml", "http://www.opengis.net/gml");
+        public static final Namespace GML = Namespace.getNamespace("gml", "http://www.opengis.net/gml/3.2");
         public static final Namespace SVRL = Namespace.getNamespace("svrl", "http://purl.oclc.org/dsdl/svrl");
         public static final Namespace SLD = Namespace.getNamespace("sld", "http://www.opengis.net/sld");
         public static final Namespace SE = Namespace.getNamespace("se", "http://www.opengis.net/se");
@@ -714,38 +715,44 @@ public final class Geonet {
      * Container for element values.
      */
     public static final class EditType {
-    	public static final String TITLE = "title";
-    	public static final String ABSTRACT = "abstract";
-    	public static final String PURPOSE = "purpose";
-    	public static final String STATUS = "status";
-    	public static final String MAINTENANCE_FREQ = "maintenanceFrequency";
-    	public static final String TOPIC_CAT = "topicCategory";
-        public static final String MD_SCOPE = "metadataScope";
-        public static final String MD_SECURITY_CONSTRAINT = "metadataSecurityConstraint";
-        public static final String RES_SECURITY_CONSTRAINT = "resourceSecurityConstraint";
-        public static final String USE_LIMITATION = "useLimitations";
-        public static final String SPACIAL_REF_SYSYTEM = "spacialReferenceSystem";
+    	public static final String TITLE = "Title";
+    	public static final String ABSTRACT = "Abstract";
+    	public static final String PURPOSE = "Purpose";
+    	public static final String STATUS = "Status";
+    	public static final String MAINTENANCE_FREQ = "MaintenanceFrequency";
+    	public static final String TOPIC_CAT = "TopicCategory";
+        public static final String MD_SCOPE = "MetadataScope";
+        public static final String MD_PARENT = "ParentMetadata";
+        public static final String MD_SECURITY_CONSTRAINT = "MetadataSecurityConstraint";
+        public static final String RES_SECURITY_CONSTRAINT = "ResourceSecurityConstraint";
+        public static final String USE_LIMITATION = "UseLimitations";
+        public static final String LINEAGE = "Lineage";
+        public static final String SOURCE_DESC = "SourceDescription";
+        public static final String SPACIAL_REF_SYSYTEM = "SpacialReferenceSystem";
         
-    	public static final String KEYWORD = "keyword";
-    	public static final String KEYWORD_THESAURUS = "keyword-thesaurus";
+    	public static final String KEYWORD = "Keyword";
+    	public static final String KEYWORD_THESAURUS = "Keyword-Thesaurus";
         
-        public static final String POINT_OF_CONTACT = "contact";
-        public static final String RESPONSIBLE_PARTY = "responsibleParty";
+        public static final String RES_CONTACT = "ResourceContact";
+        public static final String MD_CONTACT = "MetadataContact";
+        public static final String RESPONSIBLE_PARTY = "ResponsibleParty";
         
-        public static final String CITATION_DATE = "citationDate";
+        public static final String CITATION_DATE = "CitationDate";
         
-        public static final String GEOBOX = "geoBox";
-        public static final String VERTICAL = "verticalExtent";
-        public static final String VERTICAL_CRS = "verticalCrs";
-        public static final String TEMPORAL = "temporalExtent";
+        public static final String GEOBOX = "GeographicalExtent";
+        public static final String VERTICAL = "VerticalExtent";
+        public static final String VERTICAL_CRS = "VerticalCrs";
+        public static final String TEMPORAL = "TemporalExtent";
         
-        public static final String ASSOCIATED_RES = "associatedResource";
-        public static final String RES_LINKAGE = "resourceLinkage";
-        public static final String ADDITIONAL_INFO = "additionalInfo";
-        public static final String TRANSFER_OPTION = "transferOptions";
+        public static final String ASSOCIATED_RES = "AssociatedResourcesLink";
+        public static final String DATA_STORAGE_LINK = "DataStorageLink";
+        public static final String ADDITIONAL_INFO = "AdditionalInfo";
+        public static final String DISTRIBUTION_LINK = "DistributionLink";
         
-        public static final String DISTRIBUTION_FORMAT = "distributionFormat";
-        public static final String RESOURCE_FORMAT = "resourceFormat";
+        public static final String DISTRIBUTION_FORMAT = "DistributionFormat";
+        public static final String RESOURCE_FORMAT = "DataStorageFormat";
         
+        public static final String SPACIAL_EXTENT_DESC = "SpatialExtentDescription";
+        public static final String HORIZONTAL_SPACIAL_REFSYSTEM = "HorizontalSpatialReferenceSystem";
     }
 }
