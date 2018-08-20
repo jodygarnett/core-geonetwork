@@ -423,8 +423,10 @@
 		}).success(function(data){
 			$scope.isCompleted = true;
 			console.log('Success.....');
+			$scope.processReport = data;
 		}).error( function(err){
 			console.log('Error.....');
+			$scope.processReport = err.data;
 		});
 	  };
 	  

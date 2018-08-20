@@ -19,6 +19,8 @@
 //==============================================================================
 package org.fao.geonet.kernel.batchedit;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
@@ -30,7 +32,10 @@ import org.fao.geonet.domain.Metadata;
 import org.fao.geonet.exceptions.BatchEditException;
 import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
+import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 import org.springframework.context.ApplicationContext;
@@ -45,7 +50,8 @@ import jeeves.server.context.ServiceContext;
 public class MetadataEditElement implements EditElement {
 
 	XMLOutputter out = new XMLOutputter();
-
+	SAXBuilder sb = new SAXBuilder();
+	
 	@Override
 	public void removeAndAddElement(CSVBatchEdit batchEdit, ApplicationContext context, ServiceContext serContext,
 			Entry<String, Integer> header, CSVRecord csvr, XPath _xpath, List<BatchEditParam> listOfUpdates, BatchEditReport report) {
@@ -151,10 +157,21 @@ public class MetadataEditElement implements EditElement {
 	private Element getParentCitationElement(Metadata md, String eCatId) throws BatchEditException {
 
 		Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
+		String parent_title = "";
+		try {
+			Document document = sb.build(new StringReader(md.getData()));
+			XPath _xpath = XPath.newInstance("//mdb:identificationInfo/*/mri:citation/*/cit:title/gco:CharacterString");
+			Element element = (Element) _xpath.selectSingleNode(document);
+			if(element != null){
+				parent_title = element.getText();
+			}
+		} catch (Exception e) {
+			Log.error(Geonet.SEARCH_ENGINE, "unable to build document for getting parent title");
+		} 
 		
 		Element title = new Element("title", Geonet.Namespaces.CIT);
-		Log.debug(Geonet.SEARCH_ENGINE, "ParentCitationElement --> title --> " + md.getDataInfo().getTitle());
-		title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(md.getDataInfo().getTitle()));
+		Log.debug(Geonet.SEARCH_ENGINE, "ParentCitationElement --> title --> " + parent_title);
+		title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(parent_title));
 		
 		Element date = new Element("date", Geonet.Namespaces.CIT);
 		Element ciDate = new Element("CI_Date", Geonet.Namespaces.CIT);

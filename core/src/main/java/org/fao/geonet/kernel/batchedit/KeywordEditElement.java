@@ -152,7 +152,7 @@ public class KeywordEditElement implements EditElement {
 					Element cl = new Element("MD_KeywordTypeCode", Geonet.Namespaces.MRI);
 					cl.setAttribute("codeList", "codeListLocation#MD_KeywordTypeCode");
 					cl.setAttribute("codeListValue", thes.getDname());
-
+					type.addContent(cl);
 					descK.addContent(mdK.addContent(Arrays.asList(type, getThesaurus(thes))));
 
 					return descK;

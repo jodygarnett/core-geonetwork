@@ -67,11 +67,14 @@ public class FormatEditElement implements EditElement {
 			
 			try{
 				
-				if (Geonet.EditType.DISTRIBUTION_FORMAT.equalsIgnoreCase(headerVal)) {
+				/*if (Geonet.EditType.DISTRIBUTION_FORMAT.equalsIgnoreCase(headerVal)) {
 					rootE = getDistributionFormatElement(title, edition);
 				} else if (Geonet.EditType.RESOURCE_FORMAT.equalsIgnoreCase(headerVal)) {
 					rootE = getResourceFormatElement(title, edition);
-				}
+				}*/
+				
+				rootE = formatElement(title, edition);
+				
 			}catch(BatchEditException e){
 				report.getErrorInfo().add(e.getMessage());
 			}
@@ -101,7 +104,7 @@ public class FormatEditElement implements EditElement {
 
 	private Element formatElement(String title, String edition) throws BatchEditException {
 		try{
-			Element format = new Element("MD_Format", Geonet.Namespaces.MRD);
+			//Element format = new Element("MD_Format", Geonet.Namespaces.MRD);
 	
 			Element formatSpec = new Element("formatSpecificationCitation", Geonet.Namespaces.MRD);
 			Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
@@ -112,9 +115,10 @@ public class FormatEditElement implements EditElement {
 			Element _edition = new Element("edition", Geonet.Namespaces.CIT);
 			_edition.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(edition));
 	
-			format.addContent(formatSpec.addContent(citation.addContent(Arrays.asList(_title, _edition))));
-	
-			return format;
+			//format.addContent(formatSpec.addContent(citation.addContent(Arrays.asList(_title, _edition))));
+			formatSpec.addContent(citation.addContent(Arrays.asList(_title, _edition)));
+			
+			return formatSpec;
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process Format Element having title: " + title);
 		}

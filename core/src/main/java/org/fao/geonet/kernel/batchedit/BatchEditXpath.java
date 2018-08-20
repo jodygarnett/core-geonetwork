@@ -51,8 +51,8 @@ public class BatchEditXpath {
 		xpathExpr.put(Geonet.EditType.ADDITIONAL_INFO, getXPath("//mdb:identificationInfo/*/mri:additionalDocumentation"));
 		xpathExpr.put(Geonet.EditType.DISTRIBUTION_LINK, getXPath("//mdb:distributionInfo/*/mrd:transferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine"));
 		
-		xpathExpr.put(Geonet.EditType.RESOURCE_FORMAT, getXPath("//mdb:identificationInfo/*/mri:resourceFormat"));
-		xpathExpr.put(Geonet.EditType.DISTRIBUTION_FORMAT, getXPath("//mdb:distributionInfo/*/mrd:distributionFormat"));
+		xpathExpr.put(Geonet.EditType.RESOURCE_FORMAT, getXPath("//mdb:identificationInfo/*/mri:resourceFormat/mrd:MD_Format/mrd:formatSpecificationCitation"));
+		xpathExpr.put(Geonet.EditType.DISTRIBUTION_FORMAT, getXPath("//mdb:distributionInfo/*/mrd:distributionFormat/mrd:MD_Format/mrd:formatSpecificationCitation"));
 		
 		return xpathExpr;
 	}

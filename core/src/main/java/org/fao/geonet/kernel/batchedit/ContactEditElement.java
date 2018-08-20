@@ -122,7 +122,7 @@ public class ContactEditElement implements EditElement {
 			
 			return md.getXmlData(false);
 		} catch (Exception e) {
-			throw new BatchEditException("Unable to get contact " + contact + " from lucene search");
+			throw new BatchEditException("Contact: Unable to get contact " + contact + " from lucene search");
 		}
 	}
 

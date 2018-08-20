@@ -104,13 +104,13 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		if(StringUtils.isNotEmpty(csvr.get(headerVal).trim())){
 			if(editElement != null){
 				
-				if(mode.equals("remove")){
+				if(checkDependencies(csvr.get(headerVal).trim(), csvr) && mode.equals("remove")){
 					try {
 						List<Element> elements = _xpath.selectNodes(metadata);
 						if(elements != null && elements.size() > 0){
 							Log.debug(Geonet.SEARCH_ENGINE, "elements.size() ---> "+elements.size());
 							elements.iterator().forEachRemaining(e -> {
-								e.removeContent();
+								//e.removeContent();
 								e.detach();
 							});	
 						}
@@ -126,10 +126,15 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 			}else if(_xpath.getXPath().contains("/@")){
 				try {
 					Attribute attr = (Attribute) _xpath.selectSingleNode(metadata);
-					attr.setValue(csvr.get(headerVal));
+					if(attr != null){
+						attr.setValue(csvr.get(headerVal));
+					}else{
+						BatchEditParam e = new BatchEditParam(_xpath.getXPath(), csvr.get(headerVal));
+						listOfUpdates.add(e);
+					}
 				} catch (Exception e) {
 					//Log.error(Geonet.SEARCH_ENGINE, "Unable to set the attribute for eCatId/UUID " + id +" for the value " + csvr.get(headerVal) +", " + e.getMessage());
-					report.getErrorInfo().add("Unable to set the attribute for the value " + csvr.get(headerVal) +", " + e.getMessage());
+					report.getErrorInfo().add("Unable to set the attribute for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
 				}
 			} else {
 				try {
@@ -147,7 +152,7 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 					}
 				} catch (Exception e) {
 					//Log.error(Geonet.SEARCH_ENGINE, "Unable to set text for eCatId/UUID " + id +" for the value " + csvr.get(headerVal) +", " + e.getLocalizedMessage());
-					report.getErrorInfo().add("Unable to set text for the value " + csvr.get(headerVal) +", " + e.getMessage());
+					report.getErrorInfo().add("Unable to set text for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
 				}	
 			}
 		}
@@ -155,11 +160,29 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		return report;
 	}
 
+	
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 		this.applicationEventPublisher = applicationEventPublisher;
 	}
 	
+	private boolean checkDependencies(String header, CSVRecord csvr){
+		
+		if(Geonet.EditType.GEOBOX.equals(header)){
+			if(csvr.isMapped(Geonet.EditType.VERTICAL)){
+				return true;
+			}
+		}
+		
+		if(Geonet.EditType.VERTICAL.equals(header)){
+			if(csvr.isMapped(Geonet.EditType.GEOBOX)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	
 	public Metadata getMetadataByLuceneSearch(ApplicationContext context, ServiceContext srvContext, Element request) throws BatchEditException {
 
