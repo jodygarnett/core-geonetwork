@@ -92,7 +92,7 @@
 	  <xsl:for-each
 			select="mdb:identificationInfo/*/mri:descriptiveKeywords/*[mri:thesaurusName]">
 			<Keyword-Thesaurus>
-				<xsl:value-of select="mri:thesaurusName/*/cit:title/gco:CharacterString" />~<xsl:value-of select="mri:type/mri:MD_KeywordTypeCode/@codeListValue" />:
+				<xsl:value-of select="mri:thesaurusName/*/cit:title/gco:CharacterString" />~
 				<xsl:for-each select="mri:keyword">
 					<xsl:value-of select="gco:CharacterString" />
 					<xsl:if test="position() != last()">

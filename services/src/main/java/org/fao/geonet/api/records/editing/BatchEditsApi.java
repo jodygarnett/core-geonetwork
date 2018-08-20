@@ -42,6 +42,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.fao.geonet.ApplicationContextHolder;
+import org.fao.geonet.Util;
 import org.fao.geonet.api.API;
 import org.fao.geonet.api.ApiParams;
 import org.fao.geonet.api.ApiUtils;
@@ -254,7 +255,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 			@ApiResponse(code = 201, message = "Return a report of what has been done."),
 			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) 
 			})
-	@PreAuthorize("hasRole('Editor')")
+	@PreAuthorize("hasRole('Administrator')")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public SimpleMetadataProcessingReport batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,
@@ -264,18 +265,17 @@ public class BatchEditsApi implements ApplicationContextAware {
 		
 		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
 		
-		Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi ########## batchUpdateUsingCSV ##########");
-
 		Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi mode: " + mode);
 		
-		File csvFile = new File(file.getOriginalFilename());
+		//File csvFile = new File(file.getOriginalFilename());
 		try {
-			csvFile.createNewFile();
+			//csvFile.createNewFile();
+			File csvFile = File.createTempFile(file.getOriginalFilename(), "csv");
 			FileUtils.copyInputStreamToFile(file.getInputStream(), csvFile);
-			
 			processCsv(csvFile, context, serviceContext, mode, report);
 			
 		} catch (Exception e) {
+			Log.error(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi (C) Stacktrace is\n" + Util.getStackTrace(e));
 			report.addError(e);
 		}
 		
@@ -302,7 +302,6 @@ public class BatchEditsApi implements ApplicationContextAware {
 		} catch (JDOMException e) {
 			Log.error(Geonet.SEARCH_ENGINE, "Unable to loadXpath, "+e.getMessage());
 		}
-
 		SAXBuilder sb = new SAXBuilder();
 		//final CSVBatchEdit cbe = context.getBean(CSVBatchEdit.class);
 		CSVBatchEdit cbe = new CSVBatchEdit(context);
@@ -321,7 +320,6 @@ public class BatchEditsApi implements ApplicationContextAware {
 		}
 		//Currently only supports iso19115-3 standard
 		Path p = schemaManager.getSchemaDir("iso19115-3");
-
 		for (CSVRecord csvr : parser) {
 			
 			final int id;
