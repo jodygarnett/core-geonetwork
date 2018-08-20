@@ -254,7 +254,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 			@ApiResponse(code = 201, message = "Return a report of what has been done."),
 			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) 
 			})
-	@PreAuthorize("hasRole('Administrator')")
+	@PreAuthorize("hasRole('Editor')")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public SimpleMetadataProcessingReport batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,

@@ -401,7 +401,7 @@
 		{value : "Remove existing elements and Add", key : "remove"}
 	  ];
 		 
-	  $scope.updatemode = updateModes[0];
+	  $scope.updatemode = $scope.updateModes[0];
 	  $scope.modewarning = false;
 	  $scope.changedValue = function(item) {
 		$scope.updatemode = item;
