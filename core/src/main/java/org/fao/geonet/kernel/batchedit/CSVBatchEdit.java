@@ -105,6 +105,7 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 			if(editElement != null){
 				
 				if(checkDependencies(headerVal, csvr) && mode.equals("remove")){
+
 					try {
 						List<Element> elements = _xpath.selectNodes(metadata);
 						if(elements != null && elements.size() > 0){
