@@ -104,7 +104,7 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		if(StringUtils.isNotEmpty(csvr.get(headerVal).trim())){
 			if(editElement != null){
 				
-				if(checkDependencies(csvr.get(headerVal).trim(), csvr) && mode.equals("remove")){
+				if(checkDependencies(headerVal, csvr) && mode.equals("remove")){
 					try {
 						List<Element> elements = _xpath.selectNodes(metadata);
 						if(elements != null && elements.size() > 0){
@@ -168,11 +168,19 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 	
 	private boolean checkDependencies(String header, CSVRecord csvr){
 		
-		if(csvr.isMapped(Geonet.EditType.GEOBOX) && csvr.isMapped(Geonet.EditType.VERTICAL)){
-			return true;
+		if(Geonet.EditType.GEOBOX.equals(header)){
+			if(!csvr.isMapped(Geonet.EditType.VERTICAL)){
+				return false;
+			}
 		}
 		
-		return false;
+		if(Geonet.EditType.VERTICAL.equals(header)){
+			if(!csvr.isMapped(Geonet.EditType.GEOBOX)){
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	
