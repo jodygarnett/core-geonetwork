@@ -168,16 +168,8 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 	
 	private boolean checkDependencies(String header, CSVRecord csvr){
 		
-		if(Geonet.EditType.GEOBOX.equals(header)){
-			if(csvr.isMapped(Geonet.EditType.VERTICAL)){
-				return true;
-			}
-		}
-		
-		if(Geonet.EditType.VERTICAL.equals(header)){
-			if(csvr.isMapped(Geonet.EditType.GEOBOX)){
-				return true;
-			}
+		if(csvr.isMapped(Geonet.EditType.GEOBOX) && csvr.isMapped(Geonet.EditType.VERTICAL)){
+			return true;
 		}
 		
 		return false;
