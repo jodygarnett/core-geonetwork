@@ -93,7 +93,6 @@ public class DatabaseMigration implements BeanPostProcessor {
                 _logger.debug(String.format("DB Migration / Running '%s' after initialization of '%s'.", bean.getClass(), initAfter));
                 try {
                     String version;
-                    String subVersion;
                     ServletContext servletContext;
                     Path path;
 
@@ -111,7 +110,6 @@ public class DatabaseMigration implements BeanPostProcessor {
                     }
 
                     version = this.systemInfo.getVersion();
-                    subVersion = this.systemInfo.getSubVersion();
                     ServletPathFinder pathFinder = new ServletPathFinder(servletContext);
 
                     path = pathFinder.getAppPath();
@@ -121,7 +119,7 @@ public class DatabaseMigration implements BeanPostProcessor {
                     } else {
                         ds = ((DataSource) bean);
                     }
-                    migrateDatabase(servletContext, path, ds, version, subVersion);
+                    migrateDatabase(servletContext, path, ds, version);
                 } catch (Throwable e) {
                     throw new RuntimeException(e);
                 }
@@ -142,8 +140,7 @@ public class DatabaseMigration implements BeanPostProcessor {
         this._migration = migration;
     }
 
-    private void migrateDatabase(ServletContext servletContext, Path path, final DataSource dataSource, final String webappVersion,
-                                 final String subVersion) throws Exception {
+    private void migrateDatabase(ServletContext servletContext, Path path, final DataSource dataSource, final String webappVersion) throws Exception {
         _logger.info("  - Migration ...");
 
         Connection conn = null;
@@ -151,7 +148,7 @@ public class DatabaseMigration implements BeanPostProcessor {
         try {
             conn = dataSource.getConnection();
             statement = conn.createStatement();
-            this.foundErrors = doMigration(webappVersion, subVersion, servletContext, path, conn, statement);
+            this.foundErrors = doMigration(webappVersion, servletContext, path, conn, statement);
             conn.commit();
         } finally {
             try {
@@ -166,7 +163,7 @@ public class DatabaseMigration implements BeanPostProcessor {
         }
     }
 
-    boolean doMigration(String webappVersion, String subVersion, ServletContext servletContext, Path path, Connection conn,
+    boolean doMigration(String webappVersion, ServletContext servletContext, Path path, Connection conn,
                         Statement statement) throws Exception {
         // Get db version and subversion
         Pair<String, String> dbVersionInfo = getDatabaseVersion(statement);
@@ -176,7 +173,7 @@ public class DatabaseMigration implements BeanPostProcessor {
         boolean anyMigrationError = false;
 
         // Migrate db if needed
-        _logger.info("      Webapp   version:" + webappVersion + " subversion:" + subVersion);
+        _logger.info("      Webapp   version:" + webappVersion);
         _logger.info("      Database version:" + dbVersion + " subversion:" + dbSubVersion);
         if (dbVersion == null || webappVersion == null) {
             _logger.warning("      Database does not contain any version information. Check that the database is a GeoNetwork "
@@ -187,8 +184,8 @@ public class DatabaseMigration implements BeanPostProcessor {
         Version from = new Version(), to = new Version();
 
         try {
-            from = parseVersionNumber(dbVersion);
-            to = parseVersionNumber(webappVersion);
+            from = parseVersionNumber(dbVersion + dbSubVersion);
+            to = parseVersionNumber(webappVersion.replace("-", ""));
         } catch (Exception e) {
             _logger.warning("      Error parsing version numbers: " + e.getMessage());
             e.printStackTrace();

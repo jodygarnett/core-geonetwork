@@ -207,5 +207,10 @@
         <value>java:v342.UrlComponentsDetectorsRegexMigration</value>
       </list>
     </entry>
+    <entry key="3.4.23">
+      <list>
+        <value>WEB-INF/classes/setup/sql/migrate/v3423/migrate-</value>
+      </list>
+    </entry>
   </util:map>
 </beans>
