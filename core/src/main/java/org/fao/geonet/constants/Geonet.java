@@ -741,7 +741,7 @@ public final class Geonet {
         
         public static final String GEOBOX = "GeographicalExtent";
         public static final String VERTICAL = "VerticalExtent";
-        public static final String VERTICAL_CRS = "VerticalCrs";
+        public static final String VERTICAL_CRS = "VerticalCRS";
         public static final String TEMPORAL = "TemporalExtent";
         
         public static final String ASSOCIATED_RES = "AssociatedResourcesLink";

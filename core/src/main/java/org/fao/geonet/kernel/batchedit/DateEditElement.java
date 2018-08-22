@@ -79,7 +79,7 @@ public class DateEditElement implements EditElement {
 
 	private Element getCitationDateElement(CSVBatchEdit batchEdit, String[] values) throws BatchEditException {
 
-		Element date = new Element("date", Geonet.Namespaces.CIT);
+		//Element date = new Element("date", Geonet.Namespaces.CIT);
 		Element ciDate = new Element("CI_Date", Geonet.Namespaces.CIT);
 		Element date1 = new Element("date", Geonet.Namespaces.CIT);
 		Element dateType = new Element("dateType", Geonet.Namespaces.CIT);
@@ -105,9 +105,9 @@ public class DateEditElement implements EditElement {
 				dateType.addContent(typeAttr);
 			}
 
-			date.addContent(ciDate.addContent(Arrays.asList(date1, dateType)));
-
-			return date;
+			//date.addContent(ciDate.addContent(Arrays.asList(date1, dateType)));
+			ciDate.addContent(Arrays.asList(date1, dateType));
+			return ciDate;
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process Citation Date Element");
 		}
