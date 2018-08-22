@@ -94,10 +94,10 @@ public class OnlineResourceEditElement implements EditElement {
 
 	private Element getOnlineResourceElement(String _name, String description, String link) throws BatchEditException {
 		try{
-			Element onlineResource = new Element("onlineResource", Geonet.Namespaces.CIT);
+			//Element onlineResource = new Element("onlineResource", Geonet.Namespaces.CIT);
 	
-			onlineResource.addContent(onlineResElement(_name, description, link));
-			return onlineResource;
+			//onlineResource.addContent(onlineResElement(_name, description, link));
+			return onlineResElement(_name, description, link);
 			
 		}catch(BatchEditException e){
 			throw new BatchEditException("Unable to process Online Resource Element having name " + _name + " and link " + link);
@@ -106,11 +106,12 @@ public class OnlineResourceEditElement implements EditElement {
 
 	private Element getOnlineElement(String _name, String description, String link) throws BatchEditException {
 		try{
-			Element online = new Element("onLine", Geonet.Namespaces.MRD);
+			//Element online = new Element("onLine", Geonet.Namespaces.MRD);
 	
-			online.addContent(onlineResElement(_name, description, link));
+			//online.addContent(onlineResElement(_name, description, link));
 	
-			return online;
+			return onlineResElement(_name, description, link);
+			
 		}catch(BatchEditException e){
 			throw new BatchEditException("Unable to process Online Element..", e);
 		}
@@ -118,16 +119,16 @@ public class OnlineResourceEditElement implements EditElement {
 
 	private Element additionalInformation(String _name, String description, String link) throws BatchEditException {
 		try{
-			Element addInfo = new Element("additionalDocumentation", Geonet.Namespaces.MRI);
+			//Element addInfo = new Element("additionalDocumentation", Geonet.Namespaces.MRI);
 			Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
 			Element onlineres = new Element("onlineResource", Geonet.Namespaces.CIT);
 			Element title = new Element("title", Geonet.Namespaces.CIT);
 	
 			citation.addContent(title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(_name)));
 			citation.addContent(onlineres.addContent(onlineResElement(_name, description, link)));
-			addInfo.addContent(citation);
+			//addInfo.addContent(citation);
 		
-			return addInfo;
+			return citation;
 			
 		}catch(BatchEditException e){
 			throw new BatchEditException("Unable to process additional Information having name " + _name + " and link " + link);

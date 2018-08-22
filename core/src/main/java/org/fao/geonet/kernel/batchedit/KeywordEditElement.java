@@ -89,32 +89,34 @@ public class KeywordEditElement implements EditElement {
 		try {
 			String[] values = keyword.split(type_separator);
 
-			Element descK = new Element("descriptiveKeywords", Geonet.Namespaces.MRI);
+			//Element descK = new Element("descriptiveKeywords", Geonet.Namespaces.MRI);
 			Element mdK = new Element("MD_Keywords", Geonet.Namespaces.MRI);
 
 			Element k = new Element("keyword", Geonet.Namespaces.MRI);
 			String value = "", codelist = "";
 
-			if (values.length > 0)
+			if (values.length > 0){
 				value = values[0];
-			Element ch = new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(value);
-
-			Element type = new Element("type", Geonet.Namespaces.MRI);
-			Element cl = new Element("MD_KeywordTypeCode", Geonet.Namespaces.MRI);
-			cl.setAttribute("codeList", "codeListLocation#MD_KeywordTypeCode");
-
-			if (values.length > 1)
-				codelist = values[1];
-			cl.setAttribute("codeListValue", codelist);
-
-			descK.addContent(mdK.addContent(Arrays.asList(k.addContent(ch), type.addContent(cl))));
-
-			// out.output(descK, System.out);
-			return descK;
+				Element ch = new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(value);
+	
+				Element type = new Element("type", Geonet.Namespaces.MRI);
+				Element cl = new Element("MD_KeywordTypeCode", Geonet.Namespaces.MRI);
+				cl.setAttribute("codeList", "codeListLocation#MD_KeywordTypeCode");
+	
+				if (values.length > 1)
+					codelist = values[1];
+				cl.setAttribute("codeListValue", codelist);
+	
+				//descK.addContent(mdK.addContent(Arrays.asList(k.addContent(ch), type.addContent(cl))));
+				mdK.addContent(Arrays.asList(k.addContent(ch), type.addContent(cl)));
+				// out.output(descK, System.out);
+				return mdK;
+			}
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process Keyword Element having keyword: " + keyword);
 		}
 
+		return null;
 	}
 
 	private Element getKeywordElementWithThesaurus(String title_keyword, ApplicationContext context,
@@ -135,7 +137,7 @@ public class KeywordEditElement implements EditElement {
 
 				if (thes != null && values.length > 1) {
 
-					Element descK = new Element("descriptiveKeywords", Geonet.Namespaces.MRI);
+					//Element descK = new Element("descriptiveKeywords", Geonet.Namespaces.MRI);
 					Element mdK = new Element("MD_Keywords", Geonet.Namespaces.MRI);
 
 					String[] keywords = values[1].split(",");
@@ -153,9 +155,9 @@ public class KeywordEditElement implements EditElement {
 					cl.setAttribute("codeList", "codeListLocation#MD_KeywordTypeCode");
 					cl.setAttribute("codeListValue", thes.getDname());
 					type.addContent(cl);
-					descK.addContent(mdK.addContent(Arrays.asList(type, getThesaurus(thes))));
-
-					return descK;
+					//descK.addContent(mdK.addContent(Arrays.asList(type, getThesaurus(thes))));
+					mdK.addContent(Arrays.asList(type, getThesaurus(thes)));
+					return mdK;
 				} else {
 					Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit, KeywordEditElement --> ThesaurusByName is null");
 				}

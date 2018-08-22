@@ -99,7 +99,7 @@ public class MetadataEditElement implements EditElement {
 		
 		try {
 			
-			Element mdScope = new Element("metadataScope", Geonet.Namespaces.MDB);
+			//Element mdScope = new Element("metadataScope", Geonet.Namespaces.MDB);
 			Element _mdScope = new Element("MD_MetadataScope", Geonet.Namespaces.MDB);
 			Element resScope = new Element("resourceScope", Geonet.Namespaces.MDB);
 
@@ -110,9 +110,10 @@ public class MetadataEditElement implements EditElement {
 			Element name = new Element("name", Geonet.Namespaces.MDB);
 			Element ch = new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(value);
 
-			mdScope.addContent(_mdScope.addContent(Arrays.asList(resScope.addContent(cl), name.addContent(ch))));
-
-			return mdScope;
+			//mdScope.addContent(_mdScope.addContent(Arrays.asList(resScope.addContent(cl), name.addContent(ch))));
+			_mdScope.addContent(Arrays.asList(resScope.addContent(cl), name.addContent(ch)));
+			
+			return _mdScope;
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process Metadata Scope Element having value " + value);
 		}
@@ -128,7 +129,7 @@ public class MetadataEditElement implements EditElement {
 		
 		try {
 			id = values[0];
-			Element mdparent = new Element("parentMetadata", Geonet.Namespaces.MDB);
+			//Element mdparent = new Element("parentMetadata", Geonet.Namespaces.MDB);
 			Metadata md = null;
 			Element request = null;
 			String eCatId = "";
@@ -145,9 +146,9 @@ public class MetadataEditElement implements EditElement {
 			
 			md = batchEdit.getMetadataByLuceneSearch(context, serContext, request);	
 			
-			mdparent.addContent(getParentCitationElement(md, eCatId));
+			//mdparent.addContent(getParentCitationElement(md, eCatId));
 			
-			return mdparent;
+			return getParentCitationElement(md, eCatId);
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process Parent Metadata Element for uuid/ecatId: " + id);
 		}

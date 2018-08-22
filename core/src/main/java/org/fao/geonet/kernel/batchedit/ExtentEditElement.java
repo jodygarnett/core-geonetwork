@@ -88,7 +88,7 @@ public class ExtentEditElement implements EditElement {
 	
 	private Element getGeographicBoundingBox(String[] value) throws BatchEditException {
 		try {
-			Element ex = new Element("extent", Geonet.Namespaces.MRI);
+			//Element ex = new Element("extent", Geonet.Namespaces.MRI);
 			Element exEx = new Element("EX_Extent", Geonet.Namespaces.GEX);
 			Element geoE = new Element("geographicElement", Geonet.Namespaces.GEX);
 			Element exGeoE = new Element("EX_GeographicBoundingBox", Geonet.Namespaces.GEX);
@@ -111,9 +111,9 @@ public class ExtentEditElement implements EditElement {
 				northBL.addContent(new Element("Decimal", Geonet.Namespaces.GCO_3).setText(value[3]));
 
 			exGeoE.addContent(Arrays.asList(westBL, eastBL, southtBL, northBL));
-			ex.addContent(exEx.addContent(geoE.addContent(exGeoE)));
-
-			return ex;
+			//ex.addContent(exEx.addContent(geoE.addContent(exGeoE)));
+			exEx.addContent(geoE.addContent(exGeoE));
+			return exEx;
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process GeographicBoundingBox having values: " + Arrays.asList(value));
 		}
@@ -121,14 +121,14 @@ public class ExtentEditElement implements EditElement {
 	
 	private Element getVerticalExtent(CSVBatchEdit batchEdit, String[] value) throws BatchEditException {
 		try {
-			Element ex = new Element("extent", Geonet.Namespaces.MRI);
+			//Element ex = new Element("extent", Geonet.Namespaces.MRI);
 			Element exEx = new Element("EX_Extent", Geonet.Namespaces.GEX);
 			Element vertE = new Element("verticalElement", Geonet.Namespaces.GEX);
 			Element exVertE = verticalMinMaxElement(batchEdit, value);
 
-			ex.addContent(exEx.addContent(vertE.addContent(exVertE)));
-
-			return ex;
+			//ex.addContent(exEx.addContent(vertE.addContent(exVertE)));
+			exEx.addContent(vertE.addContent(exVertE));
+			return exEx;
 			
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process vertical Extent having values: " + Arrays.asList(value));
@@ -161,46 +161,57 @@ public class ExtentEditElement implements EditElement {
 	private Element getVerticalRefSystemElement(CSVBatchEdit batchEdit, String[] value) throws BatchEditException{
 		
 		try{
-			Element exVertCrs = new Element("verticalCRSId", Geonet.Namespaces.GEX);
+			//Element exVertCrs = new Element("verticalCRSId", Geonet.Namespaces.GEX);
 			Element refSys = new Element("MD_ReferenceSystem", Geonet.Namespaces.MRS);
 			Element refSysId = new Element("referenceSystemIdentifier", Geonet.Namespaces.MRS);
 			Element mdId = new Element("MD_Identifier", Geonet.Namespaces.MCC);
 	
+			String codeText = "", codeSpaceText = "", versionText ="";
+			/*if(!NumberUtils.isDigits(value[0])){
+				String desc = value[0];
+				int _1 = desc.indexOf(":") + 1;
+				int _2 = desc.lastIndexOf(")");
+				ref_code =  desc.substring(_1, _2);
+			}*/
 			
-			if(value.length > 0){
-				String ref_code = "";
-				if(!NumberUtils.isDigits(value[0])){
-					String desc = value[0];
-					int _1 = desc.indexOf(":") + 1;
-					int _2 = desc.lastIndexOf(")");
-					ref_code =  desc.substring(_1, _2);
-				}
+			//Crs crs = batchEdit.getById(ref_code);
+			//if(crs !=null){
+			
+			if(value.length > 0)
+				codeText = value[0];
 				
-				Crs crs = batchEdit.getById(ref_code);
-				if(crs !=null){
-					Element code = new Element("code", Geonet.Namespaces.MCC);
-					code.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(crs.getDescription()));
-					
-					Element codeSpace = new Element("codeSpace", Geonet.Namespaces.MCC);
-					codeSpace.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(crs.getCodeSpace()));
-					
-					Element version = new Element("version", Geonet.Namespaces.MCC);
-					version.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(crs.getVersion()));
+
+			if(value.length > 1)
+				codeText = value[1];
+			
+
+			if(value.length > 2)
+				codeText = value[2];
+			
+			Element code = new Element("code", Geonet.Namespaces.MCC);
+			//code.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(crs.getDescription()));
+			code.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(codeText));
+			
+			Element codeSpace = new Element("codeSpace", Geonet.Namespaces.MCC);
+			codeSpace.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(codeSpaceText));
+			
+			Element version = new Element("version", Geonet.Namespaces.MCC);
+			version.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(versionText));
+
+			mdId.addContent(Arrays.asList(code, codeSpace, version));
+			
+			//exVertCrs.addContent(refSys.addContent(refSysId.addContent(mdId)));
+			refSys.addContent(refSysId.addContent(mdId));
+			return refSys;
+			//}
 		
-					mdId.addContent(Arrays.asList(code, codeSpace, version));
-					
-					exVertCrs.addContent(refSys.addContent(refSysId.addContent(mdId)));
-					
-					return exVertCrs;
-				}
-			}
 			
 			
 		}catch(Exception e){
 			throw new BatchEditException("Unable to process Vertical reference system having values: " + Arrays.asList(value));
 		}
 		
-		return null;
+		
 	}
 	
 	private Element getTemporalExtent(String[] value) throws BatchEditException {

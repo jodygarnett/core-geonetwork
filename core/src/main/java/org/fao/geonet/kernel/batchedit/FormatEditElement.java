@@ -106,7 +106,7 @@ public class FormatEditElement implements EditElement {
 		try{
 			//Element format = new Element("MD_Format", Geonet.Namespaces.MRD);
 	
-			Element formatSpec = new Element("formatSpecificationCitation", Geonet.Namespaces.MRD);
+			//Element formatSpec = new Element("formatSpecificationCitation", Geonet.Namespaces.MRD);
 			Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
 	
 			Element _title = new Element("title", Geonet.Namespaces.CIT);
@@ -116,9 +116,10 @@ public class FormatEditElement implements EditElement {
 			_edition.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(edition));
 	
 			//format.addContent(formatSpec.addContent(citation.addContent(Arrays.asList(_title, _edition))));
-			formatSpec.addContent(citation.addContent(Arrays.asList(_title, _edition)));
+			//formatSpec.addContent(citation.addContent(Arrays.asList(_title, _edition)));
+			citation.addContent(Arrays.asList(_title, _edition));
 			
-			return formatSpec;
+			return citation;
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process Format Element having title: " + title);
 		}
