@@ -19,7 +19,6 @@
 //==============================================================================
 package org.fao.geonet.kernel.batchedit;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -32,7 +31,6 @@ import org.fao.geonet.kernel.Thesaurus;
 import org.fao.geonet.kernel.ThesaurusManager;
 import org.fao.geonet.utils.Log;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
@@ -41,7 +39,8 @@ import org.springframework.context.ApplicationContext;
 import jeeves.server.context.ServiceContext;
 
 /**
- * 
+ * This class creates simple keywords by providing a text and codelist values and also create keyword based on thesaurus.
+ *  
  * @author Joseph John - U89263
  *
  */
@@ -56,6 +55,7 @@ public class KeywordEditElement implements EditElement {
 
 		String headerVal = header.getKey();
 
+		//If more keyword exist, it must be separated by ###
 		String[] keywords = csvr.get(headerVal).split(content_separator);
 
 		for (String keyword : keywords) {
@@ -84,6 +84,12 @@ public class KeywordEditElement implements EditElement {
 
 	}
 
+	/**
+	 * Creates keyword element. keyword should be provided in the format keyword~codelist
+	 * @param keyword
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getKeywordElement(String keyword) throws BatchEditException {
 
 		try {
@@ -119,6 +125,15 @@ public class KeywordEditElement implements EditElement {
 		return null;
 	}
 
+	/**
+	 * Creates keyword element based on thesaurus. keyword should be provided in the format title~keyword1,keyword2,..,keywordn
+	 * Keywords must match exactly that defined in given title. 
+	 * @param title_keyword
+	 * @param context
+	 * @param serContext
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getKeywordElementWithThesaurus(String title_keyword, ApplicationContext context,
 			ServiceContext serContext) throws BatchEditException {
 
@@ -130,9 +145,10 @@ public class KeywordEditElement implements EditElement {
 			if (values.length > 0) {
 
 				Log.debug(Geonet.SEARCH_ENGINE, "CSVBatchEdit, KeywordEditElement --> title: " + values[0]);
-				// thes = thesaurusMan.getThesaurusByName(values[0]);
+				
 				Collection<Thesaurus> thesColl = thesaurusMan.getThesauriMap().values();
 
+				//Reduce the Collection of thesaurus  
 				thes = thesColl.stream().filter(t -> t.getTitle().equalsIgnoreCase(values[0].trim())).findFirst().get();
 
 				if (thes != null && values.length > 1) {
@@ -171,6 +187,12 @@ public class KeywordEditElement implements EditElement {
 
 	}
 
+	/**
+	 * Creates Thesaurus element
+	 * @param the
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getThesaurus(Thesaurus the) throws BatchEditException {
 
 		try {

@@ -35,6 +35,8 @@ import org.springframework.context.ApplicationContext;
 import jeeves.server.context.ServiceContext;
 
 /**
+ * This class creates online resource element for Data storage, Associated
+ * resources, Additional Information and Distribution link.
  * 
  * @author Joseph John - U89263
  *
@@ -50,10 +52,8 @@ public class OnlineResourceEditElement implements EditElement {
 		String headerVal = header.getKey();
 
 		String[] contents = csvr.get(headerVal).split(content_separator);
-		Log.debug(Geonet.SEARCH_ENGINE, "online resource contents length: " + contents.length);
 		for (String content : contents) {
 			String[] values = content.split(type_separator);
-			Log.debug(Geonet.SEARCH_ENGINE, "extents values length: " + values.length);
 
 			String name = "", desc = "", linkage = "";
 
@@ -67,12 +67,10 @@ public class OnlineResourceEditElement implements EditElement {
 			Element rootE = null;
 
 			try {
-				if (Arrays.asList(Geonet.EditType.DATA_STORAGE_LINK, Geonet.EditType.ASSOCIATED_RES).contains(headerVal)) {
+				if (Arrays.asList(Geonet.EditType.DATA_STORAGE_LINK, Geonet.EditType.ASSOCIATED_RES, Geonet.EditType.DISTRIBUTION_LINK).contains(headerVal)) {
 					rootE = getOnlineResourceElement(name, desc, linkage);
 				} else if (Geonet.EditType.ADDITIONAL_INFO.equalsIgnoreCase(headerVal)) {
 					rootE = additionalInformation(name, desc, linkage);
-				} else if (Geonet.EditType.DISTRIBUTION_LINK.equalsIgnoreCase(headerVal)){
-					rootE = getOnlineElement(name, desc, linkage);
 				}
 			} catch (BatchEditException e) {
 				report.getErrorInfo().add(e.getMessage());
@@ -92,11 +90,17 @@ public class OnlineResourceEditElement implements EditElement {
 
 	}
 
+	/**
+	 * Creates Online resource element 
+	 * @param _name
+	 * @param description
+	 * @param link
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getOnlineResourceElement(String _name, String description, String link) throws BatchEditException {
 		try{
-			//Element onlineResource = new Element("onlineResource", Geonet.Namespaces.CIT);
-	
-			//onlineResource.addContent(onlineResElement(_name, description, link));
+			
 			return onlineResElement(_name, description, link);
 			
 		}catch(BatchEditException e){
@@ -104,29 +108,22 @@ public class OnlineResourceEditElement implements EditElement {
 		}
 	}
 
-	private Element getOnlineElement(String _name, String description, String link) throws BatchEditException {
-		try{
-			//Element online = new Element("onLine", Geonet.Namespaces.MRD);
-	
-			//online.addContent(onlineResElement(_name, description, link));
-	
-			return onlineResElement(_name, description, link);
-			
-		}catch(BatchEditException e){
-			throw new BatchEditException("Unable to process Online Element..", e);
-		}
-	}
-
+	/**
+	 * Creates additional information link
+	 * @param _name
+	 * @param description
+	 * @param link
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element additionalInformation(String _name, String description, String link) throws BatchEditException {
 		try{
-			//Element addInfo = new Element("additionalDocumentation", Geonet.Namespaces.MRI);
 			Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
 			Element onlineres = new Element("onlineResource", Geonet.Namespaces.CIT);
 			Element title = new Element("title", Geonet.Namespaces.CIT);
 	
 			citation.addContent(title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(_name)));
 			citation.addContent(onlineres.addContent(onlineResElement(_name, description, link)));
-			//addInfo.addContent(citation);
 		
 			return citation;
 			
@@ -135,6 +132,14 @@ public class OnlineResourceEditElement implements EditElement {
 		}
 	}
 
+	/**
+	 * Create online resource element
+	 * @param _name
+	 * @param description
+	 * @param link
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element onlineResElement(String _name, String description, String link) throws BatchEditException {
 
 		try {

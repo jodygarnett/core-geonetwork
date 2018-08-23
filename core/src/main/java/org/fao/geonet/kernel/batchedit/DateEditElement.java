@@ -35,7 +35,7 @@ import org.springframework.context.ApplicationContext;
 import jeeves.server.context.ServiceContext;
 
 /**
- * 
+ * This class creates Citation Date element 
  * @author Joseph John - U89263
  *
  */
@@ -65,9 +65,6 @@ public class DateEditElement implements EditElement {
 
 			String strEle = out.outputString(rootE);
 
-			// Log.debug(Geonet.SEARCH_ENGINE, "GeoBoxEditElement --> strEle : "
-			// + strEle);
-
 			String _val = "<gn_add>" + strEle + "</gn_add>";
 
 			BatchEditParam e = new BatchEditParam(_xpath.getXPath(), _val);
@@ -77,6 +74,13 @@ public class DateEditElement implements EditElement {
 
 	}
 
+	/**
+	 * Create citation date element. Values should be in the format datetime~codelist
+	 * @param batchEdit
+	 * @param values
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getCitationDateElement(CSVBatchEdit batchEdit, String[] values) throws BatchEditException {
 
 		//Element date = new Element("date", Geonet.Namespaces.CIT);

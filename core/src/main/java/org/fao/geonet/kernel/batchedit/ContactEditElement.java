@@ -74,7 +74,6 @@ public class ContactEditElement implements EditElement {
 	
 					if (contact.length >= 2) {
 						type = contact[1];
-						Log.debug(Geonet.SEARCH_ENGINE, "KeywordEditElement --> keyword : " + value + ", keywordType: " + type);
 					}
 	
 					if(xmlEle != null){
@@ -82,7 +81,6 @@ public class ContactEditElement implements EditElement {
 		
 						while (elements.hasNext()) {
 							Element e = (Element) elements.next();
-							Log.debug(Geonet.SEARCH_ENGINE, "ContactEditElement --> codeListValue --> " + type);
 							e.setAttribute("codeListValue", type);
 						}
 		

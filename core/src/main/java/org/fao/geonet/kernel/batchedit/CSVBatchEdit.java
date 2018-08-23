@@ -91,7 +91,18 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		
 	}
 	
-	
+	/**
+	 * Remove/Add elements 
+	 * @param context
+	 * @param serviceContext
+	 * @param header
+	 * @param csvr
+	 * @param _xpath
+	 * @param metadata
+	 * @param listOfUpdates
+	 * @param mode
+	 * @return
+	 */
 	public BatchEditReport removeOrAddElements(ApplicationContext context, ServiceContext serviceContext, Map.Entry<String, Integer> header, CSVRecord csvr, 
 			XPath _xpath, Document metadata, List<BatchEditParam> listOfUpdates, String mode) {
 
@@ -139,14 +150,11 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 				}
 			} else {
 				try {
-					Log.debug(Geonet.SEARCH_ENGINE, "_xpath.getXPath() --> "+_xpath.getXPath());
 					Element element = (Element) _xpath.selectSingleNode(metadata);
 					if(element != null){
-						Log.debug(Geonet.SEARCH_ENGINE, "element for xpath " + _xpath.getXPath() + " is not null");
 						element.setText(csvr.get(headerVal));
 					}
 					else{
-						Log.debug(Geonet.SEARCH_ENGINE, "element for xpath " + _xpath.getXPath() + " is null");
 						BatchEditParam e = new BatchEditParam(_xpath.getXPath(),
 								"<gn_add>" + csvr.get(headerVal) + "</gn_add>");
 						listOfUpdates.add(e);
@@ -167,6 +175,13 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		this.applicationEventPublisher = applicationEventPublisher;
 	}
 	
+	/**
+	 * If one of the element is not defined in CSV, it won't remove both element. It only adds the element.
+	 * 
+	 * @param header
+	 * @param csvr
+	 * @return
+	 */
 	private boolean checkDependencies(String header, CSVRecord csvr){
 		
 		if(Geonet.EditType.GEOBOX.equals(header)){
@@ -184,7 +199,15 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		return true;
 	}
 
-	
+
+	/**
+	 * Search metadata using lucene index
+	 * @param context
+	 * @param srvContext
+	 * @param request
+	 * @return
+	 * @throws BatchEditException
+	 */
 	public Metadata getMetadataByLuceneSearch(ApplicationContext context, ServiceContext srvContext, Element request) throws BatchEditException {
 
 		LuceneQueryInput luceneQueryInput = new LuceneQueryInput(request);
@@ -201,8 +224,6 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 			
 			TopDocs tdocs = searcher.search(_query, 1);
 			DocumentStoredFieldVisitor docVisitor = new DocumentStoredFieldVisitor("_uuid");
-
-			Log.debug(Geonet.SEARCH_ENGINE, "getMetadataByLuceneSearch --> tdocs.scoreDocs length: " + tdocs.scoreDocs.length);
 
 			indexAndTaxonomy.indexReader.document(tdocs.scoreDocs[0].doc, docVisitor);
 			org.apache.lucene.document.Document doc = docVisitor.getDocument();
@@ -222,6 +243,11 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		return null;
 	}
 	
+	/**
+	 * Retrieves CRS reference system
+	 * @param crsId
+	 * @return
+	 */
 	public Crs getById(String crsId) {
         for (Object object : ReferencingFactoryFinder
             .getCRSAuthorityFactories(null)) {

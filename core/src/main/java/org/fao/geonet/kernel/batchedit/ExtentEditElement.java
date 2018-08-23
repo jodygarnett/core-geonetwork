@@ -19,18 +19,14 @@
 //==============================================================================
 package org.fao.geonet.kernel.batchedit;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.csv.CSVRecord;
-import org.apache.commons.lang.math.NumberUtils;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.exceptions.BatchEditException;
-import org.fao.geonet.utils.Log;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
 import org.springframework.context.ApplicationContext;
@@ -38,6 +34,7 @@ import org.springframework.context.ApplicationContext;
 import jeeves.server.context.ServiceContext;
 
 /**
+ * This class creates extent - Geographical Element, Vertical extent, Vertical CRS and Temporal extent
  * 
  * @author Joseph John - U89263
  *
@@ -86,6 +83,13 @@ public class ExtentEditElement implements EditElement {
 				
 	}
 	
+	/**
+	 * Creates geographical bounding box
+	 * 
+	 * @param value
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getGeographicBoundingBox(String[] value) throws BatchEditException {
 		try {
 			//Element ex = new Element("extent", Geonet.Namespaces.MRI);
@@ -119,6 +123,13 @@ public class ExtentEditElement implements EditElement {
 		}
 	}
 	
+	/**
+	 * Creates vertical extent element
+	 * @param batchEdit
+	 * @param value
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getVerticalExtent(CSVBatchEdit batchEdit, String[] value) throws BatchEditException {
 		try {
 			//Element ex = new Element("extent", Geonet.Namespaces.MRI);
@@ -135,7 +146,13 @@ public class ExtentEditElement implements EditElement {
 		}
 	}
 	
-		
+	/**
+	 * 
+	 * @param batchEdit
+	 * @param value
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element verticalMinMaxElement(CSVBatchEdit batchEdit, String[] value) throws BatchEditException{
 		
 		try{
@@ -158,6 +175,13 @@ public class ExtentEditElement implements EditElement {
 		}
 	}
 	
+	/**
+	 * creates vertical crs element
+	 * @param batchEdit
+	 * @param value
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getVerticalRefSystemElement(CSVBatchEdit batchEdit, String[] value) throws BatchEditException{
 		
 		try{
@@ -179,21 +203,19 @@ public class ExtentEditElement implements EditElement {
 			
 			if(value.length > 0)
 				codeText = value[0];
-				
 
 			if(value.length > 1)
-				codeText = value[1];
-			
+				codeSpaceText = value[1];
 
 			if(value.length > 2)
-				codeText = value[2];
+				versionText = value[2];
 			
 			Element code = new Element("code", Geonet.Namespaces.MCC);
 			//code.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(crs.getDescription()));
 			code.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(codeText));
 			
 			Element codeSpace = new Element("codeSpace", Geonet.Namespaces.MCC);
-			codeSpace.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(codeSpaceText));
+			codeSpace.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText("EPSG"));
 			
 			Element version = new Element("version", Geonet.Namespaces.MCC);
 			version.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(versionText));
@@ -214,6 +236,13 @@ public class ExtentEditElement implements EditElement {
 		
 	}
 	
+	/**
+	 * Create temporal extent element
+	 * 
+	 * @param value
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getTemporalExtent(String[] value) throws BatchEditException {
 
 		try{

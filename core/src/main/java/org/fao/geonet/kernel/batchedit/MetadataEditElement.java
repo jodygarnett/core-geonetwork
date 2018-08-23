@@ -43,7 +43,7 @@ import org.springframework.context.ApplicationContext;
 import jeeves.server.context.ServiceContext;
 
 /**
- * 
+ * This class creates Metadatascope and Parent Metadata element.
  * @author Joseph John - U89263
  *
  */
@@ -87,6 +87,13 @@ public class MetadataEditElement implements EditElement {
 
 	}
 
+	/**
+	 * Metadatascope should have the values scope description and scope codelist value. 
+	 * Values should be in the format name~codelist 
+	 * @param scopeCodes
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getMdScopeElement(String[] scopeCodes) throws BatchEditException {
 
 		String value = "", codelist = "";
@@ -120,6 +127,15 @@ public class MetadataEditElement implements EditElement {
 
 	}
 	
+	/**
+	 * To create Parent metadata element, provide eCatId
+	 * @param context
+	 * @param serContext
+	 * @param batchEdit
+	 * @param values
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getMdparentElement(ApplicationContext context, ServiceContext serContext, CSVBatchEdit batchEdit, String[] values) throws BatchEditException {
 
 		String id = "";
@@ -129,7 +145,6 @@ public class MetadataEditElement implements EditElement {
 		
 		try {
 			id = values[0];
-			//Element mdparent = new Element("parentMetadata", Geonet.Namespaces.MDB);
 			Metadata md = null;
 			Element request = null;
 			String eCatId = "";
@@ -144,9 +159,8 @@ public class MetadataEditElement implements EditElement {
 						false);
 			}
 			
+			//Search Metadata using eCatId
 			md = batchEdit.getMetadataByLuceneSearch(context, serContext, request);	
-			
-			//mdparent.addContent(getParentCitationElement(md, eCatId));
 			
 			return getParentCitationElement(md, eCatId);
 		} catch (Exception e) {
@@ -155,11 +169,19 @@ public class MetadataEditElement implements EditElement {
 
 	}
 	
+	/**
+	 * Creates the citation element
+	 * @param md
+	 * @param eCatId
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getParentCitationElement(Metadata md, String eCatId) throws BatchEditException {
 
 		Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
 		String parent_title = "";
 		try {
+			//Get the title from xml 
 			Document document = sb.build(new StringReader(md.getData()));
 			XPath _xpath = XPath.newInstance("//mdb:identificationInfo/*/mri:citation/*/cit:title/gco:CharacterString");
 			Element element = (Element) _xpath.selectSingleNode(document);
@@ -201,6 +223,14 @@ public class MetadataEditElement implements EditElement {
 		}
 	}
 	
+	/**
+	 * Creates Metadata identifier for UUID and eCatId
+	 * @param md
+	 * @param id
+	 * @param idType
+	 * @return
+	 * @throws BatchEditException
+	 */
 	private Element getMdIdentifierElement(Metadata md, String id, String idType) throws BatchEditException {
 
 		Element identifier = new Element("identifier", Geonet.Namespaces.CIT);
