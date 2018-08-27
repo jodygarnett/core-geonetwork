@@ -1565,7 +1565,7 @@
 
               var options = ol.source.WMTS.optionsFromCapabilities(cap, {
                 layer: getCapLayer.Identifier,
-                matrixSet: map.getView().getProjection()
+                matrixSet: map.getView().getProjection().getCode()
               });
 
               //Configuring url for service
