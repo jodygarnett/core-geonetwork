@@ -181,7 +181,7 @@ public class KeywordEditElement implements EditElement {
 			}
 		} catch (Exception e) {
 			throw new BatchEditException("Unable to process Keyword Element with Thesaurus having keyword "
-					+ title_keyword + "due to " + e.getMessage());
+					+ title_keyword + " - " + e.getMessage());
 		}
 		return null;
 

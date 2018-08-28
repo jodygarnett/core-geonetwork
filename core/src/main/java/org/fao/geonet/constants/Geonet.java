@@ -26,6 +26,8 @@ package org.fao.geonet.constants;
 import org.apache.lucene.util.Version;
 import org.jdom.Namespace;
 
+import java.text.SimpleDateFormat;
+
 import javax.xml.XMLConstants;
 
 import jeeves.constants.Jeeves;
@@ -95,6 +97,8 @@ public final class Geonet {
     public static final String CLASSIFIER = GEONETWORK + ".classifier";
     public static final String CORS = GEONETWORK + ".cors";
 
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HHmm");
+    public static final String BATCHEDIT_BACKUP_BUCKET = "https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/";
     /**
      * Container for file names.
      */

@@ -446,6 +446,14 @@
             });
       }
 	  
+	  
+	  /********** Batch Edit History **********/
+	  $scope.processBatchEditReport = null;
+	  $http.get('../api/records/batchediting/history').
+            success(function(data, status) {
+              	  $scope.processBatchEditReport = data;  
+            });
+		
       $scope.applyChanges = function() {
         var params = [], i = 0;
         angular.forEach($scope.changes, function(field) {

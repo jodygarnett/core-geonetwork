@@ -159,6 +159,79 @@
       };
     }]);
 
+	module.directive('gnBatchEditReport', ['$http', 'gnMetadataManager',
+    function($http, gnMetadataManager) {
+      return {
+        restrict: 'A',
+        replace: true,
+        scope: {
+          processBatchEditReport: '=gnBatchEditReport'
+        },
+        templateUrl: '../../catalog/components/utility/' +
+            'partials/batcheditreport.html',
+        link: function(scope, element, attrs) {
+		
+          scope.$watch('processBatchEditReport', function(n, o) {
+            if (n && n != o) {
+              scope.processReportWarning = n.notFound != 0 ||
+                  n.notOwner != 0 ||
+                  n.notProcessFound != 0 ||
+                  n.metadataErrorReport.metadataErrorReport.length != 0;
+            }
+          });
+	
+		 
+		 var limitStep = -1;
+		scope.limit = limitStep;
+		scope.incrementLimit = function() {
+			scope.limit += limitStep;
+		};
+		scope.decrementLimit = function() {
+			scope.limit -= limitStep;
+		};
+		 
+		 
+		  scope.ngShowhide = false;
+		  
+		  scope.reports = [];
+		  scope.ngShowhideFun = function(flag) {
+			  if (flag) {
+				scope.ngShowhide = false;
+			  } else {
+				scope.ngShowhide = true;
+			  }
+			};
+			
+		  scope.recall = function(dateTime){
+			  console.log('dateTime --> ' + dateTime);
+			  var url = 'https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/'+dateTime;
+			  
+			  gnMetadataManager.getFilesFromS3(url)
+				.then(function(response) {
+						var filenames = response.data;
+						console.log('filenames.length ---> '+filenames.length);
+						var params = 's3location='+url+'&metadataType=METADATA&uuidProcessing=OVERWRITE&transformWith=_none_&assignToCatalog=on&group=&category=';
+						angular.forEach(filenames, function(filename) {
+							console.log('filename --> ' + filename);
+						  gnMetadataManager.importFromS3Bucket(params, filename).then(
+							  function(response) {
+								  scope.reports.push({'message' : 'Successfully recalled ' + filename});
+							  }, 
+							  function(error){
+								  scope.reports.push({'message' : 'Failed to recall ' + filename});
+							  });
+
+						});
+					  })
+				.catch(function(response) {
+				  console.error('error', response.status, response.data);
+				});
+				
+		  };
+        }
+      };
+    }]);
+	
   /**
    * Region picker coupled with typeahead.
    * scope.region will tell what kind of region to load
