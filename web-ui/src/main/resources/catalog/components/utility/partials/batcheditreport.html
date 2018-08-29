@@ -39,7 +39,7 @@
 				<div data-ng-repeat="err in bereport.errorReport">
 					<div style="display:table-row">
 						<div style="display:table-cell;padding: 3px 10px;">{{err.id}}</div>
-						<div data-ng-repeat="md_err in err.metadataErrors">
+						<div data-ng-repeat="md_err in err.metadataErrors track by $index">
 							<div style="display:table-cell" class="text-right">{{md_err}}</div>
 						</div>
 					</div>
@@ -49,7 +49,7 @@
 				<div data-ng-repeat="info in bereport.infoReport">
 					<div style="display:table-row">
 						<div style="display:table-cell;padding: 3px 10px;">{{info.id}}</div>
-						<div data-ng-repeat="md_info in info.metadataInfos">
+						<div data-ng-repeat="md_info in info.metadataInfos track by $index">
 							<div style="display:table-cell" class="text-right">{{md_info}}</div>
 						</div>
 					</div>

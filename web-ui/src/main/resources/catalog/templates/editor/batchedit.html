@@ -70,12 +70,14 @@
             </div>
             
 			<div class="row">
-				<div class="col-sm-2">
-				<button class="btn btn-default"
-                data-gn-click-and-spin="uploadcsv()">
-				  <i class="fa fa-edit"/>
-				  <span data-translate="">Apply Batch Edit</span>
-				</button>
+				<div class="col-sm-10">
+					<button class="btn btn-default" data-gn-click-and-spin="uploadcsv()"><i class="fa fa-edit"/>&nbsp;<span data-translate="">Apply Batch Edit</span></button>
+				</div>
+				<div class="col-sm-1">
+					<button class="btn btn-default" data-gn-click-and-spin="refresh()"><i class="fa fa-refresh"/>&nbsp;<span data-translate="">Refresh</span></button>
+				</div>
+				<div class="col-sm-1">
+					<button class="btn btn-danger" data-gn-click-and-spin="purge()"><i class="fa fa-trash"/>&nbsp;<span data-translate="">Purge</span></button>
 				</div>
 			</div>
 			

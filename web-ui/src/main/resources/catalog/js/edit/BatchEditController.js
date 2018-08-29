@@ -133,10 +133,11 @@
     '$location',
     '$http',
     '$compile',
+    '$route',
     'gnSearchSettings',
     'gnCurrentEdit',
     'gnSchemaManagerService',
-    function($scope, $location, $http, $compile,
+    function($scope, $location, $http, $compile, $route,
         gnSearchSettings, gnCurrentEdit, gnSchemaManagerService) {
 
       // Simple tab handling.
@@ -453,6 +454,18 @@
             success(function(data, status) {
               	  $scope.processBatchEditReport = data;  
             });
+	
+	  $scope.purge = function(){
+			if (confirm("Are you sure that you want to delete all history?")) {
+				$http.delete('../api/records/batchediting/purge', {}).then(function(response) {
+					$route.reload();
+				})
+			}
+		};
+		
+		$scope.refresh = function(){
+			$route.reload();
+		};
 		
       $scope.applyChanges = function() {
         var params = [], i = 0;

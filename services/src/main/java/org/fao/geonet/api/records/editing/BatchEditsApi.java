@@ -51,6 +51,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.Util;
 import org.fao.geonet.api.API;
@@ -295,6 +296,31 @@ public class BatchEditsApi implements ApplicationContextAware {
 		return null;
 
 	}
+	
+	/**
+	 * The service updates records by uploading the csv file
+	 */
+	@ApiOperation(value = "Delete batch edit report history.")
+	@RequestMapping(value = "/batchediting/purge", method = RequestMethod.DELETE, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Return a report of what has been done."),
+			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) })
+	@PreAuthorize("hasRole('Administrator')")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public void purgeBatchUpdateHistory(HttpServletRequest request) {
+		
+		try{
+	
+			SettingRepository settingRepo = context.getBean(SettingRepository.class);
+			Setting sett = settingRepo.findOne(Settings.METADATA_BATCHEDIT_HISTORY);
+	
+			if(sett != null){
+				settingRepo.delete(sett);
+			}
+		}catch(Exception e){}
+		
+	}
 
 	/**
 	 * 
@@ -327,7 +353,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 		final SchemaManager schemaManager = context.getBean(SchemaManager.class);
 		final DataManager dataMan = context.getBean(DataManager.class);
 		EditLib editLib = new EditLib(schemaManager);
-
+		final SettingRepository settingRepo = context.getBean(SettingRepository.class);
 		CSVParser parser = null;
 		try {
 			// Parse the csv file
@@ -459,8 +485,10 @@ public class BatchEditsApi implements ApplicationContextAware {
 		}
 
 		// create entry for this batch edit in s3 bucket
-		SettingRepository settingRepo = context.getBean(SettingRepository.class);
-		addEntry(report, dateTimeStr, settingRepo);
+		boolean isEntered = addEntry(report, dateTimeStr, settingRepo);
+		if(!isEntered){
+			report.addError(new Exception("Unable to create an entry for this batch edit operation. So manually has to recall from aws s3 location."));
+		}
 				
 		return report;
 	}
@@ -519,9 +547,11 @@ public class BatchEditsApi implements ApplicationContextAware {
 				String _rep = g.toJson(target2, listType);
 				sett.setValue(_rep);
 			}
-		
+			Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi (addEntry) --> 1111");
 			settingRepo.save(sett);
+			Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi (addEntry) --> 2222");
 		}catch (Exception e) {
+			Log.error(Geonet.SEARCH_ENGINE, "BatchEditsApi --> Unable to create an entry for this batch edit operation:" + e.getMessage());
 			return false;
 		}
 		
@@ -577,30 +607,6 @@ class CustomReport {
 		});
 	}
 	
-	/*public Map<Integer, List<String>> getMetadataErrors() {
-		return metadataErrors;
-	}
-	public void setMetadataErrors(Map<Integer, ArrayList<ErrorReport>> metadataErrors) {
-		this.metadataErrors = new HashMap<>();
-		metadataErrors.entrySet().stream().forEach(e -> {
-			this.metadataErrors.put(e.getKey(), e.getValue().stream().map(ErrorReport::getMessage).collect(Collectors.toList()));
-		});
-		//this.metadataErrors = metadataErrors;
-	}
-	public Map<Integer, List<String>> getMetadataInfos() {
-		return metadataInfos;
-	}
-	public void setMetadataInfos(Map<Integer, ArrayList<InfoReport>> metadataInfos) {
-		this.metadataInfos = new HashMap<>();
-		metadataInfos.entrySet().stream().forEach(e -> {
-			this.metadataInfos.put(e.getKey(), e.getValue().stream().map(InfoReport::getMessage).collect(Collectors.toList()));
-		});
-		//this.metadataInfos = metadataInfos;
-	}*/
-    
-	
-
-
 	class EditErrorReport {
 		private int id;
 		private List<String> metadataErrors;
