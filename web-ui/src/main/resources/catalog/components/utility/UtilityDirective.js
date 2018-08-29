@@ -203,7 +203,7 @@
 			};
 			
 		  scope.recall = function(dateTime){
-			  console.log('dateTime --> ' + dateTime);
+			  if (confirm("Are you sure to recall selected batch edit?")) {
 			  var url = 'https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/'+dateTime;
 			  
 			  gnMetadataManager.getFilesFromS3(url)
@@ -226,7 +226,7 @@
 				.catch(function(response) {
 				  console.error('error', response.status, response.data);
 				});
-				
+			  }
 		  };
         }
       };
