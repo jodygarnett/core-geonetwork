@@ -218,8 +218,6 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 
 		MetadataRepository mdRepo = context.getBean(MetadataRepository.class);
 
-		Log.debug(Geonet.SEARCH_ENGINE, "getMetadataByLuceneSearch --> Lucene query: " + _query);
-
 		try {
 			
 			TopDocs tdocs = searcher.search(_query, 1);

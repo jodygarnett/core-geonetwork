@@ -35,6 +35,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -289,6 +290,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	
 			if(sett != null){
 				List<CustomReport> report = g.fromJson(sett.getValue(), listType);
+				//return report.stream().sorted(Comparator.comparing(CustomReport::getDateTime).reversed()).collect(Collectors.toList());
 				return report;
 			}
 		}catch(Exception e){}
@@ -334,13 +336,14 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@SuppressWarnings("unchecked")
 	public SimpleMetadataProcessingReport processCsv(File csvFile, ApplicationContext context,
 			ServiceContext serviceContext, String mode, SimpleMetadataProcessingReport report) {
-
+		
+		String env = "localhost";
 		// Create folder in s3 bucket with current date
 		Date datetime = new Date(System.currentTimeMillis());
 		String dateTimeStr = Geonet.DATE_FORMAT.format(datetime);
-
-		AmazonS3 s3client = getS3Client();
-
+		
+		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(s3uri.getRegion()).build();
+		
 		try {
 			xpathExpr = new BatchEditXpath().loadXpath();
 		} catch (JDOMException e) {
@@ -368,7 +371,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 
 			final int id;
 
-			Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> csvRecord.toString() : " + csvr.toString());
+			//Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> csvRecord.toString() : " + csvr.toString());
 			try {
 				Metadata record = null;
 				if (!csvr.isMapped("uuid")) {
@@ -414,16 +417,19 @@ public class BatchEditsApi implements ApplicationContextAware {
 					continue;
 				}
 
-				if (!saveToS3Bucket(s3client, dateTimeStr, record)) {
+				
+				try{
+					Setting sett = settingRepo.findOne(Settings.SYSTEM_SERVER_HOST);
+					env = sett.getValue().split(".")[0];
+				}catch(Exception e){}
+				
+				if (!saveToS3Bucket(s3client, dateTimeStr, record, env)) {
 					report.addError(new Exception("Unable to backup record uuid/ecat: " + id));
 					continue;
 				}
 
 				MetadataSchema metadataSchema = schemaManager.getSchema(record.getDataInfo().getSchemaId());
 				Element metadata = record.getXmlData(false);
-
-				Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> record.getDataInfo().getRoot() : "
-						+ record.getDataInfo().getRoot());
 
 				Document document = sb.build(new StringReader(record.getData()));
 
@@ -461,9 +467,6 @@ public class BatchEditsApi implements ApplicationContextAware {
 				while (listOfUpdatesIterator.hasNext()) {
 					BatchEditParam batchEditParam = listOfUpdatesIterator.next();
 
-					Log.debug(Geonet.SEARCH_ENGINE,
-							"CSVBatchEdit --> batchEditParameter : " + batchEditParam.toString());
-
 					AddElemValue propertyValue = new AddElemValue(batchEditParam.getValue());
 
 					metadataChanged = editLib.addElementOrFragmentFromXpath(metadata, metadataSchema,
@@ -485,7 +488,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 		}
 
 		// create entry for this batch edit in s3 bucket
-		boolean isEntered = addEntry(report, dateTimeStr, settingRepo);
+		boolean isEntered = addEntry(report, dateTimeStr, settingRepo, env);
 		if(!isEntered){
 			report.addError(new Exception("Unable to create an entry for this batch edit operation. So manually has to recall from aws s3 location."));
 		}
@@ -493,21 +496,21 @@ public class BatchEditsApi implements ApplicationContextAware {
 		return report;
 	}
 
-	private AmazonS3 getS3Client() {
-
-		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(s3uri.getRegion()).build();
-
-		return s3client;
-	}
-
-	private boolean saveToS3Bucket(AmazonS3 s3client, String dateTimeStr, Metadata md) {
+	/**
+	 * Backup metadata into s3 bucket in order to revert back incase it went wrong or or need to change to old state 
+	 * @param s3client
+	 * @param dateTimeStr - dateTime value as folder name
+	 * @param md
+	 * @return
+	 */
+	private boolean saveToS3Bucket(AmazonS3 s3client, String dateTimeStr, Metadata md, String env) {
 		try {
 			byte[] bytes = md.getData().getBytes();
 			ObjectMetadata metadata = new ObjectMetadata();
 			metadata.setContentLength(bytes.length);
 			InputStream targetStream = new ByteArrayInputStream(bytes);
 
-			PutObjectRequest putObj = new PutObjectRequest(s3uri.getBucket(), dateTimeStr + "/" + md.getUuid() + ".xml",
+			PutObjectRequest putObj = new PutObjectRequest(s3uri.getBucket(), env + "/" + dateTimeStr + "/" + md.getUuid() + ".xml",
 					targetStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead);
 
 			s3client.putObject(putObj);
@@ -518,7 +521,14 @@ public class BatchEditsApi implements ApplicationContextAware {
 		return true;
 	}
 
-	private boolean addEntry(SimpleMetadataProcessingReport report, String dateTime, SettingRepository settingRepo){
+	/**
+	 * Add batch update entry into database. Converts CustomReport into JSON and stores as StrigClob 
+	 * @param report
+	 * @param dateTime
+	 * @param settingRepo
+	 * @return
+	 */
+	private boolean addEntry(SimpleMetadataProcessingReport report, String dateTime, SettingRepository settingRepo, String env){
 		
 		try{
 			Type listType = new TypeToken<List<CustomReport>>() {}.getType();
@@ -528,28 +538,25 @@ public class BatchEditsApi implements ApplicationContextAware {
 			customReport.setErrorReport(report.getMetadataErrors());
 			customReport.setInfoReport(report.getMetadataInfos());
 			customReport.setProcessedRecords(report.getNumberOfRecordsProcessed());
-			customReport.setDateTime(dateTime);
+			customReport.setDateTime(env + "/" + dateTime);
 			
 			target.add(customReport);
 			Setting sett = settingRepo.findOne(Settings.METADATA_BATCHEDIT_HISTORY);
 			
-			if(sett == null){
+			if(sett == null){//Creates if there is no entity exist 
 				sett = new Setting();
 				sett.setName(Settings.METADATA_BATCHEDIT_HISTORY);
 				sett.setDataType(SettingDataType.JSON);
 				sett.setPosition(200199);
 				String _rep = g.toJson(target, listType);
-				Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi --> _rep :" + _rep);
 				sett.setValue(_rep);
-			}else{
+			}else{//Adds report into existing value.
 				List<CustomReport> target2 = g.fromJson(sett.getValue(), listType);
 				target2.add(customReport);
 				String _rep = g.toJson(target2, listType);
 				sett.setValue(_rep);
 			}
-			Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi (addEntry) --> 1111");
 			settingRepo.save(sett);
-			Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi (addEntry) --> 2222");
 		}catch (Exception e) {
 			Log.error(Geonet.SEARCH_ENGINE, "BatchEditsApi --> Unable to create an entry for this batch edit operation:" + e.getMessage());
 			return false;
@@ -566,8 +573,6 @@ class CustomReport {
 	protected List<EditErrorReport> errorReport;
 	protected List<EditInfoReport> infoReport;
 	
-//	protected Map<Integer, List<String>> metadataErrors = new HashMap<Integer, List<String>>();
-//    protected Map<Integer, List<String>> metadataInfos = new HashMap<Integer, List<String>>();
 	public int getProcessedRecords() {
 		return processedRecords;
 	}
