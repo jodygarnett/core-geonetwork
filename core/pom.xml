@@ -35,6 +35,19 @@
   <artifactId>core</artifactId>
   <name>GeoNetwork core</name>
 
+<!--  To select individual SDK modules (eg:aws-java-sdk-s3), use the AWS SDK for Java BOM for Maven -->
+   <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk-bom</artifactId>
+        <version>1.11.163</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
   <dependencies>
     <dependency>
       <groupId>net.objecthunter</groupId>
@@ -46,6 +59,10 @@
       <artifactId>urlrewritefilter</artifactId>
       <version>3.2.0</version>
     </dependency>
+    <dependency>
+   		<groupId>com.amazonaws</groupId>
+   		<artifactId>aws-java-sdk-s3</artifactId>
+	</dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>

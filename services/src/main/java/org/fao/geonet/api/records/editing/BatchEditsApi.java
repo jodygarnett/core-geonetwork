@@ -22,28 +22,23 @@
  */
 package org.fao.geonet.api.records.editing;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
-import java.io.Writer;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +47,6 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.Util;
 import org.fao.geonet.api.API;
@@ -74,6 +68,7 @@ import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.EditLib;
 import org.fao.geonet.kernel.SchemaManager;
 import org.fao.geonet.kernel.SelectionManager;
+import org.fao.geonet.kernel.aws.S3Operation;
 import org.fao.geonet.kernel.batchedit.BatchEditParam;
 import org.fao.geonet.kernel.batchedit.BatchEditReport;
 import org.fao.geonet.kernel.batchedit.BatchEditXpath;
@@ -110,8 +105,12 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.AmazonS3URI;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.SetObjectAclRequest;
+import com.amazonaws.services.s3.transfer.MultipleFileUpload;
+import com.amazonaws.services.s3.transfer.Transfer.TransferState;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
+import com.amazonaws.services.s3.transfer.TransferProgress;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -134,9 +133,11 @@ public class BatchEditsApi implements ApplicationContextAware {
 	private ApplicationContext context;
 	// List<BatchEditReport> reports;
 	AmazonS3URI s3uri = new AmazonS3URI(Geonet.BATCHEDIT_BACKUP_BUCKET);
+	List<Metadata> tempBackupData = new ArrayList<>();
 	Gson g = new Gson();
 	Map<String, XPath> xpathExpr = new HashMap<>();
-
+	double pct;
+	
 	public synchronized void setApplicationContext(ApplicationContext context) {
 		this.context = context;
 	}
@@ -337,12 +338,13 @@ public class BatchEditsApi implements ApplicationContextAware {
 	public SimpleMetadataProcessingReport processCsv(File csvFile, ApplicationContext context,
 			ServiceContext serviceContext, String mode, SimpleMetadataProcessingReport report) {
 		
-		String env = "localhost";
+		
 		// Create folder in s3 bucket with current date
 		Date datetime = new Date(System.currentTimeMillis());
-		String dateTimeStr = Geonet.DATE_FORMAT.format(datetime);
+		final String dateTimeStr = Geonet.DATE_FORMAT.format(datetime);
 		
-		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(s3uri.getRegion()).build();
+		AmazonS3 s3client = getS3Client();
+		String env = "localhost";
 		
 		try {
 			xpathExpr = new BatchEditXpath().loadXpath();
@@ -357,6 +359,13 @@ public class BatchEditsApi implements ApplicationContextAware {
 		final DataManager dataMan = context.getBean(DataManager.class);
 		EditLib editLib = new EditLib(schemaManager);
 		final SettingRepository settingRepo = context.getBean(SettingRepository.class);
+		
+		try{
+			Setting sett = settingRepo.findOne(Settings.SYSTEM_SERVER_HOST);
+			env = sett.getValue().split(".")[0];
+		}catch(Exception e){}
+		
+		final String s3key = env + "/" + dateTimeStr;
 		CSVParser parser = null;
 		try {
 			// Parse the csv file
@@ -418,12 +427,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 				}
 
 				
-				try{
-					Setting sett = settingRepo.findOne(Settings.SYSTEM_SERVER_HOST);
-					env = sett.getValue().split(".")[0];
-				}catch(Exception e){}
-				
-				if (!saveToS3Bucket(s3client, dateTimeStr, record, env)) {
+				if (!saveToS3Bucket(record)) {
 					report.addError(new Exception("Unable to backup record uuid/ecat: " + id));
 					continue;
 				}
@@ -488,14 +492,27 @@ public class BatchEditsApi implements ApplicationContextAware {
 		}
 
 		// create entry for this batch edit in s3 bucket
-		boolean isEntered = addEntry(report, dateTimeStr, settingRepo, env);
+		boolean isEntered = addEntry(report, s3key, settingRepo);
 		if(!isEntered){
 			report.addError(new Exception("Unable to create an entry for this batch edit operation. So manually has to recall from aws s3 location."));
 		}
+		
+		Runnable task2 = () -> {
+			Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
+			startBackupOperation(s3key);
+		};
+
+		// start the thread
+		new Thread(task2).start();
+
 				
 		return report;
 	}
 
+	public AmazonS3 getS3Client(){
+		AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion(s3uri.getRegion()).build();
+		return s3client;
+	}
 	/**
 	 * Backup metadata into s3 bucket in order to revert back incase it went wrong or or need to change to old state 
 	 * @param s3client
@@ -503,17 +520,9 @@ public class BatchEditsApi implements ApplicationContextAware {
 	 * @param md
 	 * @return
 	 */
-	private boolean saveToS3Bucket(AmazonS3 s3client, String dateTimeStr, Metadata md, String env) {
+	private boolean saveToS3Bucket(Metadata md) {
 		try {
-			byte[] bytes = md.getData().getBytes();
-			ObjectMetadata metadata = new ObjectMetadata();
-			metadata.setContentLength(bytes.length);
-			InputStream targetStream = new ByteArrayInputStream(bytes);
-
-			PutObjectRequest putObj = new PutObjectRequest(s3uri.getBucket(), env + "/" + dateTimeStr + "/" + md.getUuid() + ".xml",
-					targetStream, metadata).withCannedAcl(CannedAccessControlList.PublicRead);
-
-			s3client.putObject(putObj);
+			tempBackupData.add(md);
 		} catch (Exception e) {
 			return false;
 		}
@@ -521,6 +530,88 @@ public class BatchEditsApi implements ApplicationContextAware {
 		return true;
 	}
 
+	public void startBackupOperation(String s3key){
+		
+		AmazonS3 s3client = getS3Client();
+		TransferManager xfer_mgr = TransferManagerBuilder
+				.standard()
+				.withS3Client(s3client)
+				.withExecutorFactory(() -> Executors.newFixedThreadPool(10))
+				.withMultipartUploadThreshold(5 * 1024 * 1024L)
+				.withMinimumUploadPartSize(5 * 1024 * 1024L)
+				.build();
+		
+		List<File> files = tempBackupData.parallelStream().map(md -> {
+				
+				try {
+					Path path = Files.createTempFile(md.getUuid(), ".xml"); 
+					File f = path.toFile();
+					FileUtils.writeByteArrayToFile(f, md.getData().getBytes());
+					return f; 
+				} catch (IOException e) {
+					return null;
+				}
+				
+			}).collect(Collectors.toList());
+		
+		
+		
+		MultipleFileUpload xfer = xfer_mgr.uploadFileList(s3uri.getBucket(),
+				s3key, new File("."), files);
+		
+		
+		do {
+		    try {
+		        Thread.sleep(100);
+		    } catch (InterruptedException e) {
+		        return;
+		    }
+		    TransferProgress progress = xfer.getProgress();
+		    long so_far = progress.getBytesTransferred();
+		    long total = progress.getTotalBytesToTransfer();
+		    pct = progress.getPercentTransferred();
+		    progressBackup();
+		} while (xfer.isDone() == false);
+		// print the final state of the transfer.
+		TransferState xfer_state = xfer.getState();
+		Log.debug(Geonet.SEARCH_ENGINE, ": " + xfer_state);
+		
+        
+        S3Operation op = new S3Operation();
+        try {
+			List<String> filenames = op.getBucketObjectNames(Geonet.BATCHEDIT_BACKUP_BUCKET + s3key);
+			filenames.parallelStream().forEach(fn -> {
+				//Log.debug(Geonet.SEARCH_ENGINE, "s3key, filename " + fn);
+				SetObjectAclRequest req = new SetObjectAclRequest(s3uri.getBucket(), fn, CannedAccessControlList.PublicRead);
+				s3client.setObjectAcl(req);
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * The service updates records by uploading the csv file
+	 */
+	@ApiOperation(value = "Get batch edit backup progress.")
+	@RequestMapping(value = "/batchediting/progress", method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Return a report of what has been done."),
+			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) })
+	@PreAuthorize("hasRole('Administrator')")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public Double batchEditBackup(HttpServletRequest request) {
+		return progressBackup();
+	}
+	
+    public Double progressBackup()
+    {
+        Log.debug(Geonet.SEARCH_ENGINE, "Percentage transfer: " + pct);
+        return pct;
+    }
+	
 	/**
 	 * Add batch update entry into database. Converts CustomReport into JSON and stores as StrigClob 
 	 * @param report
@@ -528,7 +619,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	 * @param settingRepo
 	 * @return
 	 */
-	private boolean addEntry(SimpleMetadataProcessingReport report, String dateTime, SettingRepository settingRepo, String env){
+	private boolean addEntry(SimpleMetadataProcessingReport report, String s3key, SettingRepository settingRepo){
 		
 		try{
 			Type listType = new TypeToken<List<CustomReport>>() {}.getType();
@@ -538,7 +629,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 			customReport.setErrorReport(report.getMetadataErrors());
 			customReport.setInfoReport(report.getMetadataInfos());
 			customReport.setProcessedRecords(report.getNumberOfRecordsProcessed());
-			customReport.setDateTime(env + "/" + dateTime);
+			customReport.setDateTime(s3key);
 			
 			target.add(customReport);
 			Setting sett = settingRepo.findOne(Settings.METADATA_BATCHEDIT_HISTORY);
