@@ -159,6 +159,22 @@
       };
     }]);
 
+  	module.filter('custommessage', function() {
+		return function(text) {
+		  if (text) {
+				var index = text.indexOf('/');
+				var datetime = text.substring(index+1);
+				var vals = datetime.split('_');
+				
+				var changedt = vals[0] + " " + vals[1].slice(0, 2) + ":" + vals[1].slice(2);
+				console.log(changedt);
+				return changedt;
+		  } else {
+			return text;
+		  }
+		}
+	  });
+  
 	module.directive('gnBatchEditReport', ['$http', 'gnMetadataManager',
     function($http, gnMetadataManager) {
       return {
@@ -204,7 +220,7 @@
 			
 		  scope.recall = function(dateTime){
 			  if (confirm("Are you sure to recall selected batch edit?")) {
-			  var url = 'https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/'+dateTime;
+			  var url = 'https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/'+dateTime+'/mp';
 			  
 			  gnMetadataManager.getFilesFromS3(url)
 				.then(function(response) {
@@ -215,7 +231,15 @@
 							console.log('filename --> ' + filename);
 						  gnMetadataManager.importFromS3Bucket(params, filename).then(
 							  function(response) {
-								  scope.reports.push({'message' : 'Successfully recalled ' + filename});
+								  var message = JSON.stringify(response.data.metadataInfos);
+									
+									if(message.length > 2){
+										scope.reports.push({'message' : JSON.stringify(response.data.metadataInfos), 'class':'alert alert-info'});	
+									}
+									
+									if(response.data.errors.length > 0){
+										scope.reports.push({'message' : response.data.errors[0].message, 'class':'alert alert-danger'});		
+									}
 							  }, 
 							  function(error){
 								  scope.reports.push({'message' : 'Failed to recall ' + filename});

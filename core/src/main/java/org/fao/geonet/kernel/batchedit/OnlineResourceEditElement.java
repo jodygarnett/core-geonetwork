@@ -79,7 +79,7 @@ public class OnlineResourceEditElement implements EditElement {
 			if(rootE != null){
 				String strEle = out.outputString(rootE);
 	
-				Log.debug(Geonet.SEARCH_ENGINE, "OnlineResource EditElement --> strEle : " + strEle);
+				//Log.debug(Geonet.SEARCH_ENGINE, "OnlineResource EditElement --> strEle : " + strEle);
 	
 				String _val = "<gn_add>" + strEle + "</gn_add>";
 	

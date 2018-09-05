@@ -137,6 +137,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	Gson g = new Gson();
 	Map<String, XPath> xpathExpr = new HashMap<>();
 	double pct;
+	SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
 	
 	public synchronized void setApplicationContext(ApplicationContext context) {
 		this.context = context;
@@ -245,29 +246,50 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@PreAuthorize("hasRole('Administrator')")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public SimpleMetadataProcessingReport batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,
-			@RequestParam(value = "mode") String mode, HttpServletRequest request) {
-
-		SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
+	public void batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,
+			@RequestParam(value = "mode") String mode, @RequestParam(value = "desc") String desc, HttpServletRequest request) {
 
 		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
-
+		
 		Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi mode: " + mode);
 
 		// File csvFile = new File(file.getOriginalFilename());
 		try {
+			clearReport(report);
 			// csvFile.createNewFile();
 			File csvFile = File.createTempFile(file.getOriginalFilename(), "csv");
 			FileUtils.copyInputStreamToFile(file.getInputStream(), csvFile);
-			processCsv(csvFile, context, serviceContext, mode, report);
+			
+			Runnable task = () -> {
+				Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
+				processCsv(csvFile, context, serviceContext, mode, desc);
+			};
+
+			// start the thread
+			new Thread(task).start();
 
 		} catch (Exception e) {
 			Log.error(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi (C) Stacktrace is\n" + Util.getStackTrace(e));
 			report.addError(e);
 		}
 
-		return report;
+		//return report;
 
+	}
+	
+	/**
+	 * The service updates records by uploading the csv file
+	 */
+	@ApiOperation(value = "Get batch edit report history.")
+	@RequestMapping(value = "/batchediting/report", method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Return a report of what has been done."),
+			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) })
+	@PreAuthorize("hasRole('Administrator')")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public int batchUpdateReport(HttpServletRequest request) {
+		return report.getNumberOfRecordsProcessed();
 	}
 	
 	/**
@@ -299,6 +321,8 @@ public class BatchEditsApi implements ApplicationContextAware {
 		return null;
 
 	}
+	
+	
 	
 	/**
 	 * The service updates records by uploading the csv file
@@ -335,16 +359,13 @@ public class BatchEditsApi implements ApplicationContextAware {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public SimpleMetadataProcessingReport processCsv(File csvFile, ApplicationContext context,
-			ServiceContext serviceContext, String mode, SimpleMetadataProcessingReport report) {
+	public void processCsv(File csvFile, ApplicationContext context,
+			ServiceContext serviceContext, String mode, String desc) {
 		
 		
 		// Create folder in s3 bucket with current date
 		Date datetime = new Date(System.currentTimeMillis());
 		final String dateTimeStr = Geonet.DATE_FORMAT.format(datetime);
-		
-		AmazonS3 s3client = getS3Client();
-		String env = "localhost";
 		
 		try {
 			xpathExpr = new BatchEditXpath().loadXpath();
@@ -360,12 +381,9 @@ public class BatchEditsApi implements ApplicationContextAware {
 		EditLib editLib = new EditLib(schemaManager);
 		final SettingRepository settingRepo = context.getBean(SettingRepository.class);
 		
-		try{
-			Setting sett = settingRepo.findOne(Settings.SYSTEM_SERVER_HOST);
-			env = sett.getValue().split(".")[0];
-		}catch(Exception e){}
 		
-		final String s3key = env + "/" + dateTimeStr;
+		final String s3key = dateTimeStr;
+		Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> s3key : " + s3key);
 		CSVParser parser = null;
 		try {
 			// Parse the csv file
@@ -478,7 +496,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 				}
 
 				if (metadataChanged) {
-					Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi --> updating Metadata.........");
+					Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi --> updating Metadata: "  + record.getId());
 					dataMan.updateMetadata(serviceContext, record.getId() + "", metadata, false, false, true, "eng",
 							null, false);
 					report.addMetadataInfos(id, "Metadata updated, uuid: " + record.getUuid());
@@ -492,21 +510,14 @@ public class BatchEditsApi implements ApplicationContextAware {
 		}
 
 		// create entry for this batch edit in s3 bucket
-		boolean isEntered = addEntry(report, s3key, settingRepo);
+		boolean isEntered = addEntry(report, s3key, settingRepo, desc);
 		if(!isEntered){
 			report.addError(new Exception("Unable to create an entry for this batch edit operation. So manually has to recall from aws s3 location."));
 		}
 		
-		Runnable task2 = () -> {
-			Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
-			startBackupOperation(s3key);
-		};
-
-		// start the thread
-		new Thread(task2).start();
-
-				
-		return report;
+		Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
+		startBackupOperation(s3key);
+		
 	}
 
 	public AmazonS3 getS3Client(){
@@ -541,7 +552,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 				.withMinimumUploadPartSize(5 * 1024 * 1024L)
 				.build();
 		
-		List<File> files = tempBackupData.parallelStream().map(md -> {
+		List<File> files = tempBackupData.stream().map(md -> {
 				
 				try {
 					Path path = Files.createTempFile(md.getUuid(), ".xml"); 
@@ -555,10 +566,8 @@ public class BatchEditsApi implements ApplicationContextAware {
 			}).collect(Collectors.toList());
 		
 		
-		
 		MultipleFileUpload xfer = xfer_mgr.uploadFileList(s3uri.getBucket(),
 				s3key, new File("."), files);
-		
 		
 		do {
 		    try {
@@ -579,8 +588,8 @@ public class BatchEditsApi implements ApplicationContextAware {
         
         S3Operation op = new S3Operation();
         try {
-			List<String> filenames = op.getBucketObjectNames(Geonet.BATCHEDIT_BACKUP_BUCKET + s3key);
-			filenames.parallelStream().forEach(fn -> {
+			List<String> filenames = op.getBucketObjectNames(Geonet.BATCHEDIT_BACKUP_BUCKET + s3key + "/mp");
+			filenames.stream().forEach(fn -> {
 				//Log.debug(Geonet.SEARCH_ENGINE, "s3key, filename " + fn);
 				SetObjectAclRequest req = new SetObjectAclRequest(s3uri.getBucket(), fn, CannedAccessControlList.PublicRead);
 				s3client.setObjectAcl(req);
@@ -619,7 +628,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	 * @param settingRepo
 	 * @return
 	 */
-	private boolean addEntry(SimpleMetadataProcessingReport report, String s3key, SettingRepository settingRepo){
+	private boolean addEntry(SimpleMetadataProcessingReport report, String s3key, SettingRepository settingRepo, String desc){
 		
 		try{
 			Type listType = new TypeToken<List<CustomReport>>() {}.getType();
@@ -630,6 +639,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 			customReport.setInfoReport(report.getMetadataInfos());
 			customReport.setProcessedRecords(report.getNumberOfRecordsProcessed());
 			customReport.setDateTime(s3key);
+			customReport.setDesc(desc);
 			
 			target.add(customReport);
 			Setting sett = settingRepo.findOne(Settings.METADATA_BATCHEDIT_HISTORY);
@@ -655,15 +665,38 @@ public class BatchEditsApi implements ApplicationContextAware {
 		
 		return true;
 	}
+	
+	public void clearReport(SimpleMetadataProcessingReport report){
+		try{
+			report.getInfos().clear();
+			report.getErrors().clear();
+			report.getMetadata().clear();
+			report.getMetadataErrors().clear();
+			report.getMetadataInfos().clear();
+			report.setTotalRecords(0);
+			report.processStart();
+			report.setNumberOfRecordsProcessed(0);
+		}catch(Exception e){
+			
+		}
+		
+	}
 
 }
 
 class CustomReport {
+	protected String desc;
 	protected int processedRecords = 0;
 	protected String dateTime;
 	protected List<EditErrorReport> errorReport;
 	protected List<EditInfoReport> infoReport;
 	
+	public String getDesc() {
+		return desc;
+	}
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 	public int getProcessedRecords() {
 		return processedRecords;
 	}

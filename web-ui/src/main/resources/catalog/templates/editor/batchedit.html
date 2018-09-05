@@ -31,18 +31,31 @@
 		<div class="panel-body">
 			<p class="alert alert-info" data-translate="">Batch Edit records by uploading CSV file.</p>
 			<p ng-show="modewarning" class="alert alert-danger" data-translate="">Warning: Selecting "Remove existing elements and Add" option will remove existing elements and add new elements.</p>
+			
 			<div class="row">
+				<div class="col-sm-2">
+					<label>Description: </label>
+				</div>
 				<div class="col-sm-6">
-						<select ng-init="updatemode = updateModes[0]"
-							ng-model="updatemode" ng-change="changedValue(updatemode)"
-							data-ng-options="mode as mode.value for mode in updateModes"></select>
-					</div>
+					<input type="text" class="form-control" data-ng-model="upload_desc">
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-sm-2">
+					<label>Select update option: </label>
+				</div>
+				<div class="col-sm-6">
+					<select ng-init="updatemode = updateModes[0]"
+						ng-model="updatemode" ng-change="changedValue(updatemode)"
+						data-ng-options="mode as mode.value for mode in updateModes"></select>
+				</div>
 			</div>
 			<br/>
 			<div class="row">
 				<div class="col-sm-2">
 					<span class="btn btn-success btn-block fileinput-button">
-					  <i class="fa fa-upload"/><span data-translate="">&nbsp;Choose file</span>
+					  <i class="fa fa-upload"/>&nbsp;<span data-translate="">Choose file</span>
 							<input type="file" onchange="angular.element(this).scope().setFile(this)">
 					  <!--<input type="file" multiple="true" id="md-import-csv" name="file">-->
 					</span>
@@ -61,7 +74,7 @@
 			</div>
 			<br/>
 			<div data-ng-hide="isCompleted">
-              <h4 class="text-warning" data-translate="">Batch Editing inprogress</h4>
+              <h4 class="text-warning" data-translate="">Batch Editing inprogress, Records processed : {{processRecords}}</h4>
 
               <div class="progress progress-striped active">
                 <div class="progress-bar" style="width: 100%"/>
@@ -71,7 +84,7 @@
             
 			<div class="row">
 				<div class="col-sm-10">
-					<button class="btn btn-default" data-gn-click-and-spin="uploadcsv()"><i class="fa fa-edit"/>&nbsp;<span data-translate="">Apply Batch Edit</span></button>
+					<button class="btn btn-success" data-gn-click-and-spin="uploadcsv()"><i class="fa fa-edit"/>&nbsp;<span data-translate="">Apply Batch Edit</span></button>
 				</div>
 				<div class="col-sm-1">
 					<button class="btn btn-default" data-gn-click-and-spin="refresh()"><i class="fa fa-refresh"/>&nbsp;<span data-translate="">Refresh</span></button>
@@ -81,10 +94,10 @@
 				</div>
 			</div>
 			
-			<div data-ng-show="processReport"
-             data-gn-batch-report="processReport"/>
+			 <!--<div data-ng-show="processReport"
+             data-gn-batch-report="processReport"/>-->
 			 
-			 <div data-ng-show="processBatchEditReport"
+			<div data-ng-show="processBatchEditReport"
 				data-gn-batch-edit-report="processBatchEditReport"/>
 		</div>
 	

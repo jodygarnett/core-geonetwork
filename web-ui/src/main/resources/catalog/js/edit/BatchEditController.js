@@ -133,11 +133,12 @@
     '$location',
     '$http',
     '$compile',
-    '$route',
+	'$route',
+	'$timeout',
     'gnSearchSettings',
     'gnCurrentEdit',
     'gnSchemaManagerService',
-    function($scope, $location, $http, $compile, $route,
+    function($scope, $location, $http, $compile, $route, $timeout, 
         gnSearchSettings, gnCurrentEdit, gnSchemaManagerService) {
 
       // Simple tab handling.
@@ -375,7 +376,7 @@
 
 
       $scope.processReport = null;
-
+	  $scope.upload_desc = null;
       $scope.unsupportedFile = false;
 	  $scope.isfileSelected = false;
 	  $scope.setFile = function(element) {
@@ -416,33 +417,41 @@
 	  $scope.uploadcsv = function(){
 		$scope.unsupportedFile = false;
 		$scope.isCompleted = false;
+		console.log('$scope.upload_desc --> ' + this.upload_desc);
 		var fd = new FormData();
 		fd.append("file", $scope.theFile);
 		fd.append("mode", $scope.updatemode.key);
+		fd.append("desc", this.upload_desc);
 		$http.post('../api/records/batchediting/csv', fd, {
 			headers: {'Content-Type': undefined }
 		}).success(function(data){
-			$scope.isCompleted = true;
-			console.log('Success.....');
-			$scope.processReport = data;
+			$timeout(checkIsCompleted, 15000);	
 		}).error( function(err){
 			console.log('Error.....');
 			$scope.processReport = err.data;
 		});
 	  };
 	  
+	  var temprecords = 0;
 	  $scope.isCompleted = true;
-	  var updateCheckInterval = 5000;
-	  
+	  //var updateCheckInterval = 15000;
+	  $scope.processRecords = 1;
 	  function checkIsCompleted() {
-        // Check if indexing
-        return $http.get('../api/records/batchediting/csvreport').
+        // Check if completed
+        return $http.get('../api/records/batchediting/report').
             success(function(data, status) {
-            	if(data.numberOfRecords == data.numberOfRecordsProcessed + numberOfRecordsWithErrors){
-              	  $scope.isCompleted = true;  
-                }
+				$scope.processRecords = data;
+				if($scope.processRecords === temprecords){
+					$scope.isCompleted = true;
+				}else{
+					$scope.temprecords = data;
+				}
+				
+              /*if(data.numberOfRecords == data.numberOfRecordsProcessed){
+                $scope.isCompleted = true;  
+              }*/
               if (!$scope.isCompleted) {
-                $timeout(checkIsCompleted, indexCheckInterval);
+                $timeout(checkIsCompleted, 15000);
               }
             });
       }
@@ -454,8 +463,8 @@
             success(function(data, status) {
               	  $scope.processBatchEditReport = data;  
             });
-	
-	  $scope.purge = function(){
+		
+	   $scope.purge = function(){
 			if (confirm("Are you sure that you want to delete all history?")) {
 				$http.delete('../api/records/batchediting/purge', {}).then(function(response) {
 					$route.reload();

@@ -5,7 +5,7 @@
 	 <div data-ng-repeat="report in reports">
         <div class="panel panel-default">
           <div class="panel-body">
-			<p data-ng-show="report.message" translate="">
+			<p data-ng-show="report.message" class="{{report.class}}" translate="">
               {{report.message}}
             </p>
 			</div>
@@ -24,7 +24,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4 style="padding-top:5px;display:inline-block" class="panel-title">
-					<button type="button" class="btn" data-toggle="collapse" data-target="{{'#object-' + bereport.dateTime}}">Batch Edit on {{bereport.dateTime}}</button>
+					<button type="button" class="btn" data-toggle="collapse" data-target="{{'#object-' + bereport.dateTime}}">Batch Edit on {{bereport.dateTime | custommessage}}, <b>Details:</b> {{bereport.desc}}</button>
 				</h4>
 				<button style="margin-top:10px;float:right" class="btn btn-info" data-gn-click-and-spin="recall(bereport.dateTime)"><span data-translate="" class="ng-scope">Recall</span></button>
 			</div>
