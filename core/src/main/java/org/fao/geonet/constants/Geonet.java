@@ -26,6 +26,8 @@ package org.fao.geonet.constants;
 import org.apache.lucene.util.Version;
 import org.jdom.Namespace;
 
+import java.text.SimpleDateFormat;
+
 import javax.xml.XMLConstants;
 
 import jeeves.constants.Jeeves;
@@ -95,6 +97,8 @@ public final class Geonet {
     public static final String CLASSIFIER = GEONETWORK + ".classifier";
     public static final String CORS = GEONETWORK + ".cors";
 
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HHmm");
+    public static final String BATCHEDIT_BACKUP_BUCKET = "https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/";
     /**
      * Container for file names.
      */
@@ -634,7 +638,8 @@ public final class Geonet {
         public static final Namespace XSI = Namespace.getNamespace("xsi", XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI);
         public static final Namespace OWS = Namespace.getNamespace("ows", "http://www.opengis.net/ows");
         public static final Namespace OGC = Namespace.getNamespace("ogc", "http://www.opengis.net/ogc");
-        public static final Namespace GML = Namespace.getNamespace("gml", "http://www.opengis.net/gml");
+        //public static final Namespace GML = Namespace.getNamespace("gml", "http://www.opengis.net/gml");
+        public static final Namespace GML = Namespace.getNamespace("gml", "http://www.opengis.net/gml/3.2");
         public static final Namespace SVRL = Namespace.getNamespace("svrl", "http://purl.oclc.org/dsdl/svrl");
         public static final Namespace SLD = Namespace.getNamespace("sld", "http://www.opengis.net/sld");
         public static final Namespace SE = Namespace.getNamespace("se", "http://www.opengis.net/se");
@@ -647,7 +652,7 @@ public final class Geonet {
     	public static final Namespace GCX = Namespace.getNamespace("gcx", "http://standards.iso.org/iso/19115/-3/gcx/1.0");
     	public static final Namespace GEX = Namespace.getNamespace("gex", "http://standards.iso.org/iso/19115/-3/gex/1.0");
     	public static final Namespace LAN = Namespace.getNamespace("lan", "http://standards.iso.org/iso/19115/-3/lan/1.0");
-
+    	public static final Namespace GCO_3 = Namespace.getNamespace("gco", "http://standards.iso.org/iso/19115/-3/gco/1.0");
     	public static final Namespace MAC = Namespace.getNamespace("mac", "http://standards.iso.org/iso/19115/-3/mac/1.0");
     	public static final Namespace MAS = Namespace.getNamespace("mas", "http://standards.iso.org/iso/19115/-3/mas/1.0");
     	public static final Namespace MCO = Namespace.getNamespace("mco", "http://standards.iso.org/iso/19115/-3/mco/1.0");
@@ -708,5 +713,50 @@ public final class Geonet {
 		public static final String PUBLISHED_INTERNAL = "Published_Internal";
 		public static final String PUBLISHED_EXTERNAL = "Published_External";
 		public static final String RETIRED_INTERNAL = "Retired_Internal";
+    }
+    
+    /**
+     * Container for element values.
+     */
+    public static final class EditType {
+    	public static final String TITLE = "Title";
+    	public static final String ABSTRACT = "Abstract";
+    	public static final String PURPOSE = "Purpose";
+    	public static final String STATUS = "Status";
+    	public static final String MAINTENANCE_FREQ = "MaintenanceFrequency";
+    	public static final String TOPIC_CAT = "TopicCategory";
+        public static final String MD_SCOPE = "MetadataScope";
+        public static final String MD_PARENT = "ParentMetadata";
+        public static final String MD_SECURITY_CONSTRAINT = "MetadataSecurityConstraint";
+        public static final String RES_SECURITY_CONSTRAINT = "ResourceSecurityConstraint";
+        public static final String USE_LIMITATION = "UseLimitations";
+        public static final String LINEAGE = "Lineage";
+        public static final String SOURCE_DESC = "SourceDescription";
+        public static final String SPACIAL_REF_SYSYTEM = "SpacialReferenceSystem";
+        
+    	public static final String KEYWORD = "Keyword";
+    	public static final String KEYWORD_THESAURUS = "Keyword-Thesaurus";
+        
+        public static final String RES_CONTACT = "ResourceContact";
+        public static final String MD_CONTACT = "MetadataContact";
+        public static final String RESPONSIBLE_PARTY = "ResponsibleParty";
+        
+        public static final String CITATION_DATE = "CitationDate";
+        
+        public static final String GEOBOX = "GeographicalExtent";
+        public static final String VERTICAL = "VerticalExtent";
+        public static final String VERTICAL_CRS = "VerticalCRS";
+        public static final String TEMPORAL = "TemporalExtent";
+        
+        public static final String ASSOCIATED_RES = "AssociatedResourcesLink";
+        public static final String DATA_STORAGE_LINK = "DataStorageLink";
+        public static final String ADDITIONAL_INFO = "AdditionalInfo";
+        public static final String DISTRIBUTION_LINK = "DistributionLink";
+        
+        public static final String DISTRIBUTION_FORMAT = "DistributionFormat";
+        public static final String RESOURCE_FORMAT = "DataStorageFormat";
+        
+        public static final String SPACIAL_EXTENT_DESC = "SpatialExtentDescription";
+        public static final String HORIZONTAL_SPACIAL_REFSYSTEM = "HorizontalSpatialReferenceSystem";
     }
 }

@@ -136,6 +136,10 @@ public abstract class MetadataProcessingReport extends ProcessingReport {
         return processedRecords;
     }
 
+    public synchronized void setNumberOfRecordsProcessed(int processedRecords) {
+        this.processedRecords = processedRecords;
+    }
+    
     public synchronized void incrementProcessedRecords() {
         this.processedRecords++;
     }
