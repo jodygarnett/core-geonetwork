@@ -444,7 +444,7 @@
 				if($scope.processRecords === temprecords){
 					$scope.isCompleted = true;
 				}else{
-					$scope.temprecords = data;
+					temprecords = data;
 				}
 				
               /*if(data.numberOfRecords == data.numberOfRecordsProcessed){

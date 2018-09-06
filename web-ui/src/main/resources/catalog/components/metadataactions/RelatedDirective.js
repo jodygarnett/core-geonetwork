@@ -133,6 +133,24 @@
   				return gnGlobalSettings.isIntranet;
   			  };
   			  
+  			scope.getClass = function(title) {
+  				 if(title.eng){
+					  if(title.eng.toLowerCase() === 'purchase this product'){
+						  return 'btn btn-NETO btn-sm btn-block';
+					  }
+				  }
+				  return 'btn btn-openLink btn-sm btn-block';
+				
+			  };
+			  scope.isLink = function(title){
+				  if(title.eng){
+                      if(title.eng.toLowerCase() === 'purchase this product'){
+                              return false;
+                      }
+				  }
+				  return true;
+			  };
+  			  
               scope.config = gnRelatedResources;
 
               scope.$watchCollection('md', function(n, o) {
