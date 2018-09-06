@@ -186,7 +186,7 @@ public class GetRecordById extends AbstractOperation implements CatalogService {
             }
         } catch (Exception e) {
             context.error("Raised : " + e);
-            context.error(" (C) Stacktrace is\n" + Util.getStackTrace(e));
+            //context.error(" (C) Stacktrace is\n" + Util.getStackTrace(e));
             throw new NoApplicableCodeEx(e.toString());
         }
         return response;

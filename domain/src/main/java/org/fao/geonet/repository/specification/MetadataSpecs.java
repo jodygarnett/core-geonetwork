@@ -209,7 +209,28 @@ public final class MetadataSpecs {
         };
     }
 
+    public static Specification<Metadata> hasTitle(final String title) {
+        return new Specification<Metadata>() {
+            @Override
+            public Predicate toPredicate(Root<Metadata> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Path<String> titleAttributePath = root.get(Metadata_.dataInfo).get(MetadataDataInfo_.title);
+                Predicate equalTitlePredicate = cb.equal(titleAttributePath, cb.literal(title));
+                return equalTitlePredicate;
+            }
+        };
+    }
 
+    public static Specification<Metadata> hasRoot(final String root) {
+        return new Specification<Metadata>() {
+            @Override
+            public Predicate toPredicate(Root<Metadata> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Path<String> rootAttributePath = root.get(Metadata_.dataInfo).get(MetadataDataInfo_.root);
+                Predicate equalRootPredicate = cb.equal(rootAttributePath, cb.literal(root));
+                return equalRootPredicate;
+            }
+        };
+    }
+    
     public static Specification<Metadata> isIso19139Schema() {
         return new Specification<Metadata>() {
             @Override

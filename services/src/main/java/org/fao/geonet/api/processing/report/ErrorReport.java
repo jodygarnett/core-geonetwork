@@ -39,7 +39,8 @@ public class ErrorReport extends Report {
 
     public ErrorReport(Exception e) {
         super(e.getMessage());
-        this.stack = Util.getStackTrace(e);
+        //this.stack = Util.getStackTrace(e);
+        this.stack = e.getMessage();
     }
 
     @XmlElement(value = "stacktrace")

@@ -112,4 +112,5 @@ public class Settings {
     public static final String REGION_GETMAP_SUMMARY_WIDTH = "region/getmap/summaryWidth";
     public static final String METADATA_WORKFLOW_DRAFT_WHEN_IN_GROUP = "metadata/workflow/draftWhenInGroup";
     public static final String VIRTUAL_SETTINGS_SUFFIX_ISDEFINED = "IsDefined";
+    public static final String METADATA_BATCHEDIT_HISTORY = "metadata/batchedit/history";
 }
