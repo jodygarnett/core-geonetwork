@@ -1309,6 +1309,8 @@
     <kb.port>5601</kb.port>
     <kb.url>http://localhost:${kb.port}</kb.url>
 
+    <xframeoptionsfilter.urlpattern>/*</xframeoptionsfilter.urlpattern>
+
     <jms.url>tcp://localhost:61616</jms.url>
     <activemq.version>5.6.0</activemq.version>
     <!-- End es and camel stuffs -->

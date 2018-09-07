@@ -159,7 +159,7 @@
   </filter>
   <filter-mapping>
     <filter-name>XFrameOptionsFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>${xframeoptionsfilter.urlpattern}</url-pattern>
   </filter-mapping>
 
 
