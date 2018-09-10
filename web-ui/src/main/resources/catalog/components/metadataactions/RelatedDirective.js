@@ -134,19 +134,21 @@
   			  };
   			  
   			scope.getClass = function(title) {
-				  if(title.eng.toLowerCase() === 'purchase this product'){
-					  return 'btn btn-NETO btn-sm btn-block';
-				  }else{
-					  return 'btn btn-openLink btn-sm btn-block';
+  				if(title.eng){
+					  if(title.eng.toLowerCase() === 'purchase this product'){
+						  return 'btn btn-NETO btn-sm btn-block';
+					  }
 				  }
+				  return 'btn btn-openLink btn-sm btn-block';
 				
 			  };
 			  scope.isLink = function(title){
-				  if(title.eng.toLowerCase() !== 'purchase this product'){
-					  return true;
-				  }else{
-					  return false;
+				  if(title.eng){
+                      if(title.eng.toLowerCase() === 'purchase this product'){
+                              return false;
+                      }
 				  }
+				  return true;
 			  };
   			  
               scope.config = gnRelatedResources;
