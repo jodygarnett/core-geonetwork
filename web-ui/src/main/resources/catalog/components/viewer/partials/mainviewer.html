@@ -30,6 +30,19 @@
       <span class="label" ng-show="showToolLabels" translate="">Layers</span>
       <span role="tooltip" translate="">Layers</span>
     </button>
+    <button class="btn btn-default" ng-model="activeTools.projectionSwitcher"
+            type="submit" gi-btn="active" ng-hide="disabledTools.projectionSwitcher">
+      <span class="fa fa-th-large "></span>
+      <span class="label" ng-show="showToolLabels" translate="">projectionSwitcher</span>
+      <span role="tooltip" translate="">projectionSwitcher</span>
+    </button>
+    <button class="btn btn-default" ng-model="activeTools.legend"
+            type="submit" gi-btn="active" ng-hide="disabledTools.legend"
+            aria-label="{{'mapLegend' | translate}}">
+      <span class="fa fa-th-list"></span>
+      <span class="label" ng-show="showToolLabels" translate="">mapLegend</span>
+      <span role="tooltip" translate="">mapLegend</span>
+    </button>
     <button class="btn btn-default" ng-model="activeTools.filter"
             type="submit" gi-btn="active" ng-hide="disabledTools.filter"
             aria-label="{{'filterData' | translate}}">
@@ -191,6 +204,14 @@
     </div>
   </div>
 
+  <!-- Projection Switcher -->
+  <div class="panel-default panel-tools"
+       ng-show="activeTools.projectionSwitcher">
+      <div gn-projection-switcher="map"></div>
+   </div>
+
+
+  <!-- Legend -->
   <div class="panel panel-default panel-tools"
        ng-show="activeTools.legend">
     <div class="panel-carousel" gn-legend-panel="map"></div>
