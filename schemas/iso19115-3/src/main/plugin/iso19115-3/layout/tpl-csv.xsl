@@ -37,7 +37,7 @@
          <xsl:value-of select="mdb:alternativeMetadataReference/*/cit:identifier/*/mcc:code"/>
 	  </eCatId>
       
-	  <Title>
+	  <!-- <Title>
         <xsl:apply-templates mode="localised"
                              select="mdb:identificationInfo/*/mri:citation/*/cit:title">
           <xsl:with-param name="langId" select="$langId"/>
@@ -48,13 +48,13 @@
         <xsl:apply-templates mode="localised" select="mdb:identificationInfo/*/mri:abstract">
           <xsl:with-param name="langId" select="$langId"/>
         </xsl:apply-templates>
-      </Abstract>
+      </Abstract> -->
 
 	  <!-- <Category>
         <xsl:value-of select="mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue"/>
       </Category> -->
 	  
-	  <MetadataScope>
+	  <!-- <MetadataScope>
 	    <xsl:value-of select="mdb:metadataScope/*/mdb:name"/>~<xsl:value-of select="mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue"/>
       </MetadataScope>
 	  
@@ -114,11 +114,11 @@
         <ResponsibleParty>
 			<xsl:value-of select="cit:party/*/cit:name/*/text()"/>~<xsl:value-of select="cit:role/cit:CI_RoleCode/@codeListValue"/>
         </ResponsibleParty>
-      </xsl:for-each>
+      </xsl:for-each> -->
 	  
 	  
       <!-- One column per contact role -->
-	  <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
+	  <!-- <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
         <xsl:element name="ResourceContact">
           <xsl:apply-templates mode="localised" select="*/cit:party/*/cit:name">
             <xsl:with-param name="langId" select="$langId"/>
@@ -196,7 +196,7 @@
 	  
 	  <UseLimitations>
                 <xsl:value-of select="mdb:identificationInfo/*/mri:resourceConstraints/mco:MD_LegalConstraints/mco:useLimitation/gco:CharacterString"/>
-	  </UseLimitations>
+	  </UseLimitations> -->
 
       <xsl:for-each select="mdb:distributionInfo/*/mrd:transferOptions/*/mrd:onLine/*">
         <DistributionLink>
@@ -204,7 +204,7 @@
         </DistributionLink>
       </xsl:for-each>
 	  
-	  <xsl:for-each select="mdb:distributionInfo/*/mrd:distributionFormat">
+	  <!-- <xsl:for-each select="mdb:distributionInfo/*/mrd:distributionFormat">
         <DistributionFormat>
 			<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:title/*/text()"/>~<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:edition/*/text()"/>
         </DistributionFormat>
@@ -230,7 +230,7 @@
 	<SourceDescription>
 		<xsl:value-of
 			select="mdb:resourceLineage/mrl:LI_Lineage/mrl:source/mrl:LI_Source/mrl:description/gco:CharacterString" />
-	</SourceDescription>
+	</SourceDescription> -->
 
 	  
 <!--	   <AssociatedResourcesCode>
@@ -249,7 +249,7 @@
                 <xsl:value-of select="mdb:identificationInfo/mri:MD_DataIdentification/mri:associatedResource/mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:description/gco:CharacterString"/>
 	  </AssociatedResourcesIdentifierDescription>
 	-->  
-	  <xsl:for-each select="mdb:identificationInfo/*/mri:associatedResource/*/mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
+	<!--   <xsl:for-each select="mdb:identificationInfo/*/mri:associatedResource/*/mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
         <AssociatedResourcesLink>
           <xsl:value-of select="cit:name/*/text()"/>~<xsl:value-of select="cit:description/*/text()"/>~<xsl:value-of select="cit:linkage/*/text()"/> 
         </AssociatedResourcesLink>
@@ -259,7 +259,7 @@
         <AdditionalInformationLink>
           <xsl:value-of select="cit:title/*/text()"/>~<xsl:value-of select="cit:onlineResource/*/cit:description/*/text()"/>~<xsl:value-of select="cit:onlineResource/*/cit:linkage/*/text()"/>
         </AdditionalInformationLink>
-      </xsl:for-each>
+      </xsl:for-each> -->
 	  
       <xsl:copy-of select="gn:info"/>
     </metadata>

@@ -138,11 +138,13 @@
           test="position()!=1 and $currentSchema=preceding-sibling::node()/geonet:info/schema"/>
         <xsl:otherwise>
           <!-- CSV header, schema and id first, then from schema column list -->
-          <xsl:text>"schema"</xsl:text>
+          <!-- <xsl:text>"schema"</xsl:text>
           <xsl:value-of select="$sep"/>
           <xsl:text>"uuid"</xsl:text>
           <xsl:value-of select="$sep"/>
-          <xsl:text>"id"</xsl:text><xsl:value-of select="$sep"/><xsl:value-of
+          <xsl:text>"id"</xsl:text>
+          <xsl:value-of select="$sep"/> -->
+          <xsl:value-of
             select="string-join($columns/schema[@name=$currentSchema]/column/normalize-space(), $sep)"/>
           <xsl:call-template name="newLine"/>
         </xsl:otherwise>
@@ -161,10 +163,10 @@
     <xsl:param name="columns"/>
     <xsl:param name="metadata"/>
 
-    <xsl:value-of
+    <!-- <xsl:value-of
       select="concat('&quot;', $metadata/geonet:info/schema, '&quot;', $sep,
                   '&quot;', $metadata/geonet:info/uuid, '&quot;', $sep,
-                  '&quot;', $metadata/geonet:info/id, '&quot;', $sep)"/>
+                  '&quot;', $metadata/geonet:info/id, '&quot;', $sep)"/> -->
 
     <xsl:for-each select="$columns">
       <xsl:variable name="currentColumn" select="@name"/>
