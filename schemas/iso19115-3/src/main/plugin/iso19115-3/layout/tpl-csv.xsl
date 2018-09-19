@@ -114,11 +114,9 @@
         <ResponsibleParty>
 			<xsl:value-of select="cit:party/*/cit:name/*/text()"/>~<xsl:value-of select="cit:role/cit:CI_RoleCode/@codeListValue"/>
         </ResponsibleParty>
-      </xsl:for-each> -->
-	  
-	  
-      <!-- One column per contact role -->
-	  <!-- <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
+      </xsl:for-each> 
+      
+      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
         <xsl:element name="ResourceContact">
           <xsl:apply-templates mode="localised" select="*/cit:party/*/cit:name">
             <xsl:with-param name="langId" select="$langId"/>
