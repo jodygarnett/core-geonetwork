@@ -34,7 +34,7 @@
         <i class="fa fa-file-zip-o"></i>&nbsp;<span translate>exportMEF</span></a></li>
       <li><a href="" ng-click="mdService.metadataPrint(searchObj.params, searchResults.selectionBucket)">
         <i class="fa fa-file-pdf-o"></i>&nbsp;<span translate>exportPDF</span></a></li>
-      <li><a href="" ng-click="mdService.exportCSV(searchResults.selectionBucket)">
+      <li><a href="" ng-click="mdService.openExportColumns(getCatScope(), searchResults.selectionBucket)">
         <i class="fa fa-file-excel-o"></i>&nbsp;<span translate>exportCSV</span></a></li>
       <li><a href="" ng-click="viewSelectionOnly()">
         <i class="fa fa-check"></i>&nbsp;<span translate>viewSelectionOnly</span></a></li>

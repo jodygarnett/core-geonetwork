@@ -33,7 +33,7 @@
 
 
   var module = angular.module('gn_mdactions_service', [
-    'gn_share', 'gn_category', 'gn_popup'
+    'gn_share', 'gn_category', 'gn_popup', 'checklist-model'
   ]);
 
   module.service('gnMetadataActions', [
@@ -51,10 +51,11 @@
     '$translate',
     '$q',
     '$http',
+	'$timeout',
     function($rootScope, $timeout, $location, gnHttp,
              gnMetadataManager, gnAlertService, gnSearchSettings,
              gnUtilityService, gnShareService, gnPopup, gnMdFormatter,
-             $translate, $q, $http) {
+             $translate, $q, $http, $timeout) {
 
       var windowName = 'geonetwork';
       var windowOption = '';
@@ -163,10 +164,125 @@
         location.replace(url);
       };
 
-      this.exportCSV = function(bucket) {
-        window.open(gnHttp.getService('csv') +
-            '?bucket=' + bucket, windowName, windowOption);
+	  this.openExportColumns = function(scope, bucket) {
+		  scope.columns = [
+			  'Title',
+			  'Abstract',
+			  'MetadataScope',
+			  'ParentMetadata',
+			  'CitationDate',
+			  'Purpose',
+			  'Status',
+			  'Keyword',
+			  'Keyword-Thesaurus',
+			  'MaintenanceFrequency',
+			  'TopicCategory',
+			  'ResponsibleParty',
+			  'ResourceContact',
+			  'MetadataContact',
+			  'GeographicalExtent',
+			  'SpatialExtentDescription',
+			  'HorizontalSpatialReferenceSystem',
+			  'VerticalExtent',
+			  'VerticalCRS',
+			  'TemporalExtent',
+			  'MetadataSecurityConstraint',
+			  'ResourceSecurityConstraint',
+			  'ResourceLegalConstraint',
+			  'UseLimitations',
+			  'DistributionLink',
+			  'DistributionFormat',
+			  'DataStorageLink',
+			  'DataStorageFormat',
+			  'Lineage',
+			  'SourceDescription',
+			  'AssociatedResourcesLink',
+			  'AdditionalInfo'
+		  ];
+		 
+		  scope.csv = {
+			columns: []
+		  };
+		  
+		  scope.checkAll = function() {
+			  console.log('checkAll');
+			scope.csv.columns = angular.copy(scope.columns);
+		  };
+		  scope.uncheckAll = function() {
+			  console.log('uncheckAll');
+			scope.csv.columns = [];
+		  };
+		  
+		  scope.exportCSV = function() {
+			//window.open(gnHttp.getService('csv') + '?bucket=' + bucket, windowName, windowOption);
+			console.log('export');
+			return $http.get('../api/records/download/csv?' +
+					'bucket=' + bucket + '&exportParams=' + scope.csv.columns).then(function(response) {
+						//checkIsCompleted();
+						console.log('calling saveFile function...');
+						saveFile(response);					
+				});
+				
+				
+		  };
+		  var isCompleted = true;
+		  function checkIsCompleted() {
+			// Check if completed
+			return $http.get('../api/records/download/status').
+				success(function(data) {
+					console.log('download status, data: ' + data);
+					isCompleted = data;
+				  if (!isCompleted) {
+					$timeout(checkIsCompleted, 1000);
+				  }else{
+					  return $http.get('../api/records/download/csv').then(function(response) {
+								 saveFile(response);
+						});
+				  }
+				});
+		  }
+		  
+		  function saveFile(response){
+			  console.log('calling saveFile function...');
+			  var dataBlob = response.data;
+					if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					  // for IE
+					  console.log("windows IE");
+					   var csvData = new Blob([content], { type: 'text/csv' });
+					  window.navigator.msSaveOrOpenBlob(dataBlob, 'metadata_records.csv');
+				   } else {
+					   console.log("windows NON IE");
+					  // for Non-IE (chrome, firefox etc.)
+					  var binaryData = [];
+					  binaryData.push(dataBlob);
+					  var urlObject = window.URL.createObjectURL(new Blob(binaryData, {type: "text/csv"}))
+
+					  var downloadLink = angular.element('<a>Download</a>');
+					  downloadLink.css('display','none');
+					  downloadLink.attr('href', urlObject);
+					  downloadLink.attr('download', 'metadata_records.csv');
+					  angular.element(document.body).append(downloadLink);
+					  downloadLink[0].click();
+
+					  // cleanup
+					  downloadLink.remove();
+					  URL.revokeObjectURL(urlObject);
+				  }
+		  }
+        openModal({
+          title: 'Column Selection',
+          content: '<div>' + 
+		  '<button type="button" class="btn btn-default btn-sm" ng-click="checkAll()">Check all</button>&nbsp;' + 
+		  '<button type="button" class="btn btn-default btn-sm" ng-click="uncheckAll()">Uncheck all</button>' +
+		  '<button type="button" class="btn btn-default btn-sm" ng-click="exportCSV()">Export</button></div>' +
+		  '<div ng-repeat="c in columns">' + 
+		  '<input type="checkbox" checklist-model="csv.columns" checklist-value="c"><label>{{c}}</label></div>',
+          className: ''
+        }, scope, 'exportSelection');
       };
+	  
+	  
+      
       this.validateMd = function(md, bucket) {
         if (md) {
           return gnMetadataManager.validate(md.getId()).then(function() {
