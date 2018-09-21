@@ -203,6 +203,7 @@
 		  scope.csv = {
 			columns: []
 		  };
+		  scope.exporting = false;
 		  
 		  scope.checkAll = function() {
 			  console.log('checkAll');
@@ -216,11 +217,13 @@
 		  scope.exportCSV = function() {
 			//window.open(gnHttp.getService('csv') + '?bucket=' + bucket, windowName, windowOption);
 			console.log('export');
+			 scope.exporting = true;
 			return $http.get('../api/records/download/csv?' +
 					'bucket=' + bucket + '&exportParams=' + scope.csv.columns).then(function(response) {
 						//checkIsCompleted();
 						console.log('calling saveFile function...');
-						saveFile(response);					
+						 scope.exporting = false;
+						saveFile(response);
 				});
 				
 				
@@ -273,8 +276,9 @@
           title: 'Column Selection',
           content: '<div>' + 
 		  '<button type="button" class="btn btn-default btn-sm" ng-click="checkAll()">Check all</button>&nbsp;' + 
-		  '<button type="button" class="btn btn-default btn-sm" ng-click="uncheckAll()">Uncheck all</button>' +
+		  '<button type="button" class="btn btn-default btn-sm" ng-click="uncheckAll()">Uncheck all</button>&nbsp;' +
 		  '<button type="button" class="btn btn-default btn-sm" ng-click="exportCSV()">Export</button></div>' +
+		  '<div style="padding-left: 50px"><i class="fa fa-spinner fa-spin fa-3x fa-fw" ng-if="exporting"></i></div>' +
 		  '<div ng-repeat="c in columns">' + 
 		  '<input type="checkbox" checklist-model="csv.columns" checklist-value="c"><label>{{c}}</label></div>',
           className: ''
