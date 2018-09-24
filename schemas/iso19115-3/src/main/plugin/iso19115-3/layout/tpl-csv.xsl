@@ -47,7 +47,6 @@
       </xsl:if>
 	  
 	  <xsl:if test="xs:boolean($Abstract)">
-		<xsl:message>abstract :::: display</xsl:message>
 		  <Abstract>
 			<xsl:apply-templates mode="localised" select="mdb:identificationInfo/*/mri:abstract">
 			  <xsl:with-param name="langId" select="$langId"/>
