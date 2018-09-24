@@ -134,7 +134,7 @@
   			  };
   			  
   			scope.getClass = function(title) {
-  				if(title.eng){
+  				 if(title.eng){
 					  if(title.eng.toLowerCase() === 'purchase this product'){
 						  return 'btn btn-NETO btn-sm btn-block';
 					  }
