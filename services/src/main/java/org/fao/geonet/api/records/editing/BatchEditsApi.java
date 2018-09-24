@@ -303,7 +303,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@PreAuthorize("hasRole('Administrator')")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public List<CustomReport> batchUpdateHistory(HttpServletRequest request) {
+	public String batchUpdateHistory(HttpServletRequest request) {
 		
 		try{
 			Type listType = new TypeToken<List<CustomReport>>() {}.getType();
@@ -312,9 +312,10 @@ public class BatchEditsApi implements ApplicationContextAware {
 			Setting sett = settingRepo.findOne(Settings.METADATA_BATCHEDIT_HISTORY);
 	
 			if(sett != null){
-				List<CustomReport> report = g.fromJson(sett.getValue(), listType);
+				return sett.getValue();
+				//List<CustomReport> report = g.fromJson(sett.getValue(), listType);
 				//return report.stream().sorted(Comparator.comparing(CustomReport::getDateTime).reversed()).collect(Collectors.toList());
-				return report;
+				//return report;
 			}
 		}catch(Exception e){}
 		
@@ -557,6 +558,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 				try {
 					Path path = Files.createTempFile(md.getUuid(), ".xml"); 
 					File f = path.toFile();
+					f.deleteOnExit();
 					FileUtils.writeByteArrayToFile(f, md.getData().getBytes());
 					return f; 
 				} catch (IOException e) {

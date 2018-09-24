@@ -37,58 +37,76 @@
          <xsl:value-of select="mdb:alternativeMetadataReference/*/cit:identifier/*/mcc:code"/>
 	  </eCatId>
       
-	  <!-- <Title>
-        <xsl:apply-templates mode="localised"
-                             select="mdb:identificationInfo/*/mri:citation/*/cit:title">
-          <xsl:with-param name="langId" select="$langId"/>
-        </xsl:apply-templates>
-      </Title>
-      
-	  <Abstract>
-        <xsl:apply-templates mode="localised" select="mdb:identificationInfo/*/mri:abstract">
-          <xsl:with-param name="langId" select="$langId"/>
-        </xsl:apply-templates>
-      </Abstract> -->
-
+	  <xsl:if test="xs:boolean($Title)">
+		  <Title>
+			<xsl:apply-templates mode="localised"
+								 select="mdb:identificationInfo/*/mri:citation/*/cit:title">
+			  <xsl:with-param name="langId" select="$langId"/>
+			</xsl:apply-templates>
+		  </Title>
+      </xsl:if>
+	  
+	  <xsl:if test="xs:boolean($Abstract)">
+		<xsl:message>abstract :::: display</xsl:message>
+		  <Abstract>
+			<xsl:apply-templates mode="localised" select="mdb:identificationInfo/*/mri:abstract">
+			  <xsl:with-param name="langId" select="$langId"/>
+			</xsl:apply-templates>
+		  </Abstract>
+	  </xsl:if>
 	  <!-- <Category>
         <xsl:value-of select="mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue"/>
       </Category> -->
-	  
-	  <!-- <MetadataScope>
+	  <xsl:if test="xs:boolean($MetadataScope)">
+	  <MetadataScope>
 	    <xsl:value-of select="mdb:metadataScope/*/mdb:name"/>~<xsl:value-of select="mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue"/>
       </MetadataScope>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($ParentMetadata)">
 	  <ParentMetadata>
         <xsl:value-of select="mdb:parentMetadata/cit:CI_Citation/cit:identifier[last()]/mcc:MD_Identifier/mcc:code/gcx:FileName/text()"/>
       </ParentMetadata>
-	  
-	  	      
+	  </xsl:if>
+	 
+
+	 <xsl:if test="xs:boolean($CitationDate)">	      
       <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:date/cit:CI_Date">
         <xsl:element name="CitationDate">
           <xsl:value-of select="cit:date/*/text()"/>~<xsl:value-of select="cit:dateType/*/@codeListValue"/>
         </xsl:element>
       </xsl:for-each>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($Purpose)">
 	  <Purpose>
         <xsl:value-of select="mdb:identificationInfo/*/mri:purpose/gco:CharacterString"/>
       </Purpose>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($Status)">
 	  <Status>
         <xsl:value-of select="mdb:identificationInfo/*/mri:status/mcc:MD_ProgressCode/@codeListValue"/>
       </Status>
+	  </xsl:if>
 	  
+	  <!--<xsl:if test="xs:boolean($imageChecked)">
       <xsl:for-each select="mdb:identificationInfo/*/mri:graphicOverview/*/mcc:fileName">
         <image>
           <xsl:value-of select="*/text()"/>
         </image>
       </xsl:for-each>
-
+		</xsl:if>-->
+	  
+	  <xsl:if test="xs:boolean($Keyword)">
 	  <xsl:for-each select="mdb:identificationInfo/*/mri:descriptiveKeywords/*[not(mri:thesaurusName)]">
 			<Keyword>
 				<xsl:value-of select="mri:keyword/gco:CharacterString" />~<xsl:value-of select="mri:type/mri:MD_KeywordTypeCode/@codeListValue" />
 			</Keyword>
 		</xsl:for-each>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($Keyword-Thesaurus)">
 	  <xsl:for-each
 			select="mdb:identificationInfo/*/mri:descriptiveKeywords/*[mri:thesaurusName]">
 			<Keyword-Thesaurus>
@@ -101,22 +119,32 @@
 				</xsl:for-each>
 			</Keyword-Thesaurus>
 		</xsl:for-each>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($TopicCategory)">
 	  <TopicCategory>
                 <xsl:value-of select="mdb:identificationInfo/*/mri:topicCategory/mri:MD_TopicCategoryCode"/>
 	  </TopicCategory>
+	  </xsl:if>
 	  
+	  
+	  <xsl:if test="xs:boolean($MaintenanceFrequency)">
 	 <MaintenanceFrequency>
                 <xsl:value-of select="mdb:identificationInfo/*/mri:resourceMaintenance/*/mmi:MD_MaintenanceFrequencyCode/@codeListValue"/>
 	  </MaintenanceFrequency>
-
+</xsl:if>
+	  
+	  <xsl:if test="xs:boolean($ResponsibleParty)">
 	  <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility">
         <ResponsibleParty>
 			<xsl:value-of select="cit:party/*/cit:name/*/text()"/>~<xsl:value-of select="cit:role/cit:CI_RoleCode/@codeListValue"/>
         </ResponsibleParty>
-      </xsl:for-each> 
-      
-      <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
+      </xsl:for-each>
+	  </xsl:if>
+	  
+      <!-- One column per contact role -->
+	  <xsl:if test="xs:boolean($ResourceContact)">
+	  <xsl:for-each select="mdb:identificationInfo/*/mri:pointOfContact">
         <xsl:element name="ResourceContact">
           <xsl:apply-templates mode="localised" select="*/cit:party/*/cit:name">
             <xsl:with-param name="langId" select="$langId"/>
@@ -126,7 +154,9 @@
           </xsl:apply-templates>
         </xsl:element>
       </xsl:for-each>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($MetadataContact)">
 	  <xsl:for-each select="mdb:contact">
         <xsl:element name="MetadataContact">
           <xsl:apply-templates mode="localised" select="*/cit:party/*/cit:name">
@@ -137,8 +167,9 @@
           </xsl:apply-templates>
         </xsl:element>
       </xsl:for-each>
-
+</xsl:if>
 	  
+	  <xsl:if test="xs:boolean($GeographicalExtent)">
       <xsl:for-each select="mdb:identificationInfo/*//gex:EX_GeographicBoundingBox">
         <GeographicalExtent>
             <xsl:value-of select="gex:westBoundLongitude"/>~
@@ -147,89 +178,122 @@
             <xsl:value-of select="gex:northBoundLatitude"/>
         </GeographicalExtent>
       </xsl:for-each>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($SpatialExtentDescription)">
 	  <SpatialExtentDescription>
                 <xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:description/gco:CharacterString"/>
 	  </SpatialExtentDescription>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($HorizontalSpatialReferenceSystem)">
 	  <HorizontalSpatialReferenceSystem>
                 <xsl:value-of select="mdb:referenceSystemInfo/*/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/>
 	  </HorizontalSpatialReferenceSystem>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($VerticalExtent)">
 	  <VerticalExtent>
 		<xsl:if test="mdb:identificationInfo/*/mri:extent/*/gex:verticalElement">
             <xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:verticalElement/*/gex:minimumValue/gco:Real"/>~<xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:verticalElement/*/gex:maximumValue/gco:Real"/>
 		</xsl:if>
 	  </VerticalExtent>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($VerticalCRS)">
 	   <VerticalCRS>
 		        <xsl:value-of select="mdb:identificationInfo/*/mri:extent/gex:EX_Extent/gex:verticalElement/*/gex:verticalCRSId/*/mrs:referenceSystemIdentifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/>
 	  </VerticalCRS>
+	  </xsl:if>
 	  
 	  
+	  <xsl:if test="xs:boolean($TemporalExtent)">
 	 <TemporalExtent>
 		<xsl:if test="mdb:identificationInfo/*/mri:extent/*/gex:temporalElement">
                 <xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:temporalElement/*/gex:extent/gml:TimePeriod/gml:beginPosition"/>~<xsl:value-of select="mdb:identificationInfo/*/mri:extent/*/gex:temporalElement/*/gex:extent/gml:TimePeriod/gml:endPosition"/>
 		</xsl:if>
 	 </TemporalExtent>
+	  </xsl:if>
 	  
 	  
+	  <xsl:if test="xs:boolean($MetadataConstraint)">
      <xsl:for-each select="mdb:metadataConstraints/*">
         <MetadataConstraints>
           <xsl:copy-of select="."/>
         </MetadataConstraints>
       </xsl:for-each>
+</xsl:if>
 
+
+	  <xsl:if test="xs:boolean($SecurityConstraint)">
       <xsl:for-each select="mdb:identificationInfo/*/*/mco:MD_SecurityConstraints">
         <SecurityConstraints>
           <xsl:value-of select="*/mco:classification/*/@codeListValue"/>
         </SecurityConstraints>
       </xsl:for-each>
+</xsl:if>
 
+	  <xsl:if test="xs:boolean($ResourceLegalConstraint)">
       <xsl:for-each select="mdb:identificationInfo/*/mri:resourceConstraints/mco:MD_LegalConstraints">
         <ResourceLegalConstraints>
 			<xsl:value-of select="mco:reference/cit:CI_Citation/cit:title/*/text()"/>~<xsl:value-of select="mco:accessConstraints/*/@codeListValue"/>~<xsl:value-of select="mco:useConstraints/*/@codeListValue"/>~<xsl:value-of select="mco:otherConstraints/*/text()"/>
         </ResourceLegalConstraints>
       </xsl:for-each>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($UseLimitations)">
 	  <UseLimitations>
                 <xsl:value-of select="mdb:identificationInfo/*/mri:resourceConstraints/mco:MD_LegalConstraints/mco:useLimitation/gco:CharacterString"/>
-	  </UseLimitations> -->
+	  </UseLimitations>
+</xsl:if>
 
+
+	  <xsl:if test="xs:boolean($DistributionLink)">
       <xsl:for-each select="mdb:distributionInfo/*/mrd:transferOptions/*/mrd:onLine/*">
         <DistributionLink>
 			<xsl:value-of select="cit:name/*/text()"/>~<xsl:value-of select="cit:description/*/text()"/>~<xsl:value-of select="cit:linkage/*/text()"/>
         </DistributionLink>
       </xsl:for-each>
+	  </xsl:if>
 	  
-	  <!-- <xsl:for-each select="mdb:distributionInfo/*/mrd:distributionFormat">
+	  <xsl:if test="xs:boolean($DistributionFormat)">
+	  <xsl:for-each select="mdb:distributionInfo/*/mrd:distributionFormat">
         <DistributionFormat>
 			<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:title/*/text()"/>~<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:edition/*/text()"/>
         </DistributionFormat>
       </xsl:for-each>
+	  </xsl:if>
 	  
+	  <xsl:if test="xs:boolean($DataStorageLink)">
 	  <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
         <DataStorageLink>
           <xsl:value-of select="cit:name/*/text()"/>~<xsl:value-of select="cit:description/*/text()"/>~<xsl:value-of select="cit:linkage/*/text()"/> 
         </DataStorageLink>
       </xsl:for-each>
-      
+      </xsl:if>
+	  
+	  <xsl:if test="xs:boolean($DataStorageFormat)">
 	  <xsl:for-each select="mdb:identificationInfo/*/mri:resourceFormat">
         <DataStorageFormat>
 			<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:title/*/text()"/>~<xsl:value-of select="*/mrd:formatSpecificationCitation/*/cit:edition/*/text()"/>
         </DataStorageFormat>
       </xsl:for-each>
+ </xsl:if>
  
+ 
+	<xsl:if test="xs:boolean($Lineage)">
 	<Lineage>
 		<xsl:value-of
 			select="mdb:resourceLineage/mrl:LI_Lineage/mrl:statement/gco:CharacterString" />
 	</Lineage>
-
+</xsl:if>
+	
+	<xsl:if test="xs:boolean($SourceDescription)">
 	<SourceDescription>
 		<xsl:value-of
 			select="mdb:resourceLineage/mrl:LI_Lineage/mrl:source/mrl:LI_Source/mrl:description/gco:CharacterString" />
-	</SourceDescription> -->
-
+	</SourceDescription>
+</xsl:if>
 	  
 <!--	   <AssociatedResourcesCode>
                 <xsl:value-of select="mdb:identificationInfo/*/mri:associatedResource/mri:MD_AssociatedResource/mri:associationType/mri:DS_AssociationTypeCode/@codeListValue"/>
@@ -247,18 +311,25 @@
                 <xsl:value-of select="mdb:identificationInfo/mri:MD_DataIdentification/mri:associatedResource/mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:description/gco:CharacterString"/>
 	  </AssociatedResourcesIdentifierDescription>
 	-->  
-	<!--   <xsl:for-each select="mdb:identificationInfo/*/mri:associatedResource/*/mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
+	
+	
+	<xsl:if test="xs:boolean($AssociatedResourcesLink)">
+	  <xsl:for-each select="mdb:identificationInfo/*/mri:associatedResource/*/mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
         <AssociatedResourcesLink>
           <xsl:value-of select="cit:name/*/text()"/>~<xsl:value-of select="cit:description/*/text()"/>~<xsl:value-of select="cit:linkage/*/text()"/> 
         </AssociatedResourcesLink>
       </xsl:for-each>
+	</xsl:if>
 	
+	<xsl:if test="xs:boolean($AdditionalInfo)">
 	 <xsl:for-each select="mdb:identificationInfo/*/mri:additionalDocumentation/cit:CI_Citation">
         <AdditionalInformationLink>
           <xsl:value-of select="cit:title/*/text()"/>~<xsl:value-of select="cit:onlineResource/*/cit:description/*/text()"/>~<xsl:value-of select="cit:onlineResource/*/cit:linkage/*/text()"/>
         </AdditionalInformationLink>
-      </xsl:for-each> -->
-	  
+      </xsl:for-each>
+	</xsl:if>
+
+	
       <xsl:copy-of select="gn:info"/>
     </metadata>
   </xsl:template>

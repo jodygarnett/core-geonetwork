@@ -48,6 +48,7 @@
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
@@ -69,6 +70,7 @@
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>jeeves.config.springutil.JeevesDelegatingFilterProxy</filter-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>loginService</param-name>
       <param-value>signin</param-value>
@@ -87,6 +89,7 @@
   <filter>
     <filter-name>SessionTimeoutCookieFilter</filter-name>
     <filter-class>org.geonetwork.http.SessionTimeoutCookieFilter</filter-class>
+	<async-supported>true</async-supported>
   </filter>
   <filter-mapping>
     <filter-name>SessionTimeoutCookieFilter</filter-name>
@@ -97,6 +100,7 @@
   <filter>
     <filter-name>UrlRewriteFilter</filter-name>
     <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+	<async-supported>true</async-supported>
     <!-- set the amount of seconds the conf file will be checked for reload. can be a valid integer (0 denotes
         check every time, empty/not set denotes no reload check) -->
     <!--<init-param>-->
@@ -137,6 +141,7 @@
   <filter>
     <filter-name>resources</filter-name>
     <filter-class>org.fao.geonet.resources.ResourceFilter</filter-class>
+	<async-supported>true</async-supported>
     <!-- Specified what overrides to use if the
         (servlet.getServletContext().getServletContextName()).jeeves.configuration.overrides.file
         system parameter is not specified.
@@ -150,6 +155,7 @@
   <filter>
     <filter-name>cors</filter-name>
     <filter-class>org.fao.geonet.web.CORSResponseFilter</filter-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>allowedHosts</param-name>
       <param-value>${cors.allowedHosts}</param-value>
@@ -172,6 +178,7 @@
     <filter-class>
       org.fao.geonet.wro4j.GeonetWro4jFilter
     </filter-class>
+	<async-supported>true</async-supported>
   </filter>
   <filter-mapping>
     <filter-name>WebResourceOptimizer</filter-name>
@@ -182,12 +189,14 @@
   <filter>
     <filter-name>MetricsRegistryInitializerFilter</filter-name>
     <filter-class>org.fao.geonet.monitor.webapp.MetricsRegistryInitializerFilter</filter-class>
+	<async-supported>true</async-supported>
   </filter>
 
   <!--  Monitors the number of Active requests, request length and return codes -->
   <filter>
     <filter-name>webappMetricsFilter</filter-name>
     <filter-class>org.fao.geonet.monitor.webapp.DefaultWebappMetricsFilter</filter-class>
+	<async-supported>true</async-supported>
   </filter>
 
   <filter-mapping>
@@ -239,6 +248,7 @@
   <servlet>
     <servlet-name>mapfish.print</servlet-name>
     <servlet-class>org.mapfish.print.servlet.MapPrinterServlet</servlet-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>config</param-name>
       <param-value>WEB-INF/config-print/print-config.yaml</param-value>
@@ -259,6 +269,7 @@
   <servlet>
     <servlet-name>monitor</servlet-name>
     <servlet-class>com.yammer.metrics.reporting.AdminServlet</servlet-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>SHOW_JVM_METRICS</param-name>
       <param-value>true</param-value>
@@ -267,6 +278,7 @@
   <servlet>
     <servlet-name>criticalHealthChecks</servlet-name>
     <servlet-class>org.fao.geonet.monitor.webapp.GeonetworkHealthCheckServlet</servlet-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>REGISTRY_ATTRIBUTE_KEY</param-name>
       <param-value>com.yammer.metrics.reporting.HealthCheckServlet.registry.critical</param-value>
@@ -275,6 +287,7 @@
   <servlet>
     <servlet-name>warningHealthChecks</servlet-name>
     <servlet-class>org.fao.geonet.monitor.webapp.GeonetworkHealthCheckServlet</servlet-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>REGISTRY_ATTRIBUTE_KEY</param-name>
       <param-value>com.yammer.metrics.reporting.HealthCheckServlet.registry.warning</param-value>
@@ -283,6 +296,7 @@
   <servlet>
     <servlet-name>expensiveHealthChecks</servlet-name>
     <servlet-class>org.fao.geonet.monitor.webapp.GeonetworkHealthCheckServlet</servlet-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>REGISTRY_ATTRIBUTE_KEY</param-name>
       <param-value>com.yammer.metrics.reporting.HealthCheckServlet.registry.expensive</param-value>
@@ -325,6 +339,7 @@
         <param-value>/app/geonetwork_data_dir</param-value>
     </init-param>-->
     <load-on-startup>1</load-on-startup>
+	<async-supported>true</async-supported>
   </servlet>
 
   <servlet-mapping>
@@ -343,7 +358,7 @@
   <servlet>
     <servlet-name>HttpProxy</servlet-name>
     <servlet-class>org.geonetwork.http.proxy.HttpProxyServlet</servlet-class>
-
+	<async-supported>true</async-supported>
     <!-- List of allowed content types -->
     <init-param>
       <param-name>AllowedContentTypes</param-name>
@@ -392,6 +407,7 @@
     <servlet-class>
       jeeves.config.springutil.JeevesDispatcherServlet
     </servlet-class>
+	<async-supported>true</async-supported>
     <init-param>
       <param-name>nodeId</param-name>
       <param-value>srv</param-value>
