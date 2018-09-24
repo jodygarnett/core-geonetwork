@@ -165,6 +165,7 @@
       };
 
 	  this.openExportColumns = function(scope, bucket) {
+
 		  scope.columns = [
 			  'Title',
 			  'Abstract',
@@ -204,74 +205,80 @@
 			columns: []
 		  };
 		  scope.exporting = false;
+		  scope.errMsg = false;
+		  scope.errMsgStr = '';
 		  
 		  scope.checkAll = function() {
-			  console.log('checkAll');
 			scope.csv.columns = angular.copy(scope.columns);
 		  };
 		  scope.uncheckAll = function() {
-			  console.log('uncheckAll');
 			scope.csv.columns = [];
 		  };
 		  
+		  scope.fileloc;
+		  
 		  scope.exportCSV = function() {
-			//window.open(gnHttp.getService('csv') + '?bucket=' + bucket, windowName, windowOption);
-			console.log('export');
-			 scope.exporting = true;
-			return $http.get('../api/records/download/csv?' +
-					'bucket=' + bucket + '&exportParams=' + scope.csv.columns).then(function(response) {
-						//checkIsCompleted();
-						console.log('calling saveFile function...');
-						 scope.exporting = false;
-						saveFile(response);
-				});
-				
-				
+			  console.log('export....');
+			  return $http.put('../api/records/download/csv?bucket=' + bucket + '&exportParams=' + scope.csv.columns)
+						  .then(function(response){
+							  scope.fileloc = response.data;
+							  scope.exporting = true;
+							  checkIsCompleted();	
+						  });
 		  };
-		  var isCompleted = true;
-		  function checkIsCompleted() {
+		  
+		  
+		  function checkIsCompleted(){
+			  
 			// Check if completed
 			return $http.get('../api/records/download/status').
 				success(function(data) {
-					console.log('download status, data: ' + data);
+					
 					isCompleted = data;
 				  if (!isCompleted) {
 					$timeout(checkIsCompleted, 1000);
 				  }else{
-					  return $http.get('../api/records/download/csv').then(function(response) {
-								 saveFile(response);
-						});
+					  return $http.get('../api/records/download/csv?filepath=' +  encodeURIComponent(scope.fileloc)).success(function(response) {
+								saveFile(response);
+						})
+						.error(function(err){
+							scope.exporting = false;
+							scope.errMsg = true;
+							scope.errMsgStr = err;
+						});;
 				  }
 				});
-		  }
+		  };
 		  
 		  function saveFile(response){
-			  console.log('calling saveFile function...');
-			  var dataBlob = response.data;
-					if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-					  // for IE
-					  console.log("windows IE");
-					   var csvData = new Blob([content], { type: 'text/csv' });
-					  window.navigator.msSaveOrOpenBlob(dataBlob, 'metadata_records.csv');
-				   } else {
-					   console.log("windows NON IE");
-					  // for Non-IE (chrome, firefox etc.)
-					  var binaryData = [];
-					  binaryData.push(dataBlob);
-					  var urlObject = window.URL.createObjectURL(new Blob(binaryData, {type: "text/csv"}))
-
-					  var downloadLink = angular.element('<a>Download</a>');
-					  downloadLink.css('display','none');
-					  downloadLink.attr('href', urlObject);
-					  downloadLink.attr('download', 'metadata_records.csv');
-					  angular.element(document.body).append(downloadLink);
-					  downloadLink[0].click();
-
-					  // cleanup
-					  downloadLink.remove();
-					  URL.revokeObjectURL(urlObject);
-				  }
-		  }
+			 
+			  	var dataBlob = response;
+				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+				  // for IE
+				  
+					var csvData = new Blob([content], { type: 'text/csv' });
+				   	window.navigator.msSaveOrOpenBlob(dataBlob, 'metadata_records.csv');
+				} else {
+				   
+					// for Non-IE (chrome, firefox etc.)
+					var binaryData = [];
+					binaryData.push(dataBlob);
+					var urlObject = window.URL.createObjectURL(new Blob(binaryData, {type: "text/csv"}))
+	
+					var downloadLink = angular.element('<a>Download</a>');
+					downloadLink.css('display','none');
+					downloadLink.attr('href', urlObject);
+					downloadLink.attr('download', 'metadata_records.csv');
+					angular.element(document.body).append(downloadLink);
+					downloadLink[0].click();
+	
+					// cleanup
+					downloadLink.remove();
+					URL.revokeObjectURL(urlObject);
+				}
+				scope.exporting = false;
+		  };
+		  
         openModal({
           title: 'Column Selection',
           content: '<div>' + 
@@ -279,11 +286,12 @@
 		  '<button type="button" class="btn btn-default btn-sm" ng-click="uncheckAll()">Uncheck all</button>&nbsp;' +
 		  '<button type="button" class="btn btn-default btn-sm" ng-click="exportCSV()">Export</button></div>' +
 		  '<div style="padding-left: 50px"><i class="fa fa-spinner fa-spin fa-3x fa-fw" ng-if="exporting"></i></div>' +
+		  '<div style="padding-left: 10px;color:red" ng-if="errMsg"><label>Unable to export csv. Retry by selecting less records</label></div>' +
 		  '<div ng-repeat="c in columns">' + 
 		  '<input type="checkbox" checklist-model="csv.columns" checklist-value="c"><label>{{c}}</label></div>',
           className: ''
         }, scope, 'exportSelection');
-      };
+	  };
 	  
 	  
       
