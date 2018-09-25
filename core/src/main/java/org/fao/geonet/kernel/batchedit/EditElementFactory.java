@@ -57,6 +57,8 @@ public class EditElementFactory {
 		case Geonet.EditType.MD_SCOPE:
 		case Geonet.EditType.MD_PARENT:
 			return new MetadataEditElement();
+		case Geonet.EditType.RES_LEGAL_CONSTRAINT:
+			return new ConstraintsEditElement();
 		default:
 			return null;
 		}

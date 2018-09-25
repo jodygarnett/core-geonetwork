@@ -38,10 +38,12 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
@@ -677,7 +679,43 @@ public class MetadataInsertDeleteApi {
     )
         throws Exception {
 
-        Metadata sourceMetadata = ApiUtils.getRecord(sourceUuid);
+		String newId = getNewId(sourceUuid, targetUuid, group, isChildOfSource, metadataType,
+				isVisibleByAllGroupMembers, httpSession, request);
+
+        return newId;
+    }
+
+    
+	@ApiOperation(value = "Create a new record", nickname = "multicreate")
+	@RequestMapping(value = "/multiduplicate", method = { RequestMethod.PUT }, produces = {
+			MediaType.APPLICATION_JSON_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Return the internal id of the newly created record."),
+			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_ONLY_EDITOR) })
+	@PreAuthorize("hasRole('Editor')")
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody List<String> createMultiple(@RequestParam String sourceUuid, @RequestParam int count,
+			@RequestParam final String group, @ApiIgnore @ApiParam(hidden = true) HttpSession httpSession,
+			HttpServletRequest request) throws Exception {
+
+		List<String> newRecords = new ArrayList<>();
+		IntStream.rangeClosed(1, count).forEach((val) -> {
+			String newId;
+			try {
+				newId = getNewId(sourceUuid, null, group, false, MetadataType.METADATA, false, httpSession, request);
+				newRecords.add(newId);
+
+			} catch (Exception e) {
+				Log.error(Geonet.DATA_MANAGER, "Error while creating record.");
+			}
+		});
+		return newRecords;
+	}
+    
+
+	private String getNewId(String sourceUuid, String targetUuid, String group, final boolean isChildOfSource,
+			final MetadataType metadataType, final boolean isVisibleByAllGroupMembers, HttpSession httpSession,
+			HttpServletRequest request) throws Exception {
+    	Metadata sourceMetadata = ApiUtils.getRecord(sourceUuid);
         ApplicationContext applicationContext = ApplicationContextHolder.get();
 
         SettingManager sm = applicationContext.getBean(SettingManager.class);
@@ -747,11 +785,9 @@ public class MetadataInsertDeleteApi {
                     "Metadata is created but without resources from the source record with id '%d':",
                     e.getMessage(), newId));
         }
-
+        
         return newId;
     }
-
-
     private void copyDataDir(ServiceContext context, int oldId, String newId, String access) throws IOException {
         final Path sourceDir = Lib.resource.getDir(context, access, oldId);
         final Path destDir = Lib.resource.getDir(context, access, newId);

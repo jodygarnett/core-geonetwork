@@ -236,6 +236,22 @@
         });
       };
 
+      $scope.mdCount = 0;
+	  $scope.createMultiMetadata = function() {
+		
+		  return gnMetadataManager.multicreate(
+	            $scope.activeTpl['geonet:info'].id,
+				$scope.mdCount,
+	            $scope.ownerGroup
+	        ).then(function(response) {
+	          if(response.data.length == 0){
+				  $scope.msg = "Unable to create records. Verfiy whether selected the right metadata type";
+			  }else{
+				  $scope.msg = "Successfully create " + response.data.length + " records";
+			  }
+	        });
+      };
+      
       /**
        * Executed when the metadata identifier template is changed.
        * Creates the model with the tokens of the template,

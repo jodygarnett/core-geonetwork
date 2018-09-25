@@ -729,6 +729,7 @@ public final class Geonet {
         public static final String MD_PARENT = "ParentMetadata";
         public static final String MD_SECURITY_CONSTRAINT = "MetadataSecurityConstraint";
         public static final String RES_SECURITY_CONSTRAINT = "ResourceSecurityConstraint";
+        public static final String RES_LEGAL_CONSTRAINT = "ResourceLegalConstraints";
         public static final String USE_LIMITATION = "UseLimitations";
         public static final String LINEAGE = "Lineage";
         public static final String SOURCE_DESC = "SourceDescription";
