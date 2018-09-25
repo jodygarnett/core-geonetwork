@@ -929,6 +929,31 @@
         <es.spring.profile>es</es.spring.profile>
         <xframeoptionsfilter.urlpattern>/none</xframeoptionsfilter.urlpattern>
       </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <groupId>org.codehaus.mojo</groupId>
+            <executions>
+              <!-- enable INSPIRE view -->
+              <execution>
+                <id>enable-search-statistics</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <message>Enable Search statistics</message>
+                  <executable>sed</executable>
+                  <commandlineArgs>-i -e "s#'system/searchStats/enable', 'false'#'system/searchStats/enable', 'true'#g"
+                    ${basedir}/src/main/webapp/WEB-INF/classes/setup/sql/data/data-db-default.sql</commandlineArgs>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          </plugins>
+          </build>
     </profile>
     <!-- GN-e profiles -->
     <profile>
