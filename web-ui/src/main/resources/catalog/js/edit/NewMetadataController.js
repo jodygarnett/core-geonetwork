@@ -237,6 +237,7 @@
       };
 
       $scope.mdCount = 0;
+      $scope.msg = '';
 	  $scope.createMultiMetadata = function() {
 		
 		  return gnMetadataManager.multicreate(
