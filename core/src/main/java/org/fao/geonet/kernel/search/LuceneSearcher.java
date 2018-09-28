@@ -1405,6 +1405,12 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
             child.detach();
         }
 
+        //Search multiple eCatId separated by comma 
+        Element eCatId = request.getChild(Geonet.SearchResult.ECAT_ID);
+        if (eCatId != null) {
+        	eCatId.setText(eCatId.getText().replace(",", " or "));
+        }
+        
         _summaryConfig = _luceneConfig.getSummaryTypes().get(resultType);
 
         final Element summaryItemsEl = request.getChild(Geonet.SearchResult.SUMMARY_ITEMS);

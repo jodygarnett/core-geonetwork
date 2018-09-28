@@ -473,6 +473,12 @@ public final class Geonet {
          * Parameter name: {@value #UUID} - Text field that search for specific uuid given
          */
         public static final String UUID = "uuid";
+        
+        /**
+         * Parameter name: {@value #ECAT_ID} - Text field that search for specific eCatId given
+         */
+        public static final String ECAT_ID = "eCatId";
+        
         /**
          * Attrset used in Z39.50 search
          */
