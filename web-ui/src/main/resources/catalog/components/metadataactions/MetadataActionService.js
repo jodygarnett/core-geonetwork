@@ -245,7 +245,7 @@
 							scope.exporting = false;
 							scope.errMsg = true;
 							scope.errMsgStr = err;
-						});;
+						});
 				  }
 				});
 		  };
@@ -286,12 +286,12 @@
 		  '<button type="button" class="btn btn-default btn-sm" ng-click="uncheckAll()">Uncheck all</button>&nbsp;' +
 		  '<button type="button" class="btn btn-default btn-sm" ng-click="exportCSV()">Export</button></div>' +
 		  '<div style="padding-left: 50px"><i class="fa fa-spinner fa-spin fa-3x fa-fw" ng-if="exporting"></i></div>' +
-		  '<div style="padding-left: 10px;color:red" ng-if="errMsg"><label>Unable to export csv. Retry by selecting less records</label></div>' +
+		  '<div style="padding-left: 10px;color:red" ng-if="errMsg"><label>{{errMsgStr}}</label></div>' +
 		  '<div ng-repeat="c in columns">' + 
 		  '<input type="checkbox" checklist-model="csv.columns" checklist-value="c"><label>{{c}}</label></div>',
           className: ''
         }, scope, 'exportSelection');
-	  };
+      };
 	  
 	  
       

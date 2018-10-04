@@ -236,7 +236,7 @@
 	  <xsl:if test="xs:boolean($ResourceLegalConstraint)">
       <xsl:for-each select="mdb:identificationInfo/*/mri:resourceConstraints/mco:MD_LegalConstraints">
         <ResourceLegalConstraints>
-			<xsl:value-of select="mco:reference/cit:CI_Citation/cit:title/*/text()"/>~<xsl:value-of select="mco:accessConstraints/*/@codeListValue"/>~<xsl:value-of select="mco:useConstraints/*/@codeListValue"/>~<xsl:value-of select="mco:otherConstraints/*/text()"/>
+			<xsl:value-of select="mco:reference/cit:CI_Citation/cit:title/*/text()"/>
         </ResourceLegalConstraints>
       </xsl:for-each>
 	  </xsl:if>

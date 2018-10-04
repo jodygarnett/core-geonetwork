@@ -22,8 +22,12 @@
  */
 package org.fao.geonet.api.records.editing;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
@@ -93,6 +97,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -105,6 +110,10 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.AmazonS3URI;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.SetObjectAclRequest;
 import com.amazonaws.services.s3.transfer.MultipleFileUpload;
 import com.amazonaws.services.s3.transfer.Transfer.TransferState;
@@ -113,6 +122,11 @@ import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.TransferProgress;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 import io.swagger.annotations.Api;
@@ -320,6 +334,40 @@ public class BatchEditsApi implements ApplicationContextAware {
 		}catch(Exception e){}
 		
 		return null;
+
+	}
+	
+	/**
+	 * The service updates records by uploading the csv file
+	 */
+	@ApiOperation(value = "Get batch edit report history.")
+	@RequestMapping(value = "/batchediting/history/{key}", method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Return a report of what has been done."),
+			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) })
+	@PreAuthorize("hasRole('Administrator')")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public String batchUpdateHistoryReport(@PathVariable String key, HttpServletRequest request) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			S3Object object = getS3Client().getObject(new GetObjectRequest(s3uri.getBucket(), key + ".json"));
+			InputStream objectData = object.getObjectContent();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(objectData));
+	        String line = null;
+	        
+	        while ((line = reader.readLine()) != null) {
+	            sb.append(line);
+	        }
+	        
+			objectData.close();
+		} catch (Exception e) {
+			return "";
+		}
+
+		return sb.toString();
 
 	}
 	
@@ -646,17 +694,35 @@ public class BatchEditsApi implements ApplicationContextAware {
 			target.add(customReport);
 			Setting sett = settingRepo.findOne(Settings.METADATA_BATCHEDIT_HISTORY);
 			
+			//Add Info and Error report to s3 bucket
+			String _report = g.toJson(target, listType);
+			byte[] bytes = _report.getBytes();
+			ObjectMetadata metadata = new ObjectMetadata();
+			metadata.setContentLength(bytes.length);
+			InputStream targetStream = new ByteArrayInputStream(bytes);
+
+			PutObjectRequest putObj = new PutObjectRequest(s3uri.getBucket(), s3key + ".json", targetStream, metadata)
+					.withCannedAcl(CannedAccessControlList.PublicRead);
+
+			getS3Client().putObject(putObj);
+			
+			
+			//Add description and and filename into DB, removes info and error report in order to minimize the content
+			Gson gson = new GsonBuilder()
+	                .registerTypeAdapter(CustomReport.class, new CustomReportSerializer())
+	                .create();
+			
 			if(sett == null){//Creates if there is no entity exist 
 				sett = new Setting();
 				sett.setName(Settings.METADATA_BATCHEDIT_HISTORY);
 				sett.setDataType(SettingDataType.JSON);
 				sett.setPosition(200199);
-				String _rep = g.toJson(target, listType);
+				String _rep = gson.toJson(target, listType);
 				sett.setValue(_rep);
 			}else{//Adds report into existing value.
-				List<CustomReport> target2 = g.fromJson(sett.getValue(), listType);
+				List<CustomReport> target2 = gson.fromJson(sett.getValue(), listType);
 				target2.add(customReport);
-				String _rep = g.toJson(target2, listType);
+				String _rep = gson.toJson(target2, listType);
 				sett.setValue(_rep);
 			}
 			settingRepo.save(sett);
@@ -782,4 +848,15 @@ class CustomReport {
 
 	}
     
+}
+
+class CustomReportSerializer implements JsonSerializer<CustomReport> {
+
+    @Override
+    public JsonElement serialize(CustomReport report, Type type, JsonSerializationContext jsc) {
+        JsonObject jObj = (JsonObject)new GsonBuilder().create().toJsonTree(report);
+        jObj.remove("errorReport");
+        jObj.remove("infoReport");
+        return jObj;
+    }
 }

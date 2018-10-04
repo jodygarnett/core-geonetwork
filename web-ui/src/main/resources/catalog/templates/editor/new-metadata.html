@@ -96,27 +96,58 @@
           </div>
         </div>
       </div>
-      <div class="btn-group">
-        <button type="button" class="btn btn-success btn-lg"
-                data-gn-click-and-spin="createNewMetadata()"
-                data-ng-class="{'disabled': (!activeType || !activeTpl || !ownerGroup ||Â ((!generateUuid) && (!isMdIdentifierFilled())) )}">
-          <i class="fa fa-plus"/>
-          <span data-translate="">createMetadata</span>
-        </button>
-        <button type="button"
-                class="btn btn-success btn-lg dropdown-toggle"
-                data-ng-class="{'disabled': (!activeType || !activeTpl || !ownerGroup ||Â ((!generateUuid) && (!isMdIdentifierFilled())) )}"
-                data-toggle="dropdown">
-          <span class="caret"></span>&nbsp;
-        </button>
-        <ul class="dropdown-menu pull-right" role="menu">
-          <li><a
-            title="{{'createMetadataForGroup-help' | translate}}"
-            data-gn-click-and-spin="createNewMetadata(true)"
-            href="" data-translate="">
-            createMetadataForGroup</a></li>
-        </ul>
-      </div>
+	  <div class="row">
+		  <div class="btn-group">
+			<button type="button" class="btn btn-success btn-lg"
+					data-gn-click-and-spin="createNewMetadata()"
+					data-ng-class="{'disabled': (!activeType || !activeTpl || !ownerGroup || ((!generateUuid) && (!isMdIdentifierFilled())) )}">
+			  <i class="fa fa-plus"/>
+			  <span data-translate="">createMetadata</span>
+			</button>
+			<button type="button"
+					class="btn btn-success btn-lg dropdown-toggle"
+					data-ng-class="{'disabled': (!activeType || !activeTpl || !ownerGroup || ((!generateUuid) && (!isMdIdentifierFilled())) )}"
+					data-toggle="dropdown">
+			  <span class="caret"></span>&nbsp;
+			</button>
+			<ul class="dropdown-menu pull-right" role="menu">
+			  <li><a
+				title="{{'createMetadataForGroup-help' | translate}}"
+				data-gn-click-and-spin="createNewMetadata(true)"
+				href="" data-translate="">
+				createMetadataForGroup</a></li>
+			</ul>
+		  </div>
+	  </div>
+	  <br >
+	  <div class="row" data-ng-show="user.isUserAdminOrMore()">
+		<div class="col-sm-5">
+		  <input type="number" max="100" class="form-control" data-ng-model="mdCount">
+		</div>
+		<div class="col-sm-4">
+		  <div class="btn-group">
+			<button type="button" class="btn btn-success btn-md"
+					data-gn-click-and-spin="createMultiMetadata()"
+					data-ng-class="{'disabled': (!activeType || !activeTpl || !ownerGroup || ((!generateUuid) && (!isMdIdentifierFilled())) )}">
+			  <i class="fa fa-plus"/>
+			  <span data-translate="">Create Metadatas</span>
+			</button>
+		  </div>
+		</div>
+	  </div>
+	  <br >
+	  <div class="row">
+		<div ng-hide="msg==''">
+			<label class="alert alert-info">{{msg}}</label>
+		  </div>
+		  <div ng-if="eCatIds.length">
+			<label style="text-decoration:underline; font-style:italic">eCatIds:</label>
+		  </div>
+		  <div data-ng-repeat="id in eCatIds">
+			<label>{{id}}</label>
+		  </div>
+	  </div>
+	  
     </div>
   </div>
 </div>

@@ -197,7 +197,7 @@
           });
 	
 		 
-		 var limitStep = -1;
+		var limitStep = -1;
 		scope.limit = limitStep;
 		scope.incrementLimit = function() {
 			scope.limit += limitStep;
@@ -217,7 +217,14 @@
 				scope.ngShowhide = true;
 			  }
 			};
-			
+			scope.detailReport = '';
+			scope.showReport = function(key){
+				return $http.get('../api/records/batchediting/history/'+key, {}, {
+					cache: true
+				}).success(function(data){
+					scope.detailReport = data;
+				});
+			};
 		  scope.recall = function(dateTime){
 			  if (confirm("Are you sure to recall selected batch edit?")) {
 			  var url = 'https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/'+dateTime+'/mp';
