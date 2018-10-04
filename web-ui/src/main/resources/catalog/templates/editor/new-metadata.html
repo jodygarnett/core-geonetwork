@@ -140,6 +140,12 @@
 		<div ng-hide="msg==''">
 			<label class="alert alert-info">{{msg}}</label>
 		  </div>
+		  <div ng-if="eCatIds.length">
+			<label style="text-decoration:underline; font-style:italic">eCatIds:</label>
+		  </div>
+		  <div data-ng-repeat="id in eCatIds">
+			<label>{{id}}</label>
+		  </div>
 	  </div>
 	  
     </div>

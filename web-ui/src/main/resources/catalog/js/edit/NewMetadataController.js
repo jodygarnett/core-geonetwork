@@ -238,8 +238,12 @@
 
       $scope.mdCount = 0;
       $scope.msg = '';
+      
 	  $scope.createMultiMetadata = function() {
-		
+		  
+		  $scope.msg = '';
+	      $scope.eCatIds = [];
+	      
 		  return gnMetadataManager.multicreate(
 	            $scope.activeTpl['geonet:info'].id,
 				$scope.mdCount,
@@ -249,6 +253,7 @@
 				  $scope.msg = "Unable to create records. Verfiy whether selected the right metadata type";
 			  }else{
 				  $scope.msg = "Successfully create " + response.data.length + " records";
+				  $scope.eCatIds = response.data;
 			  }
 	        });
       };
