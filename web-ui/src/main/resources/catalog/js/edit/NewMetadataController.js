@@ -253,6 +253,7 @@
 				  $scope.msg = "Unable to create records. Verfiy whether selected the right metadata type";
 			  }else{
 				  $scope.msg = "Successfully create " + response.data.length + " records";
+				  $scope.eCatIds = response.data;
 			  }
 	        });
       };
