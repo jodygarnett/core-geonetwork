@@ -31,6 +31,7 @@ import static org.springframework.data.jpa.domain.Specifications.where;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -38,11 +39,11 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.annotation.Nonnull;
@@ -70,10 +71,13 @@ import org.fao.geonet.exceptions.XSDValidationErrorEx;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.GeonetworkDataDirectory;
+import org.fao.geonet.kernel.SelectionManager;
 import org.fao.geonet.kernel.aws.S3Operation;
 import org.fao.geonet.kernel.mef.Importer;
 import org.fao.geonet.kernel.mef.MEFLib;
+import org.fao.geonet.kernel.search.MetaSearcher;
 import org.fao.geonet.kernel.search.SearchManager;
+import org.fao.geonet.kernel.search.SearcherType;
 import org.fao.geonet.kernel.setting.SettingManager;
 import org.fao.geonet.kernel.setting.Settings;
 import org.fao.geonet.lib.Lib;
@@ -81,11 +85,16 @@ import org.fao.geonet.repository.MetadataRepository;
 import org.fao.geonet.repository.Updater;
 import org.fao.geonet.repository.UserGroupRepository;
 import org.fao.geonet.repository.specification.UserGroupSpecs;
+import org.fao.geonet.services.util.SearchDefaults;
 import org.fao.geonet.utils.IO;
 import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
+import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.JDOMParseException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.xpath.XPath;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specifications;
@@ -102,17 +111,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.AmazonS3URI;
-import com.amazonaws.services.s3.model.ListObjectsRequest;
-import com.amazonaws.services.s3.model.ListObjectsV2Request;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
@@ -122,6 +124,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import jeeves.constants.Jeeves;
+import jeeves.server.ServiceConfig;
 import jeeves.server.UserSession;
 import jeeves.server.context.ServiceContext;
 import jeeves.services.ReadWriteController;
@@ -695,8 +699,13 @@ public class MetadataInsertDeleteApi {
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody List<String> createMultiple(@RequestParam String sourceUuid, @RequestParam int count,
 			@RequestParam final String group, @ApiIgnore @ApiParam(hidden = true) HttpSession httpSession,
-			HttpServletRequest request) throws Exception {
+			HttpServletRequest request) throws Exception{
 
+		ServiceContext context = ApiUtils.createServiceContext(request);
+        
+		SearchManager searchMan = context.getBean(SearchManager.class);
+		Element elData = getSearchParams();
+		
 		List<String> newRecords = new ArrayList<>();
 		IntStream.rangeClosed(1, count).forEach((val) -> {
 			String newId;
@@ -708,7 +717,69 @@ public class MetadataInsertDeleteApi {
 				Log.error(Geonet.DATA_MANAGER, "Error while creating record.");
 			}
 		});
-		return newRecords;
+		
+		if(newRecords.size() > 0){
+			String ids = newRecords.stream().map(x -> x).collect(Collectors.joining(" or "));
+			
+			Log.debug(Geonet.SEARCH_ENGINE, "Multiple metadata create, ids: " + ids);
+			
+			MetaSearcher searcher = searchMan.newSearcher(SearcherType.LUCENE, Geonet.File.SEARCH_LUCENE);
+			
+			String sBuildSummary = elData.getChildText(Geonet.SearchResult.SUMMARY_ONLY);
+	        if (sBuildSummary != null && sBuildSummary.equals("true")) {
+	            elData.getChild(Geonet.SearchResult.SUMMARY_ONLY).setText("false");
+	        }
+	        Element _id = elData.getChild(Geonet.IndexFieldNames.ID);
+			if(_id == null){
+				elData.addContent(new Element(Geonet.IndexFieldNames.ID).setText(ids));	
+			}else{
+				elData.getChild(Geonet.IndexFieldNames.ID).setText(ids);
+			}
+			
+			ServiceConfig _config = new ServiceConfig();
+			
+			searcher.search(context, elData, _config);
+			
+			Element from = elData.getChild("from");
+			if(from == null){
+				elData.addContent(new Element("from").setText("1"));	
+			}else{
+				elData.getChild("from").setText("1");
+			}
+			
+			Element to = elData.getChild("to");
+			if(to == null){
+				elData.addContent(new Element("to").setText(searcher.getSize() + ""));	
+			}else{
+				elData.getChild("to").setText(searcher.getSize() + "");
+			}
+			
+	        Log.debug(Geonet.SEARCH_ENGINE, "Multiple metadata create, elData: " + Xml.getString(elData));
+
+	        Element result = searcher.present(context, elData, _config);
+			
+			// Update result elements to present
+	        SelectionManager.updateMDResult(context.getUserSession(), result);
+	       
+		
+			 XPath _xpath = XPath.newInstance("//mdb:MD_Metadata/mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString");
+			_xpath.addNamespace(Geonet.Namespaces.MDB);
+			_xpath.addNamespace(Geonet.Namespaces.CIT);
+			_xpath.addNamespace(Geonet.Namespaces.MCC);
+			_xpath.addNamespace(Geonet.Namespaces.GCO_3);
+			
+			Document doc = new SAXBuilder().build(new StringReader(Xml.getString(result)));
+			
+	        List<Element> eCatids = _xpath.selectNodes(doc.getRootElement());
+	        List<String> ecatids = eCatids.stream().map(x -> x.getValue()).collect(Collectors.toList());
+	        
+	        Log.debug(Geonet.SEARCH_ENGINE, "Multiple metadata create, ecatids: " + ecatids);
+	        
+	        return ecatids;
+		}
+		
+      return null;
+		
 	}
     
 
@@ -1123,6 +1194,24 @@ public class MetadataInsertDeleteApi {
 		String json = new Gson().toJson(filenames);
 		
 		return json;
+	}
+	
+	private Element getSearchParams(){
+		
+		String[][] DEFAULT_PARAMS = {
+		        {Geonet.SearchResult.RELATION, Geonet.SearchResult.Relation.OVERLAPS},
+		        {Geonet.SearchResult.EXTENDED, Geonet.Text.OFF},
+		        {Geonet.SearchResult.HITS_PER_PAGE, "10"},
+		        {Geonet.SearchResult.SIMILARITY, "1"},
+		        {Geonet.SearchResult.OUTPUT, Geonet.SearchResult.Output.FULL},
+		        };
+		
+		Element elData = new Element(Jeeves.Elem.REQUEST);
+		
+		for (String[] p : DEFAULT_PARAMS)
+            elData.addContent(new Element(p[0]).setText(p[1]));
+		
+		return elData;
 	}
 		
 }
