@@ -247,7 +247,10 @@
       
       
       <xsl:for-each select="mdb:distributionInfo/mrd:MD_Distribution">
-        <xsl:for-each select="mrd:transferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource">
+        <!-- Accommodate the three possible paths to the Distribution Information CI_OnlineResource element -->
+        <xsl:for-each select="mrd:distributionFormat/mrd:MD_Format/mrd:formatDistributor/mrd:MD_Distributor/mrd:distributorTransferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource|
+                              mrd:transferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource|
+                              mrd:distributor/mrd:MD_Distributor/mrd:distributorTransferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource">
           <xsl:if test="cit:linkage">
             <dc:URI>
               <xsl:if test="cit:protocol/gco:CharacterString != ''">

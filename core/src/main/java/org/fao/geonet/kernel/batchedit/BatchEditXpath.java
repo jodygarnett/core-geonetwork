@@ -27,6 +27,7 @@ public class BatchEditXpath {
 		xpathExpr.put(Geonet.EditType.STATUS, getXPath("//mdb:identificationInfo/*/mri:status/mcc:MD_ProgressCode/@codeListValue"));
 		xpathExpr.put(Geonet.EditType.MD_SECURITY_CONSTRAINT, getXPath("//mdb:metadataConstraints/mco:MD_SecurityConstraints/mco:classification/mco:MD_ClassificationCode/@codeListValue"));
 		xpathExpr.put(Geonet.EditType.RES_SECURITY_CONSTRAINT, getXPath("//mdb:identificationInfo/*/mri:resourceConstraints/mco:MD_SecurityConstraints/mco:classification/mco:MD_ClassificationCode/@codeListValue"));
+		xpathExpr.put(Geonet.EditType.RES_LEGAL_CONSTRAINT, getXPath("//mdb:identificationInfo/*/mri:resourceConstraints/mco:MD_LegalConstraints"));
 		
 		xpathExpr.put(Geonet.EditType.GEOBOX, getXPath("//mdb:identificationInfo/*/mri:extent[*/gex:geographicElement/gex:EX_GeographicBoundingBox]"));
 		xpathExpr.put(Geonet.EditType.VERTICAL, getXPath("//mdb:identificationInfo/*/mri:extent[*/gex:verticalElement/gex:EX_VerticalExtent]"));

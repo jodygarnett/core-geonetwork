@@ -213,6 +213,34 @@
 
         /**
          * @ngdoc method
+         * @name gnMetadataManager#create
+         * @methodOf gnMetadataManager
+         *
+         * @description
+         * Create a new multiple metadata as a copy of an existing template.
+         *
+         * @param {string} id Internal id of the metadata to be copied.
+		   * @param {integer} count No. of metadata records to create.
+         * @param {string} groupId Internal id of the group of the metadata
+         * @return {HttpPromise} Future object
+         */
+	      multicreate: function(id, count, groupId) {
+	
+	        var url = gnUrlUtils.toKeyValue({
+	          sourceUuid: id,
+			  count: count,
+	          group: groupId
+	        });
+	        return $http.put('../api/records/multiduplicate?' + url, {
+	          headers: {
+	            'Accept': 'application/json'
+	          }
+	        });
+	      },
+
+      
+        /**
+         * @ngdoc method
          * @name gnMetadataManager#getMdObjByUuid
          * @methodOf gnMetadataManager
          *
