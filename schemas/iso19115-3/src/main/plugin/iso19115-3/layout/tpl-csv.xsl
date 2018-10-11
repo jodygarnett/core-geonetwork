@@ -328,7 +328,66 @@
         </AdditionalInformationLink>
       </xsl:for-each>
 	</xsl:if>
+	
+	<xsl:if test="xs:boolean($ServiceParameter)">
+		<xsl:for-each
+			select="mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata/srv:parameter/srv:SV_Parameter">
+			<ServiceParameter>
+				<xsl:value-of select="srv:name/gco:MemberName/gco:aName/*/text()" />~<xsl:value-of select="srv:name/gco:MemberName/gco:attributeType/gco:TypeName/gco:aName/*/text()" />~<xsl:value-of select="srv:direction/*/text()" />~<xsl:value-of select="srv:description/*/text()" />~<xsl:value-of select="srv:optionality/*/text()" />~<xsl:value-of select="srv:repeatability/*/text()" />
+			</ServiceParameter>
+		</xsl:for-each>
+	</xsl:if>
+	
+	<xsl:if test="xs:boolean($ConnectPoint)">
+		<xsl:for-each select="mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata/srv:connectPoint">
+            <ConnectPoint>
+                <xsl:value-of select="cit:CI_OnlineResource/cit:linkage/*/text()"/>~<xsl:value-of select="cit:CI_OnlineResource/cit:protocol/*/text()"/>
+            </ConnectPoint>
+        </xsl:for-each>
+	</xsl:if>
 
+	<xsl:if test="xs:boolean($ServiceType)">
+		<ServiceType>
+			<xsl:value-of
+				select="mdb:identificationInfo/srv:SV_ServiceIdentification/srv:serviceType/gco:ScopedName"/>
+		</ServiceType>
+	</xsl:if>
+	
+	<xsl:if test="xs:boolean($ServiceTypeVersion)">
+		<xsl:for-each select="mdb:identificationInfo/srv:SV_ServiceIdentification/srv:serviceTypeVersion">
+			<ServiceTypeVersion>
+				<xsl:value-of select="*/text()"/>
+			</ServiceTypeVersion>
+		</xsl:for-each>
+	</xsl:if>
+	
+	<xsl:if test="xs:boolean($CouplingType)">
+	<CouplingType>
+		<xsl:value-of
+			select="mdb:identificationInfo/srv:SV_ServiceIdentification/srv:couplingType/srv:SV_CouplingType/@codeListValue"/>
+	</CouplingType>
+	</xsl:if>
+	
+	<xsl:if test="xs:boolean($OperationName)">
+		<OperationName>
+			<xsl:value-of
+				select="mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata/srv:operationName/gco:CharacterString"/>
+		</OperationName>
+	</xsl:if>
+	
+	<xsl:if test="xs:boolean($DistributedComputingPlatform)">
+		<DistributedComputingPlatform>
+			<xsl:value-of
+				select="mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata/srv:distributedComputingPlatform/srv:DCPList/@codeListValue"/>
+		</DistributedComputingPlatform>
+	</xsl:if>
+	
+	<xsl:if test="xs:boolean($OperationDescription)">
+		<OperationDescription>
+			<xsl:value-of
+				select="mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata/srv:operationDescription/gco:CharacterString"/>
+		</OperationDescription>
+	</xsl:if>
 	
       <xsl:copy-of select="gn:info"/>
     </metadata>
