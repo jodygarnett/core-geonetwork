@@ -132,7 +132,13 @@
 	 <MaintenanceFrequency>
                 <xsl:value-of select="mdb:identificationInfo/*/mri:resourceMaintenance/*/mmi:MD_MaintenanceFrequencyCode/@codeListValue"/>
 	  </MaintenanceFrequency>
-</xsl:if>
+	  </xsl:if>
+	  
+	  <xsl:if test="xs:boolean($ServiceMaintenanceFrequency)">
+	  <ServiceMaintenanceFrequency>
+                <xsl:value-of select="mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceMaintenance/mmi:MD_MaintenanceInformation/mmi:maintenanceAndUpdateFrequency/mmi:MD_MaintenanceFrequencyCode/@codeListValue"/>
+	  </ServiceMaintenanceFrequency>
+	  </xsl:if>
 	  
 	  <xsl:if test="xs:boolean($ResponsibleParty)">
 	  <xsl:for-each select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility">
@@ -286,6 +292,13 @@
 		<xsl:value-of
 			select="mdb:resourceLineage/mrl:LI_Lineage/mrl:statement/gco:CharacterString" />
 	</Lineage>
+</xsl:if>
+
+<xsl:if test="xs:boolean($SourceScopeCode)">
+	<SourceScopeCode>
+		<xsl:value-of
+			select="mdb:resourceLineage/mrl:LI_Lineage/mrl:scope/mcc:MD_Scope/mcc:level/mcc:MD_ScopeCode/@codeListValue"/>
+	</SourceScopeCode>
 </xsl:if>
 	
 	<xsl:if test="xs:boolean($SourceDescription)">
