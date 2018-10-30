@@ -41,9 +41,6 @@
 			</xsl:if>
 
 			<xsl:if test="xs:boolean($Abstract)">
-				<xsl:message>
-					abstract :::: display
-				</xsl:message>
 				<Abstract>
 					<xsl:apply-templates mode="localised"
 						select="mdb:identificationInfo/*/mri:abstract">
@@ -51,8 +48,7 @@
 					</xsl:apply-templates>
 				</Abstract>
 			</xsl:if>
-			<!-- <Category> <xsl:value-of select="mdb:metadataScope/*/mdb:resourceScope/*/@codeListValue"/> 
-				</Category> -->
+			
 			<xsl:if test="xs:boolean($MetadataScope)">
 				<MetadataScope>
 					<xsl:value-of select="mdb:metadataScope/*/mdb:name" />
@@ -140,12 +136,12 @@
 				</MaintenanceFrequency>
 			</xsl:if>
 
-			<xsl:if test="xs:boolean($ServiceMaintenanceFrequency)">
+			<!-- <xsl:if test="xs:boolean($ServiceMaintenanceFrequency)">
 				<ServiceMaintenanceFrequency>
 					<xsl:value-of
 						select="mdb:identificationInfo/srv:SV_ServiceIdentification/mri:resourceMaintenance/mmi:MD_MaintenanceInformation/mmi:maintenanceAndUpdateFrequency/mmi:MD_MaintenanceFrequencyCode/@codeListValue" />
 				</ServiceMaintenanceFrequency>
-			</xsl:if>
+			</xsl:if> -->
 
 			<xsl:if test="xs:boolean($ResponsibleParty)">
 				<xsl:for-each
@@ -346,12 +342,12 @@
 				</Lineage>
 			</xsl:if>
 
-			<xsl:if test="xs:boolean($SourceScopeCode)">
+			<!-- <xsl:if test="xs:boolean($SourceScopeCode)">
 				<SourceScopeCode>
 					<xsl:value-of
 						select="mdb:resourceLineage/mrl:LI_Lineage/mrl:scope/mcc:MD_Scope/mcc:level/mcc:MD_ScopeCode/@codeListValue" />
 				</SourceScopeCode>
-			</xsl:if>
+			</xsl:if> -->
 
 			<xsl:if test="xs:boolean($SourceDescription)">
 				<SourceDescription>
