@@ -13,3 +13,11 @@
 [submodule "docs/manuals"]
 	path = docs/manuals
 	url = https://github.com/geonetwork/doc.git
+[submodule "schemas/iso19139.nl.geografie.2.0.0"]
+	path = schemas/iso19139.nl.geografie.2.0.0
+	url = https://github.com/metadata101/iso19139.nl.geografie.2.0.0
+	branch = 3.4.x
+[submodule "schemas/iso19139.nl.services.2.0.0"]
+	path = schemas/iso19139.nl.services.2.0.0
+	url = https://github.com/metadata101/iso19139.nl.services.2.0.0
+	branch = 3.4.x
