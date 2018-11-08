@@ -507,22 +507,22 @@
 <dependency>
 <groupId>${project.groupId}</groupId>
 <artifactId>schema-iso19139.nl.services.1.2.1</artifactId>
-<version>3.4.x</version>
+<version>${gn.schemas.version}</version>
 </dependency>
 <dependency>
 <groupId>${project.groupId}</groupId>
 <artifactId>schema-iso19139.nl.geografie.1.3.1</artifactId>
-<version>3.4.x</version>
+<version>${gn.schemas.version}</version>
 </dependency>
 <dependency>
 <groupId>${project.groupId}</groupId>
 <artifactId>schema-iso19139.nl.services.2.0.0</artifactId>
-<version>3.4.x</version>
+<version>${gn.schemas.version}</version>
 </dependency>
 <dependency>
 <groupId>${project.groupId}</groupId>
 <artifactId>schema-iso19139.nl.geografie.2.0.0</artifactId>
-<version>3.4.x</version>
+<version>${gn.schemas.version}</version>
 </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -749,25 +749,22 @@
                   <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
                   </targetPath>
                 </resource>
-<resource>
-<directory>${project.basedir}/../schemas/iso19139.nl.services.1.2.1/src/main/plugin</directory>
-<targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-</resource>
-<resource>
-<directory>${project.basedir}/../schemas/iso19139.nl.geografie.1.3.1/src/main/plugin</directory>
-<targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-</resource>
-<resource>
-<targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-</resource>
-<resource>
-<directory>${project.basedir}/../schemas/iso19139.nl.services.2.0.0/src/main/plugin</directory>
-<targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-</resource>
-<resource>
-<directory>${project.basedir}/../schemas/iso19139.nl.geografie.2.0.0/src/main/plugin</directory>
-<targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
-</resource>
+                <resource>
+                  <directory>${project.basedir}/../schemas/iso19139.nl.services.1.2.1/src/main/plugin</directory>
+                  <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
+                </resource>
+                <resource>
+                  <directory>${project.basedir}/../schemas/iso19139.nl.geografie.1.3.1/src/main/plugin</directory>
+                  <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
+                </resource>
+                <resource>
+                  <directory>${project.basedir}/../schemas/iso19139.nl.services.2.0.0/src/main/plugin</directory>
+                  <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
+                </resource>
+                <resource>
+                  <directory>${project.basedir}/../schemas/iso19139.nl.geografie.2.0.0/src/main/plugin</directory>
+                  <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins</targetPath>
+                </resource>
                 <resource>
                   <directory>${project.basedir}/../schemas/iso19110/src/main/plugin</directory>
                   <targetPath>${basedir}/src/main/webapp/WEB-INF/data/config/schema_plugins
