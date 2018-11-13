@@ -41,6 +41,7 @@
     <xsl:variable name="xpath" select="gn-fn-metadata:getXPath(.)"/>
     <xsl:variable name="isoType" select="if (../@gco:isoType) then ../@gco:isoType else ''"/>
 
+
     <xsl:variable name="childName"
                   select="*[1]/name()"/>
 
@@ -138,9 +139,13 @@
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
+        <xsl:variable name="tableTitle" select="if (($tableConfig/@label) and (string($strings/*[name() = $tableConfig/@label])))
+              then $strings/*[name() = $tableConfig/@label]
+              else gn-fn-metadata:getLabel($schema, $name, $labels, name(..), $isoType, $xpath)/label" />
+
         <xsl:call-template name="render-boxed-element">
           <xsl:with-param name="label"
-                          select="gn-fn-metadata:getLabel($schema, $name, $labels, name(..), $isoType, $xpath)/label"/>
+                          select="$tableTitle"/>
           <xsl:with-param name="cls" select="local-name()"/>
           <xsl:with-param name="subTreeSnippet">
 
@@ -205,6 +210,7 @@
         </xsl:call-template>
       </xsl:when>
       <xsl:otherwise>
+
         <xsl:call-template name="render-boxed-element">
           <xsl:with-param name="label"
                           select="gn-fn-metadata:getLabel($schema, $name, $labels, $name, $isoType, $xpath)/label"/>
