@@ -68,16 +68,14 @@ import java.util.Set;
  */
 public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
 
-    private final List<String> summaryHarvesterSettings =
-        Arrays.asList("harvesting", "node", "site", "name", "uuid",
-            "url", "capabUrl", "baseUrl", "host", "useAccount",
-            "ogctype", "options", "status", "info", "lastRun",
+    private final List<String> summaryHarvesterSettings = Arrays.asList("harvesting", "node", "site", "name", "uuid",
+            "url", "capabUrl", "baseUrl", "host", "useAccount", "ogctype", "options", "status", "info", "lastRun",
             "ownerGroup", "ownerUser");
-    //---------------------------------------------------------------------------
-    //---
-    //--- Vars
-    //---
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // ---
+    // --- Vars
+    // ---
+    // ---------------------------------------------------------------------------
     private HarvesterSettingsManager settingMan;
     private DataManager dataMan;
     private Path xslPath;
@@ -91,11 +89,11 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
         return applicationContext;
     }
 
-    //---------------------------------------------------------------------------
-    //---              searchProfiles
-    //--- Constructor
-    //---
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // --- searchProfiles
+    // --- Constructor
+    // ---
+    // ---------------------------------------------------------------------------
 
     /**
      * initialize the manager.
@@ -113,8 +111,7 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
         this.readOnly = isReadOnly;
         Log.debug(Geonet.HARVEST_MAN, "HarvesterManager initializing, READONLYMODE is " + this.readOnly);
         xslPath = context.getAppPath().resolve(Geonet.Path.STYLESHEETS).resolve("xml/harvesting/");
-        AbstractHarvester.getScheduler().getListenerManager().addJobListener(
-            HarversterJobListener.getInstance(this));
+        AbstractHarvester.getScheduler().getListenerManager().addJobListener(HarversterJobListener.getInstance(this));
 
         final Element harvesting = settingMan.getList(null);
         if (harvesting != null) {
@@ -124,6 +121,17 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
                 for (Object o : entries.getChildren()) {
                     Element node = transform((Element) o);
                     String type = node.getAttributeValue("type");
+                    String id = node.getAttributeValue("id");
+
+                    try {
+                        AbstractHarvester ah = AbstractHarvester.create(type, context);
+                        ah.init(node, context);
+                        hmHarvesters.put(ah.getID(), ah);
+                        hmHarvestLookup.put(ah.getParams().getUuid(), ah);
+                    } catch (OperationAbortedEx oae) {
+                        Log.error(Geonet.HARVEST_MAN, "Cannot create harvester " + id + " of type \"" + type + "\"",
+                                oae);
+                    }
 
                     AbstractHarvester ah = AbstractHarvester.create(type, context);
                     ah.init(node, context);
@@ -182,11 +190,11 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
         }
     }
 
-    //---------------------------------------------------------------------------
-    //---
-    //--- API methods
-    //---
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // ---
+    // --- API methods
+    // ---
+    // ---------------------------------------------------------------------------
 
     /**
      * TODO javadoc.
@@ -224,7 +232,8 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
                 result = transform(result);
                 addInfo(result);
             } else {
-                // you're not an Administrator: only return harvest nodes from groups visible to you
+                // you're not an Administrator: only return harvest nodes from groups visible to
+                // you
                 GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
                 AccessManager am = gc.getBean(AccessManager.class);
                 Set<Integer> groups = am.getVisibleGroups(context.getUserSession().getUserIdAsInt());
@@ -257,8 +266,7 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
                     for (Object o : nodes.getChildren()) {
                         Element node = transform((Element) o);
                         Element nodeGroup = node.getChild("ownerGroup");
-                        if ((nodeGroup != null)
-                                && (!StringUtils.isEmpty(nodeGroup.getValue()))
+                        if ((nodeGroup != null) && (!StringUtils.isEmpty(nodeGroup.getValue()))
                                 && (StringUtils.isNumeric(nodeGroup.getValue()))
                                 && (groups.contains(Integer.valueOf(nodeGroup.getValue())))) {
                             addInfo(node);
@@ -322,7 +330,8 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
         hmHarvestLookup.put(ah.getParams().getUuid(), ah);
 
         if (Log.isDebugEnabled(Geonet.HARVEST_MAN)) {
-            Log.debug(Geonet.HARVEST_MAN, "HarvestManager added node with id: " + ah.getID() + " and uuid: " + ah.getParams().getUuid());
+            Log.debug(Geonet.HARVEST_MAN,
+                    "HarvestManager added node with id: " + ah.getID() + " and uuid: " + ah.getParams().getUuid());
         }
         return ah.getParams().getUuid();
     }
@@ -336,11 +345,13 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
     public synchronized String createClone(String id, String ownerId, ServiceContext context) throws Exception {
         // get the specified harvester from the settings table
         Element node = get(id, context, null);
-        if (node == null) return null;
+        if (node == null)
+            return null;
 
         // remove info from the harvester we will clone
         Element info = node.getChild("info");
-        if (info != null) info.removeContent();
+        if (info != null)
+            info.removeContent();
         Element site = node.getChild("site");
         if (site != null) {
             Element name = site.getChild("name");
@@ -368,7 +379,8 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
      * @param ownerId id of the user doing this
      */
     @Override
-    public synchronized boolean update(Element node, String ownerId) throws BadInputEx, SQLException, SchedulerException {
+    public synchronized boolean update(Element node, String ownerId)
+            throws BadInputEx, SQLException, SchedulerException {
         if (Log.isDebugEnabled(Geonet.HARVEST_MAN)) {
             Log.debug(Geonet.HARVEST_MAN, "Updating harvesting node : \n" + Xml.getString(node));
         }
@@ -392,7 +404,8 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
     }
 
     /**
-     * This method must be synchronized because it cannot run if we are updating some entries.
+     * This method must be synchronized because it cannot run if we are updating
+     * some entries.
      */
     @Override
     public synchronized OperResult remove(final String id) throws Exception {
@@ -424,7 +437,6 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
             throw new RuntimeException(e);
         }
     }
-
 
     /**
      * TODO Javadoc.
@@ -476,7 +488,8 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
             return ah.run();
         } else {
             if (Log.isDebugEnabled(Geonet.HARVEST_MAN)) {
-                Log.debug(Geonet.HARVEST_MAN, "GeoNetwork is running in read-only mode: skipping run of harvester with id: " + id);
+                Log.debug(Geonet.HARVEST_MAN,
+                        "GeoNetwork is running in read-only mode: skipping run of harvester with id: " + id);
             }
             return null;
         }
@@ -500,7 +513,8 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
             return ah.invoke();
         } else {
             if (Log.isDebugEnabled(Geonet.HARVEST_MAN)) {
-                Log.debug(Geonet.HARVEST_MAN, "GeoNetwork is running in read-only mode: skipping invocation of harvester with id: " + id);
+                Log.debug(Geonet.HARVEST_MAN,
+                        "GeoNetwork is running in read-only mode: skipping invocation of harvester with id: " + id);
             }
             return null;
         }
@@ -524,11 +538,11 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
         return hmHarvestLookup.get(harvestUuid);
     }
 
-    //---------------------------------------------------------------------------
-    //---
-    //--- Private methods
-    //---
-    //---------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+    // ---
+    // --- Private methods
+    // ---
+    // ---------------------------------------------------------------------------
 
     /**
      *
@@ -539,14 +553,13 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
         if (hmHarvesters.get(id) != null) {
             hmHarvesters.get(id).addInfo(node);
         } else {
-            Log.warning(Geonet.HARVEST_MAN, "Trying to add info to a " +
-                "non existing harvester with id : " + id);
+            Log.warning(Geonet.HARVEST_MAN, "Trying to add info to a " + "non existing harvester with id : " + id);
         }
     }
 
     /**
-     * Remove harvester information. For example, when records are removed, clean the last status
-     * information if any.
+     * Remove harvester information. For example, when records are removed, clean
+     * the last status information if any.
      */
     public void removeInfo(String id, String ownerId) throws Exception {
         // get the specified harvester from the settings table
@@ -602,8 +615,7 @@ public class HarvestManagerImpl implements HarvestInfoProvider, HarvestManager {
         ah.emptyResult();
 
         Element historyEl = new Element("result");
-        historyEl.addContent(new Element("cleared").
-            setAttribute("recordsRemoved", numberOfRecordsRemoved + ""));
+        historyEl.addContent(new Element("cleared").setAttribute("recordsRemoved", numberOfRecordsRemoved + ""));
         final String lastRun = new DateTime().withZone(DateTimeZone.forID("UTC")).toString();
         ISODate lastRunDate = new ISODate(lastRun);
 
