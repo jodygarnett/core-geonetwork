@@ -31,9 +31,15 @@
                 match="*[
                         *[1]/name() = $editorConfig/editor/tableFields/table/@for and
                         preceding-sibling::*[1]/name() = name() and
+                        preceding-sibling::*[1]/*[1]/name() = *[1]/name() and
                         not(@gn:addedObj) and
                         $isFlatMode]"
-                priority="2000"/>
+                priority="2000">
+
+    <xsl:message>Ignore: <xsl:value-of select="name()" /> - <xsl:value-of select="preceding-sibling::*[1]/name()" /> </xsl:message>
+    <xsl:message>Ignore: <xsl:value-of select=" preceding-sibling::*[1]/*[1]/name()" /> - <xsl:value-of select="*[1]/name() " /> </xsl:message>
+
+  </xsl:template>
 
   <!-- Define table layout -->
   <xsl:template name="iso19139-table">
