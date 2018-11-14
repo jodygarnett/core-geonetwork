@@ -34,12 +34,7 @@
                         preceding-sibling::*[1]/*[1]/name() = *[1]/name() and
                         not(@gn:addedObj) and
                         $isFlatMode]"
-                priority="2000">
-
-    <xsl:message>Ignore: <xsl:value-of select="name()" /> - <xsl:value-of select="preceding-sibling::*[1]/name()" /> </xsl:message>
-    <xsl:message>Ignore: <xsl:value-of select=" preceding-sibling::*[1]/*[1]/name()" /> - <xsl:value-of select="*[1]/name() " /> </xsl:message>
-
-  </xsl:template>
+                priority="2000" />
 
   <!-- Define table layout -->
   <xsl:template name="iso19139-table">

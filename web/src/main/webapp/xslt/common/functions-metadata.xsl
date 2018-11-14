@@ -351,19 +351,49 @@
     <xsl:param name="name" as="xs:string"/>
     <!-- The element containing the value eg. gco:Date -->
     <xsl:param name="childName" as="xs:string?"/>
+    <xsl:param name="xpath" as="xs:string?"/>
 
-    <xsl:variable name="childType"
-                  select="normalize-space($configuration/editor/fields/for[@name = $childName]/@use)"/>
-    <xsl:variable name="type"
-                  select="normalize-space($configuration/editor/fields/for[@name = $name]/@use)"/>
 
-    <xsl:value-of
-      select="if ($childType != '')
+    <xsl:if test="$name = 'gmd:name'">
+    <xsl:message>2: getFieldType: <xsl:value-of select="$name"  /> - <xsl:value-of select="$xpath" /></xsl:message>
+    </xsl:if>
+
+    <xsl:choose>
+      <xsl:when test="string($xpath)">
+        <xsl:variable name="childType"
+                      select="normalize-space($configuration/editor/fields/for[@name = $childName]/@use)"/>
+        <xsl:variable name="typeXpath"
+                      select="normalize-space($configuration/editor/fields/for[@name = $name and @xpath = $xpath]/@use)"/>
+
+        <xsl:variable name="type"
+                      select="normalize-space($configuration/editor/fields/for[@name = $name and not(@xpath)]/@use)"/>
+
+        <xsl:value-of
+          select="if ($childType != '')
+      then $childType
+      else if ($typeXpath != '')
+      then $typeXpath
+      else if ($type != '')
+      then $type
+      else $defaultFieldType"
+        />
+
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:variable name="childType"
+                      select="normalize-space($configuration/editor/fields/for[@name = $childName]/@use)"/>
+        <xsl:variable name="type"
+                      select="normalize-space($configuration/editor/fields/for[@name = $name]/@use)"/>
+
+        <xsl:value-of
+          select="if ($childType != '')
       then $childType
       else if ($type != '')
       then $type
       else $defaultFieldType"
-    />
+        />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:function>
 
   <xsl:function name="gn-fn-metadata:getAttributeFieldType" as="xs:string">
@@ -376,6 +406,31 @@
 
     <xsl:value-of
       select="if ($type != '')
+      then $type
+      else $defaultFieldType"
+    />
+  </xsl:function>
+
+
+  <xsl:function name="gn-fn-metadata:getFieldType2" as="xs:string">
+    <xsl:param name="configuration" as="node()"/>
+    <!-- The container element -->
+    <xsl:param name="name" as="xs:string"/>
+    <!-- The element containing the value eg. gco:Date -->
+    <xsl:param name="childName" as="xs:string?"/>
+
+    <xsl:param name="parentName" as="xs:string?"/>
+
+    <!--<xsl:message>getFieldType parent name: <xsl:value-of select="$parentName" /></xsl:message>-->
+    <xsl:variable name="childType"
+                  select="normalize-space($configuration/editor/fields/for[@name = $childName and (@parent = $parentName or $parentName = '')]/@use)"/>
+    <xsl:variable name="type"
+                  select="normalize-space($configuration/editor/fields/for[@name = $name and (@parent = $parentName or $parentName = '')]/@use)"/>
+
+    <xsl:value-of
+      select="if ($childType != '')
+      then $childType
+      else if ($type != '')
       then $type
       else $defaultFieldType"
     />
