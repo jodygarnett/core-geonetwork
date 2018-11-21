@@ -53,6 +53,7 @@
         'gnOwsContextService',
         'gnWfsService',
         'gnAlertService',
+        'gnConfigService',
         '$filter',
         function(gnMap, gnOwsCapabilities, gnSearchSettings, gnViewerSettings,
             ngeoDecorateLayer, gnSearchLocation, gnOwsContextService,
@@ -61,6 +62,8 @@
           this.configure = function(options) {
             angular.extend(this.map, options);
           };
+
+          this.gnConfigService = gnConfigService;
 
           /**
            * Check if the link contains a valid layer protocol
@@ -136,8 +139,14 @@
             gnSearchLocation.setMap();
           };
 
-          var openMd = function(r, md) {
-            return window.location.hash = '#/metadata/' + r.id;
+          var openMd = function(r, md, siteUrl) {
+            var url = $filter('gnLocalized')(r.url) || r.url;
+
+            if (url.indexOf(siteUrl) == 0) {
+              return window.location.hash = '#/metadata/' + r.id;
+            } else {
+              return openLink(r);
+            }
           };
 
           var openLink = function(record, link) {
@@ -299,8 +308,11 @@
           };
 
           this.doAction = function(type, parameters, md) {
+
+            var siteUrlPrefix = this.gnConfigService.getServiceURL();
+
             var f = this.getAction(type);
-            f(parameters, md);
+            f(parameters, md, siteUrlPrefix);
           };
 
           this.getType = function(resource, type) {

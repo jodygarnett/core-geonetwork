@@ -753,33 +753,61 @@ public final class XslUtil {
     /**
      *  To get the xml content of an url
      *  It supports the usage of a proxy
-        * @param surl
-        * @return
+     * @param surl
+     * @return
      */
     public static Node getUrlContent(String surl) {
+        return getUrlContent(surl, 5);
+    }
 
-        Node res = null;
-        InputStream is = null;
+    public static Node getUrlContent(String surl, int tryNumber) {
 
         ServiceContext context = ServiceContext.get();
 
+
+        HttpGet getRequest = new HttpGet(surl);
+        GeonetHttpRequestFactory requestFactory = ApplicationContextHolder.get().getBean(GeonetHttpRequestFactory.class);
+        ClientHttpResponse response = null;
+        final String requestHost = getRequest.getURI().getHost();
         try {
-            URL url = new URL(surl);
-            URLConnection conn = Lib.net.setupProxy(context, url);
+            response = requestFactory.execute(getRequest, new Function<HttpClientBuilder, Void>() {
+                @Nullable
+                @Override
+                public Void apply(@Nullable HttpClientBuilder originalConfig) {
+
+                    SettingManager settingManager = context.getBean(SettingManager.class);
+                    Lib.net.setupProxy(settingManager, originalConfig, requestHost);
+
+                    RequestConfig.Builder config = RequestConfig.custom()
+                        .setConnectTimeout(1000)
+                        .setConnectionRequestTimeout(3000)
+                        .setSocketTimeout(5000);
+                    RequestConfig requestConfig = config.build();
+                    originalConfig.setDefaultRequestConfig(requestConfig);
+
+                    return null;
+                }
+            });
+
+            if (response.getStatusCode().is3xxRedirection() && response.getHeaders().containsKey("Location")) {
+                // follow the redirects
+                return getUrlContent(response.getHeaders().getFirst("Location"), tryNumber - 1);
+            }
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
 
-            is = conn.getInputStream();
-            res = db.parse(is);
+            Node res = db.parse(response.getBody());
 
-        } catch (Throwable e) {
-            Log.error(Geonet.GEONETWORK, "Failed fetching url: " + surl, e);
+            return res;
+        } catch (Exception e) {
+            Log.error(Geonet.GEONETWORK, "Exception retrieving  " + surl + " URL. " + e.getMessage(), e);
+            return null;
         } finally {
-            IOUtils.closeQuietly(is);
+            if (response != null) {
+                response.close();
+            }
         }
-
-        return res;
     }
 
     public static String decodeURLParameter(String str) {

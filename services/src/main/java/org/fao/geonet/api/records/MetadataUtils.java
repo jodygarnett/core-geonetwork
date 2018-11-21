@@ -25,6 +25,7 @@ package org.fao.geonet.api.records;
 
 import com.google.common.base.Joiner;
 
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.ApplicationContextHolder;
 import org.fao.geonet.Constants;
 import org.fao.geonet.GeonetContext;
@@ -172,10 +173,40 @@ public class MetadataUtils {
             // Get datasets related to service search
             if (listOfTypes.size() == 0 ||
                 listOfTypes.contains(RelatedItemType.datasets)) {
-                Set<String> listOfUUIDs = schemaPlugin.getAssociatedDatasetUUIDs(md);
-                if (listOfUUIDs != null && listOfUUIDs.size() > 0) {
+                Set<String> listOfUUIDs = new HashSet<>();
+                Set<String> listOfRemoteDatasets = new HashSet<>();
+
+                Element result = search(uuid, "uuid", context, from, to, fast, "operatesOn,operatesOnRemote");
+                Element response = ((Element) (result.getChildren().get(0)));
+                Element mdResult = ((Element) (response.getChildren().get(0)));
+                List<Element> datasets = mdResult.getChildren("operatesOn");
+
+                for(Element dataset : datasets) {
+                    listOfUUIDs.add(dataset.getValue());
+                }
+
+                List<Element> datasetsRemote = mdResult.getChildren("operatesOnRemote");
+
+                for(Element dataset : datasetsRemote) {
+                    listOfRemoteDatasets.add(dataset.getValue());
+                }
+                if (!listOfUUIDs.isEmpty()) {
                     String joinedUUIDs = Joiner.on(" or ").join(listOfUUIDs);
                     relatedRecords.addContent(search(joinedUUIDs, "datasets", context, from, to, fast));
+                }
+
+                if (!listOfRemoteDatasets.isEmpty()) {
+                    for(String remoteDataset : listOfRemoteDatasets) {
+                        String[] remoteDatasetInfo = remoteDataset.split("\\|");
+
+                        Element metadata = new Element("metadata");
+                        metadata.addContent(new Element("uuid").setText(remoteDatasetInfo[0]));
+                        metadata.addContent(new Element("title").setText(remoteDatasetInfo[1]));
+                        metadata.addContent(new Element("abstract").setText(remoteDatasetInfo[2]));
+                        metadata.addContent(new Element("url").setText(remoteDatasetInfo[3]));
+
+                        relatedRecords.getChild("datasets").getChild("response").addContent(metadata);
+                    }
                 }
             }
             // if source, return source datasets defined in the current record
@@ -242,6 +273,10 @@ public class MetadataUtils {
 
 
     private static Element search(String uuid, String type, ServiceContext context, String from, String to, String fast) throws Exception {
+        return search(uuid, type, context, from, to, fast, null);
+    }
+
+    private static Element search(String uuid, String type, ServiceContext context, String from, String to, String fast, String dumpFields) throws Exception {
         GeonetContext gc = (GeonetContext) context.getHandlerContext(Geonet.CONTEXT_NAME);
         SearchManager searchMan = gc.getBean(SearchManager.class);
 
@@ -266,8 +301,9 @@ public class MetadataUtils {
             }
             else if ("datasets".equals(type) || "fcats".equals(type) ||
                 "sources".equals(type) || "siblings".equals(type) ||
-                "parent".equals(type))
+                "parent".equals(type) || "uuid".equals(type)) {
                 parameters.addContent(new Element("uuid").setText(uuid));
+            }
 
             parameters.addContent(new Element("fast").addContent("index"));
             parameters.addContent(new Element("sortBy").addContent("title"));
@@ -275,6 +311,10 @@ public class MetadataUtils {
             parameters.addContent(new Element("buildSummary").addContent("false"));
             parameters.addContent(new Element("from").addContent(from));
             parameters.addContent(new Element("to").addContent(to));
+
+            if (StringUtils.isNotEmpty(dumpFields)) {
+                parameters.addContent(new Element("extraDumpFields").addContent(dumpFields));
+            }
 
             ServiceConfig config = new ServiceConfig();
             searcher.search(context, parameters, config);
