@@ -436,11 +436,9 @@ public class ISO19139SchemaPlugin
                 el, attributeRef, attributeValue));
         }
 
-        if (!isElementToProcess(el)) {
-            return el;
-        }
+        boolean elementToProcess = isElementToProcess(el);
 
-        if (parsedAttributeName.equals("xlink:href")) {
+        if (elementToProcess && parsedAttributeName.equals("xlink:href")) {
             boolean isEmptyLink = StringUtils.isEmpty(attributeValue);
             boolean isMultilingualElement = el.getName().equals("LocalisedCharacterString");
 
@@ -462,7 +460,7 @@ public class ISO19139SchemaPlugin
                 el.setAttribute("href", "", XLINK);
                 return el;
             }
-        } else if (StringUtils.isNotEmpty(parsedAttributeName) &&
+        } else if (elementToProcess && StringUtils.isNotEmpty(parsedAttributeName) &&
             parsedAttributeName.startsWith(":")) {
             // eg. :codeSpace
             el.setAttribute(parsedAttributeName.substring(1), attributeValue);
@@ -480,14 +478,9 @@ public class ISO19139SchemaPlugin
      *
      * @return boolean indicating if the element requires processing or not.
      */
-    private boolean isElementToProcess(Element el) {
+    protected boolean isElementToProcess(Element el) {
         if (el == null) return false;
 
-        String name = el.getName();
-        Namespace ns = el.getNamespace();
-
-        return ((name.equals("CharacterString") && ns.equals(GCO)) ||
-            (name.equals("Anchor") && ns.equals(GMX)));
-
+        return elementsToProcess.contains(el.getQualifiedName());
     }
 }
