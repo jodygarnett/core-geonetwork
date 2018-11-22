@@ -433,7 +433,11 @@ public class ISO19139SchemaPlugin
         if (Log.isDebugEnabled(LOGGER_NAME)) {
             Log.debug(LOGGER_NAME, String.format(
                 "Processing element %s, attribute %s with attributeValue %s.",
-                    el, attributeRef, attributeValue));
+                el, attributeRef, attributeValue));
+        }
+
+        if (!isElementToProcess(el)) {
+            return el;
         }
 
         if (parsedAttributeName.equals("xlink:href")) {
@@ -443,7 +447,7 @@ public class ISO19139SchemaPlugin
             if (isMultilingualElement) {
                 // The attribute provided relates to the CharacterString and not to the LocalisedCharacterString
                 Element targetElement = el.getParentElement().getParentElement().getParentElement()
-                                            .getChild("CharacterString", GCO);
+                    .getChild("CharacterString", GCO);
                 if (targetElement != null) {
                     el = targetElement;
                 }
@@ -466,6 +470,24 @@ public class ISO19139SchemaPlugin
         } else {
             return super.processElement(el, attributeRef, parsedAttributeName, attributeValue);
         }
+
+    }
+
+    /**
+     * Checks if an element requires processing in {@link #processElement(Element, String, String, String)}.
+     *
+     * @param el Element to check.
+     *
+     * @return boolean indicating if the element requires processing or not.
+     */
+    private boolean isElementToProcess(Element el) {
+        if (el == null) return false;
+
+        String name = el.getName();
+        Namespace ns = el.getNamespace();
+
+        return ((name.equals("CharacterString") && ns.equals(GCO)) ||
+            (name.equals("Anchor") && ns.equals(GMX)));
 
     }
 }
