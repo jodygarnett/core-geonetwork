@@ -363,15 +363,24 @@ public class GetCapabilities extends AbstractOperation implements CatalogService
 
         String providerName = sm.getValue(Settings.SYSTEM_SITE_ORGANIZATION);
         vars.put("$PROVIDER_NAME", StringUtils.isNotEmpty(providerName) ? providerName : "GeoNetwork opensource");
+        vars.put("$PROVIDER_SITE", sm.getValue(Settings.SYSTEM_SITE_ORGANIZATION_WEBSITE));
+        vars.put("$PROVIDER_SITE", StringUtils.isNotEmpty(sm.getValue(Settings.SYSTEM_SITE_ORGANIZATION_WEBSITE)) ? sm.getValue(Settings.SYSTEM_SITE_ORGANIZATION_WEBSITE) : sm.getValue(Settings.SYSTEM_SERVER_PROTOCOL)+"://"+sm.getValue(Settings.SYSTEM_SERVER_HOST)+("80".equals(sm.getValue(Settings.SYSTEM_SERVER_PORT)) ? "" : ":" +sm.getValue(Settings.SYSTEM_SERVER_PORT)) +context.getBaseUrl());
 
         vars.put("$SERVLET", context.getBaseUrl());
 
         // Set CSW contact information
         if (contact != null) {
-            vars.put("$IND_NAME", contact.getName() + " " + contact.getSurname());
             vars.put("$ORG_NAME", contact.getOrganisation());
-            vars.put("$POS_NAME", contact.getProfile().name());
-            vars.put("$VOICE", "");
+        	// Suppress individual name if it is the same as the position name (with whitespace removed and all lower case)
+            String indName = contact.getName() + " " + contact.getSurname();
+            if (contact.getPosition() == null || 
+            		!indName.replaceAll("\\s","").toLowerCase().equals(contact.getPosition().replaceAll("\\s","").toLowerCase())) {
+            	vars.put("$IND_NAME", indName);
+            } else {
+            	vars.put("$IND_NAME", "");
+            }
+            vars.put("$POS_NAME", contact.getPosition());
+            vars.put("$VOICE", contact.getVoiceTelephone());
             vars.put("$FACSCIMILE", "");
             final Address address = contact.getPrimaryAddress();
             vars.put("$DEL_POINT", address.getAddress());

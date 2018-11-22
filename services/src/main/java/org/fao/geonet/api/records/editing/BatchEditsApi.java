@@ -33,6 +33,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -149,7 +150,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	AmazonS3URI s3uri = new AmazonS3URI(Geonet.BATCHEDIT_BACKUP_BUCKET);
 	List<Metadata> tempBackupData = new ArrayList<>();
 	Gson g = new Gson();
-	Map<String, XPath> xpathExpr = new HashMap<>();
+	
 	double pct;
 	SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
 	
@@ -264,7 +265,9 @@ public class BatchEditsApi implements ApplicationContextAware {
 			@RequestParam(value = "mode") String mode, @RequestParam(value = "desc") String desc, HttpServletRequest request) {
 
 		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
-		
+		if(tempBackupData != null && tempBackupData.size() > 0){
+			tempBackupData.clear();
+		}
 		Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi mode: " + mode);
 
 		// File csvFile = new File(file.getOriginalFilename());
@@ -320,16 +323,12 @@ public class BatchEditsApi implements ApplicationContextAware {
 	public String batchUpdateHistory(HttpServletRequest request) {
 		
 		try{
-			Type listType = new TypeToken<List<CustomReport>>() {}.getType();
-	
+			
 			SettingRepository settingRepo = context.getBean(SettingRepository.class);
 			Setting sett = settingRepo.findOne(Settings.METADATA_BATCHEDIT_HISTORY);
 	
 			if(sett != null){
 				return sett.getValue();
-				//List<CustomReport> report = g.fromJson(sett.getValue(), listType);
-				//return report.stream().sorted(Comparator.comparing(CustomReport::getDateTime).reversed()).collect(Collectors.toList());
-				//return report;
 			}
 		}catch(Exception e){}
 		
@@ -416,11 +415,8 @@ public class BatchEditsApi implements ApplicationContextAware {
 		Date datetime = new Date(System.currentTimeMillis());
 		final String dateTimeStr = Geonet.DATE_FORMAT.format(datetime);
 		
-		try {
-			xpathExpr = new BatchEditXpath().loadXpath();
-		} catch (JDOMException e) {
-			Log.error(Geonet.SEARCH_ENGINE, "Unable to loadXpath, " + e.getMessage());
-		}
+		
+		
 		SAXBuilder sb = new SAXBuilder();
 		// final CSVBatchEdit cbe = context.getBean(CSVBatchEdit.class);
 		CSVBatchEdit cbe = new CSVBatchEdit(context);
@@ -429,7 +425,11 @@ public class BatchEditsApi implements ApplicationContextAware {
 		final DataManager dataMan = context.getBean(DataManager.class);
 		EditLib editLib = new EditLib(schemaManager);
 		final SettingRepository settingRepo = context.getBean(SettingRepository.class);
+
 		
+		
+		final BatchEditXpath bxpath = context.getBean(BatchEditXpath.class);
+		Map<String, XPath> xpathExpr = bxpath.getXPathExpr();
 		
 		final String s3key = dateTimeStr;
 		Log.debug(Geonet.SEARCH_ENGINE, "CSVRecord, BatchEditsApi --> s3key : " + s3key);
@@ -601,10 +601,19 @@ public class BatchEditsApi implements ApplicationContextAware {
 				.withMinimumUploadPartSize(5 * 1024 * 1024L)
 				.build();
 		
+        String tmpDir = System.getProperty("java.io.tmpdir");
+		Path tempPath = Paths.get(tmpDir);
+	
+		if(!tempPath.toFile().isDirectory()){
+			tempPath.toFile().mkdir();
+		}
+        
+		Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI, tmpDir for backup xml files --->" + tmpDir);
+		
 		List<File> files = tempBackupData.stream().map(md -> {
 				
 				try {
-					Path path = Files.createTempFile(md.getUuid(), ".xml"); 
+					Path path = Files.createTempFile(tempPath, md.getUuid(), ".xml"); 
 					File f = path.toFile();
 					f.deleteOnExit();
 					FileUtils.writeByteArrayToFile(f, md.getData().getBytes());
@@ -616,8 +625,8 @@ public class BatchEditsApi implements ApplicationContextAware {
 			}).collect(Collectors.toList());
 		
 		
-		MultipleFileUpload xfer = xfer_mgr.uploadFileList(s3uri.getBucket(),
-				s3key, new File("."), files);
+		//MultipleFileUpload xfer = xfer_mgr.uploadFileList(s3uri.getBucket(), s3key, new File("."), files);
+		MultipleFileUpload xfer = xfer_mgr.uploadFileList(s3uri.getBucket(), s3key, tempPath.toFile(), files);
 		
 		do {
 		    try {
@@ -626,21 +635,21 @@ public class BatchEditsApi implements ApplicationContextAware {
 		        return;
 		    }
 		    TransferProgress progress = xfer.getProgress();
-		    long so_far = progress.getBytesTransferred();
-		    long total = progress.getTotalBytesToTransfer();
+		    //long so_far = progress.getBytesTransferred();
+		    //long total = progress.getTotalBytesToTransfer();
 		    pct = progress.getPercentTransferred();
 		    progressBackup();
 		} while (xfer.isDone() == false);
 		// print the final state of the transfer.
 		TransferState xfer_state = xfer.getState();
+		
 		Log.debug(Geonet.SEARCH_ENGINE, ": " + xfer_state);
 		
         
         S3Operation op = new S3Operation();
         try {
-			List<String> filenames = op.getBucketObjectNames(Geonet.BATCHEDIT_BACKUP_BUCKET + s3key + "/mp");
+			List<String> filenames = op.getBucketObjectNames(Geonet.BATCHEDIT_BACKUP_BUCKET + s3key);
 			filenames.stream().forEach(fn -> {
-				//Log.debug(Geonet.SEARCH_ENGINE, "s3key, filename " + fn);
 				SetObjectAclRequest req = new SetObjectAclRequest(s3uri.getBucket(), fn, CannedAccessControlList.PublicRead);
 				s3client.setObjectAcl(req);
 			});
@@ -648,6 +657,13 @@ public class BatchEditsApi implements ApplicationContextAware {
 			e.printStackTrace();
 		}
 		
+        try{
+        	files.stream().forEach(f -> {
+        		f.delete();	
+        	});
+        }catch(Exception e){
+        	Log.error(Geonet.SEARCH_ENGINE, "Unable to remove tmp xml files created during batch edit");
+        }
 	}
 	
 	/**
