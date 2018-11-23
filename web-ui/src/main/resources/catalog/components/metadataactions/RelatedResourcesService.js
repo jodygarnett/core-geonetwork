@@ -57,7 +57,7 @@
         '$filter',
         function(gnMap, gnOwsCapabilities, gnSearchSettings, gnViewerSettings,
             ngeoDecorateLayer, gnSearchLocation, gnOwsContextService,
-            gnWfsService, gnAlertService, $filter) {
+            gnWfsService, gnAlertService, gnConfigService, $filter) {
 
           this.configure = function(options) {
             angular.extend(this.map, options);
