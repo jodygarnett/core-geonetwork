@@ -29,3 +29,7 @@
   path = schemas/iso19139.nl.services.2.0.0
   url = https://github.com/metadata101/iso19139.nl.services.2.0.0
   branch = 3.4.x
+[submodule "⁨web-ui⁩/src⁩/main⁩/resources⁩/catalog⁩/views/dutch"]
+	path = ⁨web-ui⁩/src⁩/main⁩/resources⁩/catalog⁩/views/dutch
+	url = https://github.com/osgeonl/geonetwork-dutch-skin.git
+	branch = 3.4.x

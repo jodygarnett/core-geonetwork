@@ -1,0 +1,46 @@
+<div class="">
+  <!-- The hidden field with the value. -->
+  <input type="hidden" class="form-control"
+         name="{{snippetRef}}" value="{{xmlSnippet}}"/>
+
+
+  <div class="gn-characterString gn-value"
+       data-ng-show="mode === 'characterString'">
+    <div class="input-group">
+      <input class="form-control"
+             data-ng-model="textValue"
+             data-ng-attr-id="{{'gn-' + elementRef + '-charStringValue'}}"/>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" data-ng-click="setMode('anchor')">
+          <i class="fa fa-link">&nbsp;</i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <div class="gn-anchor gn-value" data-ng-show="mode === 'anchor'">
+    <div class="col-sm-6 gn-nopadding-left">
+      <input class="form-control"
+             data-ng-model="textValue"
+             data-ng-attr-id="{{'gn-' + elementRef + '-anchorValue'}}"/>
+    </div>
+    <div class="col-sm-6 gn-nopadding-right">
+      <div class="input-group">
+        <span class="input-group-addon">@</span>
+        <input class="form-control"
+               data-ng-model="linkValue"
+               data-ng-attr-id="{{'gn-' + elementRef + '-anchorLink'}}"/>
+        <span class="input-group-btn">
+          <button class="btn btn-default" data-ng-click="setMode('characterString')">
+            <i class="fa fa-remove"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+
+  </div>
+  <div class="gn-debug">
+    <textarea>{{xmlSnippet}}</textarea>
+  </div>
+</div>
+
