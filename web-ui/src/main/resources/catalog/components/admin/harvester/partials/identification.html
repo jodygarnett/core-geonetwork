@@ -1,6 +1,6 @@
 <fieldset>
   <legend data-translate="">harvesterIdentification</legend>
-  <div data-ng-class="harvester.site.name == '' ? 'has-error' : ''">
+  <div id="gn-harvest-settings-selected-name-row" data-ng-class="harvester.site.name == '' ? 'has-error' : ''">
     <label class="control-label">
       <span data-translate="">harvesterName</span>
           <span data-ng-hide="harvester['@type'] == 'geonetwork'"
@@ -20,13 +20,13 @@
         </a>
         <input type="text" class="form-control" data-ng-model="harvester.site.name"/>
       </div>
-      <div class="input-group-btn" gn-logo-picker="harvester.site.icon"
+      <div id="gn-harvest-settings-selected-name-list" class="input-group-btn" gn-logo-picker="harvester.site.icon"
            data-ng-hide="harvester['@type'] == 'geonetwork' || harvester['@type'] == 'geonetwork20'">
       </div>
     </div>
     <p class="help-block" data-translate="">harvesterNameHelp</p>
   </div>
-  <div data-ng-show="groups.length"
+  <div id="gn-harvest-settings-selected-group-row" data-ng-show="groups.length"
        data-ng-class="harvester.site.ownerGroup == '' ? 'has-error' : ''">
     <label class="control-label" data-translate="">harvesterGroup</label>
     <div data-groups-combo="" data-owner-group="harvester.ownerGroup[0]" lang="lang" groups="groups"
@@ -35,10 +35,10 @@
 
     <p class="help-block" data-translate="">harvesterGroupHelp</p>
   </div>
- <div data-ng-show="users.length"
+ <div id="gn-harvest-settings-selected-user-row"  data-ng-show="users.length"
          data-ng-class="harvester.site.ownerUser == '' ? 'has-error' : ''">
         <label class="control-label" data-translate="">harvesterUser</label>
-        <div data-users-combo="" data-owner-user="harvester.ownerUser[0]"
+        <div id="gn-harvest-settings-selected-user-list" data-users-combo="" data-owner-user="harvester.ownerUser[0]"
               data-users="users"></div>
 
         <p class="help-block" data-translate="">harvesterUserHelp</p>
