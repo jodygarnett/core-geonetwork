@@ -32,3 +32,6 @@
 [submodule "schemas/iso19139.nl.geografie.2.0.0"]
 	path = schemas/iso19139.nl.geografie.2.0.0
 	url = https://github.com/metadata101/iso19139.nl.geografie.2.0.0.git
+[submodule "web-ui/src/main/resources/catalog/views/dutch"]
+	path = web-ui/src/main/resources/catalog/views/dutch
+	url = git@eos.geocat.net:enterprise/geonetwork-dutch-skin.git
