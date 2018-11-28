@@ -30,3 +30,9 @@
 	path = web-ui/src/main/resources/catalog/views/minimal
 	url = git@eos.geocat.net:enterprise/geonetwork-minimal-skin.git
 	branch = 3.4.x
+[submodule "schemas/iso19139.nl.services.2.0.0"]
+	path = schemas/iso19139.nl.services.2.0.0
+	url = https://github.com/metadata101/iso19139.nl.services.2.0.0.git
+[submodule "schemas/iso19139.nl.geografie.2.0.0"]
+	path = schemas/iso19139.nl.geografie.2.0.0
+	url = https://github.com/metadata101/iso19139.nl.geografie.2.0.0.git
