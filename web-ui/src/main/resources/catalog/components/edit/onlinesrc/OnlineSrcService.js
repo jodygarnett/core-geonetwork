@@ -406,7 +406,8 @@
           // Define if when linking a service with a dataset
           // a online source element should be added to the dataset
           // first or not.
-          var isAddingOnlineSrcToDataset = true;
+          // Set false for Dutch version
+          var isAddingOnlineSrcToDataset = false;
           var qParams = setParams('onlinesrc-add', params);
           var scope = this;
 

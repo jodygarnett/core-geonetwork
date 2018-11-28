@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:ns3="http://purl.org/dc/elements/1.1/"
+	xmlns:ns5="http://www.opengis.net/gml#"
+	xmlns:ns2="http://www.w3.org/2004/02/skos/core#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+
+<rdf:Description rdf:about="http://creativecommons.org/publicdomain/mark/3.0/deed.nl">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<ns2:prefLabel xml:lang="nl">Geen beperkingen</ns2:prefLabel>
+</rdf:Description>
+
+
+<rdf:Description rdf:about="http://creativecommons.org/publicdomain/zero/*/deed.nl	">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<ns2:prefLabel xml:lang="nl">Geen beperkingen</ns2:prefLabel>
+</rdf:Description>
+<rdf:Description rdf:about="http://creativecommons.org/licenses/by/*/deed.nl">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<ns2:prefLabel xml:lang="nl">Naamsvermelding verplicht, organisatienaam</ns2:prefLabel>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://geonetwork-opensource.org/licenses">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+	<ns3:title>licenses</ns3:title>
+</rdf:Description>
+
+</rdf:RDF>

@@ -183,8 +183,18 @@
               </value>
             </title>
             <url>
-              <xsl:value-of
-                select="concat(util:getSettingValue('nodeUrl'), 'api/records/', $uuid)"/>
+              <value lang="{$lang}">
+                <xsl:choose>
+                  <xsl:when test="$metadata/url">
+                    <xsl:value-of select="$metadata/url" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of
+                      select="concat(util:getSettingValue('nodeUrl'), 'api/records/', $uuid)" />
+                  </xsl:otherwise>
+                </xsl:choose>
+
+              </value>
             </url>
             <logo>
               <xsl:value-of select="$metadata/logo"/>

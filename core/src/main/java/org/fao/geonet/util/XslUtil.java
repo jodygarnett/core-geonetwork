@@ -56,6 +56,7 @@ import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.domain.User;
 import org.fao.geonet.kernel.DataManager;
 import org.fao.geonet.kernel.SchemaManager;
+import org.fao.geonet.kernel.ThesaurusManager;
 import org.fao.geonet.kernel.search.CodeListTranslator;
 import org.fao.geonet.kernel.search.LuceneSearcher;
 import org.fao.geonet.kernel.search.Translator;
@@ -716,7 +717,7 @@ public final class XslUtil {
         if (context != null) baseUrl = context.getBaseUrl();
 
         SettingInfo si = new SettingInfo();
-        return si.getSiteUrl() + "/" + baseUrl;
+        return si.getSiteUrl() + (!baseUrl.startsWith("/")?"/":"") + baseUrl;
     }
 
     public static String getLanguage() {
@@ -752,33 +753,61 @@ public final class XslUtil {
     /**
      *  To get the xml content of an url
      *  It supports the usage of a proxy
-        * @param surl
-        * @return
+     * @param surl
+     * @return
      */
     public static Node getUrlContent(String surl) {
+        return getUrlContent(surl, 5);
+    }
 
-        Node res = null;
-        InputStream is = null;
+    public static Node getUrlContent(String surl, int tryNumber) {
 
         ServiceContext context = ServiceContext.get();
 
+
+        HttpGet getRequest = new HttpGet(surl);
+        GeonetHttpRequestFactory requestFactory = ApplicationContextHolder.get().getBean(GeonetHttpRequestFactory.class);
+        ClientHttpResponse response = null;
+        final String requestHost = getRequest.getURI().getHost();
         try {
-            URL url = new URL(surl);
-            URLConnection conn = Lib.net.setupProxy(context, url);
+            response = requestFactory.execute(getRequest, new Function<HttpClientBuilder, Void>() {
+                @Nullable
+                @Override
+                public Void apply(@Nullable HttpClientBuilder originalConfig) {
+
+                    SettingManager settingManager = context.getBean(SettingManager.class);
+                    Lib.net.setupProxy(settingManager, originalConfig, requestHost);
+
+                    RequestConfig.Builder config = RequestConfig.custom()
+                        .setConnectTimeout(1000)
+                        .setConnectionRequestTimeout(3000)
+                        .setSocketTimeout(5000);
+                    RequestConfig requestConfig = config.build();
+                    originalConfig.setDefaultRequestConfig(requestConfig);
+
+                    return null;
+                }
+            });
+
+            if (response.getStatusCode().is3xxRedirection() && response.getHeaders().containsKey("Location")) {
+                // follow the redirects
+                return getUrlContent(response.getHeaders().getFirst("Location"), tryNumber - 1);
+            }
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
 
-            is = conn.getInputStream();
-            res = db.parse(is);
+            Node res = db.parse(response.getBody());
 
-        } catch (Throwable e) {
-            Log.error(Geonet.GEONETWORK, "Failed fetching url: " + surl, e);
+            return res;
+        } catch (Exception e) {
+            Log.error(Geonet.GEONETWORK, "Exception retrieving  " + surl + " URL. " + e.getMessage(), e);
+            return null;
         } finally {
-            IOUtils.closeQuietly(is);
+            if (response != null) {
+                response.close();
+            }
         }
-
-        return res;
     }
 
     public static String decodeURLParameter(String str) {
@@ -829,5 +858,27 @@ public final class XslUtil {
                 }
             }
         });
+    }
+
+
+    /**
+     * Utility method to retrieve the thesaurus dir from xsl processes.
+     *
+     * Usage:
+     *
+     *    <xsl:stylesheet
+     *      xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
+     *      ...
+     *      xmlns:java="java:org.fao.geonet.util.XslUtil" ...>
+     *
+     *     <xsl:variable name="thesauriDir" select="java:getThesaurusDir()"/>
+     *
+     * @return Thesaurus directory
+     */
+    public static String getThesaurusDir() {
+        ApplicationContext applicationContext = ApplicationContextHolder.get();
+        ThesaurusManager thesaurusManager = applicationContext.getBean(ThesaurusManager.class);
+
+        return thesaurusManager.getThesauriDirectory().toString();
     }
 }

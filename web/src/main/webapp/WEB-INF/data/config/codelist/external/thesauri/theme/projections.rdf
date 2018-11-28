@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:ns3="http://purl.org/dc/elements/1.1/"
+	xmlns:ns5="http://www.opengis.net/gml#"
+	xmlns:ns2="http://www.w3.org/2004/02/skos/core#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+<rdf:Description rdf:nodeID="node1crq22pkfx1">
+	<ns5:upperCorner> </ns5:upperCorner>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.opengis.net/def/crs/EPSG/0/4326">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="node1crq22pkfx1">
+	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="node1crq226j7x1">
+	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.opengis.net/def/crs/EPSG/0/4326">
+	<ns5:BoundedBy rdf:nodeID="node1crq22pkfx1"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="node1crq22pkfx1">
+	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
+	<ns5:lowerCorner> </ns5:lowerCorner>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.opengis.net/def/crs/EPSG/0/28992">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<ns2:prefLabel xml:lang="en">rd new</ns2:prefLabel>
+	<ns2:prefLabel xml:lang="nl">rd nieuw</ns2:prefLabel>
+	<ns2:scopeNote xml:lang="en">rd</ns2:scopeNote>
+	<ns5:BoundedBy rdf:nodeID="node1crq226j7x1"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="node1crq226j7x1">
+	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
+	<ns5:lowerCorner> </ns5:lowerCorner>
+	<ns5:upperCorner> </ns5:upperCorner>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://geonetwork-opensource.org/projection">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+	<ns3:title>projection</ns3:title>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.opengis.net/def/crs/EPSG/0/4326">
+	<ns2:prefLabel xml:lang="es"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="fi"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="cs"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="de"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="ru"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="ca"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="fr"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="ko"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="en">lat lon</ns2:prefLabel>
+	<ns2:prefLabel xml:lang="is"></ns2:prefLabel>
+	<ns2:prefLabel xml:lang="nl">lat lon</ns2:prefLabel>
+	<ns2:prefLabel xml:lang="zh"></ns2:prefLabel>
+	<ns2:scopeNote xml:lang="fr"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="zh"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="nl"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="ca"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="en">http://www.opengis.net/def/crs/EPSG/0/4326</ns2:scopeNote>
+	<ns2:scopeNote xml:lang="es"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="fi"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="is"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="de"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="ru"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="ko"></ns2:scopeNote>
+	<ns2:scopeNote xml:lang="cs"></ns2:scopeNote>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.opengis.net/def/crs/EPSG/0/3857">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<ns2:prefLabel xml:lang="en">google</ns2:prefLabel>
+	<ns2:scopeNote xml:lang="en">google</ns2:scopeNote>
+	<ns5:BoundedBy rdf:nodeID="node1crq240p8x1"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="node1crq240p8x1">
+	<rdf:type rdf:resource="http://www.opengis.net/gml#Envelope"/>
+	<ns5:lowerCorner> </ns5:lowerCorner>
+	<ns5:upperCorner> </ns5:upperCorner>
+	<ns5:srsName rdf:resource="http://www.opengis.net/gml/srs/epsg.xml#epsg:4326"/>
+</rdf:Description>
+
+</rdf:RDF>
