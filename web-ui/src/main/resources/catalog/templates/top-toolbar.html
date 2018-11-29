@@ -43,6 +43,7 @@
           <span data-gnv-layer-indicator=""/>
         </a>
       </li>
+      <li data-ng-show="!authenticated"  gn-static-pages-list-viewer data-section="top" data-language="{{lang}}" />
       <li class="dropdown dropdown-hover open" data-ng-if="gnCfg.mods.editor.enabled"
           data-ng-show="authenticated && user.isEditorOrMore()"
           id="gn-login-dropdown">
@@ -98,8 +99,7 @@
             </a>
           </li>
         </ul>
-      </li>
-      <li gn-static-pages-list-viewer data-section="top" data-language="{{lang}}" />
+      </li>      
     </ul>
 
 

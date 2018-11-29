@@ -22,10 +22,6 @@
 [submodule "geoserver"]
 	path = geoserver
 	url = https://github.com/geonetwork/core-geoserver.git
-[submodule "web-ui/src/main/resources/catalog/views/dutch"]
-	path = web-ui/src/main/resources/catalog/views/dutch
-	url = git@eos.geocat.net:enterprise/geonetwork-dutch-skin.git
-    branch = 3.4.x
 [submodule "web-ui/src/main/resources/catalog/views/minimal"]
 	path = web-ui/src/main/resources/catalog/views/minimal
 	url = git@eos.geocat.net:enterprise/geonetwork-minimal-skin.git
@@ -36,3 +32,7 @@
 [submodule "schemas/iso19139.nl.geografie.2.0.0"]
 	path = schemas/iso19139.nl.geografie.2.0.0
 	url = https://github.com/metadata101/iso19139.nl.geografie.2.0.0.git
+[submodule "web-ui/src/main/resources/catalog/views/dutch"]
+	path = web-ui/src/main/resources/catalog/views/dutch
+	url = git@eos.geocat.net:enterprise/geonetwork-dutch-skin.git
+    branch = 3.4.x
