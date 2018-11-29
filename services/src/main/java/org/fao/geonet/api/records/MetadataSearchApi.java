@@ -51,7 +51,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class MetadataSearchApi {
 
 	SAXBuilder sb = new SAXBuilder();
-	private List<String> eCatIds = new ArrayList<>();
+	private List<String> eCatIds;
 	private boolean isSearching = false;
 
 	@ApiOperation(value = "Get records by xpath")
@@ -63,6 +63,7 @@ public class MetadataSearchApi {
 			@RequestBody Map<String, String> allRequestParams) throws Exception {
 
 		isSearching = true;
+		eCatIds = new ArrayList<>();
 		ServiceContext context = ApiUtils.createServiceContext(request);
 		
 		final MetadataRepository metadataRepository = context.getBean(MetadataRepository.class);
