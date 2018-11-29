@@ -35,4 +35,4 @@
 [submodule "web-ui/src/main/resources/catalog/views/dutch"]
 	path = web-ui/src/main/resources/catalog/views/dutch
 	url = git@eos.geocat.net:enterprise/geonetwork-dutch-skin.git
-    branch = 3.4.x
+  branch = ngr344temp
