@@ -1716,13 +1716,26 @@
                         that.trigger("asyncRequested", query);
                     }
                 }
+                // function async(suggestions) {
+                //     suggestions = suggestions || [];
+                //     if (!canceled && rendered < that.limit) {
+                //         that.cancel = $.noop;
+                //          rendered += suggestions.length;
+                //         that._append(query, suggestions.slice(0, that.limit - rendered));
+                //         that.async && that.trigger("asyncReceived", query);
+                //     }
+                // }
                 function async(suggestions) {
                     suggestions = suggestions || [];
+
+                    // if the update has been canceled or if the query has changed
+                    // do not render the suggestions as they've become outdated
                     if (!canceled && rendered < that.limit) {
                         that.cancel = $.noop;
-                        rendered += suggestions.length;
-                        that._append(query, suggestions.slice(0, that.limit - rendered));
-                        that.async && that.trigger("asyncReceived", query);
+                        var idx = Math.abs(rendered - that.limit);
+                        rendered += idx;
+                        that._append(query, suggestions.slice(0, idx));
+                        that.async && that.trigger('asyncReceived', query, that.name);
                     }
                 }
             },
