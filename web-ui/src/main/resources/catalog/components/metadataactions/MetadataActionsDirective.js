@@ -444,6 +444,7 @@
                 'userIdentifier=' + scope.selectedUserGroup.userId +
                 '&groupIdentifier=' + scope.selectedUserGroup.groupId)
                 .then(function(r) {
+                  $rootScope.$broadcast('search');
                   $rootScope.$broadcast('StatusUpdated', {
                     msg: $translate.instant('transfertPrivilegesFinished', {
                       metadata: r.data.numberOfRecordsProcessed
