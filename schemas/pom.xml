@@ -55,6 +55,7 @@
   <properties>
     <rootProjectDir>../..</rootProjectDir>
     <gn.project.version>3.4.4-0</gn.project.version>
+    <version>3.4.4-0</version>
   </properties>
 
   <profiles>
