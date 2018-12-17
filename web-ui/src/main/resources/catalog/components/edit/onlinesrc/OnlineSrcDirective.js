@@ -1112,7 +1112,7 @@
                           });
                     }
                   } else if (scope.params.url.indexOf('http') === 0) {
-                    var useProxy =
+                    /*var useProxy =
                         scope.params.url.indexOf(location.hostname) === -1;
                     var url = useProxy ?
                         '../../proxy?url=' +
@@ -1123,7 +1123,8 @@
                     function(response) {
                       // Proxy may return 500 when document is not proxyable
                       scope.isUrlOk = response.status === 200;
-                    });
+                    });*/
+                    scope.isUrlOk = true;
                   } else {
                     scope.isUrlOk = true;
                   }
