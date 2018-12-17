@@ -1,7 +1,10 @@
 package methods;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,7 +12,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.slf4j.Logger;
@@ -40,7 +42,20 @@ public class ScreenShotMethods implements BaseTest {
         ScreenShotMethods.LOGGER.info("****\n" + path + "/screenshot" + dateFormat.format(cal.getTime()) + ".png");
 
         Path newFilePath = Paths.get(path + "/screenshot" + dateFormat.format(cal.getTime()) + ".png");
-        FileUtils.copyFile(scrFile, Files.createFile(newFilePath).toFile());
+        copyFileUsingChannel(scrFile, Files.createFile(newFilePath).toFile());
 
+    }
+    
+    private static void copyFileUsingChannel(File source, File dest) throws IOException {
+        FileChannel sourceChannel = null;
+        FileChannel destChannel = null;
+        try {
+            sourceChannel = new FileInputStream(source).getChannel();
+            destChannel = new FileOutputStream(dest).getChannel();
+            destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+           }finally{
+               sourceChannel.close();
+               destChannel.close();
+       }
     }
 }

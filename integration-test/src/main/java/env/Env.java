@@ -58,7 +58,7 @@ public class Env {
         case "ch":
         case "chrome":
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("headless", "no-sandbox", "testing-fixed-http-port", "testing-fixed-https-port");
+            chromeOptions.addArguments("no-sandbox", "testing-fixed-http-port", "testing-fixed-https-port");
             Env.driver = new ChromeDriver(chromeOptions);
             break;
 
