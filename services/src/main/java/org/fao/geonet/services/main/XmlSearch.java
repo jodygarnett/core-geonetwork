@@ -141,7 +141,7 @@ public class XmlSearch implements Service {
     }
     
     public boolean isUuid(String uuid){
-    	String pattern = "[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[a-f0-9]{4}-[0-9a-f]{12}";
+    	String pattern = "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[0-9a-f]{12}";
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(uuid);
 		return m.find();
