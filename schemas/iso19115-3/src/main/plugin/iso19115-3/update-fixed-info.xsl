@@ -286,8 +286,9 @@
 	<xsl:template
 		match="cit:CI_Citation/cit:identifier[mcc:MD_Identifier/mcc:code/gco:CharacterString = 'Link to be added by administrator']">
 		<xsl:variable name="ecatId" select="/root/env/gaid" />
+		<xsl:variable name="codelistvalue" select="//mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue" />
 		<xsl:variable name="pid"
-			select="concat('http://pid.geoscience.gov.au/service/ga/', $ecatId)" />
+			select="concat('http://pid.geoscience.gov.au/', $codelistvalue, '/ga/', $ecatId)" />
 		<xsl:copy>
 			<mcc:MD_Identifier>
 				<mcc:code>
