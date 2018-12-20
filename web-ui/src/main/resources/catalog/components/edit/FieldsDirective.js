@@ -167,6 +167,15 @@
               element.off();
             });
 
+            var isDatePicker = 'gnDatePicker' in attrs;
+
+            var createTooltipForDatePicker = function (el, tooltip) {
+              var controlColumn = el.closest(".gn-field").find("div.gn-control");
+              if(controlColumn.length > 0) {
+                controlColumn.append(tooltip);
+              }
+            };
+
             // use a icon to click on for a tooltip
             if (useTooltipIcon) {
 
@@ -228,8 +237,9 @@
               // if element is a fieldset legend
               if (element.is('legend')) {
                 element.contents().first().after(tooltipIconCompiled);
-              }
-              if (element.is('label')) {
+              } else if (isDatePicker) {
+                element.closest(".gn-field").find("div.gn-control").append(tooltipIconCompiled);
+              } else if (element.is('label')) {
                 if (tooltipAfterLabel) {
                   element.parent().children('div').append(tooltipIconCompiled);
                 } else {
