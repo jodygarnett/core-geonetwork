@@ -460,12 +460,17 @@ public class MetadataInsertDeleteApi {
                 report.addError(e);
             }
             if (xmlContent != null) {
-                Pair<Integer, String> pair = loadRecord(
-                    metadataType, xmlContent,
-                    uuidProcessing, group, category, rejectIfInvalid, transformWith, schema, extra, request);
-                report.addMetadataInfos(pair.one(), String.format(
-                    "Metadata imported from URL with UUID '%s'", pair.two())
-                );
+            	try{
+            		Pair<Integer, String> pair = loadRecord(
+                            metadataType, xmlContent,
+                            uuidProcessing, group, category, rejectIfInvalid, transformWith, schema, extra, request);
+                        report.addMetadataInfos(pair.one(), String.format(
+                            "Metadata imported from URL with UUID '%s'", pair.two())
+                        );	
+            	}catch(Exception e){
+            		report.addError(e);
+            	}
+                
             }
             report.incrementProcessedRecords();
        
