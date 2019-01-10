@@ -527,7 +527,7 @@
     </entry>
   </codelist>
   
-  <codelist name="mri:DS_AssociationTypeCode">
+  <codelist name="mri:DS_AssociationTypeCode" alias="associationType">
   	<!-- extends the existing DS_AssociationTypeCode codelist according GA Metadata profile -->
     <entry>
       <code>collectiveTitle</code>
