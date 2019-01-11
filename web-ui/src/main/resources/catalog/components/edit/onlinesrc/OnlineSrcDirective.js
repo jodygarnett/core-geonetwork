@@ -1532,6 +1532,161 @@
           };
         }])
 
+	 /**
+	     * @ngdoc directive
+	     * @name gn_onlinesrc.directive:gnAddAssociatedResource
+	     * @restrict A
+	     * @requires gnOnlinesrc
+	     * @requires $Metadata
+	     * @requires gnEditor
+	     * @requires $translate
+	     *
+	     * @description
+	     * The `gnAddAssociatedResource` directive provides
+	     * a form to link to another metadata or to different associated resources as
+	     * 
+	     * <ul>
+	     *  <li>add resources</li> 
+	     *  <li>parent</li>
+	     *  <li>feature catalog</li>
+	     *  <li>source dataset</li>
+	     * </ul>
+	     * The directive contains a search form allowing one local selection or a form to enter values manually.
+	     *
+	     * On submit, the metadata is saved, the associated resources is added,
+	     * then the form and the list are refreshed.
+	     */
+        .directive('gnAddAssociatedResource', [
+          'gnOnlinesrc', 'Metadata', 'gnEditor', '$translate', 'gnGlobalSettings',
+          function(gnOnlinesrc, Metadata, gnEditor, $translate, gnGlobalSettings) {
+            return {
+              restrict: 'A',
+              scope: {},
+              templateUrl: '../../catalog/components/edit/onlinesrc/' +
+                  'partials/addAssociatedRes.html',
+              compile: function compile(tElement, tAttrs, transclude) {
+                return {
+                  pre: function preLink(scope) {
+                    
+                    scope.searchObj = {
+                      any: '',
+                      params: {}
+                    };
+                    scope.modelOptions = angular.copy(gnGlobalSettings.modelOptions);
+                    scope.metadata = null;
+                    scope.isMdRecord = true;
+                    scope.params = {
+                      url:'',
+                      protocol:'WWW:LINK-1.0-http--link',
+                      name:'',
+                      desc:'',
+                      code:'',
+                      associationType:'',
+                      identifierDesc:'',
+                      process:'association-add'
+                    }
+
+
+                    scope.associationTypes = [];
+                    
+                    scope.associationTypes.push('eCat Record');
+                    scope.associationTypes.push('Other');
+                    
+                    scope.model = {};
+                    scope.model.selectedType = 'eCat Record';
+                  
+                  },
+                  post: function postLink(scope, iElement, iAttrs) {
+                    scope.mode = iAttrs['gnAddAssociatedResource'];
+                    scope.popupid = '#addassociatedres-popup';
+                    scope.btn = {};
+                    scope.stateObj = {};
+                    scope.onlinesrcService = gnOnlinesrc;
+                    scope.config = {
+                      associationType: null
+                    };
+                    // Append * for like search
+                    scope.updateParams = function() {
+                      scope.searchObj.params.any =
+                          '*' + scope.searchObj.any + '*';
+                    };
+  
+                    scope.displayType = function(){
+                      if(scope.model.selectedType === 'eCat Record'){
+                        scope.isMdRecord = true;
+                        scope.model.selectedType = 'eCat Record';
+                      }else{
+                        scope.isMdRecord = false;
+                        resetForm();
+                        scope.model.selectedType = 'Other';
+                      }
+                    }
+
+                    scope.addAssociatedRes = function() {
+                     
+                      if(scope.model.selectedType === 'eCat Record'){
+                        if(scope.metadata){
+                          var md = scope.metadata;
+                          var pidUrl = 'http://pid.geoscience.gov.au/'+md.type[0]+'/ga/'+md.eCatId;
+                          scope.params.url=pidUrl;
+                          scope.params.protocol='WWW:LINK-1.0-http--link';
+                          scope.params.name=md.title;
+                          scope.params.desc='Link to eCat metadata record landing page';
+                          scope.params.code=md.eCatId;
+                          scope.params.associationType=scope.config.associationType;
+                          scope.params.identifierDesc='eCat Identifier';
+                        }
+                      }
+                      
+                      return scope.onlinesrcService.add(
+                        scope.params, scope.popupid).then(function() {
+                        resetForm();
+                      });
+                    };
+    
+                    scope.onAddSuccess = function() {
+                      gnEditor.refreshEditorForm();
+                      scope.onlinesrcService.reload = true;
+                    };
+                    
+                  gnOnlinesrc.register('associatedres', function() {
+                    $(scope.popupid).modal('show');
+                    var searchParams = {
+                      hitsPerPage: 10
+                    };
+                    scope.$broadcast('resetSearch', searchParams);
+                  });
+
+                  scope.$watchCollection('stateObj.selectRecords',
+                    function(n, o) {
+                      if (!angular.isUndefined(scope.stateObj.selectRecords) &&
+                          scope.stateObj.selectRecords.length > 0 && n != o) {
+                        scope.metadata = new Metadata(scope.stateObj.selectRecords[0]);
+                      }
+                    });
+                  
+                    function resetForm(){
+                      if(scope.params){
+                        scope.params = {
+                          url:'',
+                          protocol:'WWW:LINK-1.0-http--link',
+                          name:'',
+                          desc:'',
+                          code:'',
+                          associationType:'',
+                          identifierDesc:'',
+                          process:'association-add'
+                        }
+                      }
+                    }
+
+                  }
+                };
+              }
+            };
+          }])
+
+          
       /**
      * @ngdoc directive
      * @name gn_onlinesrc.directive:gnLinkToSibling

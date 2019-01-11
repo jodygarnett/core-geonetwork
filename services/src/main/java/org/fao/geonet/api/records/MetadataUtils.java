@@ -149,7 +149,8 @@ public class MetadataUtils {
         // Search for records where an aggregate point to this record
         if (listOfTypes.size() == 0 ||
             listOfTypes.contains(RelatedItemType.associated)) {
-            relatedRecords.addContent(search(uuid, "associated", context, from, to, fast));
+            //relatedRecords.addContent(search(uuid, "associated", context, from, to, fast));
+            relatedRecords.addContent(new Element("associated").addContent((Content) md.clone()));
         }
 
         // Search for services

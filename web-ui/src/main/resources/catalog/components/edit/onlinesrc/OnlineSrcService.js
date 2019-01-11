@@ -631,6 +631,15 @@
               setParams('sibling-remove', params));
         },
 
+        removeAssociation: function(onlinesrc) {
+          var params = {
+            uuid: gnCurrentEdit.uuid,
+            code: onlinesrc.id
+          };
+          runProcess(this,
+              setParams('association-remove', params));
+        },
+
         /**
          * @ngdoc method
          * @name gnOnlinesrc#buildOnLineResource
