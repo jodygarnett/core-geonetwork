@@ -75,8 +75,8 @@
    * </ul>
    *
    */
-      .directive('gnOnlinesrcList', ['gnOnlinesrc', 'gnCurrentEdit', '$filter',
-        function(gnOnlinesrc, gnCurrentEdit, $filter) {
+      .directive('gnOnlinesrcList', ['gnOnlinesrc', 'gnCurrentEdit', '$filter','$rootScope',
+        function(gnOnlinesrc, gnCurrentEdit, $filter, $rootScope) {
           return {
             restrict: 'A',
             templateUrl: '../../catalog/components/edit/onlinesrc/' +
@@ -87,7 +87,13 @@
               scope.gnCurrentEdit = gnCurrentEdit;
               scope.allowEdits = true;
               scope.lang = scope.$parent.lang;
-
+             
+              scope.isAdministrator = function(){
+                if($rootScope.user.profile === 'Administrator'){
+                  return true;
+                }
+                return false;            
+              }
               /**
                * Calls service 'relations.get' to load
                * all online resources of the current
@@ -1556,7 +1562,7 @@
 	     * On submit, the metadata is saved, the associated resources is added,
 	     * then the form and the list are refreshed.
 	     */
-        .directive('gnAddAssociatedResource', [
+       .directive('gnAddAssociatedResource', [
           'gnOnlinesrc', 'Metadata', 'gnEditor', '$translate', 'gnGlobalSettings',
           function(gnOnlinesrc, Metadata, gnEditor, $translate, gnGlobalSettings) {
             return {
@@ -1567,7 +1573,11 @@
               compile: function compile(tElement, tAttrs, transclude) {
                 return {
                   pre: function preLink(scope) {
-                    
+                    scope.isResOk = false;
+                    scope.selectionType = {
+                      ECAT_RECORD : 'eCat Record',
+                      OTHER: 'Other'
+                    };
                     scope.searchObj = {
                       any: '',
                       params: {}
@@ -1583,17 +1593,17 @@
                       code:'',
                       associationType:'',
                       identifierDesc:'',
-                      process:'association-add'
+                      process:'association-add',
+                      preCode:''
                     }
-
 
                     scope.associationTypes = [];
                     
-                    scope.associationTypes.push('eCat Record');
-                    scope.associationTypes.push('Other');
+                    scope.associationTypes.push(scope.selectionType.ECAT_RECORD);
+                    scope.associationTypes.push(scope.selectionType.OTHER);
                     
                     scope.model = {};
-                    scope.model.selectedType = 'eCat Record';
+                    scope.model.selectedType = scope.selectionType.ECAT_RECORD;
                   
                   },
                   post: function postLink(scope, iElement, iAttrs) {
@@ -1612,19 +1622,26 @@
                     };
   
                     scope.displayType = function(){
-                      if(scope.model.selectedType === 'eCat Record'){
+                      scope.isResOk = true;
+                      if(scope.model.selectedType === scope.selectionType.ECAT_RECORD){
                         scope.isMdRecord = true;
-                        scope.model.selectedType = 'eCat Record';
+                        if(!scope.metadata){
+                          scope.isResOk = false;
+                        }
+                        scope.model.selectedType = scope.selectionType.ECAT_RECORD;
                       }else{
+                        
                         scope.isMdRecord = false;
-                        resetForm();
-                        scope.model.selectedType = 'Other';
+                        if(!scope.isEditing){
+                          resetForm();
+                        }                       
+                        scope.model.selectedType = scope.selectionType.OTHER;
                       }
                     }
 
                     scope.addAssociatedRes = function() {
-                     
-                      if(scope.model.selectedType === 'eCat Record'){
+                      
+                      if(scope.model.selectedType === scope.selectionType.ECAT_RECORD){
                         if(scope.metadata){
                           var md = scope.metadata;
                           var pidUrl = 'http://pid.geoscience.gov.au/'+md.type[0]+'/ga/'+md.eCatId;
@@ -1633,15 +1650,24 @@
                           scope.params.name=md.title;
                           scope.params.desc='Link to eCat metadata record landing page';
                           scope.params.code=md.eCatId;
-                          scope.params.associationType=scope.config.associationType;
                           scope.params.identifierDesc='eCat Identifier';
                         }
                       }
+
+                      scope.metadata = null;
+                      if(scope.isEditing){
+                        scope.params.associationType=scope.config.associationType;
+                        return scope.onlinesrcService.updateAssociation(scope.params, scope.popupid).then(function(){
+                          console.log('for editing, removed association and calling add function');
+                        });
+                      } else {
+                        scope.params.associationType=scope.config.associationType;
+                        return scope.onlinesrcService.add(
+                          scope.params, scope.popupid).then(function() {
+                          resetForm();
+                        });
+                      }
                       
-                      return scope.onlinesrcService.add(
-                        scope.params, scope.popupid).then(function() {
-                        resetForm();
-                      });
                     };
     
                     scope.onAddSuccess = function() {
@@ -1649,7 +1675,27 @@
                       scope.onlinesrcService.reload = true;
                     };
                     
-                  gnOnlinesrc.register('associatedres', function() {
+                  gnOnlinesrc.register('associatedres', function(linkToEdit) {
+                    scope.isEditing = angular.isDefined(linkToEdit);
+                    scope.model.selectedType = scope.selectionType.ECAT_RECORD;
+                    if(scope.isEditing){
+                      console.log('linkToEdit.identifierDesc ---> ' + linkToEdit.identifierDesc);
+                      if(linkToEdit.identifierDesc !== 'eCat Identifier'){
+                          scope.model.selectedType = scope.selectionType.OTHER;
+                          scope.params.url=linkToEdit.url;
+                          scope.params.protocol=linkToEdit.protocol;
+                          scope.params.name=linkToEdit.title['eng'];
+                          scope.params.desc=linkToEdit.description['eng'];
+                          scope.params.identifierDesc=linkToEdit.identifierDesc;
+                      }
+                      scope.params.code=linkToEdit.id;
+                      scope.params.preCode=linkToEdit.id;
+                      scope.config.associationType = linkToEdit.associationType;
+                    }else{
+                      resetForm();
+                    }
+
+                    scope.displayType();
                     $(scope.popupid).modal('show');
                     var searchParams = {
                       hitsPerPage: 10
@@ -1660,8 +1706,11 @@
                   scope.$watchCollection('stateObj.selectRecords',
                     function(n, o) {
                       if (!angular.isUndefined(scope.stateObj.selectRecords) &&
-                          scope.stateObj.selectRecords.length > 0 && n != o) {
+                        scope.stateObj.selectRecords.length > 0 && n != o) {
+                        scope.isResOk = true;
                         scope.metadata = new Metadata(scope.stateObj.selectRecords[0]);
+                      }else{
+                        scope.isResOk = false;
                       }
                     });
                   

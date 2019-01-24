@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" data-ng-show="isAdministrator()">
   <div class="panel-heading">
     <h5 class="onlinesrc-title">
       <a href=""
@@ -379,9 +379,12 @@
 
       <!-- ******* List of associated records (reverse direction of siblings) ******* -->
       <h4 class="onlinesrc-title" data-ng-show="relations.associated.length">
-        <i class="fa fa-sign-out"></i>
-        <i class="icon-external-link"></i>&nbsp;
-        <span data-translate="">associatedResources</span>&nbsp;
+        <a href="" data-ng-click="onlinesrcService.onOpenPopup('associatedres')">
+          <i class="fa fa-sign-out" data-ng-class="onlinesrcService.reload ? 'fa-spin' : ''"></i>
+          <i class="icon-external-link"></i>&nbsp;
+          <span data-translate="">associatedResources</span>&nbsp;
+          <i class="fa fa-plus"></i>
+        </a>
       </h4>
       <ul class="list-group">
         <li class="list-group-item"
@@ -395,6 +398,13 @@
               </a>
             </div>
             <div class="col-md-1">
+              <a href=""
+                class="onlinesrc-remove"
+                data-ng-if="gnCurrentEdit.schemaConfig.related.readonly !== true"
+                data-ng-show="allowEdits"
+                data-ng-click="onlinesrcService.onOpenPopup('associatedres', resource)">
+               <i class="fa fa-pencil"></i>
+              </a>
               <a href="" class="onlinesrc-remove"
                  data-ng-if="gnCurrentEdit.schemaConfig.related.readonly !== true"
                  data-ng-click="onlinesrcService.removeAssociation(resource)">
