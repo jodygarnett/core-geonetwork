@@ -4338,6 +4338,10 @@
       <option value="PNG">PNG</option>
       <option value="JPEG">JPEG</option>
       <option value="OGC:WMC">OGC:WMC</option>
+      <option value="OGC:WMS">OGC:WMS</option>
+      <option value="OGC:WFS">OGC:WFS</option>
+      <option value="OGC:WMTS">OGC:WMTS</option>
+      <option value="OGC:WPS">OGC:WPS</option>
       <option value="OGC:OWS-C">OGC OWS Context</option>
     </helper>
   </element>
