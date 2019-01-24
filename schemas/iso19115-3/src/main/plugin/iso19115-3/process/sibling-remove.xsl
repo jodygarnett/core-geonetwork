@@ -21,5 +21,5 @@ Stylesheet used to remove a reference to a parent record.
 	</xsl:template>
 
 	<!-- Remove geonet:* elements. -->
-	<xsl:template match="gn:*|mri:associatedResource/mri:MD_AssociatedResource[mri:metadataReference/@uuidref = $uuidref]" priority="2"/>
+	<xsl:template match="gn:*|mri:associatedResource[mri:MD_AssociatedResource/mri:metadataReference/@uuidref = $uuidref]" priority="2"/>
 </xsl:stylesheet>
