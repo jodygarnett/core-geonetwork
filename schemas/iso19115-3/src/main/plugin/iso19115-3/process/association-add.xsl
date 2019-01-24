@@ -89,9 +89,6 @@ Stylesheet used to add a reference to a related record using aggregation info.
                                     <gco:CharacterString xsi:type="gco:CodeType"
                                         codeSpace="http://pid.geoscience.gov.au/def/schema/ga/ISO19115-3-2016/codelist/ga_profile_codelists.xml#gapCI_ProtocolTypeCode"><xsl:value-of select="$protocol"/></gco:CharacterString>
                                 </cit:protocol>
-                                <cit:name>
-                                    <gco:CharacterString><xsl:value-of select="$name"/></gco:CharacterString>
-                                </cit:name>
                                 <cit:description>
                                     <gco:CharacterString><xsl:value-of select="$desc"/></gco:CharacterString>
                                 </cit:description>

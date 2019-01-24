@@ -57,36 +57,42 @@
   </xsl:template>
 
 	<!-- Joseph added for Associated resources -->
-	<xsl:template mode="association" match="mri:MD_DataIdentification">
-		<associated>
-			<xsl:for-each select="mri:associatedResource">
-				<xsl:if
-					test="boolean(mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:code)">
-					<item>
-						<id>
-							<xsl:value-of
-								select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:code/gco:CharacterString" />
-						</id>
-						<title>
-							<value lang="{$lang}">
-								<xsl:value-of
-									select="mri:MD_AssociatedResource/*/cit:CI_Citation/cit:title/gco:CharacterString" />
-							</value>
-						</title>
-						<url>
-							<xsl:value-of
-								select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/cit:CI_OnlineResource/cit:linkage/gco:CharacterString" />
-						</url>
-						<description>
-							<value lang="{$lang}">
-								<xsl:value-of
-									select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/cit:CI_OnlineResource/cit:description/gco:CharacterString" />
-							</value>
-						</description>
-					</item>
-				</xsl:if>
-			</xsl:for-each>
-		</associated>
-	</xsl:template>
+	<xsl:template mode="association" match="node()">
+        <associated>
+            <xsl:for-each select="mri:associatedResource">
+              <xsl:if test="boolean(mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:code)">
+                <item>
+                    <id>
+                        <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:code/gco:CharacterString" />
+                    </id>
+                    <title>
+                        <value lang="{$lang}">
+                          <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/cit:title/gco:CharacterString" />
+                        </value>
+                    </title>
+                    <identifierDesc>
+                        <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:description/gco:CharacterString" />
+                    </identifierDesc>
+                    <url>
+                        <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/cit:CI_OnlineResource/cit:linkage/gco:CharacterString" />
+                    </url>
+                    <description>
+                        <value lang="{$lang}">
+                          <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/cit:CI_OnlineResource/cit:description/gco:CharacterString" />
+                        </value>
+                    </description>
+                    <associationType>
+                        <xsl:value-of select="mri:MD_AssociatedResource/*/mri:DS_AssociationTypeCode/@codeListValue" />
+                    </associationType>
+                    <protocol>
+                        <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/cit:CI_OnlineResource/cit:protocol/gco:CharacterString" />
+                    </protocol>
+                </item>
+                 </xsl:if>
+            </xsl:for-each>
+        </associated>
+       
+    </xsl:template>
+    
     
 </xsl:stylesheet>
