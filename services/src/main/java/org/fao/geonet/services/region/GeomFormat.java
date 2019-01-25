@@ -40,6 +40,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.HashMap;
+import org.apache.commons.lang.StringUtils;
 
 public enum GeomFormat {
 
@@ -54,17 +55,19 @@ public enum GeomFormat {
 
         @Override
         public Geometry parse(String geomString) throws Exception {
-			try {
-				if (geomString.contains("%")) {
-					geomString = URLDecoder.decode(geomString, Constants.ENCODING);
-				}
-				if (geomString.contains("+")) {
-					geomString = geomString.replace("+", " ");
-				}
-				return wktReader.read(geomString);
-			} catch (Exception e) {
-				throw new Exception(e.getLocalizedMessage());
+			
+        	int count = StringUtils.countMatches(geomString, ".");
+        	if(count > 1){
+        		geomString = geomString.substring(0, geomString.lastIndexOf('.'));
+        	}
+			if (geomString.contains("%")) {
+				geomString = URLDecoder.decode(geomString, Constants.ENCODING);
 			}
+			if (geomString.contains("+")) {
+				geomString = geomString.replace("+", " ");
+			}
+			return wktReader.read(geomString);
+			
         }
     },
     GML3 {
