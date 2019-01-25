@@ -214,7 +214,6 @@
         getAllResources: function() {
 
           var defer = $q.defer();
-
           $http.get('../api/records/' + gnCurrentEdit.uuid + '/related', {
             headers: {
               'Accept': 'application/json'
@@ -223,6 +222,20 @@
               .success(function(data) {
                 defer.resolve(data);
               });
+          return defer.promise;
+        },
+
+        getUserInfo: function() {
+
+          var defer = $q.defer();
+          console.log('get user info.....');
+          $http.get('../api/me', {
+            headers: {
+              'Accept': 'application/json'
+            }
+          }).success(function(data) {
+                defer.resolve(data);
+          });
           return defer.promise;
         },
 
@@ -309,6 +322,8 @@
           }
           else {
             params[mode + 'Uuid'] = md.getUuid();
+            params[mode + 'eCatId'] = md.geteCatId();
+            params[mode + 'Title'] = md.getTitle();
           }
           return runProcess(this, params).then(function() {
             closePopup(popupid);
@@ -629,6 +644,40 @@
           };
           runProcess(this,
               setParams('sibling-remove', params));
+        },
+
+        removeAssociation: function(onlinesrc) {
+          var params = {
+            uuid: gnCurrentEdit.uuid,
+            code: onlinesrc.id
+          };
+          runProcess(this,
+              setParams('association-remove', params));
+        },
+
+        updateAssociation: function(onlinesrc, popupid) {
+
+          var addAssociationFn = function() {
+            var qParams = setParams('association-add', onlinesrc);
+            return runProcess(this, qParams).then(function() {
+              closePopup(popupid);
+            });
+          };
+
+          var params = {
+            uuid: gnCurrentEdit.uuid,
+            code: onlinesrc.preCode
+          };
+
+
+          return gnBatchProcessing.runProcessMd(setParams('association-remove', params)).then(addAssociationFn, function(error){
+            $rootScope.$broadcast('StatusUpdated', {
+              title: $translate.instant('runProcessError'),
+              error: error,
+              timeout: 0,
+              type: 'danger'
+            });
+          });
         },
 
         /**

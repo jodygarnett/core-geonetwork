@@ -416,6 +416,25 @@
     </xsl:copy>
   </xsl:template>
   
+  <!-- Joseph - Add Protocol codeSpace to GA Profile codelist -->
+  <xsl:template match="cit:CI_OnlineResource[not(cit:protocol/gco:CharacterString/@codeSpace = 'http://pid.geoscience.gov.au/def/schema/ga/ISO19115-3-2016/codelist/ga_profile_codelists.xml#gapCI_ProtocolTypeCode')]">
+    <xsl:copy>
+      <xsl:copy-of select="@*"/>
+      <xsl:copy-of select="cit:linkage"/>
+      <cit:protocol>
+        <gco:CharacterString>
+		  <xsl:attribute name="xsi:type" namespace="http://www.w3.org/2001/XMLSchema-instance">gco:CodeType</xsl:attribute>
+          <xsl:attribute name="codeSpace">http://pid.geoscience.gov.au/def/schema/ga/ISO19115-3-2016/codelist/ga_profile_codelists.xml#gapCI_ProtocolTypeCode</xsl:attribute>
+          <xsl:value-of select="cit:protocol/gco:CharacterString"/>
+        </gco:CharacterString>
+      </cit:protocol>
+      <xsl:copy-of select="cit:applicationProfile"/>
+	  <xsl:copy-of select="cit:name"/>
+      <xsl:copy-of select="cit:description"/>
+      <xsl:copy-of select="cit:function"/>
+    </xsl:copy>
+  </xsl:template>
+  
   <!-- online resources: download -->
   <xsl:template match="cit:CI_OnlineResource[matches(cit:protocol/gco:CharacterString,'^WWW:DOWNLOAD-.*-http--download.*') and cit:name]">
     <xsl:variable name="fname" select="cit:name/gco:CharacterString|cit:name/gcx:MimeFileType"/>

@@ -592,6 +592,9 @@
       getId: function() {
         return this['geonet:info'].id;
       },
+      getTitle: function() {
+        return this.title || this.defaultTitle;
+      },
       geteCatId: function() {
         return this.eCatId;
       },
