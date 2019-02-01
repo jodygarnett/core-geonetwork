@@ -12,10 +12,13 @@
 
         <!-- code Field -->
         <div class="form-group">
-            <label for="onlinesrcUrl" class="col-sm-1 control-label" data-translate="">valueCode</label>
+            <label for="onlinesrcUrl" class="col-sm-1 control-label" data-translate="">Identifier</label>
             <div class="col-sm-8">
               <input ng-disabled="isEditing" data-ng-model="params.code" data-ng-model-options="{debounce: 500}" required="" name="code" class="form-control"
-                type="text" id="onlinesrcUrl">
+                type="text" id="onlinesrcUrl" 
+                placeholder="Identifier of target resource eg: HPRM number or Github commit number" 
+                onfocus="this.placeholder=''"
+                onblur="this.placeholder='Identifier of target resource eg: HPRM number or Github commit number'">
             </div>
           </div>
 
@@ -23,7 +26,10 @@
         <div class="form-group">
           <label for="onlinesrcName" class="col-sm-1 control-label" data-translate="">onlineResourceName</label>
           <div class="col-sm-8">
-            <input ng-model="params.name" name="name" type="text" id="onlinesrcName" placeholder="Name">
+            <input ng-model="params.name" name="name" type="text" id="onlinesrcName" 
+              placeholder="Name of github commit or name of HPRM document contains" 
+              onfocus="this.placeholder=''" 
+              onblur="this.placeholder='Name of github commit or name of HPRM document contains'">
           </div>
         </div>
 
@@ -32,7 +38,11 @@
             <label for="onlinesrcDescr" class="col-sm-1 control-label" data-translate="">Resource Description</label>
             <div class="col-sm-8">
               <textarea rows="3" data-gn-autogrow="" data-ng-model="params.identifierDesc" class="form-control input-sm" id="identifierDesc"
-              placeholder="Resource Description" name="description" />
+                placeholder="Eg: Description of what the Github commt is or what the HPRM document contains" 
+                name="description" 
+                onfocus="this.placeholder=''" 
+                onblur="this.placeholder='Eg: Description of what the Github commt is or what the HPRM document contains'"
+              />
             </div>
           </div>
         
@@ -41,7 +51,10 @@
           <label for="onlinesrcUrl" class="col-sm-1 control-label" data-translate="">url</label>
           <div class="col-sm-8">
             <input data-ng-model="params.url" data-ng-model-options="{debounce: 500}" required="" name="url" class="form-control"
-              type="text" id="onlinesrcUrl" placeholder="http://">
+              type="text" id="onlinesrcUrl" 
+              placeholder="URL to the resource"
+              onfocus="this.placeholder=''" 
+              onblur="this.placeholder='URL to the resource'">
           </div>
         </div>
 
@@ -50,7 +63,10 @@
           <label for="onlinesrcDescr" class="col-sm-1 control-label" data-translate="">Link Description</label>
           <div class="col-sm-8">
             <textarea rows="3" data-gn-autogrow="" data-ng-model="params.desc" class="form-control input-sm" id="onlinesrcDescr"
-              placeholder="Linkage Description" name="description" />
+              placeholder="Description of what the URL is. Eg: Link to Github commit or Link to HPRM document" 
+              name="description" 
+              onfocus="this.placeholder=''" 
+              onblur="this.placeholder='Description of what the URL is. Eg: Link to Github commit or Link to HPRM document'" />
             </div>
       </div>
       <!-- Protocol Combo -->
