@@ -231,7 +231,7 @@
 			  count: count,
 	          group: groupId
 	        });
-	        return $http.put('../api/records/multiduplicate?' + url, {
+	        return $http.put('../api/records/duplicates?' + url, {
 	          headers: {
 	            'Accept': 'application/json'
 	          }

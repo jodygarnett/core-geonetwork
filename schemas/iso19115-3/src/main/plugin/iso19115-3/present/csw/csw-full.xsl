@@ -185,9 +185,7 @@
       
       <!-- bounding box -->
       <xsl:for-each select="$identification/mri:extent/gex:EX_Extent/gex:geographicElement/gex:EX_GeographicBoundingBox">
-        
-        <xsl:for-each select="/mdb:MD_Metadata/mdb:referenceSystemInfo">
-	        <xsl:variable name="rsi"  select="/mdb:MD_Metadata/mdb:referenceSystemInfo/*/mrs:referenceSystemIdentifier/mcc:MD_Identifier"/>
+	        <xsl:variable name="rsi"  select="/mdb:MD_Metadata/mdb:referenceSystemInfo[1]/*/mrs:referenceSystemIdentifier/mcc:MD_Identifier"/>
 	        <xsl:variable name="auth" select="$rsi/mcc:codeSpace/gco:CharacterString"/>
 	        <xsl:variable name="id"   select="$rsi/mcc:code/gco:CharacterString"/>
 	        <xsl:variable name="crs" select="concat('urn:ogc:def:crs:', $auth, '::', $id)"/>
@@ -208,8 +206,6 @@
 	            <xsl:value-of select="concat(gex:westBoundLongitude/gco:Decimal, ' ', gex:northBoundLatitude/gco:Decimal)"/>
 	          </ows:UpperCorner>
 	        </ows:BoundingBox>
-        </xsl:for-each>
-        
       </xsl:for-each>
       
       
