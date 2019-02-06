@@ -13,6 +13,7 @@ Stylesheet used to remove a reference to a parent record.
 
 	
 	<xsl:param name="code"/>
+	<xsl:param name="type"/>
 	
 	<!-- Do a copy of every nodes and attributes -->
 	<xsl:template match="@*|node()">
@@ -21,6 +22,8 @@ Stylesheet used to remove a reference to a parent record.
 		</xsl:copy>
 	</xsl:template>
 
+	
 	<!-- Remove geonet:* elements. -->
-	<xsl:template match="gn:*|mri:associatedResource[mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString = $code]" priority="2"/>
+	<xsl:template match="gn:*|mri:associatedResource[mri:MD_AssociatedResource/mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[(mcc:description/gco:CharacterString=$type)]/mcc:code/gco:CharacterString = $code]" priority="2" />
+		
 </xsl:stylesheet>
