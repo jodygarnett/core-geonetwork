@@ -373,27 +373,36 @@
          *
          * @param {Object} params for the batch
          * @param {string} popupid id of the popup to close after process.
+         * @param {Object} extraParams params required to add associated resources in dataset
          */
-        linkToService: function(params, popupid) {
+        linkToService: function(params, popupid, extraParams) {
           var qParams = setParams('dataset-add', params);
           var scope = this;
           return gnBatchProcessing.runProcessMd({
-            scopedName: qParams.name,
+            //scopedName: qParams.name,
             uuidref: qParams.uuidDS,
             uuid: qParams.uuidSrv,
             process: qParams.process
           }).then(function() {
-            var qParams = setParams('service-add', params);
-            runProcess(scope, {
-              scopedName: qParams.name,
-              uuidref: qParams.uuidSrv,
-              uuid: qParams.uuidDS,
-              url: qParams.url,
-              protocol: qParams.protocol,
-              process: qParams.process
-            }).then(function() {
-              closePopup(popupid);
-            });
+            if(extraParams.process === 'association-add'){
+              var qParams = setParams('association-add', extraParams);
+              runProcess(this, qParams).then(function() {
+                closePopup(popupid);
+              });
+            }else{
+              var qParams = setParams('service-add', params);
+              runProcess(scope, {
+                //scopedName: qParams.name,
+                uuidref: qParams.uuidSrv,
+                uuid: qParams.uuidDS,
+                url: qParams.url,
+                protocol: qParams.protocol,
+                process: qParams.process
+              }).then(function() {
+                closePopup(popupid);
+              });
+            }
+            
           }, function(error) {
             $rootScope.$broadcast('StatusUpdated', {
               title: $translate.instant('linkToServiceError'),
@@ -553,10 +562,24 @@
           gnBatchProcessing.runProcessMd(
               setParams('services-remove', params)).
               then(function(data) {
-                $rootScope.$broadcast('StatusUpdated', {
+
+                var asso_params = {
+                  uuid: gnCurrentEdit.uuid,
+                  code: onlinesrc.id,
+                  type:'UUID'
+                };
+                return gnBatchProcessing.runProcessMd(setParams('association-remove', asso_params)).then(function(){
+                  $rootScope.$broadcast('StatusUpdated', {
+                    title: $translate.instant('serviceDetachedToCurrentRecord'),
+                    timeout: 3
+                  });
+                });
+
+
+                /*$rootScope.$broadcast('StatusUpdated', {
                   title: $translate.instant('serviceDetachedToCurrentRecord'),
                   timeout: 3
-                });
+                });*/
                 service.reload = true;
               }, function(error) {
                 $rootScope.$broadcast('StatusUpdated', {
@@ -649,7 +672,8 @@
         removeAssociation: function(onlinesrc) {
           var params = {
             uuid: gnCurrentEdit.uuid,
-            code: onlinesrc.id
+            code: onlinesrc.id,
+            type: onlinesrc.identifierDesc
           };
           runProcess(this,
               setParams('association-remove', params));
@@ -666,7 +690,8 @@
 
           var params = {
             uuid: gnCurrentEdit.uuid,
-            code: onlinesrc.preCode
+            code: onlinesrc.preCode,
+            type: onlinesrc.preType
           };
 
 
