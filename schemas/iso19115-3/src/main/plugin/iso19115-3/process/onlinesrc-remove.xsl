@@ -19,14 +19,6 @@
   
   <!-- Remove gn:* elements and matching online resource. -->
   <!-- Joseph commented - Changes in digital online distribution format -->
-  <!--  <xsl:template match="gn:*|
-    mrd:onLine[
-    normalize-space(cit:CI_OnlineResource/cit:linkage/gco:CharacterString) = $url and 
-    normalize-space(cit:CI_OnlineResource/cit:name/gco:CharacterString) = $name]|
-    mrd:onLine[
-    normalize-space(cit:CI_OnlineResource/cit:linkage/gco:CharacterString) = $url and 
-    normalize-space(cit:CI_OnlineResource/cit:protocol/gco:CharacterString) = 'WWW:DOWNLOAD-1.0-http--download']"
-    priority="2"/>-->
     <xsl:template match="gn:*|
         mrd:distributorTransferOptions[normalize-space(mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource/cit:linkage/gco:CharacterString) = $url and normalize-space(mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource/cit:name/gco:CharacterString) = $name]|
         mrd:distributorTransferOptions[normalize-space(mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource/cit:linkage/gco:CharacterString) = $url and normalize-space(mrd:MD_DigitalTransferOptions/mrd:onLine/cit:CI_OnlineResource/cit:protocol/gco:CharacterString) = 'WWW:DOWNLOAD-1.0-http--download']"
