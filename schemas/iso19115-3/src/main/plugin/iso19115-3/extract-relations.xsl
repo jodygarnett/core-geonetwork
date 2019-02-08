@@ -47,8 +47,7 @@
         <item>
           <id><xsl:value-of select="mcc:fileName/gco:CharacterString"/></id>
           <url>
-              <xsl:apply-templates mode="get-iso19115-3-localized-string"
-                                    select="mcc:fileName"/>
+              <xsl:value-of select="mcc:fileName/gco:CharacterString"/>
           </url>
           <title>
               <xsl:apply-templates mode="get-iso19115-3-localized-string"

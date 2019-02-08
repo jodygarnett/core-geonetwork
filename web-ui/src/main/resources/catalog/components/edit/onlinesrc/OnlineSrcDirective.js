@@ -203,87 +203,40 @@
                 var schemaConfig = {
                   
                   'iso19115-3': {
-                    display: 'select',
-                    types: [ {
-                      group: 'onlineDownload',
-                      label: 'onlineDownloadFile',
-                      copyLabel: 'name',
+                    display: 'radio',
+                    types: [ 
+                      {
+                        label: 'addOnlinesrc',
+                        copyLabel: 'name',
+                        sources: {
+                          filestore: true
+                        },
+                        icon: 'fa gn-icon-onlinesrc',
+                        process: 'onlinesrc-add',
+                        fields: {
+                          'url': {},
+                          'protocol': {
+                            value: 'WWW:LINK-1.0-http--link'
+                          },
+                          'name': {},
+                          'desc': {},
+                          'function': {value: 'download'},
+                          'formatname': {},
+                          'edition': {},
+                          'filecomp': {}
+                        }
+                      }, {
+                      label: 'addThumbnail',
                       sources: {
-                        filestore: true
+                        filestore: true,
+                        thumbnailMaker: true
                       },
-                      icon: 'fa gn-icon-onlinesrc',
-                      process: 'onlinesrc-add',
+                      icon: 'fa gn-icon-thumbnail',
+                      fileStoreFilter: '*.{jpg,JPG,jpeg,JPEG,png,PNG,gif,GIF}',
+                      process: 'thumbnail-add',
                       fields: {
                         'url': {},
-                        'protocol': {
-                          value: 'WWW:LINK-1.0-http--link', hidden: true
-                        },
-                        'name': {},
-                        'desc': {},
-                        'function': {value: 'download', hidden: true},
-                        'formatname': {},
-                        'edition': {},
-                        'filecomp': {}
-                      }
-                    }, {
-                      group: 'onlineDownload',
-                      label: 'onlineDownloadWWW',
-                      copyLabel: 'name',
-                      sources: {
-                        filestore: true
-                      },
-                      icon: 'fa gn-icon-onlinesrc',
-                      process: 'onlinesrc-add',
-                      fields: {
-                        'url': {},
-                        'protocol': {
-                          value: 'WWW:LINK-1.0-http--link', hidden: true
-                        },
-                        'name': {},
-                        'desc': {},
-                        'function': {value: 'download', hidden: true},
-                        'formatname': {},
-                        'edition': {},
-                        'filecomp': {}
-                      }
-                    }, {
-                      group: 'onlineMore',
-                      label: 'onlineMoreWWW',
-                      copyLabel: 'name',
-                      icon: 'fa gn-icon-onlinesrc',
-                      process: 'onlinesrc-add',
-                      fields: {
-                        'url': {},
-                        'protocol': {
-                          value: 'WWW:LINK-1.0-http--link', hidden: true
-                        },
-                        'name': {},
-                        'desc': {},
-                        'function': {value: 'information', hidden: true},
-                        'formatname': {},
-                        'edition': {},
-                        'filecomp': {}
-                      }
-                    }, {
-                      group: 'onlineMore',
-                      label: 'onlineMoreFile',
-                      copyLabel: 'name',
-                      sources: {
-                        filestore: true
-                      },
-                      icon: 'fa gn-icon-onlinesrc',
-                      process: 'onlinesrc-add',
-                      fields: {
-                        'url': {},
-                        'protocol': {
-                          value: 'WWW:LINK-1.0-http--link', hidden: true
-                        },
-                        'name': {},
-                        'desc': {},
-                        'function': {value: 'information', hidden: true},
-                        'formatname': {},
-                        'edition': {},
-                        'filecomp': {}
+                        'desc': {}
                       }
                     }]
                   }
@@ -399,20 +352,16 @@
                   for (var i = 0; i < scope.config.types.length; i++) {
                     var c = scope.config.types[i];
                     if (scope.schema === 'iso19115-3') {
-                      var p = c.fields &&
-                              c.fields.protocol &&
-                              c.fields.protocol.value || '',
-                          f = c.fields &&
-                          c.fields.function &&
-                          c.fields.function.value || '',
-                          ap = c.fields &&
-                          c.fields.applicationProfile &&
-                          c.fields.applicationProfile.value || '';
-                      if (c.process.indexOf(link.type) === 0 &&
-                          p === (link.protocol || '') &&
-                          f === (link.function || '') &&
-                          ap === (link.applicationProfile || '')
-                      ) {
+                      var p = c.fields && c.fields.protocol && c.fields.protocol.value || '',
+                          f = c.fields && c.fields.function && c.fields.function.value || '',
+                          ap = c.fields && c.fields.applicationProfile && c.fields.applicationProfile.value || '', 
+                          fn = c.fields && c.fields.formatname && c.fields.formatname.value || '', 
+                          e = c.fields && c.fields.edition && c.fields.edition.value || '', 
+                          fc = c.fields && c.fields.filecomp && c.fields.filecomp.value || ''; 
+                      if (c.process.indexOf(link.type) === 0 && p === (link.protocol || '') &&
+                          f === (link.function || '') && ap === (link.applicationProfile || '')
+                          && fn === (link.formatname || '') && e === (link.edition || '')
+                          && fc === (link.filecomp || '')) {
                         return c;
                       }
                     } else {
@@ -526,13 +475,19 @@
                       function: linkToEdit.function,
                       selectedLayers: []
                       };
-                      } else{
-                      scope.editingKey= null;
-                      scope.params.linkType= scope.config.types[0];
-                      scope.params.protocol= null;
-                      setParameterValue(scope.params.name, '');
-                      setParameterValue(scope.params.desc, '');
-                    }
+
+                      if(scope.params.linkType.process === 'thumbnail-add'){
+                        scope.params.desc = $filter('gnLocalized')(linkToEdit.title);
+                      }
+                      
+
+                  } else{
+                    scope.editingKey= null;
+                    scope.params.linkType= scope.config.types[0];
+                    scope.params.protocol= null;
+                    setParameterValue(scope.params.name, '');
+                    setParameterValue(scope.params.desc, '');
+                  }
                   });
 
                 // mode can be 'url' or 'thumbnailMaker' to init thumbnail panel
