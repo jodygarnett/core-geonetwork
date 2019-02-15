@@ -284,7 +284,7 @@
   </xsl:template>
 
 	<xsl:template
-		match="cit:CI_Citation/cit:identifier[mcc:MD_Identifier/mcc:code/gco:CharacterString = 'Link to be added by administrator']">
+		match="cit:CI_Citation/cit:identifier[mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString = 'Geoscience Australia Persistent Identifier']">
 		<xsl:variable name="ecatId" select="/root/env/gaid" />
 		<xsl:variable name="codelistvalue" select="//mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue" />
 		<xsl:variable name="pid"
@@ -297,7 +297,7 @@
 					</gco:CharacterString>
 				</mcc:code>
 				<mcc:codeSpace>
-					<gco:CharacterString>ga-dataSetURI</gco:CharacterString>
+					<gco:CharacterString>Geoscience Australia Persistent Identifier</gco:CharacterString>
 				</mcc:codeSpace>
 			</mcc:MD_Identifier>
 		</xsl:copy>
