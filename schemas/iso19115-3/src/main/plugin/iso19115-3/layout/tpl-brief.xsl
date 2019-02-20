@@ -60,10 +60,10 @@
 	<xsl:template mode="association" match="node()">
         <associated>
             <xsl:for-each select="mri:associatedResource">
-              <xsl:if test="boolean(mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:code)">
+              <xsl:if test="boolean(mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:code) and not(starts-with(mri:MD_AssociatedResource/*/cit:CI_Citation/*/cit:CI_OnlineResource/cit:description/gco:CharacterString, 'Link to eCat service metadata'))">
                 <item>
                     <id>
-                        <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:code/gco:CharacterString" />
+                        <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier[not(mcc:description/gco:CharacterString='UUID')]/mcc:code/gco:CharacterString" />
                     </id>
                     <title>
                         <value lang="{$lang}">
@@ -71,7 +71,7 @@
                         </value>
                     </title>
                     <identifierDesc>
-                        <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier/mcc:description/gco:CharacterString" />
+                        <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/mcc:MD_Identifier[not(mcc:description/gco:CharacterString = 'UUID')]/mcc:description/gco:CharacterString" />
                     </identifierDesc>
                     <url>
                         <xsl:value-of select="mri:MD_AssociatedResource/*/cit:CI_Citation/*/cit:CI_OnlineResource/cit:linkage/gco:CharacterString" />
