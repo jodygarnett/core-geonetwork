@@ -14,6 +14,7 @@ Stylesheet used to remove a reference to a parent record.
 	
 	<xsl:param name="code"/>
 	<xsl:param name="type"/>
+	<xsl:param name="associationType"/>
 	
 	<!-- Do a copy of every nodes and attributes -->
 	<xsl:template match="@*|node()">
