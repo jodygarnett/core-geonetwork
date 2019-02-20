@@ -13,6 +13,7 @@ Stylesheet used to add a reference to a related record using aggregation info.
     exclude-result-prefixes="#all" version="2.0">
     
     <xsl:param name="url"/>
+    <xsl:param name="_uuid"/>
     <xsl:param name="protocol"/>
     <xsl:param name="name"/>
     <xsl:param name="desc"/>
@@ -58,7 +59,7 @@ Stylesheet used to add a reference to a related record using aggregation info.
     </xsl:template>
     
     <xsl:template name="fill">
-       <xsl:if test="count(//mri:associatedResource/mri:MD_AssociatedResource[mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString = $code]) = 0">
+       <xsl:if test="count(//mri:associatedResource/mri:MD_AssociatedResource[mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString = $code and mri:associationType/mri:DS_AssociationTypeCode/@codeListValue = $associationType]) = 0">
         <mri:associatedResource>
             <mri:MD_AssociatedResource>
                 <mri:associationType>
@@ -80,6 +81,18 @@ Stylesheet used to add a reference to a related record using aggregation info.
                                 </mcc:description>
                             </mcc:MD_Identifier>
                         </cit:identifier>
+                        <xsl:if test="$identifierDesc = 'eCat Identifier'">
+                            <cit:identifier>
+                                <mcc:MD_Identifier>
+                                    <mcc:code>
+                                        <gco:CharacterString><xsl:value-of select="$_uuid"/></gco:CharacterString>
+                                    </mcc:code>
+                                    <mcc:description>
+                                        <gco:CharacterString>UUID</gco:CharacterString>
+                                    </mcc:description>
+                                </mcc:MD_Identifier>
+                            </cit:identifier>    
+                        </xsl:if>
                         <cit:onlineResource>
                             <cit:CI_OnlineResource>
                                 <cit:linkage>

@@ -1587,6 +1587,7 @@
                     scope.isMdRecord = true;
                     scope.params = {
                       url:'',
+                      _uuid:'',
                       protocol:'WWW:LINK-1.0-http--link',
                       name:'',
                       desc:'',
@@ -1594,7 +1595,9 @@
                       associationType:'',
                       identifierDesc:'',
                       process:'association-add',
-                      preCode:''
+                      preCode:'',
+                      preType:'',
+                      preAssociation:''
                     }
 
                     scope.associationTypes = [];
@@ -1646,6 +1649,7 @@
                           var md = scope.metadata;
                           var pidUrl = 'http://pid.geoscience.gov.au/'+md.type[0]+'/ga/'+md.eCatId;
                           scope.params.url=pidUrl;
+                          scope.params._uuid=md.getUuid();
                           scope.params.protocol='WWW:LINK-1.0-http--link';
                           scope.params.name=md.title;
                           scope.params.desc='Link to eCat metadata record landing page';
@@ -1687,7 +1691,10 @@
                           scope.params.name=linkToEdit.title['eng'];
                           scope.params.desc=linkToEdit.description['eng'];
                           scope.params.identifierDesc=linkToEdit.identifierDesc;
+                          scope.isResOk = true;
                       }
+                      scope.params.preType=linkToEdit.identifierDesc;
+                      scope.params.preAssociation=linkToEdit.associationType;
                       scope.params.code=linkToEdit.id;
                       scope.params.preCode=linkToEdit.id;
                       scope.config.associationType = linkToEdit.associationType;
