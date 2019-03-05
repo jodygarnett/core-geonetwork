@@ -78,8 +78,7 @@
               </xsl:if>
             </xsl:variable>
             <loc><xsl:value-of select="/root/gui/env/server/protocol"/>://<xsl:value-of
-              select="/root/gui/env/server/host"/>:<xsl:value-of
-              select="/root/gui/env/server/port"/><xsl:value-of select="/root/gui/url"/>/sitemap/<xsl:value-of
+              select="/root/gui/env/server/host"/><xsl:value-of select="/root/gui/url"/>/sitemap/<xsl:value-of
               select="$formatParam"/><xsl:value-of select="$pStart"/>/<xsl:value-of
               select="/root/gui/language"/>
             </loc>
@@ -127,15 +126,13 @@
                   </xsl:call-template>
                 </xsl:variable>
                 <xsl:value-of select="$env/system/server/protocol"/>://<xsl:value-of
-                select="$env/system/server/host"/>:<xsl:value-of
-                select="$env/system/server/port"/><xsl:value-of select="/root/gui/locService"/>/<xsl:value-of
+                select="$env/system/server/host"/><xsl:value-of select="/root/gui/locService"/>/<xsl:value-of
                 select="$metadataUrlValue"/>
               </xsl:when>
 
               <xsl:otherwise>
                 <xsl:value-of select="$env/system/server/protocol"/>://<xsl:value-of
-                select="$env/system/server/host"/>:<xsl:value-of
-                select="$env/system/server/port"/><xsl:value-of select="/root/gui/url"/>/?uuid=<xsl:value-of
+                select="$env/system/server/host"/><xsl:value-of select="/root/gui/url"/>?uuid=<xsl:value-of
                 select="$uuid"/>
               </xsl:otherwise>
             </xsl:choose>
@@ -163,8 +160,7 @@
         </sc:datasetLabel>
         <xsl:for-each select="metadata/record">
           <sc:dataDumpLocation><xsl:value-of select="$env/system/server/protocol"/>://<xsl:value-of
-            select="$env/system/server/host"/>:<xsl:value-of
-            select="$env/system/server/port"/><xsl:value-of select="/root/gui/url"/>/srv/eng/rdf.metadata.get?uuid=<xsl:value-of
+            select="$env/system/server/host"/><xsl:value-of select="/root/gui/url"/>/srv/eng/rdf.metadata.get?uuid=<xsl:value-of
             select="uuid"/>
           </sc:dataDumpLocation>
         </xsl:for-each>

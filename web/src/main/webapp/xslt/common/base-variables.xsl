@@ -106,8 +106,7 @@
   <xsl:variable name="baseURL" select="substring-before($siteURL,'/srv/')"/>
   <!-- Full URL with protocol, host and port -->
   <xsl:variable name="fullURL" select="concat($env/system/server/protocol, '://',
-    $env/system/server/host, ':',
-    $env/system/server/port)"/>
+    $env/system/server/host)"/>
   <!-- Full URL for services -->
   <xsl:variable name="fullURLForService" select="concat($fullURL, /root/gui/locService)"/>
   <xsl:variable name="fullURLForWebapp" select="concat($fullURL, /root/gui/url)"/>
