@@ -30,7 +30,8 @@
   <xsl:variable name="format" select="/root/request/format"/>
   <xsl:variable name="indexDocs" select="/root/response/indexDocs"/>
   <xsl:variable name="changeDate" select="/root/response/changeDate"/>
-
+  <xsl:variable name="lastMod" select="substring-before($changeDate, 'T')" />
+  
   <xsl:template match="/root">
     <xsl:choose>
       <!-- Return index document -->
@@ -83,7 +84,7 @@
               select="/root/gui/language"/>
             </loc>
             <lastmod>
-              <xsl:value-of select="$changeDate"/>
+              <xsl:value-of select="$lastMod"/>
             </lastmod>
           </sitemap>
         </xsl:when>
@@ -114,7 +115,7 @@
         <xsl:variable name="uuid" select="uuid"/>
         <xsl:variable name="schemaid" select="datainfo/schemaid"/>
         <xsl:variable name="changedate" select="datainfo/changedate"/>
-
+		<xsl:variable name="lastmod" select="substring-before($changedate, 'T')" />
         <url>
           <loc>
             <xsl:choose>
@@ -138,13 +139,13 @@
             </xsl:choose>
           </loc>
           <lastmod>
-            <xsl:value-of select="$changedate"/>
+            <xsl:value-of select="$lastmod"/>
           </lastmod>
-          <geo:geo>
+          <!-- <geo:geo>
             <geo:format>
               <xsl:value-of select="$schemaid"/>
             </geo:format>
-          </geo:geo>
+          </geo:geo> -->
         </url>
       </xsl:for-each>
     </urlset>
