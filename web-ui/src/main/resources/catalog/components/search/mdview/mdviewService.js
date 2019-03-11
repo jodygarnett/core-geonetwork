@@ -149,14 +149,11 @@
               $http.post('../api/search/records/_search', {"query": {
                   "bool" : {
                     "must": [
-                      {"terms": {"isTemplate": ["n", "y"]}}
-                      ],
-                    "should": [
-                      {"term": {"uuid": uuid}},
-                      {"terms": {"id": uuid}}
-                      ]
-                  }
-                }}).then(function(r) {
+                      {"terms": {"isTemplate": ["n", "y"]}},
+                      {"multi_match": {
+                        "query": uuid,
+                        "fields": ['id', 'uuid']}}]
+                }}}).then(function(r) {
                 if (r.data.hits.total == 1) {
                   var metadata = [];
                   metadata.push(new Metadata(r.data.hits.hits[0]._source));

@@ -95,7 +95,8 @@
   }]);
   module
       .directive(
-          'gnRelated',
+        // TODOES
+          'gnRelatedDISABLED',
           [
         'gnRelatedService',
         'gnGlobalSettings',

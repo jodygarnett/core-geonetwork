@@ -373,12 +373,12 @@
         hitsperpageValues: gnSearchSettings.hitsperpageValues,
         filters: gnSearchSettings.filters,
         defaultParams: {
-          sortBy: sortConfig[0] || 'relevance',
-          sortOrder: sortConfig[1] || ''
+          // sortBy: sortConfig[0] || 'relevance',
+          // sortOrder: sortConfig[1] || ''
         },
         params: {
-          sortBy: sortConfig[0] || 'relevance',
-          sortOrder: sortConfig[1] || ''
+          // sortBy: sortConfig[0] || 'relevance',
+          // sortOrder: sortConfig[1] || ''
         },
         sortbyValues: gnSearchSettings.sortbyValues
       });

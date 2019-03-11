@@ -214,7 +214,7 @@ public class EsSearchManager implements ISearchManager {
             }
 
             // Check index exist first
-            final IndicesExists request = new IndicesExists.Builder(indexId)
+            final IndicesExists request = new IndicesExists.Builder(indexName)
                 .build();
             JestResult result = client.getClient().execute(request);
             if (result.getResponseCode() == 200 && !dropIndexFirst) {
@@ -226,7 +226,7 @@ public class EsSearchManager implements ISearchManager {
                 // Check version of the index - how ?
 
                 // Create it if not
-                Path indexConfiguration = dataDirectory.getConfigDir().resolve(INDEX_DIRECTORY).resolve(indexName + ".json");
+                Path indexConfiguration = dataDirectory.getConfigDir().resolve(INDEX_DIRECTORY).resolve(indexId + ".json");
                 if (Files.exists(indexConfiguration)) {
 
                     CreateIndex createIndex = new CreateIndex.Builder(indexName)
@@ -358,8 +358,6 @@ public class EsSearchManager implements ISearchManager {
             .add(Geonet.IndexFieldNames.HASXLINKS)
             .add("isHarvested")
             .add("isPublishedToAll")
-            .add("isTemplate")
-            .add("isValid")
             .add("isSchemaValid")
             .add("isAboveThreshold")
             .add("isOpenData")

@@ -114,9 +114,9 @@
 
         <!-- Display the first metadata status (apply to ISO19139 record) -->
         <div data-ng-if="mdView.current.record.codelist_status.length > 0"
-            title="{{mdView.current.record.codelist_status[0]}}"
-            class="gn-status gn-status-mdview gn-status-{{mdView.current.record.codelist_status[0]}}">
-          {{mdView.current.record.codelist_status[0]}}
+            title="{{mdView.current.record.codelist_status}}"
+            class="gn-status gn-status-mdview gn-status-{{mdView.current.record.codelist_status}}">
+          {{mdView.current.record.codelist_status}}
         </div>
         
         <div data-gn-related-observer>
@@ -600,13 +600,12 @@
           <div data-gn-metadata-rate="mdView.current.record"/>
         </section>
 
+        <div data-gn-more-like-this="mdView.current.record"/>
+
         <div data-ng-show="isRecordHistoryEnabled && user.isEditorOrMore()"
              data-gn-record-history="mdView.current.record"></div>
       </div>
 
     </div>
-
-
-
   </div>
 </div>
