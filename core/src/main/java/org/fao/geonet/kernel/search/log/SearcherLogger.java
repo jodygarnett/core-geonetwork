@@ -39,12 +39,21 @@ public class SearcherLogger {
     @Value("${es.index.searchlogs}")
     private String index = "searchlogs";
 
+    @Value("${es.index.searchlogs.type}")
+    private String indexType = "searchlogs";
+
     public String getIndex() {
         return index;
+    }
+    public String getIndexType() {
+        return indexType;
     }
 
     public void setIndex(String index) {
         this.index = index;
+    }
+    public void setIndexType(String indexType) {
+        this.indexType = indexType;
     }
 
     /**

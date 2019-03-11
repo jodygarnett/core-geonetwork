@@ -48,6 +48,7 @@ import org.fao.geonet.index.es.EsClient;
 import org.fao.geonet.kernel.AccessManager;
 import org.fao.geonet.kernel.SelectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -78,6 +79,23 @@ public class EsHTTPProxy {
         "application/json", "text/plain"
     };
 
+    @Value("${es.index.records:gn-records}")
+    private String index = "records";
+
+    @Value("${es.index.records.type:records}")
+    private String indexType = "records";
+
+    public String getIndex() {
+        return index;
+    }
+
+    public String getIndexType() {
+        return indexType;
+    }
+    public void setIndexType(String indexType) {
+        this.indexType = indexType;
+    }
+
     @Autowired
     private EsClient client;
 
@@ -97,7 +115,7 @@ public class EsHTTPProxy {
 
         ServiceContext context = ApiUtils.createServiceContext(request);
 
-        final String url = client.getServerUrl() + "/records/" + endPoint + "?";
+        final String url = client.getServerUrl() + "/" + index + "/" + endPoint + "?";
 
         // Retrieve request body with ElasticSearch query and parse JSON
         String body = IOUtils.toString(request.getReader());

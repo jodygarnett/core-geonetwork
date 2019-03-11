@@ -29,12 +29,13 @@
   goog.require('gn_search_manager');
   goog.require('gn_session_service');
   goog.require('gn_external_viewer');
+  goog.require('gn_history');
 
 
   var module = angular.module('gn_cat_controller',
       ['gn_search_manager', 'gn_session_service',
         'gn_admin_menu', 'gn_saved_selections',
-        'gn_external_viewer']);
+        'gn_external_viewer', 'gn_history']);
 
 
   module.constant('gnSearchSettings', {});
@@ -74,8 +75,11 @@
             'ice': 'is',
             'ita' : 'it',
             'rus': 'ru',
-            'chi': 'zh'
-          }
+            'chi': 'zh',
+            'slo': 'sk'
+          },
+          'isLogoInHeader': false,
+          'logoInHeaderPosition': 'left'
         },
         'home': {
           'enabled': true,
@@ -195,9 +199,14 @@
             'code': 'EPSG:3857',
             'label': 'Google mercator (EPSG:3857)'
           }],
+          'switcherProjectionList': [{
+            'code': 'EPSG:3857',
+            'label': 'Google mercator (EPSG:3857)'
+          }],
           'disabledTools': {
             'processes': false,
             'addLayers': false,
+            'projectionSwitcher': false,
             'layers': false,
             'legend': false,
             'filter': false,
@@ -229,13 +238,18 @@
             'enabled': true,
             'appUrl': 'https://secure.geonames.org/searchJSON'
         },
+        'recordview': {
+          'enabled': true,
+          'isSocialbarEnabled': true
+        },
         'editor': {
           'enabled': true,
           'appUrl': '../../srv/{{lang}}/catalog.edit',
           'isUserRecordsOnly': false,
           'isFilterTagsDisplayed': false,
           'createPageTpl':
-              '../../catalog/templates/editor/new-metadata-horizontal.html'
+              '../../catalog/templates/editor/new-metadata-horizontal.html',
+          'editorIndentType': ''
         },
         'admin': {
           'enabled': true,
@@ -247,6 +261,10 @@
         },
         'signout': {
           'appUrl': '../../signout'
+        },
+        'page': {
+          'enabled': true,
+          'appUrl': '../../srv/{{lang}}/catalog.search#/page'
         }
       }
     };
@@ -274,15 +292,17 @@
         // and override with config arg if required
         angular.merge(this.gnCfg, config, {});
 
-        // secial case: languages (replace with object from config if available)
-        this.gnCfg.mods.header.languages = angular.extend({
-          mods: {
-            header: {
-              languages: {}
+        // special case: languages (replace with object from config if available)
+        if (config && config.mods) {
+          this.gnCfg.mods.header.languages = angular.extend({
+            mods: {
+              header: {
+                languages: {}
+              }
             }
-          }
-        }, config).mods.header.languages;
-
+          }, config).mods.header.languages;
+        }
+        
         this.gnUrl = gnUrl || '../';
         this.proxyUrl = this.gnUrl + '../proxy?url=';
         gnViewerSettings.mapConfig = this.gnCfg.mods.map;
@@ -304,6 +324,20 @@
         copy.mods.header.languages = {};
         copy.mods.search.grid.related = [];
         return copy;
+      },
+      getProxyUrl: function () {
+        return this.proxyUrl;
+      },
+      // Removes the proxy path and decodes the layer url,
+      // so the layer can be printed with MapFish.
+      // Otherwise Mapfish rejects it, due to relative url.
+      getNonProxifiedUrl: function (url) {
+        if (url.indexOf(this.proxyUrl) > -1) {
+          return decodeURIComponent(
+            url.replace(this.proxyUrl, ''));
+        } else {
+          return url;
+        }
       }
     };
   }());
@@ -462,7 +496,7 @@
         'fre': 'Français', 'ger': 'Deutsch', 'kor': '한국의',
         'spa': 'Español', 'cat': 'Català', 'cze': 'Czech',
         'ita': 'Italiano', 'fin': 'Suomeksi', 'ice': 'Íslenska',
-        'rus': 'русский', 'chi': '中文'};
+        'rus': 'русский', 'chi': '中文', 'slo': 'Slovenčina'};
       $scope.url = '';
       $scope.gnUrl = gnGlobalSettings.gnUrl;
       $scope.gnCfg = gnGlobalSettings.gnCfg;

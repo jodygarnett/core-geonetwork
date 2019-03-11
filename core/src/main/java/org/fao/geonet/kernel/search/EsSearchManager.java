@@ -88,8 +88,22 @@ public class EsSearchManager implements ISearchManager {
     public static final String FIELDNAME = "name";
     public static final String FIELDSTRING = "string";
 
-    @Value("${es.index.records}")
-    private String defaultIndex = "records";
+    @Value("${es.index.records:gn-records}")
+    private String index = "records";
+
+    @Value("${es.index.records.type:records}")
+    private String indexType = "records";
+
+    public String getIndex() {
+        return index;
+    }
+
+    public String getIndexType() {
+        return indexType;
+    }
+    public void setIndexType(String indexType) {
+        this.indexType = indexType;
+    }
 
     @Autowired
     public EsClient client;
@@ -101,7 +115,7 @@ public class EsSearchManager implements ISearchManager {
     private Map<String, String> indexList;
 
     public String getDefaultIndex() {
-        return defaultIndex;
+        return getIndex();
     }
 
     private Path getXSLTForIndexing(Path schemaDir) {
@@ -274,7 +288,7 @@ public class EsSearchManager implements ISearchManager {
             if (listOfDocumentsToIndex.size() > 0) {
                 // TODOES: Report status of failures
                 try {
-                    BulkResult result = client.bulkRequest(defaultIndex, listOfDocumentsToIndex);
+                    BulkResult result = client.bulkRequest(index, indexType, listOfDocumentsToIndex);
                     if (result.isSucceeded()) {
                         // TODOES: inform about time ellapsed ?
                     } else {
@@ -315,7 +329,8 @@ public class EsSearchManager implements ISearchManager {
                             }
                         });
 
-                        BulkResult errorDocResult = client.bulkRequest(defaultIndex, listErrorOfDocumentsToIndex);
+                        BulkResult errorDocResult =
+                            client.bulkRequest(index, indexType, listErrorOfDocumentsToIndex);
                         if (!errorDocResult.isSucceeded()) {
                             System.out.println(String.format(
                                 "Failed to save error documents %s",
@@ -339,7 +354,11 @@ public class EsSearchManager implements ISearchManager {
             .add("hasxlinks")
             .add("hasInspireTheme")
             .add("hasOverview")
+            .add(IndexFields.HAS_ATOM)
+            .add(Geonet.IndexFieldNames.HASXLINKS)
             .add("isHarvested")
+            .add("isPublishedToAll")
+            .add("isTemplate")
             .add("isValid")
             .add("isSchemaValid")
             .add("isAboveThreshold")
@@ -361,11 +380,6 @@ public class EsSearchManager implements ISearchManager {
 
         List<Element> records = xml.getChildren();
         Map<String, ObjectNode> listOfXcb = new HashMap<>();
-        Set<String> booleanFields = new HashSet();
-        booleanFields.add(IndexFields.HAS_ATOM);
-        booleanFields.add(Geonet.IndexFieldNames.HASXLINKS);
-        booleanFields.add("hasxlinks");
-        booleanFields.add("isHarvested");
 
 
         List<String> elementNames = new ArrayList();
@@ -502,7 +516,7 @@ public class EsSearchManager implements ISearchManager {
     }
 
     public void clearIndex() throws Exception {
-        client.deleteByQuery(defaultIndex,"*:*");
+        client.deleteByQuery(index, indexType,"*:*");
     }
 
 //    public void iterateQuery(SolrQuery params, final Consumer<SolrDocument> callback) throws IOException, SolrServerException {
@@ -528,7 +542,7 @@ public class EsSearchManager implements ISearchManager {
     @Override
     public Map<String, String> getDocsChangeDate() throws Exception {
         String query = "{\"query\": {\"filtered\": {\"query_string\": \"*:*\"}}}";
-        Search search = new Search.Builder(query).addIndex(defaultIndex).addType(defaultIndex).build();
+        Search search = new Search.Builder(query).addIndex(index).addType(indexType).build();
         // TODO: limit to needed field
 //        params.setFields(ID, Geonet.IndexFieldNames.DATABASE_CHANGE_DATE);
         SearchResult searchResult = client.getClient().execute(search);
@@ -544,7 +558,7 @@ public class EsSearchManager implements ISearchManager {
     @Override
     public ISODate getDocChangeDate(String mdId) throws Exception {
         // TODO: limit to needed field
-        Get get = new Get.Builder(defaultIndex, mdId).type(defaultIndex).build();
+        Get get = new Get.Builder(index, mdId).type(indexType).build();
         JestResult result = client.getClient().execute(get);
         if (result != null) {
             JsonElement date =
@@ -603,7 +617,7 @@ public class EsSearchManager implements ISearchManager {
 
     @Override
     public void delete(String txt) throws Exception {
-        client.deleteByQuery(defaultIndex, txt);
+        client.deleteByQuery(index, indexType, txt);
 //        client.commit();
     }
 
@@ -636,7 +650,7 @@ public class EsSearchManager implements ISearchManager {
             "    }" +
             "  }" +
             "}", query);
-        Search search = new Search.Builder(searchQuery).addIndex(defaultIndex).addType(defaultIndex).build();
+        Search search = new Search.Builder(searchQuery).addIndex(index).addType(indexType).build();
         SearchResult searchResult = client.getClient().execute(search);
         return searchResult.getTotal();
     }
@@ -741,7 +755,7 @@ public class EsSearchManager implements ISearchManager {
                                       String fieldValue) {
 
         return EsClient.analyzeField(
-                            ApplicationContextHolder.get().getBean(EsSearchManager.class).getDefaultIndex(),
+                            ApplicationContextHolder.get().getBean(EsSearchManager.class).getIndex(),
                             analyzer,
                             fieldValue);
     }

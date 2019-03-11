@@ -291,6 +291,14 @@
   </rule>
   <rule>
     <note>
+      Redirects to hash with page name
+      Example URL: http://localhost:8080/geonetwork/page/about
+    </note>
+    <from>^/(.*)/page/(.*)</from>
+    <to type="permanent-redirect">%{context-path}/#/page/$2?page=$2</to>
+  </rule>
+  <rule>
+    <note>
       Redirects to hash with metadata (extjs-style permalinks)
       Example URL:
       http://localhost:8080/geonetwork/apps/search/?uuid=da165110-88fd-11da-a88f-000d939bc5d8
@@ -338,6 +346,22 @@
 
   <rule>
     <note>
+      INSPIRE Atom search (html)
+    </note>
+    <from>^/opensearch/(.*)/(.*)/searchhtml?(.*)$</from>
+    <to type="forward">/srv/$1/atom.search.html?fileIdentifier=$2</to>
+  </rule>
+
+  <rule>
+    <note>
+      INSPIRE Atom search (html)
+    </note>
+    <from>^/opensearch/(.*)/searchhtml?(.*)$</from>
+    <to type="forward">/srv/$1/atom.search.html</to>
+  </rule>
+
+  <rule>
+    <note>
       INSPIRE Atom search
     </note>
     <from>^/opensearch/(.*)/(.*)/search?(.*)$</from>
@@ -350,6 +374,17 @@
     </note>
     <from>^/opensearch/(.*)/search?(.*)$</from>
     <to type="forward">/srv/$1/atom.search</to>
+  </rule>
+
+  <rule>
+    <note>
+      INSPIRE HTML search
+    </note>
+    <from>^/(.*)/(.*)/opensearch/htmlsearch\?.*q=(.*)</from>
+<!--
+    <to type="forward">/$1/$2/catalog.search#/search?any=$3</to>
+-->
+    <to type="permanent-redirect">%{context-path}/$1/$2/catalog.search#/search?any=$3</to>
   </rule>
 
   <rule>
@@ -368,6 +403,21 @@
     <to type="forward">/srv/$1/atom.describe</to>
   </rule>
 
+  <rule>
+    <note>
+      INSPIRE Atom Predefined Service Describe
+    </note>
+    <from>^/(.*)/atom.predefined.service?(.*)$</from>
+    <to type="forward">/srv/atom/describe/service?$2</to>
+  </rule>
+
+  <rule>
+    <note>
+      INSPIRE Atom Predefined Dataset Describe
+    </note>
+    <from>^/(.*)/atom.predefined.dataset?(.*)$</from>
+    <to type="forward">/srv/atom/describe/dataset?$2</to>
+  </rule>
 
   <rule>
     <note>

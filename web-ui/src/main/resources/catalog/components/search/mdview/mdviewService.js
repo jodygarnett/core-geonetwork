@@ -148,16 +148,20 @@
               gnMdViewObj.current.record = null;
               $http.post('../api/search/records/_search', {"query": {
                   "bool" : {
-                    "must": [{
-                      "term": {"uuid": uuid}},
-                      {"terms": {"isTemplate": ["n", "y"]}
-                      }]
+                    "must": [
+                      {"terms": {"isTemplate": ["n", "y"]}}
+                      ],
+                    "should": [
+                      {"term": {"uuid": uuid}},
+                      {"terms": {"id": uuid}}
+                      ]
                   }
                 }}).then(function(r) {
                 if (r.data.hits.total == 1) {
                   var metadata = [];
                   metadata.push(new Metadata(r.data.hits.hits[0]._source));
                   data = {metadata: metadata};
+
                   that.feedMd(0, undefined, data.metadata);
                 } else {
                   gnMdViewObj.loadDetailsFinished = true;

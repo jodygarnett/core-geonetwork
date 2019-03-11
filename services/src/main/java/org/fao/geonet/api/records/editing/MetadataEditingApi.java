@@ -40,7 +40,9 @@ import org.fao.geonet.domain.AbstractMetadata;
 import org.fao.geonet.domain.MetadataType;
 import org.fao.geonet.domain.ReservedGroup;
 import org.fao.geonet.domain.ReservedOperation;
+import org.fao.geonet.events.history.RecordUpdatedEvent;
 import org.fao.geonet.kernel.*;
+import org.fao.geonet.kernel.datamanager.IMetadataValidator;
 import org.fao.geonet.kernel.metadata.StatusActions;
 import org.fao.geonet.kernel.metadata.StatusActionsFactory;
 import org.fao.geonet.kernel.setting.SettingManager;
@@ -51,6 +53,7 @@ import org.fao.geonet.utils.Xml;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+import org.jdom.output.XMLOutputter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -246,10 +249,9 @@ public class MetadataEditingApi {
         ApplicationContext applicationContext = ApplicationContextHolder.get();
         DataManager dataMan = applicationContext.getBean(DataManager.class);
         UserSession session = ApiUtils.getUserSession(httpSession);
-
+        IMetadataValidator validator = applicationContext.getBean(IMetadataValidator.class);
         String id = String.valueOf(metadata.getId());
         String isTemplate = allRequestParams.get(Params.TEMPLATE);
-
 //        boolean finished = config.getValue(Params.FINISHED, "no").equals("yes");
 //        boolean forget = config.getValue(Params.FORGET, "no").equals("yes");
 //        boolean commit = config.getValue(Params.START_EDITING_SESSION, "no").equals("yes");
@@ -272,6 +274,7 @@ public class MetadataEditingApi {
         StatusActionsFactory saf = context.getBean(StatusActionsFactory.class);
         StatusActions sa = saf.createStatusActions(context);
         sa.onEdit(iLocalId, minor);
+        Element beforeMetadata = dataMan.getMetadata(context, String.valueOf(metadata.getId()), false, false, false);
 
         if (StringUtils.isNotEmpty(data)) {
             Element md = Xml.loadString(data, false);
@@ -282,8 +285,19 @@ public class MetadataEditingApi {
             dataMan.updateMetadata(context, id, md,
                 withValidationErrors, ufo, index,
                 context.getLanguage(), changeDate, updateDateStamp);
+
+            XMLOutputter outp = new XMLOutputter();
+            String xmlBefore = outp.outputString(beforeMetadata);
+            String xmlAfter = outp.outputString(md);
+            new RecordUpdatedEvent(Long.parseLong(id), session.getUserIdAsInt(), xmlBefore, xmlAfter).publish(applicationContext);
         } else {
             ajaxEditUtils.updateContent(params, false, true);
+
+            Element afterMetadata = dataMan.getMetadata(context, String.valueOf(metadata.getId()), false, false, false);
+            XMLOutputter outp = new XMLOutputter();
+            String xmlBefore = outp.outputString(beforeMetadata);
+            String xmlAfter = outp.outputString(afterMetadata);
+            new RecordUpdatedEvent(Long.parseLong(id), session.getUserIdAsInt(), xmlBefore, xmlAfter).publish(applicationContext);
         }
 
         //-----------------------------------------------------------------------
@@ -311,8 +325,7 @@ public class MetadataEditingApi {
 
             // Save validation if the forceValidationOnMdSave is enabled
             if (forceValidationOnMdSave) {
-                dataMan.doValidate(metadata.getDataInfo().getSchemaId(), metadata.getId() + "",
-                    new Document(metadata.getXmlData(false)), context.getLanguage());
+                validator.doValidate(metadata, context.getLanguage());
                 reindex = true;
             }
 

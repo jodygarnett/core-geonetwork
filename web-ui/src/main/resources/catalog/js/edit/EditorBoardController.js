@@ -40,10 +40,11 @@
     '$rootScope',
     '$translate',
     '$q',
+    '$http',
     'gnSearchSettings',
     'gnMetadataActions',
     'gnGlobalSettings',
-    function($scope, $location, $rootScope, $translate, $q,
+    function($scope, $location, $rootScope, $translate, $q, $http,
         gnSearchSettings, gnMetadataActions, gnGlobalSettings) {
       $scope.onlyMyRecord = {
         is: gnGlobalSettings.gnCfg.mods.editor.isUserRecordsOnly
@@ -52,13 +53,20 @@
           gnGlobalSettings.gnCfg.mods.editor.isFilterTagsDisplayed;
       $scope.modelOptions = angular.copy(gnGlobalSettings.modelOptions);
       $scope.defaultSearchObj = {
-        permalink: false,
+        permalink: true,
         sortbyValues: gnSearchSettings.sortbyValues,
         hitsperpageValues: gnSearchSettings.hitsperpageValues,
         selectionBucket: 'e101',
         params: {
           sortBy: 'changeDate',
           isTemplate: ['y', 'n'],
+          resultType: $scope.facetsSummaryType,
+          from: 1,
+          to: 20
+        },
+        defaultParams: {
+          sortBy: 'changeDate',
+          _isTemplate: 'y or n',
           resultType: $scope.facetsSummaryType,
           from: 1,
           to: 20
@@ -85,6 +93,14 @@
           setOwner();
         }
       });
+
+
+
+      // Transfert the scope to the popup
+      $scope.getScope = function(currentMd) {
+        $scope.md = currentMd;
+        return $scope;
+      };
 
       $scope.deleteRecord = function(md) {
         var deferred = $q.defer();

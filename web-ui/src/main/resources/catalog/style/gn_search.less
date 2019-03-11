@@ -312,6 +312,14 @@ span.gn-facet-label:first-letter {
   padding-right: 15px;
 }
 
+//removes some artifacts that prevent clicks on the datepicker
+.datepicker-dropdown.datepicker-orient-bottom,
+.datepicker-dropdown.datepicker-orient-top {
+  &:before, &:after {
+    display:none;
+  }
+}
+
 [gn-collapsible], [data-gn-collapsible] {
   cursor: pointer;
 }
@@ -498,23 +506,6 @@ span.gn-facet-label:first-letter {
   text-align: center;
   font-style: italic;
   color: @text-muted;
-}
-
-.gn-md-edit-btn {
-  .btn();
-  .btn-primary();
-}
-.gn-md-delete-btn {
-  .btn();
-  .btn-danger();
-}
-
-/* Add space between button when pulled right */
-.gn-md-edit-btn.pull-right,
-.gn-md-delete-btn.pull-right,
-.gn-md-actions-btn.pull-right.btn-group,
-.gn-md-actions-btn.pull-right {
-  margin-right: 5px;
 }
 
 [data-ng-search-form],
@@ -749,4 +740,8 @@ button.active [role=tooltip] {
 .gn-baselayer-switcher-content {
   overflow-y:auto;
   max-height: 350px;
+}
+
+.hidden-nojs {
+  display:none !important;
 }

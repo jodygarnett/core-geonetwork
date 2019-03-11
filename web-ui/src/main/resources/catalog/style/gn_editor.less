@@ -66,7 +66,7 @@ input[type=text], input[type=number], select {
     .fa {
       position: absolute;
       top: 11px;
-      z-index: 100;
+      z-index: 20;
       right: 10px;
       &.fa-spinner {
         right: 25px;
@@ -108,14 +108,14 @@ input[type=text], input[type=number], select {
   padding: 20px 5px;
 }
 
-@media only screen and (max-width: 815px) {
+@media only screen and (max-width: @screen-xs-max) {
   .gn-editor-container {
-    margin-top: 120px;
+    margin-top: 50px;
   }
 }
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 490px) {
   .gn-editor-container {
-    margin-top: 160px;
+    margin-top: 100px;
   }
 }
 
@@ -487,6 +487,7 @@ form.gn-editor {
       padding-right: 0px;
   }
 
+  .gn-required > div.th-inner:after,
   label.gn-required:after, .gn-required > label:after,
   label.gn-mandatory:after, .gn-mandatory > label:after {
       content: "*";
@@ -496,11 +497,31 @@ form.gn-editor {
       color: #a94442;
       font-weight: normal;
   }
+
+  .gn-required > div.th-inner:after{
+    font-size: 2em;
+    margin: -7px 0 0 7px;
+  }
+
+
   .form-horizontal .form-group {
       margin-left: 0px;
       margin-right: 0px;
   }
 
+  /* Multilingual badge positionning when
+  having suggestion or not */
+  [data-gn-multilingual-field] {
+    span.label {
+      position: absolute;
+      right: 15px;
+      line-height: 12px;
+    }
+    .twitter-typeahead span.label {
+      right: 2px;
+      top: 2px;
+    }
+  }
 }
 
 .gn-autocomplete-list {
@@ -554,14 +575,43 @@ form.gn-tab-inspire {
     padding-left: 1px;
     padding-right: 1px;
   }
+  .panel {
+    border: 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    box-shadow: none;
+    [data-gn-slide-toggle]:before {
+      margin-left: 0px;
+    }
+    .panel-heading {
+      background: none;
+      padding: 0;
+      border: 0;
+    }
+    .panel-body {
+      padding: 0;
+    }
+  }
   .list-group {
     margin-bottom: 10px;
     .list-group-item {
-      strong {
+      border-left: 4px solid @brand-success;
+      padding-bottom: 5px;
+      .text-bold {
         font-weight: 500;
       }
       p {
         margin-top: 10px;
+        overflow: auto;
+        padding-bottom: 2px;
+      }
+      &.text-danger {
+        border-left: 4px solid @brand-danger;
+        color: @gray-darker;
+      }
+      &.text-info {
+        border-left: 4px solid @brand-info;
+        color: @gray-darker;
       }
     }
   }
