@@ -141,11 +141,11 @@
           <lastmod>
             <xsl:value-of select="$lastmod"/>
           </lastmod>
-          <geo:geo>
+          <!-- <geo:geo>
             <geo:format>
               <xsl:value-of select="$schemaid"/>
             </geo:format>
-          </geo:geo>
+          </geo:geo> -->
         </url>
       </xsl:for-each>
     </urlset>
