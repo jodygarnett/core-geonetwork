@@ -195,7 +195,7 @@
            					<gco:CharacterString><xsl:value-of select="/root/env/gaid"/></gco:CharacterString>
          					</mcc:code>
          					<mcc:codeSpace>
-           					<gco:CharacterString>http://www.ga.gov.au/eCatId</gco:CharacterString>
+           					<gco:CharacterString>eCatId</gco:CharacterString>
          					</mcc:codeSpace>
        					</mcc:MD_Identifier>
       				</cit:identifier>
@@ -203,12 +203,12 @@
 					</mdb:alternativeMetadataReference>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:copy-of select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString='http://www.ga.gov.au/eCatId']"/>
+					<xsl:copy-of select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString='eCatId']"/>
 				</xsl:otherwise>
 			</xsl:choose>
      
 		 	<!-- Now process all other alternativeMetadataReference elements -->
-      <xsl:apply-templates select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString!='http://www.ga.gov.au/eCatId']"/>
+      <xsl:apply-templates select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString!='eCatId']"/>
       <!--<xsl:apply-templates select="mdb:alternativeMetadataReference"/>-->
       <xsl:apply-templates select="mdb:otherLocale"/>
       <xsl:apply-templates select="mdb:metadataLinkage"/>
