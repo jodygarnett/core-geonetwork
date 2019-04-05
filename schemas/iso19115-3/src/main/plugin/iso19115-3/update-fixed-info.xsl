@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
+<xsl:stylesheet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
   xmlns:gml="http://www.opengis.net/gml/3.2" 
   xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0"
   xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0"
