@@ -128,9 +128,6 @@
       <cit:title>
         <gco:CharacterString>ISO 19115-3</gco:CharacterString>
       </cit:title>
-  		<cit:editionDate>
-       	<gco:DateTime>2015-07-01T00:00:00</gco:DateTime>
-  		</cit:editionDate>
     </cit:CI_Citation>
   </mdb:metadataStandard>
   <mdb:identificationInfo>
@@ -149,8 +146,7 @@
                 <cit:CI_DateTypeCode codeList="codeListLocation#CI_DateTypeCode" codeListValue="creation"/>
               </cit:dateType>
             </cit:CI_Date>
-          </cit:date>
-<!-- Martins changes start -->         
+          </cit:date>       
           <cit:identifier>
              <mcc:MD_Identifier>
                 <mcc:code>
@@ -161,17 +157,6 @@
 				</mcc:codeSpace>
 			</mcc:MD_Identifier>
 			</cit:identifier>
-			<cit:identifier>
-             <mcc:MD_Identifier>
-                <mcc:code>
-                   <gco:CharacterString></gco:CharacterString>
-                </mcc:code>
-                <mcc:codeSpace>
-                   <gco:CharacterString>Digital Object Identifier</gco:CharacterString>
-				</mcc:codeSpace>
-			</mcc:MD_Identifier>
-			</cit:identifier>
-		<!-- Martins Changes end -->
 		<cit:series>
 			<cit:CI_Series>
         		<cit:name>
@@ -442,18 +427,15 @@
          <mco:reference>
             <cit:CI_Citation>
                <cit:title>
-                  <gco:CharacterString>To be added</gco:CharacterString>
+                  <gco:CharacterString>Australian Government Security Classification System </gco:CharacterString>
                </cit:title>
-               <cit:edition>
-                  <gco:CharacterString>To be added</gco:CharacterString>
-               </cit:edition>
                <cit:editionDate>
-                  <gco:Date>To be added</gco:Date>
+                  <gco:DateTime>2018-11-01T00:00:00</gco:DateTime>
                </cit:editionDate>
                  <cit:onlineResource>
                   <cit:CI_OnlineResource>
                      <cit:linkage>
-                        <gco:CharacterString>To be added</gco:CharacterString>
+                        <gco:CharacterString>https://www.protectivesecurity.gov.au/Pages/default.aspx</gco:CharacterString>
                      </cit:linkage>
                   </cit:CI_OnlineResource>
                </cit:onlineResource>
