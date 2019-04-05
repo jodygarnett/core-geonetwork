@@ -8,7 +8,7 @@
     </mcc:MD_Identifier>
   </mdb:metadataIdentifier>
   <mdb:defaultLocale>
-      <lan:PT_Locale id="EN">
+      <lan:PT_Locale id="en">
          <lan:language>
             <lan:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/" codeListValue="eng"/>
          </lan:language>
