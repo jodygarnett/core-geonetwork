@@ -398,6 +398,27 @@
          </mri:resourceConstraints>
          <mri:resourceConstraints>
             <mco:MD_SecurityConstraints>
+               <mco:reference>
+                  <cit:CI_Citation>
+                     <cit:title>
+                        <gco:CharacterString>Australian Government Security ClassificationSystem</gco:CharacterString>
+                     </cit:title>
+                     <cit:editionDate>
+                        <gco:DateTime>2018-11-01T00:00:00</gco:DateTime>
+                     </cit:editionDate>
+                     <cit:onlineResource>
+                        <cit:CI_OnlineResource>
+                           <cit:linkage>
+                              <gco:CharacterString>https://www.protectivesecurity.gov.au/Pages/default.aspx</gco:CharacterString>
+                           </cit:linkage>
+                            <cit:protocol>
+                              <gco:CharacterString xsi:type="gco:CodeType"
+                                                   codeSpace="http://pid.geoscience.gov.au/def/schema/ga/ISO19115-3-2016/codelist/ga_profile_codelists.xml#gapCI_ProtocolTypeCode">WWW:LINK-1.0-http--link</gco:CharacterString>
+                           </cit:protocol>
+                        </cit:CI_OnlineResource>
+                     </cit:onlineResource>
+                  </cit:CI_Citation>
+               </mco:reference>
                <mco:classification>
                   <mco:MD_ClassificationCode codeList="codeListLocation#MD_ClassificationCode" codeListValue="unclassified"/>
                </mco:classification>
