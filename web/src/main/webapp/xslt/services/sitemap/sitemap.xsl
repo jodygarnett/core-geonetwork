@@ -30,7 +30,8 @@
   <xsl:variable name="format" select="/root/request/format"/>
   <xsl:variable name="indexDocs" select="/root/response/indexDocs"/>
   <xsl:variable name="changeDate" select="/root/response/changeDate"/>
-
+  <xsl:variable name="lastMod" select="substring-before($changeDate, 'T')" />
+  
   <xsl:template match="/root">
     <xsl:choose>
       <!-- Return index document -->
@@ -78,13 +79,12 @@
               </xsl:if>
             </xsl:variable>
             <loc><xsl:value-of select="/root/gui/env/server/protocol"/>://<xsl:value-of
-              select="/root/gui/env/server/host"/>:<xsl:value-of
-              select="/root/gui/env/server/port"/><xsl:value-of select="/root/gui/url"/>/sitemap/<xsl:value-of
+              select="/root/gui/env/server/host"/><xsl:value-of select="/root/gui/url"/>/sitemap/<xsl:value-of
               select="$formatParam"/><xsl:value-of select="$pStart"/>/<xsl:value-of
               select="/root/gui/language"/>
             </loc>
             <lastmod>
-              <xsl:value-of select="$changeDate"/>
+              <xsl:value-of select="$lastMod"/>
             </lastmod>
           </sitemap>
         </xsl:when>
@@ -115,7 +115,7 @@
         <xsl:variable name="uuid" select="uuid"/>
         <xsl:variable name="schemaid" select="datainfo/schemaid"/>
         <xsl:variable name="changedate" select="datainfo/changedate"/>
-
+		<xsl:variable name="lastmod" select="substring-before($changedate, 'T')" />
         <url>
           <loc>
             <xsl:choose>
@@ -127,27 +127,25 @@
                   </xsl:call-template>
                 </xsl:variable>
                 <xsl:value-of select="$env/system/server/protocol"/>://<xsl:value-of
-                select="$env/system/server/host"/>:<xsl:value-of
-                select="$env/system/server/port"/><xsl:value-of select="/root/gui/locService"/>/<xsl:value-of
+                select="$env/system/server/host"/><xsl:value-of select="/root/gui/locService"/>/<xsl:value-of
                 select="$metadataUrlValue"/>
               </xsl:when>
 
               <xsl:otherwise>
                 <xsl:value-of select="$env/system/server/protocol"/>://<xsl:value-of
-                select="$env/system/server/host"/>:<xsl:value-of
-                select="$env/system/server/port"/><xsl:value-of select="/root/gui/url"/>/?uuid=<xsl:value-of
+                select="$env/system/server/host"/><xsl:value-of select="/root/gui/url"/>?uuid=<xsl:value-of
                 select="$uuid"/>
               </xsl:otherwise>
             </xsl:choose>
           </loc>
           <lastmod>
-            <xsl:value-of select="$changedate"/>
+            <xsl:value-of select="$lastmod"/>
           </lastmod>
-          <geo:geo>
+          <!-- <geo:geo>
             <geo:format>
               <xsl:value-of select="$schemaid"/>
             </geo:format>
-          </geo:geo>
+          </geo:geo> -->
         </url>
       </xsl:for-each>
     </urlset>
@@ -163,8 +161,7 @@
         </sc:datasetLabel>
         <xsl:for-each select="metadata/record">
           <sc:dataDumpLocation><xsl:value-of select="$env/system/server/protocol"/>://<xsl:value-of
-            select="$env/system/server/host"/>:<xsl:value-of
-            select="$env/system/server/port"/><xsl:value-of select="/root/gui/url"/>/srv/eng/rdf.metadata.get?uuid=<xsl:value-of
+            select="$env/system/server/host"/><xsl:value-of select="/root/gui/url"/>/srv/eng/rdf.metadata.get?uuid=<xsl:value-of
             select="uuid"/>
           </sc:dataDumpLocation>
         </xsl:for-each>

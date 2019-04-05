@@ -7,7 +7,7 @@
 
   <xsl:template match="mdb:MD_Metadata">
     <gaid>
-      <xsl:value-of select="mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='http://www.ga.gov.au/eCatId']/mcc:code/gco:CharacterString"/>
+      <xsl:value-of select="mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString"/>
     </gaid>
   </xsl:template>
 </xsl:stylesheet>

@@ -237,7 +237,7 @@
 
 
 	<!-- eCat sequence identifier is saved if present into eCatId field within lucene -->
-	<xsl:for-each select="$metadata/mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='http://www.ga.gov.au/eCatId']">
+	<xsl:for-each select="$metadata/mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']">
 		<Field name="eCatId" string="{string(mcc:code/gco:CharacterString)}" store="true" index="true"/>
 	</xsl:for-each>
 
