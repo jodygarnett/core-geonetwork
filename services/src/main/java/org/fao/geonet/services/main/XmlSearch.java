@@ -114,7 +114,9 @@ public class XmlSearch implements Service {
                 elData.getChild(Geonet.SearchResult.BUILD_SUMMARY).setText("true");
             }
 
-            session.setProperty(Geonet.Session.SEARCH_REQUEST + bucket, elData.clone());
+            if(session != null)
+            	session.setProperty(Geonet.Session.SEARCH_REQUEST + bucket, elData.clone());
+            
             searcher.search(context, elData, _config);
 
             if (!"0".equals(summaryOnly)) {
