@@ -242,7 +242,7 @@
             <td>{{author}}</td>
           </tr>
 		  
-		  <tr data-ng-if="!isArray(mdView.current.record.author)">
+		  <tr data-ng-if="!isArray(mdView.current.record.author) && mdView.current.record.author">
             <th data-translate="">Author</th>
             <td>{{mdView.current.record.author}}</td>
           </tr>
@@ -318,15 +318,26 @@
             </td>
           </tr>
 		  
-		  <tr data-ng-repeat="storedFormat in mdView.current.record.storedFormat">
+		  <tr data-ng-if="isArray(mdView.current.record.storedFormat)" data-ng-repeat="storedFormat in mdView.current.record.storedFormat">
             <th data-translate="">Stored Format</th>
             <td>{{storedFormat}}</td>
-          </tr>  
-
-		  <tr data-ng-repeat="FormatVersion in mdView.current.record.FormatVersion">
+          </tr>
+		  
+		  <tr data-ng-if="!isArray(mdView.current.record.storedFormat) && mdView.current.record.storedFormat">
+            <th data-translate="">Stored Format</th>
+            <td>{{mdView.current.record.storedFormat}}</td>
+          </tr>
+		  
+		    <tr data-ng-if="isArray(mdView.current.record.FormatVersion)" data-ng-repeat="FormatVersion in mdView.current.record.FormatVersion">
             <th data-translate="">Version of Stored Format</th>
             <td>{{FormatVersion}}</td>
-          </tr> 
+          </tr>
+		  
+		  <tr data-ng-if="!isArray(mdView.current.record.FormatVersion) && mdView.current.record.FormatVersion">
+            <th data-translate="">Version of Stored Format</th>
+            <td>{{mdView.current.record.FormatVersion}}</td>
+          </tr>
+		  
 		  
 		  <tr data-ng-if="mdView.current.record.linkLocation">
             <th data-translate="">Link to Stored Format Location</th>
@@ -607,6 +618,11 @@
 		  <tr data-ng-if="mdView.current.record.DOI">
             <th data-translate="">Digital Object Identifier</th>
             <td>{{mdView.current.record.DOI}}</td>
+          </tr> 
+		  
+		  		  <tr data-ng-if="mdView.current.record.PID">
+            <th data-translate="">Persistent Identifier</th>
+            <td>{{mdView.current.record.PID}}</td>
           </tr> 
 		  
 
