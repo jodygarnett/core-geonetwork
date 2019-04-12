@@ -298,6 +298,10 @@
 	  <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='Digital Object Identifier']/mcc:code">
       <Field name="DOI" string="{string(.)}" store="true" index="true"/>
     </xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='Geoscience Australia Persistent Identifier']/mcc:code">
+      <Field name="PID" string="{string(.)}" store="true" index="true"/>
+    </xsl:for-each>
 	  
 	   <xsl:for-each select="$metadata/mdb:parentMetadata/cit:CI_Citation/cit:title">
       <Field name="parentTitle" string="{string(.)}" store="true" index="true"/>
