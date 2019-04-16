@@ -90,7 +90,6 @@
          </cit:party>
       </cit:CI_Responsibility>
   </mdb:contact>
-	<mdb:contact xlink:href="local://subtemplate?uuid=urn:ga-contacts:11&amp;process=cit:role/cit:CI_RoleCode/@codeListValue~author"/>
 	<mdb:metadataStandard>
     <cit:CI_Citation>
       <cit:title>

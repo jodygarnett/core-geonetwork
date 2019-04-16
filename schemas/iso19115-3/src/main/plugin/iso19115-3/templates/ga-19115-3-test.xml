@@ -157,6 +157,16 @@
 				</mcc:codeSpace>
 			</mcc:MD_Identifier>
 			</cit:identifier>
+			<cit:identifier>
+             <mcc:MD_Identifier>
+                <mcc:code>
+                   <gco:CharacterString></gco:CharacterString>
+                </mcc:code>
+                <mcc:codeSpace>
+                   <gco:CharacterString>Digital Obejct Identifier</gco:CharacterString>
+				</mcc:codeSpace>
+			</mcc:MD_Identifier>
+			</cit:identifier>
 		<cit:series>
 			<cit:CI_Series>
         		<cit:name>
@@ -178,7 +188,6 @@
       <mri:status>
         <mcc:MD_ProgressCode codeList="codeListLocation#MD_ProgressCode" codeListValue=""/>
       </mri:status>
-			<mri:pointOfContact xlink:href="local://subtemplate?uuid=urn:ga-contacts:11&amp;process=cit:role/cit:CI_RoleCode/@codeListValue~pointOfContact"/>
       <mri:spatialRepresentationType>
         <mcc:MD_SpatialRepresentationTypeCode codeList="codeListLocation#MD_SpatialRepresentationTypeCode"
           codeListValue=""/>
