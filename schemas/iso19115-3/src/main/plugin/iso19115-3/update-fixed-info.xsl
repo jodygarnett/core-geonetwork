@@ -298,17 +298,38 @@
     </xsl:copy>
   </xsl:template>
 
-	<xsl:template
-		match="cit:CI_Citation/cit:identifier[mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString = 'Geoscience Australia Persistent Identifier']">
-		<xsl:variable name="ecatId" select="/root/env/gaid" />
-		<xsl:variable name="codelistvalue" select="//mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue" />
-		<xsl:variable name="pid"
-			select="concat('http://pid.geoscience.gov.au/', $codelistvalue, '/ga/', $ecatId)" />
+	<xsl:template match="cit:CI_Citation/cit:identifier[mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString = 'Geoscience Australia Persistent Identifier']">
+	
+	<xsl:variable name="codelistvalue" select="//mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue" />
+
 		<xsl:copy>
 			<mcc:MD_Identifier>
 				<mcc:code>
 					<gco:CharacterString>
-						<xsl:value-of select="$pid" />
+						<xsl:choose>
+							<xsl:when test="/root/env/gaid">
+								<xsl:variable name="ecatId" select="/root/env/gaid" />
+								<xsl:choose>
+									<xsl:when test="$codelistvalue='service'">
+										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:variable name="ecatId" select="//mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
+								<xsl:choose>
+									<xsl:when test="$codelistvalue='service'">
+										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:otherwise>
+						</xsl:choose>
 					</gco:CharacterString>
 				</mcc:code>
 				<mcc:codeSpace>
@@ -590,7 +611,7 @@
   <xsl:template match="mdb:MD_Metadata/*/lan:PT_Locale">
     <xsl:element name="lan:{local-name()}">
       <xsl:variable name="id"
-                    select="upper-case(java:twoCharLangCode(lan:language/lan:LanguageCode/@codeListValue))"/>
+                    select="lower-case(java:twoCharLangCode(lan:language/lan:LanguageCode/@codeListValue))"/>
       
       <xsl:apply-templates select="@*"/>
       <xsl:if test="normalize-space(@id)='' or normalize-space(@id)!=$id">
