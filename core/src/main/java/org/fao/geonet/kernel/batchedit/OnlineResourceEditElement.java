@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.csv.CSVRecord;
 import org.fao.geonet.constants.Geonet;
+import org.fao.geonet.constants.Geonet.Namespaces;
 import org.fao.geonet.exceptions.BatchEditException;
 import org.fao.geonet.utils.Log;
 import org.jdom.Element;
@@ -151,8 +152,11 @@ public class OnlineResourceEditElement implements EditElement {
 			linkage.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(link));
 
 			Element protocol = new Element("protocol", Geonet.Namespaces.CIT);
-			protocol.addContent(
-					new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(_protocol));
+			Element charString = new Element("CharacterString", Geonet.Namespaces.GCO_3);
+			charString.addNamespaceDeclaration(Namespaces.XSI);
+			charString.setAttribute("type", "gco:CodeType", Namespaces.XSI);
+			charString.setAttribute("codeSpace", "http://pid.geoscience.gov.au/def/schema/ga/ISO19115-3-2016/codelist/ga_profile_codelists.xml#gapCI_ProtocolTypeCode");
+			protocol.addContent(charString.setText(_protocol));
 
 			Element name = new Element("name", Geonet.Namespaces.CIT);
 			name.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(_name));

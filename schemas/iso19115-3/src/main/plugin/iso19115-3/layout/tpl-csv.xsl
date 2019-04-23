@@ -288,7 +288,7 @@
 
 			<xsl:if test="xs:boolean($DistributionLink)">
 				<xsl:for-each
-					select="mdb:distributionInfo/*/mrd:transferOptions/*/mrd:onLine/*">
+					select="mdb:distributionInfo/*/mrd:distributor/*/mrd:distributorTransferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/*">
 					<DistributionLink>
 						<xsl:value-of select="cit:name/*/text()" />
 						<xsl:value-of select="$seperator" />
