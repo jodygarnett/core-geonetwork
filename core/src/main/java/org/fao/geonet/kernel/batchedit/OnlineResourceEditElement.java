@@ -70,9 +70,11 @@ public class OnlineResourceEditElement implements EditElement {
 			Element rootE = null;
 
 			try {
-				if (Arrays.asList(Geonet.EditType.DATA_STORAGE_LINK, Geonet.EditType.ASSOCIATED_RES, Geonet.EditType.DISTRIBUTION_LINK).contains(headerVal)) {
+				if (Arrays.asList(Geonet.EditType.DATA_STORAGE_LINK, Geonet.EditType.ASSOCIATED_RES).contains(headerVal)) {
 					rootE = getOnlineResourceElement(name, desc, linkage, protocol);
-				} else if (Geonet.EditType.ADDITIONAL_INFO.equalsIgnoreCase(headerVal)) {
+				} else if (Geonet.EditType.DISTRIBUTION_LINK.equalsIgnoreCase(headerVal)){
+					rootE = getDistributionOnlineResourceElement(name, desc, linkage, protocol);
+				}else if (Geonet.EditType.ADDITIONAL_INFO.equalsIgnoreCase(headerVal)) {
 					rootE = additionalInformation(name, desc, linkage, protocol);
 				}
 			} catch (BatchEditException e) {
@@ -93,6 +95,29 @@ public class OnlineResourceEditElement implements EditElement {
 
 	}
 
+	/**
+	 * Creates Online resource element 
+	 * @param _name
+	 * @param description
+	 * @param link
+	 * @return
+	 * @throws BatchEditException
+	 */
+	private Element getDistributionOnlineResourceElement(String _name, String description, String link, String protocol) throws BatchEditException {
+		try{
+			
+			Element digitalTransferOptions = new Element("MD_DigitalTransferOptions", Geonet.Namespaces.MRD);
+			Element online = new Element("onLine", Geonet.Namespaces.MRD);
+			
+			Element onlineRes = onlineResElement(_name, description, link, protocol);
+			return digitalTransferOptions.addContent(online.addContent(onlineRes));
+			
+			
+		}catch(BatchEditException e){
+			throw new BatchEditException("Unable to process Online Resource Element having name " + _name + " and link " + link);
+		}
+	}
+	
 	/**
 	 * Creates Online resource element 
 	 * @param _name

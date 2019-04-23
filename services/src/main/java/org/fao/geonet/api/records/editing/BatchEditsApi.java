@@ -262,7 +262,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public void batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,
-			@RequestParam(value = "mode") String mode, @RequestParam(value = "desc") String desc, HttpServletRequest request) {
+			@RequestParam(value = "mode") String mode, @RequestParam(value = "desc") String desc,@RequestParam(value = "backup") boolean backup , HttpServletRequest request) {
 
 		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
 		if(tempBackupData != null && tempBackupData.size() > 0){
@@ -279,7 +279,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 			
 			Runnable task = () -> {
 				Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
-				processCsv(csvFile, context, serviceContext, mode, desc);
+				processCsv(csvFile, context, serviceContext, mode, desc, backup);
 			};
 
 			// start the thread
@@ -408,7 +408,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	 */
 	@SuppressWarnings("unchecked")
 	public void processCsv(File csvFile, ApplicationContext context,
-			ServiceContext serviceContext, String mode, String desc) {
+			ServiceContext serviceContext, String mode, String desc, boolean backup) {
 		
 		
 		// Create folder in s3 bucket with current date
@@ -494,7 +494,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 				}
 
 				
-				if (!saveToS3Bucket(record)) {
+				if (backup && !saveToS3Bucket(record)) {
 					report.addError(new Exception("Unable to backup record uuid/ecat: " + id));
 					continue;
 				}
@@ -564,8 +564,10 @@ public class BatchEditsApi implements ApplicationContextAware {
 			report.addError(new Exception("Unable to create an entry for this batch edit operation. So manually has to recall from aws s3 location."));
 		}
 		
-		Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
-		startBackupOperation(s3key);
+		if(backup){
+			Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
+			startBackupOperation(s3key);
+		}
 		
 	}
 
