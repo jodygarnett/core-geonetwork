@@ -745,6 +745,7 @@ public final class Geonet {
     	public static final String KEYWORD_THESAURUS = "Keyword-Thesaurus";
         
         public static final String RES_CONTACT = "ResourceContact";
+        public static final String DISTRIBUTION_CONTACT = "DistributionContact";
         public static final String MD_CONTACT = "MetadataContact";
         public static final String RESPONSIBLE_PARTY = "ResponsibleParty";
         

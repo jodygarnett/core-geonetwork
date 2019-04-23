@@ -377,6 +377,7 @@
 
       $scope.processReport = null;
 	  $scope.upload_desc = null;
+	  $scope.upload_backup = false;
       $scope.unsupportedFile = false;
 	  $scope.isfileSelected = false;
 	  $scope.setFile = function(element) {
@@ -422,6 +423,7 @@
 		fd.append("file", $scope.theFile);
 		fd.append("mode", $scope.updatemode.key);
 		fd.append("desc", this.upload_desc);
+		fd.append("backup", this.upload_backup);
 		$http.post('../api/records/batchediting/csv', fd, {
 			headers: {'Content-Type': undefined }
 		}).success(function(data){
