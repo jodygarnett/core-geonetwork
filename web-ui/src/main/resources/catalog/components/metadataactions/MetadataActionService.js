@@ -194,7 +194,7 @@
 			  'DistributionLink',
 			  'DistributionFormat',
 			  'DataStorageLink',
-			  'DataStorageFormat',
+			  //'DataStorageFormat',
 			  'Lineage',
 			  'SourceDescription',
 			  'AssociatedResourcesLink',

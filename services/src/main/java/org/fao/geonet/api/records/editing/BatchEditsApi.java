@@ -540,8 +540,11 @@ public class BatchEditsApi implements ApplicationContextAware {
 
 					AddElemValue propertyValue = new AddElemValue(batchEditParam.getValue());
 
+					Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi, updating xpath " + batchEditParam.getXpath() + " with value : \n" + batchEditParam.getValue());
+					
 					metadataChanged = editLib.addElementOrFragmentFromXpath(metadata, metadataSchema,
 							batchEditParam.getXpath(), propertyValue, true);
+					
 				}
 
 				//if (metadataChanged) {

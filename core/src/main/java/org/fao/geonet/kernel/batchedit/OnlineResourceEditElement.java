@@ -70,7 +70,7 @@ public class OnlineResourceEditElement implements EditElement {
 			Element rootE = null;
 
 			try {
-				if (Arrays.asList(Geonet.EditType.DATA_STORAGE_LINK, Geonet.EditType.ASSOCIATED_RES).contains(headerVal)) {
+				if (Geonet.EditType.ASSOCIATED_RES.equalsIgnoreCase(headerVal)) {
 					rootE = getOnlineResourceElement(name, desc, linkage, protocol);
 				} else if (Geonet.EditType.DISTRIBUTION_LINK.equalsIgnoreCase(headerVal)){
 					rootE = getDistributionOnlineResourceElement(name, desc, linkage, protocol);
