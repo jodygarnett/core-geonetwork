@@ -42,6 +42,7 @@ public class EditElementFactory {
 		case Geonet.EditType.ASSOCIATED_RES:
 		case Geonet.EditType.ADDITIONAL_INFO:
 		case Geonet.EditType.DISTRIBUTION_LINK:
+		case Geonet.EditType.DATA_STORAGE_LINK:
 			return new OnlineResourceEditElement();
 		case Geonet.EditType.CITATION_DATE:
 			return new DateEditElement();
