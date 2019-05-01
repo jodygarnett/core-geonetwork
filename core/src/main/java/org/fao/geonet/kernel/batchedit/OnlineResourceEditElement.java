@@ -24,10 +24,10 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang.StringUtils;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.constants.Geonet.Namespaces;
 import org.fao.geonet.exceptions.BatchEditException;
-import org.fao.geonet.utils.Log;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
@@ -56,7 +56,7 @@ public class OnlineResourceEditElement implements EditElement {
 		for (String content : contents) {
 			String[] values = content.split(type_separator);
 
-			String name = "", desc = "", linkage = "", protocol = "WWW:LINK-1.0-http--link";
+			String name = "", desc = "", linkage = "", protocol = "WWW:LINK-1.0-http--link", function = "";
 
 			if (values.length > 0)
 				name = values[0];
@@ -66,16 +66,20 @@ public class OnlineResourceEditElement implements EditElement {
 				linkage = values[2];
 			if (values.length > 3)
 				protocol = values[3];
+			if (values.length > 4)
+				function = values[4];
 
 			Element rootE = null;
 
 			try {
-				if (Arrays.asList(Geonet.EditType.DATA_STORAGE_LINK, Geonet.EditType.ASSOCIATED_RES).contains(headerVal)) {
-					rootE = getOnlineResourceElement(name, desc, linkage, protocol);
+				if (Geonet.EditType.ASSOCIATED_RES.equalsIgnoreCase(headerVal)) {
+					rootE = getOnlineResourceElement(name, desc, linkage, protocol, function);
 				} else if (Geonet.EditType.DISTRIBUTION_LINK.equalsIgnoreCase(headerVal)){
-					rootE = getDistributionOnlineResourceElement(name, desc, linkage, protocol);
+					rootE = getDistributionOnlineResourceElement(name, desc, linkage, protocol, function);
+				}else if (Geonet.EditType.DATA_STORAGE_LINK.equalsIgnoreCase(headerVal)){
+					rootE = getResourceFormatElement(content);
 				}else if (Geonet.EditType.ADDITIONAL_INFO.equalsIgnoreCase(headerVal)) {
-					rootE = additionalInformation(name, desc, linkage, protocol);
+					rootE = additionalInformation(name, desc, linkage, protocol, function);
 				}
 			} catch (BatchEditException e) {
 				report.getErrorInfo().add(e.getMessage());
@@ -103,18 +107,50 @@ public class OnlineResourceEditElement implements EditElement {
 	 * @return
 	 * @throws BatchEditException
 	 */
-	private Element getDistributionOnlineResourceElement(String _name, String description, String link, String protocol) throws BatchEditException {
+	private Element getDistributionOnlineResourceElement(String _name, String description, String link, String protocol, String function) throws BatchEditException {
 		try{
 			
 			Element digitalTransferOptions = new Element("MD_DigitalTransferOptions", Geonet.Namespaces.MRD);
 			Element online = new Element("onLine", Geonet.Namespaces.MRD);
 			
-			Element onlineRes = onlineResElement(_name, description, link, protocol);
+			Element onlineRes = onlineResElement(_name, description, link, protocol, function);
 			return digitalTransferOptions.addContent(online.addContent(onlineRes));
 			
 			
 		}catch(BatchEditException e){
 			throw new BatchEditException("Unable to process Online Resource Element having name " + _name + " and link " + link);
+		}
+	}
+	
+	
+	/**
+	 * Creates Online resource for resource format - Data Storage 
+	 * @param _name
+	 * @param description
+	 * @param link
+	 * @return
+	 * @throws BatchEditException
+	 */
+	private Element getResourceFormatElement(String link) throws BatchEditException {
+		try{
+			String _title = "Product data repository: Various Formats";
+			String _name = "Data Store directory containing the digital product files";
+			String description = "Data Store directory containing one or more files, possibly in a variety of formats, accessible to Geoscience Australia staff only for internal purposes";
+			String protocol = "FILE:DATA-DIRECTORY";
+			String function = "offlineAccess";
+			Element mdFormat = new Element("MD_Format", Namespaces.MRD);
+			Element formatSpec = new Element("formatSpecificationCitation", Namespaces.MRD);
+			Element citation = new Element("CI_Citation", Namespaces.CIT);
+			Element title = new Element("title", Namespaces.CIT);
+			Element charStr = new Element("CharacterString", Namespaces.GCO_3);
+			
+			title.addContent(charStr.setText(_title));
+			Element onlineRes = new Element("onlineResource", Geonet.Namespaces.CIT);
+			onlineRes.addContent(onlineResElement(_name, description, link, protocol, function));
+			return mdFormat.addContent(formatSpec.addContent(citation.addContent(Arrays.asList(title, onlineRes))));
+			
+		}catch(BatchEditException e){
+			throw new BatchEditException("Unable to process resource format having name link " + link);
 		}
 	}
 	
@@ -126,10 +162,10 @@ public class OnlineResourceEditElement implements EditElement {
 	 * @return
 	 * @throws BatchEditException
 	 */
-	private Element getOnlineResourceElement(String _name, String description, String link, String protocol) throws BatchEditException {
+	private Element getOnlineResourceElement(String _name, String description, String link, String protocol, String function) throws BatchEditException {
 		try{
 			
-			return onlineResElement(_name, description, link, protocol);
+			return onlineResElement(_name, description, link, protocol, function);
 			
 		}catch(BatchEditException e){
 			throw new BatchEditException("Unable to process Online Resource Element having name " + _name + " and link " + link);
@@ -144,14 +180,14 @@ public class OnlineResourceEditElement implements EditElement {
 	 * @return
 	 * @throws BatchEditException
 	 */
-	private Element additionalInformation(String _name, String description, String link, String protocol) throws BatchEditException {
+	private Element additionalInformation(String _name, String description, String link, String protocol, String function) throws BatchEditException {
 		try{
 			Element citation = new Element("CI_Citation", Geonet.Namespaces.CIT);
 			Element onlineres = new Element("onlineResource", Geonet.Namespaces.CIT);
 			Element title = new Element("title", Geonet.Namespaces.CIT);
 	
 			citation.addContent(title.addContent(new Element("CharacterString", Geonet.Namespaces.GCO_3).setText(_name)));
-			citation.addContent(onlineres.addContent(onlineResElement(_name, description, link, protocol)));
+			citation.addContent(onlineres.addContent(onlineResElement(_name, description, link, protocol, function)));
 		
 			return citation;
 			
@@ -168,7 +204,7 @@ public class OnlineResourceEditElement implements EditElement {
 	 * @return
 	 * @throws BatchEditException
 	 */
-	private Element onlineResElement(String _name, String description, String link, String _protocol) throws BatchEditException {
+	private Element onlineResElement(String _name, String description, String link, String _protocol, String _function) throws BatchEditException {
 
 		try {
 			Element onlineRes = new Element("CI_OnlineResource", Geonet.Namespaces.CIT);
@@ -192,7 +228,10 @@ public class OnlineResourceEditElement implements EditElement {
 			Element function = new Element("function", Geonet.Namespaces.CIT);
 			Element cl = new Element("CI_OnLineFunctionCode", Geonet.Namespaces.CIT);
 			cl.setAttribute("codeList", "codeListLocation#CI_OnLineFunctionCode");
-			cl.setAttribute("codeListValue", "information");
+			if(StringUtils.isEmpty(_function)){
+				_function = "information";
+			}
+			cl.setAttribute("codeListValue", _function);
 			function.addContent(cl);
 
 			onlineRes.addContent(Arrays.asList(linkage, protocol, name, desc, function));
