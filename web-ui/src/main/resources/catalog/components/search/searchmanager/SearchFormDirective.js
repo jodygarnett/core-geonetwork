@@ -127,6 +127,20 @@
           $scope.searchObj.params,
           defaultParams);
 
+      //Joseph added to search by eCatId - start
+      var regexp = /^\d+(?:(?:[\s])?[,](?:[\s])?\d+)+?$/;
+      if($scope.searchObj.params.any){
+        var iseCatIds = regexp.test($scope.searchObj.params.any);
+        if(iseCatIds){
+          var eCatIdParam = {
+            eCatId: $scope.searchObj.params.any
+          }
+          delete $scope.searchObj.params.any;
+          angular.extend($scope.searchObj.params, eCatIdParam);
+        }
+      }
+      //Joseph added to search by eCatId - end
+      
       // Set default pagination if not set
       if ((!keepPagination &&
           !$scope.searchObj.permalink) ||
@@ -154,6 +168,9 @@
       var finalParams = angular.extend(params, hiddenParams);
       gnSearchManagerService.gnSearch(finalParams).then(
           function(data) {
+        	if($scope.searchObj.params.eCatId){//Joseph added to remove eCatId from search query after searching
+              delete $scope.searchObj.params.eCatId;
+            }
             $scope.searching--;
             $scope.searchResults.records = [];
             for (var i = 0; i < data.metadata.length; i++) {

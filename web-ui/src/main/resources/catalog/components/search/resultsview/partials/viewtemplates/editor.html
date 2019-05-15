@@ -19,6 +19,7 @@
       <br/>
       <div class="gn-record-details">
         <span title="{{'metadataAuthor' | translate}}">{{md.getOwnername()}}</span>
+        <span data-ng-if="md.geteCatId()" title="{{'eCatId' | translate}}">&nbsp;&nbsp;<b><i style="font-size: 14px;">({{md.geteCatId()}})</i></b></span>
         <span class="pull-right text-muted"
               data-ng-class="{'text-success': md.mdStatus == 2, 'text-warning': md.mdStatus == 4}"
               data-ng-show="md.mdStatus">{{('status-' + md.mdStatus) | translate}}</span>
