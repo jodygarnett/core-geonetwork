@@ -24,9 +24,6 @@
 (function() {
   goog.provide('gn_mdview');
 
-
-
-
   goog.require('gn_md_feedback');
   goog.require('gn_mdview_directive');
   goog.require('gn_mdview_service');
@@ -100,47 +97,12 @@
         }
       };
 
-      function getType(typeValue, values){
-	      var arr = [];
-	      if(!angular.isArray(values)){ values = [values]; }
-	      angular.forEach(values, function(val){
-	        arr.push({ "@type":typeValue, "name": val });
-	      });
-	      return arr;
-	    };
-	    
+      
       // Reset current formatter to open the next record
       // in default mode.
       $scope.$watch('mdView.current.record', function() {
         $scope.usingFormatter = false;
         $scope.currentFormatter = null;
-        
-        var record = $scope.mdView.current.record;
-        console.log('recird:' + JSON.stringify(record));
-        $scope.jsonId = {
-          "@context": "http:\/\/schema.org",
-          "@type": "Dataset",
-          "author": getType('Person', record.author),
-          "creator": getType('Person', record.author),
-          "includedInDataCatalog":{
-            "@type":"DataCatalog",
-            "name":"ecat.ga.gov.au/geonetwork"
-          },
-          "datePublished": record.publicationDate,
-          "keywords": record.keyword,
-          "license": [record.legalConstraints,"CC-BY", "http:\/\/creativecommons.org\/licenses\/by\/4.0"],
-          "spatialCoverage":{
-            "@type":"Place",
-            "geo":{
-               "@type":"GeoShape",
-               "polygon": record.geoBox
-            }
-          },
-          "inLanguage": "en",
-          "name": record.title,
-          "description":record.abstract,
-          "url": "http://pid.geoscience.gov.au/dataset/ga/" + record.eCatId
-        };
         
       });
 
@@ -149,21 +111,5 @@
       $scope.$watch('gnMdViewObj.from', function(v) {
         $scope.fromView = v ? v.substring(1) : v;
       });
-    }]).directive('jsonld', ['$filter', '$sce', function($filter, $sce) {
-        return {
-            restrict: 'E',
-            template: function() {
-              return '<script type="application/ld+json" ng-bind-html="onGetJson()"></script>';
-            },
-            scope: {
-              json: '=json'
-            },
-            link: function(scope, element, attrs) {
-              scope.onGetJson = function() {
-                return $sce.trustAsHtml($filter('json')(scope.json));
-              }
-            },
-            replace: true
-          };
-        }]);
+    }]);
 })();
