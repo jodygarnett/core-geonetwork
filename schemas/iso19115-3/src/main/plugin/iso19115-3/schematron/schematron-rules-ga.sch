@@ -39,7 +39,7 @@ DATE            VERSION     AUTHOR              DESCRIPTION
     <sch:ns prefix="mdq" uri="http://standards.iso.org/iso/19157/-2/mdq/1.0"/>
     <sch:ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
     <sch:ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema"/>
-
+    <sch:ns prefix="geonet" uri="http://www.fao.org/geonetwork"/>
 
     <!-- ======================================================================================================================= -->
     <!-- Assert that metadataIdentifier is present                                                                               -->
@@ -286,8 +286,8 @@ DATE            VERSION     AUTHOR              DESCRIPTION
         
         <sch:rule context="//*[name()='mri:MD_DataIdentification' or name()='srv:SV_ServiceIdentification']">
             
-            <sch:assert test="normalize-space(mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/gco:CharacterString) != ''">Resource identification information does not have any descriptive keywords or keyword text is missing.</sch:assert>
-            <sch:report test="normalize-space(mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/gco:CharacterString) != ''">Resource identification information has one or more descriptive keywords.</sch:report>
+            <sch:assert test="count(mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/*)>0">Resource identification information does not have any descriptive keywords or keyword text is missing.</sch:assert>
+            <sch:report test="count(mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword/*)>0">Resource identification information has one or more descriptive keywords.</sch:report>
         </sch:rule>
     </sch:pattern>
 
