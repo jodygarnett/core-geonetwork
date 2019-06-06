@@ -99,7 +99,7 @@
       $scope.modelOptionsForm = angular.copy(gnGlobalSettings.modelOptions);
       $scope.gnWmsQueue = gnWmsQueue;
       $scope.$location = $location;
-      $scope.activeTab = '/search';
+      $scope.activeTab = '/home';
       $scope.resultTemplate = gnSearchSettings.resultTemplate;
       $scope.facetsSummaryType = gnSearchSettings.facetsSummaryType;
       $scope.location = gnSearchLocation;
@@ -251,7 +251,7 @@
 
       // Manage route at start and on $location change
       if (!$location.path()) {
-        $location.path('/search');
+        $location.path('/home');
       }
       $scope.activeTab = $location.path().
           match(/^(\/[a-zA-Z0-9]*)($|\/.*)/)[1];

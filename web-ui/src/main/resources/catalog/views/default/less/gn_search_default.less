@@ -22,6 +22,40 @@
 	}
 }
 
+.gn-bg-image{
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 35rem;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(22, 22, 22, 0.3)), color-stop(75%, rgba(22, 22, 22, 0.7)), to(#161616)), url("../img/bg-masthead.jpg");
+  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.3) 0%, rgba(22, 22, 22, 0.7) 75%, #161616 100%), url("../../geonetwork/catalog/views/default/images/bgImage.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+  background-blend-mode: screen;
+  //background-color: gray;
+}
+
+.gn_pane {
+  position: relative;
+  height: 124px;
+  overflow: hidden;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gn_pane li {
+  border-radius: 6px;
+  display: inline-block;
+  //float: left;
+  cursor: pointer;
+  overflow: hidden;
+  width: 400px;
+}
+
 .navbar {
   margin-bottom: 14px;
   .navbar-brand {

@@ -39,6 +39,7 @@
     proxyUrl: '../../proxy?url=',
     locale: {},
     isMapViewerEnabled: false,
+    isOtherTab: false,
     requireProxy: [],
     is3DModeAllowed: false,
     docUrl: 'http://geonetwork-opensource.org/manuals/trunk/',
@@ -98,6 +99,9 @@
             gnGlobalSettings, $location, gnUtilityService, gnSessionService,
             gnLangs, gnAdminMenu) {
       $scope.version = '0.0.1';
+      $scope.isOtherTab = false;
+      
+      
       //Display or not the admin menu
       if ($location.absUrl().indexOf('/admin.console') != -1) {
         $scope.viewMenuAdmin = true;
@@ -105,6 +109,11 @@
       //Update Links for social media
       $scope.socialMediaLink = $location.absUrl();
       $scope.$on('$locationChangeSuccess', function(event) {
+        console.log('$location.path() --> ' + $location.path());
+        $scope.isOtherTab = true;
+        if($location.path() == '/home'){
+          $scope.isOtherTab = false;
+        }
         $scope.socialMediaLink = $location.absUrl();
         $scope.showSocialMediaLink =
             ($scope.socialMediaLink.indexOf('/metadata/') != -1);
@@ -131,6 +140,7 @@
       $scope.proxyUrl = gnGlobalSettings.proxyUrl;
       $scope.logoPath = '../../images/harvesting/';
       $scope.isMapViewerEnabled = gnGlobalSettings.isMapViewerEnabled;
+      $scope.isOtherTab = gnGlobalSettings.isOtherTab;
       $scope.isDebug = window.location.search.indexOf('debug') !== -1;
       $scope.isIntranet = gnGlobalSettings.isIntranet;
       
