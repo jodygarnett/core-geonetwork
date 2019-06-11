@@ -1395,6 +1395,24 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
      */
     private void computeQuery(ServiceContext srvContext, Element request, ServiceConfig config) throws Exception {
 
+    	/* Joseph implemented to display only my records in "Manage my metadata" tab - start */
+    	Content myRecord = request.getChild(Geonet.SearchResult.MY_RECORD);
+		if (myRecord != null) {
+			UserSession _userSesion = srvContext.getUserSession();
+			if (myRecord.getValue().equals("true") && _userSesion.getProfile() != Profile.Administrator) {
+				String owner = null;
+				if (_userSesion != null) {
+					owner = _userSesion.getUserId();
+				}
+				if (owner != null) {
+					request.addContent(new Element(Geonet.IndexFieldNames.OWNER).addContent(owner));
+				}
+			}
+
+			request.removeChild(Geonet.SearchResult.MY_RECORD);
+		}
+		/* Joseph implemented to display only my records in "Manage my metadata" tab - end */
+    	
 //		resultType is not specified in search params - it's in config?
         Content child = request.getChild(Geonet.SearchResult.RESULT_TYPE);
         String resultType;

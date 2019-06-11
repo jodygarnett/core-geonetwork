@@ -490,6 +490,7 @@ public final class Geonet {
 
 
         public static final String RESULT_TYPE = "resultType";
+        public static final String MY_RECORD = "onlyMyRecord";
 
         public static final String FAST = "fast";
         public static final String INDEX = "index";

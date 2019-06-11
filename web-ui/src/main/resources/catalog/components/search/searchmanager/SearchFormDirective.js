@@ -141,6 +141,14 @@
       }
       //Joseph added to search by eCatId - end
       
+      //Joseph added, to load only logged in users metadata records in "Manage my metadata" tab - start
+      if($location.path() == '/board'){
+          $scope.searchObj.params['onlyMyRecord'] = true;
+      }else{
+    	  delete $scope.searchObj.params['onlyMyRecord'];
+      }
+      //Joseph added, to load only logged in users metadata records in "Manage my metadata" tab - end
+      
       // Set default pagination if not set
       if ((!keepPagination &&
           !$scope.searchObj.permalink) ||
