@@ -103,6 +103,9 @@
             <span class="badge" data-ng-repeat="k in ::md.keyword">{{k}}</span>
           </p>-->
         </div>
+        <div data-ng-if="isIntranet" class="gn-mn-owner">
+          <span>Owner: </span> {{ md.getOwnername() }}
+        </div>
         <div class="gn-md-ecatid">
 		  <b>eCat ID:</b> {{ md.eCatId }}
 		</div>
