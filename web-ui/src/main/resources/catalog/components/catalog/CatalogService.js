@@ -793,6 +793,22 @@
           return '';
         }
       },
+      getWorkFlowStatus: function(){
+        var st = this.mdStatus;
+        if(st == '1'){
+          return 'Draft';
+        } else if(st == '2'){
+          return 'Approved';
+        } else if(st == '3'){
+          return 'Retired';
+        } else if(st == '4'){
+          return 'Submitted';
+        } else if(st == '5'){
+          return 'Rejected';
+        } else {
+          return '';
+        }
+      },
       isWorkflowEnabled: function() {
         var st = this.mdStatus;
         var res = st &&
