@@ -50,6 +50,11 @@
            data-readonly="true"
            class="pull-right"/> -->
       <div class="gn-md-schema"><b>Schema:</b> {{ md['geonet:info'].schema }}</div>
+      <div class="gn-mn-tile">
+          <div data-ng-if="isIntranet" class="gn-mn-publish">
+            {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} - <span>{{ md.getWorkFlowStatus() }} </span>
+          </div>
+        </div>
     </div>
     <!--end top row-->
     <div class="row gn-md-title"
@@ -71,13 +76,11 @@
         <img class="gn-img-thumbnail"
              data-ng-src="{{md.getThumbnails().list[0].url}}"
              data-ng-if="md.getThumbnails().list[0].url"/>
-
-        <!-- Display the first metadata status (apply to ISO19139 record) -->
-        <div data-ng-if="md.status_text.length > 0"
-             title="{{md.status_text[0]}}"
-             class="gn-status gn-status-{{md.status[0]}}">{{md.status_text[0]}}
-        </div>
       </div>
+      
+      <div data-ng-if="md.mdStatus > 0 && isIntranet"
+          class="gn-status gn-status-{{ md.getWorkFlowStatus() }}"> {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} - <span>{{ md.getWorkFlowStatus() }} </span>
+     </div>
 
       <div data-ng-style="md.getThumbnails().list[0].url ? 'gn-md-nothumbnail' : 'gn-md-withthumbnail' ">
 
@@ -103,15 +106,24 @@
             <span class="badge" data-ng-repeat="k in ::md.keyword">{{k}}</span>
           </p>-->
         </div>
+        <div class="gn-mn-tile">
+          <div data-ng-if="isIntranet" class="gn-mn-owner">
+            <span>Owner: </span> {{ md.getOwnername() }}
+          </div>
+        </div>
+        
         <div class="gn-md-ecatid">
-		  <b>eCat ID:</b> {{ md.eCatId }}
-		</div>
-		<div class="gn-mn-contact">
-		  <div data-ng-repeat="c in md.getAllContacts().metadata track by $index">
-		  	<div>{{ c.org }}</div>
-		  </div>
-		  <div style="float:right">Last update: {{ md['geonet:info'].changeDate | date:"yyyy-MM-dd" }}</div>
-		</div>
+		      <b>eCat ID:</b> {{ md.eCatId }}
+        </div>
+        <div class="gn-mn-tile">
+          <div class="gn-mn-contact">
+            <div data-ng-repeat="c in md.getAllContacts().metadata track by $index">
+              <div>{{ c.org }}</div>
+            </div>
+            <div style="float:right">Last update: {{ md['geonet:info'].changeDate | date:"yyyy-MM-dd" }}</div>
+          </div>
+        </div>
+        
       </div>
 
     </div>
