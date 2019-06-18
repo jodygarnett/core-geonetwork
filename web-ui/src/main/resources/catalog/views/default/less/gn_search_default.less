@@ -166,15 +166,29 @@ ul.gn-resultview {
     font-size: 80%;
     color: #333333;
   }
-  .gn-mn-contact{
-    font-weight: normal;
-    font-style: italic !important;
+
+  .gn-mn-tile{
     font-size: 80%;
     color: #333333;
     position:absolute;
     right:0px;
-    padding: 15px;
+    .gn-mn-contact{
+      font-weight: normal;
+      font-style: italic !important;
+      padding: 15px;
+    }
+    .gn-mn-owner{
+      font-weight: bolder;
+      padding-bottom: 35px;
+      padding-right: 15px;
+    }
+    .gn-mn-publish{
+      font-weight: bolder;
+      padding-top: 15px;
+      padding-right: 15px;
+    }
   }
+  
   li.list-group-item {
     margin-right: 15px;
     margin-bottom: 15px;
@@ -268,6 +282,7 @@ ul.gn-resultview {
           text-overflow: ellipsis;
           overflow: hidden;
           display: block;
+          padding-top: 10px;
         }
         a:hover {
           color: #428bca;
