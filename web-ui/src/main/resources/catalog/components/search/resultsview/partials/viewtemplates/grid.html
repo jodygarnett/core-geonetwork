@@ -50,9 +50,9 @@
            data-readonly="true"
            class="pull-right"/> -->
       <div class="gn-md-schema"><b>Schema:</b> {{ md['geonet:info'].schema }}</div>
-      <div class="gn-mn-tile">
+      <div data-ng-if="md.status_text.length > 0" class="gn-mn-tile">
           <div data-ng-if="isIntranet" class="gn-mn-publish">
-            {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} - <span>{{ md.getWorkFlowStatus() }} </span>
+            Metadata Status: <span> {{md.status_text[0]}} </span>
           </div>
         </div>
     </div>
