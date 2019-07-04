@@ -288,7 +288,7 @@
 
 			<xsl:if test="xs:boolean($DistributionLink)">
 				<xsl:for-each
-					select="mdb:distributionInfo/*/mrd:transferOptions/*/mrd:onLine/*">
+					select="mdb:distributionInfo/*/mrd:distributor/*/mrd:distributorTransferOptions/mrd:MD_DigitalTransferOptions/mrd:onLine/*">
 					<DistributionLink>
 						<xsl:value-of select="cit:name/*/text()" />
 						<xsl:value-of select="$seperator" />
@@ -313,12 +313,12 @@
 
 			<xsl:if test="xs:boolean($DataStorageLink)">
 				<xsl:for-each
-					select="mdb:identificationInfo/*/mri:citation/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
+					select="mdb:identificationInfo/*/mri:resourceFormat/mrd:MD_Format/mrd:formatSpecificationCitation/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource">
 					<DataStorageLink>
-						<xsl:value-of select="cit:name/*/text()" />
+						<!-- <xsl:value-of select="cit:name/*/text()" />
 						<xsl:value-of select="$seperator" />
 						<xsl:value-of select="cit:description/*/text()" />
-						<xsl:value-of select="$seperator" />
+						<xsl:value-of select="$seperator" /> -->
 						<xsl:value-of select="cit:linkage/*/text()" />
 					</DataStorageLink>
 				</xsl:for-each>

@@ -1,4 +1,5 @@
 <div data-ng-controller="GnMdViewController" class="container">
+  
   <div class="alert alert-warning"
        data-ng-hide="mdView.current.record"
        data-translate=""
@@ -119,11 +120,12 @@
              data-title="{{'downloadsAndResources' | translate}}">
         </div>
 
-        <div data-gn-related="mdView.current.record"
+		<!-- Joseph commented - Currently these types are not loaded in default view -->
+        <!-- <div data-gn-related="mdView.current.record"
              data-user="user"
              data-types="parent|children|services|datasets"
              data-title="{{'associatedResources' | translate}}">
-        </div>
+        </div> -->
 
         <h2 data-translate="">aboutThisResource</h2>
         <table class="table table-striped">
@@ -508,8 +510,8 @@
           </tbody>
         </table>
 
-
-        <div data-gn-related="mdView.current.record"
+		<!-- Joseph commented - Currently these types are not loaded in default view -->
+        <!-- <div data-gn-related="mdView.current.record"
              data-user="user"
              data-types="fcats|related"
              data-title="{{'featureCatalog' | translate}}">
@@ -518,7 +520,7 @@
              data-user="user"
              data-types="siblings|associated|related"
              data-title="{{'siblings' | translate}}">
-        </div>
+        </div> -->
 
 		<h2 data-ng-if="mdView.current.record.parenteCatID">Parent Information</h2>
 		
@@ -792,6 +794,10 @@ Martin comment out end -->
             data-ng-click="mdService.getPermalink(md)"
             title="{{'permalink' | translate}}"
             class="btn btn-default"><i class="fa fa-fw fa-link"></i></a>
+          <a
+            data-ng-click="mdService.getCitation(md)"
+            title="Citation"
+            class="btn btn-default"><i class="fa fa-fw fa-bookmark"></i></a>
         </section>
         </br>
 

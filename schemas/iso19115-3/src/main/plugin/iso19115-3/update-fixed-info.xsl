@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
+<xsl:stylesheet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
   xmlns:gml="http://www.opengis.net/gml/3.2" 
   xmlns:srv="http://standards.iso.org/iso/19115/-3/srv/2.0"
   xmlns:gcx="http://standards.iso.org/iso/19115/-3/gcx/1.0"
@@ -168,8 +169,15 @@
                 <gco:CharacterString>Geoscience Australia Community Metadata Profile of ISO 19115-1:2014</gco:CharacterString>
               </cit:title>
               <cit:edition>
-                <gco:CharacterString>Version 2.0, April 2015</gco:CharacterString>
+                <gco:CharacterString>Version 2.0, September 2018</gco:CharacterString>
               </cit:edition>
+              <cit:identifier>
+					<mcc:MD_Identifier>
+					   <mcc:code>
+						  <gco:CharacterString>http://pid.geoscience.gov.au/dataset/ga/<xsl:value-of select="/root/env/gaid" /></gco:CharacterString>
+					   </mcc:code>
+					</mcc:MD_Identifier>
+				 </cit:identifier>
             </cit:CI_Citation>
           </mdb:metadataProfile>
         </xsl:when>
@@ -187,33 +195,36 @@
 					<mdb:alternativeMetadataReference>
 						<cit:CI_Citation>
 							<cit:title>
-           			<gco:CharacterString>Geoscience Australia - short identifier for metadata record with uuid <xsl:value-of select="/root/env/uuid"/></gco:CharacterString>
+								<gco:CharacterString>Geoscience Australia Products Catalogue (eCat) – Short identifier for metadata record.</gco:CharacterString>
 							</cit:title>
-      				<cit:identifier>
-       					<mcc:MD_Identifier>
-         					<mcc:code>
-           					<gco:CharacterString><xsl:value-of select="/root/env/gaid"/></gco:CharacterString>
-         					</mcc:code>
-         					<mcc:codeSpace>
-           					<gco:CharacterString>http://www.ga.gov.au/eCatId</gco:CharacterString>
-         					</mcc:codeSpace>
-       					</mcc:MD_Identifier>
-      				</cit:identifier>
+							<cit:identifier>
+								<mcc:MD_Identifier>
+									<mcc:code>
+										<gco:CharacterString>
+											<xsl:value-of select="/root/env/gaid" />
+										</gco:CharacterString>
+									</mcc:code>
+									<mcc:codeSpace>
+										<gco:CharacterString>eCatId</gco:CharacterString>
+									</mcc:codeSpace>
+								</mcc:MD_Identifier>
+							</cit:identifier>
 						</cit:CI_Citation>
 					</mdb:alternativeMetadataReference>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:copy-of select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString='http://www.ga.gov.au/eCatId']"/>
+					<xsl:copy-of
+						select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString='eCatId']" />
 				</xsl:otherwise>
 			</xsl:choose>
      
 		 	<!-- Now process all other alternativeMetadataReference elements -->
-      <xsl:apply-templates select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString!='http://www.ga.gov.au/eCatId']"/>
+      <xsl:apply-templates select="mdb:alternativeMetadataReference[cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString!='eCatId']"/>
       <!--<xsl:apply-templates select="mdb:alternativeMetadataReference"/>-->
       <xsl:apply-templates select="mdb:otherLocale"/>
       <xsl:apply-templates select="mdb:metadataLinkage"/>
 
-      <xsl:variable name="pointOfTruthUrl" select="concat($url, '/metadata/', $uuid)"/>
+      <xsl:variable name="pointOfTruthUrl" select="concat($url, 'catalog.search#/metadata/', $uuid)"/>
 
       <xsl:if test="$createMetadataLinkage and count(mdb:metadataLinkage/cit:CI_OnlineResource/cit:linkage/*[. = $pointOfTruthUrl]) = 0">
         <!-- TODO: This should only be updated for not harvested records ? -->
@@ -224,6 +235,10 @@
               <!-- TODO: URL could be multilingual ? -->
               <gco:CharacterString><xsl:value-of select="$pointOfTruthUrl"/></gco:CharacterString>
             </cit:linkage>
+            <cit:protocol gco:nilReason="missing">
+				<gco:CharacterString xsi:type="gco:CodeType"
+									 codeSpace="http://pid.geoscience.gov.au/def/schema/ga/ISO19115-3-2016/codelist/ga_profile_codelists.xml#gapCI_ProtocolTypeCode"/>
+			 </cit:protocol>
             <!-- TODO: Could be relevant to add description of the
             point of truth for the metadata linkage but this
             needs to be language dependant. -->
@@ -283,17 +298,38 @@
     </xsl:copy>
   </xsl:template>
 
-	<xsl:template
-		match="cit:CI_Citation/cit:identifier[mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString = 'Geoscience Australia Persistent Identifier']">
-		<xsl:variable name="ecatId" select="/root/env/gaid" />
-		<xsl:variable name="codelistvalue" select="//mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue" />
-		<xsl:variable name="pid"
-			select="concat('http://pid.geoscience.gov.au/', $codelistvalue, '/ga/', $ecatId)" />
+	<xsl:template match="cit:CI_Citation/cit:identifier[mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString = 'Geoscience Australia Persistent Identifier']">
+	
+	<xsl:variable name="codelistvalue" select="//mdb:metadataScope/mdb:MD_MetadataScope/mdb:resourceScope/mcc:MD_ScopeCode/@codeListValue" />
+
 		<xsl:copy>
 			<mcc:MD_Identifier>
 				<mcc:code>
 					<gco:CharacterString>
-						<xsl:value-of select="$pid" />
+						<xsl:choose>
+							<xsl:when test="/root/env/gaid">
+								<xsl:variable name="ecatId" select="/root/env/gaid" />
+								<xsl:choose>
+									<xsl:when test="$codelistvalue='service'">
+										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:variable name="ecatId" select="//mdb:alternativeMetadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:codeSpace/gco:CharacterString='eCatId']/mcc:code/gco:CharacterString" />
+								<xsl:choose>
+									<xsl:when test="$codelistvalue='service'">
+										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'service', '/ga/', $ecatId)" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat('http://pid.geoscience.gov.au/', 'dataset', '/ga/', $ecatId)" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:otherwise>
+						</xsl:choose>
 					</gco:CharacterString>
 				</mcc:code>
 				<mcc:codeSpace>
@@ -555,7 +591,7 @@
         <xsl:choose>
           <xsl:when test="not(string(@xlink:href)) or starts-with(@xlink:href, /root/env/siteURL)">
             <xsl:attribute name="xlink:href">
-              <xsl:value-of select="concat(/root/env/siteURL,'csw?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http://standards.iso.org/iso/19115/-3/gmd&amp;elementSetName=full&amp;id=',@uuidref)"/>
+              <xsl:value-of select="concat(/root/env/siteURL,'csw?service=CSW&amp;request=GetRecordById&amp;version=2.0.2&amp;outputSchema=http://standards.iso.org/iso/19115/-3/mdb/1.0&amp;elementSetName=full&amp;id=',@uuidref)"/>
             </xsl:attribute>
           </xsl:when>
           <xsl:otherwise>
@@ -575,7 +611,7 @@
   <xsl:template match="mdb:MD_Metadata/*/lan:PT_Locale">
     <xsl:element name="lan:{local-name()}">
       <xsl:variable name="id"
-                    select="upper-case(java:twoCharLangCode(lan:language/lan:LanguageCode/@codeListValue))"/>
+                    select="lower-case(java:twoCharLangCode(lan:language/lan:LanguageCode/@codeListValue))"/>
       
       <xsl:apply-templates select="@*"/>
       <xsl:if test="normalize-space(@id)='' or normalize-space(@id)!=$id">

@@ -24,9 +24,6 @@
 (function() {
   goog.provide('gn_mdview');
 
-
-
-
   goog.require('gn_md_feedback');
   goog.require('gn_mdview_directive');
   goog.require('gn_mdview_service');
@@ -100,11 +97,13 @@
         }
       };
 
+      
       // Reset current formatter to open the next record
       // in default mode.
       $scope.$watch('mdView.current.record', function() {
         $scope.usingFormatter = false;
         $scope.currentFormatter = null;
+        
       });
 
       // Know from what path we come from
