@@ -247,8 +247,13 @@
             <th data-translate="">Author</th>
             <td>{{mdView.current.record.author}}</td>
           </tr>
-
-		  <tr data-ng-if="mdView.current.record.publisher">
+<!--</div>-->
+		  <tr data-ng-if="isArray(mdView.current.record.publisher)" data-ng-repeat="publisher in mdView.current.record.publisher">
+            <th data-translate="">Publisher</th>
+            <td>{{publisher}}</td>
+          </tr>
+		  
+		  		  <tr data-ng-if="!isArray(mdView.current.record.publisher) && mdView.current.record.publisher">
             <th data-translate="">Publisher</th>
             <td>{{mdView.current.record.publisher}}</td>
           </tr>
@@ -261,6 +266,169 @@
 		  <tr data-ng-if="mdView.current.record.issueIdentification">
             <th data-translate="">Issue Identification</th>
             <td>{{mdView.current.record.issueIdentification}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.resourceProvider)" data-ng-repeat="resourceProvider in mdView.current.record.resourceProvider">
+            <th data-translate="">Resource provider</th>
+            <td>{{resourceProvider}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.resourceProvider) && mdView.current.record.resourceProvider">
+            <th data-translate="">Resource provider</th>
+            <td>{{mdView.current.record.resourceProvider}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.custodian)" data-ng-repeat="custodian in mdView.current.record.custodian">
+            <th data-translate="">Custodian</th>
+            <td>{{custodian}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.custodian) && mdView.current.record.custodian">
+            <th data-translate="">Custodian</th>
+            <td>{{mdView.current.record.custodian}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.owner)" data-ng-repeat="owner in mdView.current.record.owner">
+            <th data-translate="">Owner</th>
+            <td>{{owner}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.owner) && mdView.current.record.owner">
+            <th data-translate="">Owner</th>
+            <td>{{mdView.current.record.owner}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.user)" data-ng-repeat="user in mdView.current.record.user">
+            <th data-translate="">User</th>
+            <td>{{user}}</td>
+          </tr>
+		  
+		  		  <tr data-ng-if="!isArray(mdView.current.record.user) && mdView.current.record.user">
+            <th data-translate="">User</th>
+            <td>{{mdView.current.record.user}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.distributor)" data-ng-repeat="distributor in mdView.current.record.distributor">
+            <th data-translate="">Distributor</th>
+            <td>{{distributor}}</td>
+		  </tr>
+<tr data-ng-if="!isArray(mdView.current.record.distributor) && mdView.current.record.distributor">
+            <th data-translate="">Distributor</th>
+            <td>{{mdView.current.record.distributor}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.originator)" data-ng-repeat="originator in mdView.current.record.originator">
+            <th data-translate="">Originator</th>
+            <td>{{originator}}</td>          
+		  </tr>
+<tr data-ng-if="!isArray(mdView.current.record.originator) && mdView.current.record.originator">
+            <th data-translate="">Originator</th>
+            <td>{{mdView.current.record.originator}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.pointOfContact)" data-ng-repeat="pointOfContact in mdView.current.record.pointOfContact">
+            <th data-translate="">Point of contact</th>
+            <td>{{pointOfContact}}</td>
+     </tr>
+	 <tr data-ng-if="!isArray(mdView.current.record.pointOfContact) && mdView.current.record.pointOfContact">
+            <th data-translate="">Point of contact</th>
+            <td>{{mdView.current.record.pointOfContact}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.principalInvestigator)" data-ng-repeat="principalInvestigator in mdView.current.record.principalInvestigator">
+            <th data-translate="">Principal investigator</th>
+            <td>{{principalInvestigator}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.principalInvestigator) && mdView.current.record.principalInvestigator">
+            <th data-translate="">Principal investigator</th>
+            <td>{{mdView.current.record.principalInvestigator}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.processor)" data-ng-repeat="processor in mdView.current.record.processor">
+            <th data-translate="">Processor</th>
+            <td>{{processor}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.processor) && mdView.current.record.processor">
+            <th data-translate="">Processor</th>
+            <td>{{mdView.current.record.processor}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.sponsor)" data-ng-repeat="sponsor in mdView.current.record.sponsor">
+            <th data-translate="">Sponsor</th>
+            <td>{{sponsor}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.sponsor) && mdView.current.record.sponsor">
+            <th data-translate="">Sponsor</th>
+            <td>{{mdView.current.record.sponsor}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.coAuthor)" data-ng-repeat="coAuthor in mdView.current.record.coAuthor">
+            <th data-translate="">Co-author</th>
+            <td>{{coAuthor}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.coAuthor) && mdView.current.record.coAuthor">
+            <th data-translate="">Co-author</th>
+            <td>{{mdView.current.record.coAuthor}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.collaborator)" data-ng-repeat="collaborator in mdView.current.record.collaborator">
+            <th data-translate="">Collaborator</th>
+            <td>{{collaborator}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.collaborator) && mdView.current.record.collaborator">
+            <th data-translate="">Collaborator</th>
+            <td>{{mdView.current.record.collaborator}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.editor)" data-ng-repeat="editor in mdView.current.record.editor">
+            <th data-translate="">Editor</th>
+            <td>{{editor}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.editor) && mdView.current.record.editor">
+            <th data-translate="">Editor</th>
+            <td>{{mdView.current.record.editor}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.mediator)" data-ng-repeat="mediator in mdView.current.record.mediator">
+            <th data-translate="">Mediator</th>
+            <td>{{mediator}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.mediator) && mdView.current.record.mediator">
+            <th data-translate="">Mediator</th>
+            <td>{{mdView.current.record.mediator}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.rightsHolder)" data-ng-repeat="rightsHolder in mdView.current.record.rightsHolder">
+            <th data-translate="">Rights holder</th>
+            <td>{{rightsHolder}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.rightsHolder) && mdView.current.record.rightsHolder">
+            <th data-translate="">Rights holder</th>
+            <td>{{mdView.current.record.rightsHolder}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.contributor)" data-ng-repeat="contributor in mdView.current.record.contributor">
+            <th data-translate="">Contributor</th>
+            <td>{{contributor}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.contributor) && mdView.current.record.contributor">
+            <th data-translate="">Contributor</th>
+            <td>{{mdView.current.record.contributor}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.funder)" data-ng-repeat="funder in mdView.current.record.funder">
+            <th data-translate="">Funder</th>
+            <td>{{funder}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.funder) && mdView.current.record.funder">
+            <th data-translate="">Funder</th>
+            <td>{{mdView.current.record.funder}}</td>
+          </tr>
+		  
+<tr data-ng-if="isArray(mdView.current.record.stakeholder)" data-ng-repeat="stakeholder in mdView.current.record.stakeholder">
+            <th data-translate="">Stakeholder</th>
+            <td>{{stakeholder}}</td>
+          </tr>
+		  <tr data-ng-if="!isArray(mdView.current.record.stakeholder) && mdView.current.record.stakeholder">
+            <th data-translate="">Stakeholder</th>
+            <td>{{mdView.current.record.stakeholder}}</td>
           </tr>
 <!-- Martin addition end -->
 		  <tr data-ng-if="mdView.current.record.getAllContacts().resource">

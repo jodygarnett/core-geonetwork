@@ -32,8 +32,15 @@
         <xsl:call-template name="add-namespaces"/>
         
         <xsl:apply-templates select="mdb:metadataIdentifier"/>
+	<xsl:apply-templates select="mdb:alternativeMetadataReference"/>
+
+	  
         <xsl:apply-templates select="mdb:metadataScope"/>
         <xsl:apply-templates select="mdb:identificationInfo"/>
+	
+
+	
+		
         
         <xsl:if test="$displayInfo = 'true'">
           <xsl:copy-of select="$info"/>
@@ -52,6 +59,7 @@
         <xsl:element name="{concat($nameSpacePrefix,':',local-name(.))}">
           <xsl:copy-of select="@*"/>
           <xsl:apply-templates select="mri:citation"/>
+		  <xsl:apply-templates select="cit:identifier"/>
           <xsl:apply-templates select="mri:graphicOverview"/>
           <xsl:apply-templates select="mri:extent[child::gex:EX_Extent[child::gex:geographicElement]]|
             srv:extent[child::gex:EX_Extent[child::gex:geographicElement]]"/>
@@ -100,6 +108,7 @@
     </xsl:variable>
     <xsl:element name="{concat($nameSpacePrefix,':',local-name(.))}">
       <xsl:apply-templates select="cit:title"/>
+	  <xsl:apply-templates select="cit:identifier"/>
     </xsl:element>
   </xsl:template>
   

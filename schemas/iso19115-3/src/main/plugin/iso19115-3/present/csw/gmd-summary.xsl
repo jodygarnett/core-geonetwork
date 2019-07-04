@@ -32,6 +32,7 @@
         <xsl:call-template name="add-namespaces"/>
         
         <xsl:apply-templates select="mdb:metadataIdentifier"/>
+	<xsl:apply-templates select="mdb:alternativeMetadataReference"/>
         <xsl:apply-templates select="mdb:defaultLocale"/>
         <xsl:apply-templates select="mdb:parentMetadata"/>
         <xsl:apply-templates select="mdb:metadataScope"/>
