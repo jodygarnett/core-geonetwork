@@ -203,7 +203,26 @@
 	  <field name="vertExtentRef" tagName="vertExtentRef"/>
 	  <field name="DOI" tagName="DOI"/>
 	  <field name="PID" tagName="PID"/>
-	<!-- Martins additions start -->
+	  <field name="resourceProvider" tagName="resourceProvider"/>
+	  <field name="custodian" tagName="custodian"/>
+	  <field name="owner" tagName="owner"/>
+	  <field name="user" tagName="user"/>
+	  <field name="distributor" tagName="distributor"/>
+	  <field name="originator" tagName="originator"/>
+	  <field name="pointOfContact" tagName="pointOfContact"/>
+	  <field name="principalInvestigator" tagName="principalInvestigator"/>
+	  <field name="processor" tagName="processor"/>
+	  <field name="coAuthor" tagName="coAuthor"/>
+	  <field name="sponsor" tagName="sponsor"/>
+	  <field name="collaborator" tagName="collaborator"/>
+	  <field name="editor" tagName="editor"/>
+	  <field name="mediator" tagName="mediator"/>
+	  <field name="rightsHolder" tagName="rightsHolder"/>
+	  <field name="contributor" tagName="contributor"/>
+	  <field name="funder" tagName="funder"/>
+	  <field name="stakeholder" tagName="stakeholder"/>
+
+	<!-- Martins additions end -->
 
     </dumpFields>
   </search>

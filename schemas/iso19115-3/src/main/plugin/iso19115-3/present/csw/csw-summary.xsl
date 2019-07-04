@@ -36,6 +36,10 @@
       <xsl:for-each select="mdb:metadataIdentifier">
         <dc:identifier><xsl:value-of select="mcc:MD_Identifier/mcc:code/gco:CharacterString"/></dc:identifier>
       </xsl:for-each>
+	  	       
+	  <xsl:for-each select="mdb:alternativeMetadataReference">
+        <dc:identifier><xsl:value-of select="cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/></dc:identifier>
+      </xsl:for-each>
       
       <!-- Identification -->
       <xsl:for-each select="mdb:identificationInfo/mri:MD_DataIdentification|
