@@ -30,6 +30,7 @@
       <xsl:apply-templates select="mdb:dateInfo"/>
       <xsl:apply-templates select="mdb:metadataStandard"/>
       <xsl:apply-templates select="mdb:metadataProfile"/>
+	  <xsl:apply-templates select="mdb:alternativeMetadataReference"/>
       <xsl:apply-templates select="mdb:referenceSystemInfo"/>
       <xsl:apply-templates select="mdb:identificationInfo"/>
       <xsl:apply-templates select="mdb:distributionInfo"/>

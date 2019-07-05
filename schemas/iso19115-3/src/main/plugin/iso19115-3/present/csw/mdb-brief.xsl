@@ -24,7 +24,8 @@
     <xsl:copy>
       <xsl:apply-templates select="mdb:metadataIdentifier"/>
       <xsl:apply-templates select="mdb:metadataScope"/>
-      <xsl:apply-templates select="mdb:identificationInfo"/>
+	   <xsl:apply-templates select="mdb:alternativeMetadataReference"/>     
+	 <xsl:apply-templates select="mdb:identificationInfo"/>
       
       <!-- GeoNetwork elements added when resultType is equal to results_with_summary -->
       <xsl:if test="$displayInfo = 'true'">
@@ -75,6 +76,7 @@
   <xsl:template match="cit:CI_Citation">
     <xsl:copy>
       <xsl:apply-templates select="cit:title"/>
+	  <xsl:apply-templates select="cit:identifier"/>
     </xsl:copy>
   </xsl:template>
   
