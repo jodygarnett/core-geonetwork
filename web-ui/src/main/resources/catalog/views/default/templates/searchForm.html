@@ -141,7 +141,16 @@
             </div>
             <div class="col-md-4">
               <h3 data-translate="">when</h3>
-              <div data-gn-period-chooser="resourcesCreatedTheLast"
+              <div data-gn-period-chooser="recordsCreatedTheLast"
+                   data-date-from="searchObj.params.creationDateFrom"
+                   data-date-to="searchObj.params.creationDateTo">
+              </div>
+
+              <div data-gn-period-chooser="recordsPublishedTheLast"
+                   data-date-from="searchObj.params.publicationDateFrom"
+                   data-date-to="searchObj.params.publicationDateTo">
+              </div>
+              <!-- <div data-gn-period-chooser="resourcesCreatedTheLast"
                    data-date-from="searchObj.params.creationDateFrom"
                    data-date-to="searchObj.params.creationDateTo">
               </div>
@@ -149,7 +158,7 @@
               <div data-gn-period-chooser="recordsCreatedTheLast"
                    data-date-from="searchObj.params.dateFrom"
                    data-date-to="searchObj.params.dateTo">
-              </div>
+              </div>-->
             </div>
            
           </div>

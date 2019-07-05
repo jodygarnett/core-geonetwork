@@ -116,11 +116,12 @@
           dateTo: '='
         },
         link: function linkFn(scope, element, attr) {
-          var today = moment();
+          
           scope.format = 'YYYY-MM-DD';
           scope.options = ['today', 'yesterday', 'thisWeek', 'thisMonth',
             'last3Months', 'last6Months', 'thisYear'];
           scope.setPeriod = function(option) {
+        	var today = moment();
             if (option === 'today') {
               var date = today.format(scope.format);
               scope.dateFrom = date;
