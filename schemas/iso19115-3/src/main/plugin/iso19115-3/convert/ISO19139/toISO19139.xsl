@@ -99,7 +99,11 @@
         <xsl:apply-templates select="mdb:dateInfo"/>
         <xsl:apply-templates select="mdb:metadataStandard"/>
         <xsl:apply-templates select="mdb:metadataProfile"/>
-        <xsl:apply-templates select="mdb:alternativeMetadataReference"/>
+			<xsl:for-each select="mdb:alternativeMetadataReference">
+        <gmd:identifier><gmd:RS_Identifier><gmd:code><xsl:value-of select="cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:code/gco:CharacterString"/></gmd:code>
+		<gmd:codeSpace><xsl:value-of select="cit:CI_Citation/cit:identifier/mcc:MD_Identifier/mcc:codeSpace/gco:CharacterString"/></gmd:codeSpace>
+		</gmd:RS_Identifier></gmd:identifier>
+      </xsl:for-each>
         <xsl:apply-templates select="mdb:otherLocale"/>
         <xsl:apply-templates select="mdb:metadataLinkage"/>
         <xsl:apply-templates select="mdb:spatialRepresentationInfo"/>
