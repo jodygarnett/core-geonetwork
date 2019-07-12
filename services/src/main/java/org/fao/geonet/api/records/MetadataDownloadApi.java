@@ -47,6 +47,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -84,9 +85,9 @@ public class MetadataDownloadApi implements ApplicationContextAware {
 		for (String param : exportParams) {
 			mapParams.put(param, true);
 		}
-
+		String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 		// return prepareCsv(context, appContext, bucket, mapParams);
-		Path csvPath = Files.createTempFile("metadatas", ".csv");
+		Path csvPath = Files.createTempFile(sessionId + "metadatas", ".csv");
 		Runnable task = () -> {
 			prepareCsv(context, appContext, bucket, mapParams, csvPath);
 		};
@@ -94,7 +95,7 @@ public class MetadataDownloadApi implements ApplicationContextAware {
 		// start the thread
 		new Thread(task).start();
 		
-		return csvPath.toFile().getAbsolutePath();
+		return csvPath.toFile().getName();
 
 	}
 
@@ -182,11 +183,16 @@ public class MetadataDownloadApi implements ApplicationContextAware {
 	}
 
 	@RequestMapping(value = "/download/csv", method = RequestMethod.GET, produces = "text/csv")
-	public ResponseEntity<Object> downloadCSV(@RequestParam String filepath, HttpServletRequest request) throws Exception {
+	public ResponseEntity<Object> downloadCSV(@RequestParam String filename, HttpServletRequest request) throws Exception {
 
 		try {
-			Path csvPath = Paths.get(filepath);
+			String tempDir = System.getProperty("java.io.tmpdir");
+			Path csvPath = Paths.get(tempDir + File.separator +filename);
+			String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 			
+			if(!filename.contains(sessionId)){
+				return new ResponseEntity<>("Not authorised to download", HttpStatus.UNAUTHORIZED); 
+			}
 			Log.debug(Geonet.SEARCH_ENGINE,
 					"CSV MetadataDownloadApi, downloadCSV --> file.getAbsolutePath(): " + csvPath);
 			

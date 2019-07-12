@@ -246,7 +246,7 @@
 				  if (!isCompleted) {
 					$timeout(checkIsCompleted, 1000);
 				  }else{
-					  return $http.get('../api/records/download/csv?filepath=' +  encodeURIComponent(scope.fileloc)).success(function(response) {
+					  return $http.get('../api/records/download/csv?filename=' +  encodeURIComponent(scope.fileloc)).success(function(response) {
 								saveFile(response);
 						})
 						.error(function(err){
