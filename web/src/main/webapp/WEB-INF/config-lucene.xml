@@ -205,7 +205,7 @@
 	  <field name="PID" tagName="PID"/>
 	  <field name="resourceProvider" tagName="resourceProvider"/>
 	  <field name="custodian" tagName="custodian"/>
-	  <field name="owner" tagName="owner"/>
+	  <field name="ownerCited" tagName="ownerCited"/>
 	  <field name="user" tagName="user"/>
 	  <field name="distributor" tagName="distributor"/>
 	  <field name="originator" tagName="originator"/>
@@ -221,7 +221,7 @@
 	  <field name="contributor" tagName="contributor"/>
 	  <field name="funder" tagName="funder"/>
 	  <field name="stakeholder" tagName="stakeholder"/>
-
+    <field name="Associations" tagName="Associations"/>
 	<!-- Martins additions end -->
 
     </dumpFields>
