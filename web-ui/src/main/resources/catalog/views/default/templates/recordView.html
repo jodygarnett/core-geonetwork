@@ -286,13 +286,13 @@
             <td>{{mdView.current.record.custodian}}</td>
           </tr>
 		  
-<tr data-ng-if="isArray(mdView.current.record.owner)" data-ng-repeat="owner in mdView.current.record.owner">
+<tr data-ng-if="isArray(mdView.current.record.ownerCited)" data-ng-repeat="ownerCited in mdView.current.record.ownerCited">
             <th data-translate="">Owner</th>
-            <td>{{owner}}</td>
+            <td>{{ownerCited}}</td>
           </tr>
-		  <tr data-ng-if="!isArray(mdView.current.record.owner) && mdView.current.record.owner">
+		  <tr data-ng-if="!isArray(mdView.current.record.ownerCited) && mdView.current.record.ownerCited">
             <th data-translate="">Owner</th>
-            <td>{{mdView.current.record.owner}}</td>
+            <td>{{mdView.current.record.ownerCited}}</td>
           </tr>
 		  
 <tr data-ng-if="isArray(mdView.current.record.user)" data-ng-repeat="user in mdView.current.record.user">
@@ -707,7 +707,29 @@
 		  
 		  
 		</tbody>
-        </table> 
+        </table>
+    
+     <h2 data-ng-if="mdView.current.record.Associations">Associations</h2>
+		<table class="table table-striped">
+          <tbody>
+		  
+    
+	  
+		<tr data-ng-if="isArray(mdView.current.record.Associations)" data-ng-repeat="Association in mdView.current.record.Associations">
+            <th data-translate="">Association</th>
+            <td>{{Association.split('-')[1]}}<br><a href="{{Association.split('-')[3]}}"> {{Association.split('-')[3]}}</a><br>{{Association.split('-')[0]}}</td>
+			
+          </tr>
+		  
+		  <tr data-ng-if="!isArray(mdView.current.record.Associations) && mdView.current.record.Associations">
+            <th data-translate="">Associations</th>
+            <td>{{mdView.current.record.Associations.split('-')[1]}}<br><a href="{{mdView.current.record.Associations.split('-')[3]}}"> {{mdView.current.record.Associations.split('-')[3]}}</a><br>{{mdView.current.record.Associations.split('-')[0]}}</td>
+          </tr>
+		  
+
+		  
+          </tbody>
+        </table>
 		  
 		
         <h2 data-translate="">metadataInformation</h2>
