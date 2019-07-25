@@ -262,6 +262,13 @@
           setTimeout(function() {
             element.find(':input').select();
           }, 300);
+
+          scope.copyFunc = function(){
+            element.find(':input').select();
+            setTimeout(function() {
+              document.execCommand('copy');
+          }, 100);
+          }
         }
       };
     }]
