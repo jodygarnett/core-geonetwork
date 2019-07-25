@@ -231,7 +231,7 @@ ul.gn-resultview {
   li.list-group-item {
     margin-right: 15px;
     margin-bottom: 15px;
-    border-radius: 4px;
+    //border-radius: 4px;
     border: none;
     &:hover {
       //background-color: rgba(10, 10, 10, 0.062);
@@ -283,12 +283,12 @@ ul.gn-resultview {
     @grid-bottom-margin: 2px;
 
     float: left;
-    border: 1px solid @list-group-border;
+    border-bottom: 1px solid @list-group-border;
     //box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
     min-width: 300px;
-    max-width: 650px;
+    max-width: 49%;
     width: calc(~"100% - 15px");
-    height: 21.5em;
+    height: 14.5em;
     padding: 14px;
     .gn-md-details {
       //margin-left: @thumbnail-width;
@@ -351,7 +351,10 @@ ul.gn-resultview {
     }
     .gn-md-abstract {
       cursor: pointer;
-      color: @gray-light;
+      color: #5a5a5a;
+    }
+    .gn-md-abstract.ellipsis {
+      height: 54px;
     }
     .gn-md-abstract.ellipsis:after {
       background: none;
@@ -659,7 +662,7 @@ html, body {
 @media (min-width: @screen-md-min) {
 
   ul.gn-resultview li.gn-grid {
-    width: calc(~"33% - 15px");
+    width: calc(~"50% - 15px");
   }
 }
 
@@ -847,8 +850,15 @@ html, body {
 }
 
 .content-wrapper{
+  width: 100%;
   display: inline-flex;
   box-shadow: 4px 4px 20px #006983;
+}
+
+.search-result-feedback {
+  color: #53565a;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .result-selection{
@@ -956,13 +966,16 @@ html, body {
 
 .gn-any-search-input{
   display: inline-flex;
-  min-width: 30rem;
+  width: @any-search-input-margin;
   padding: @filter-padding;
-  input[type=text] {
+  input[type=search] {
     border-radius:0;
     border: 0;
     float: left;
     background: #fff;
+    ::-webkit-search-cancel-button {
+      -webkit-appearance: searchfield-cancel-button;
+    }
   }
   button {
     border-radius: 0 !important;
@@ -985,6 +998,9 @@ html, body {
   display: inline-flex;
   min-width: 30rem;
   width: 100%;
+  input[type=search] ::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+  }
   .search-input{
     padding: 10px;
   }
@@ -1029,9 +1045,9 @@ html, body {
   span.title-lg {
     position: absolute;
     margin-top: 3rem;
-    font: 550 1.1em Helvetica, Arial, Verdana, sans-serif;
+    font: 500 1.3em Helvetica, Arial, Verdana, sans-serif;
     padding-left: 10rem;
-    color: #61616194;
+    color: @ga-color;
     text-transform: uppercase;
   }
 }
@@ -1066,7 +1082,7 @@ html, body {
   background-color: @ga-color;
   color: #ffffff;
   border-radius: 0 !important;
-  font-size: 14px;
+  font: 500 1.1em Helvetica, Arial, Verdana, sans-serif;
   margin-right: 35px;
   margin-top: 20px;
   &:hover{
