@@ -941,22 +941,35 @@ html, body {
   margin-left:  -@any-search-input-margin - 2rem !important;
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 960px) {
   .sb_container_outer{
     width:@any-search-input-margin;
     .gn-any-search-input {
+      width: @any-search-input-margin;
       input[type='text']{
         width: @any-search-input-width;
       }
     }
-  }
-  
+  } 
 }
 
-@media (max-width: 500px) {
+@media only screen and (min-width: 768px) {
+  .sb_container_outer{
+    width:@any-search-input-margin - 60rem;
+    .gn-any-search-input {
+      width: @any-search-input-margin - 60rem;
+      input[type='text']{
+        width: @any-search-input-width - 60rem;
+      }
+    }
+  } 
+}
+
+@media only screen and (max-device-width: 480px) {
   .sb_container_outer{
     width:31rem;
     .gn-any-search-input {
+      width:31rem;
       input[type='text']{
         width: 15rem;
       }
@@ -964,33 +977,54 @@ html, body {
   }
 }
 
-.gn-any-search-input{
-  display: inline-flex;
-  width: @any-search-input-margin;
-  padding: @filter-padding;
-  input[type=search] {
-    border-radius:0;
-    border: 0;
-    float: left;
-    background: #fff;
-    ::-webkit-search-cancel-button {
-      -webkit-appearance: searchfield-cancel-button;
+.sb_container_outer{
+  //width: @any-search-input-margin;
+  .gn-any-search-input{
+    display: inline-flex;
+    padding: @filter-padding;
+    input[type=search] {
+      border-radius:0;
+      border: 0;
+      float: left;
+      background: #fff;
+      ::-webkit-search-cancel-button {
+        -webkit-appearance: searchfield-cancel-button;
+      }
+    }
+    button {
+      border-radius: 0 !important;
+      width: @btn-width;
+      background-color: #72C7E7;
+    }
+    .btn-adv {
+      background: #fff;
+      color: #000;
+      border: 0;
+      border-left: none;
+      cursor: pointer;
+      label{
+        opacity: 0.5;
+      }
     }
   }
-  button {
-    border-radius: 0 !important;
-    width: @btn-width;
-    background-color: #72C7E7;
+  
+}
+
+@media (min-width: 768px) {
+  .gn-any-search-input{
+
   }
-  .btn-adv {
-    background: #fff;
-    color: #000;
-    border: 0;
-    border-left: none;
-    cursor: pointer;
-    label{
-      opacity: 0.5;
-    }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 500px)  {
+  .gn-any-search-input{
+    
+  }
+}
+
+@media (max-width: 500px) {
+  .gn-any-search-input{
+    
   }
 }
 

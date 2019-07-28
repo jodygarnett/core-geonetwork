@@ -170,6 +170,13 @@
   <div class="content-wrapper">
     <div class="bg-light border-right" id="sidebar-wrapper">
 
+        <div data-ng-show="searchResults.records.length > 0"
+            data-gn-facet-list="searchResults.facet"
+            data-params="searchObj.params"
+            data-facet-config="facetsSummaryType"
+            data-current-facets="currentFacets">
+       </div>
+       
       <div class="gn-new-facet">
         <h4 data-toggle="collapse" data-target="#group-1">
           <i class="fa fa-fw fa-toggle-on fa-toggle-color fa-3 parent-expanded"></i>
