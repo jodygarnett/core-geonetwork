@@ -1,0 +1,176 @@
+<!-- Carousel -->
+<div id="ecat-home-carousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#ecat-home-carousel" data-slide-to="0" class="active"></li>
+    <li data-target="#ecat-home-carousel" data-slide-to="1"></li>
+    <li data-target="#ecat-home-carousel" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/1.png">
+      <div class="container">
+        <div class="carousel-caption homepage-slide-color-black">
+          <h1>Data and Publication Search</h1>
+          <p>Search Geoscience Australia's extensive catalogue of data, publications, online tools, maps and videos.</p>
+          <p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              type="button" style="margin: 20px;">Catalog</a>
+            <a class="btn btn-lg btn-ga" data-gn-active-tb-item="catalog.search#/map" role="button">Maps</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/2.png">
+      <div class="container">
+        <div class="carousel-caption homepage-slide-color-black">
+          <div class="col-sm-4 col-md-4">
+            <h3>EARTH SCIENCE</h3>
+            <p>The division earth sciences contains Atmospheric Sciences, Geochemistry, Geology, Geophysics,
+              Oceanography, Physical, Geography and Environmental Geoscience and Other Earth Sciences.</p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FEarth%2520Sciences&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              role="button">Read More</a>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <h3>GA Publications</h3>
+            <p>This includes GA Records, Professional Opinions, Reports, Scientific papers, Flyers, Brochures,
+              Conference promotional material, Technical posters, and Presentations.                  </p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FGA%2520Publication&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              role="button">Read More</a>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <h3>Educational Products</h3>
+            <p>Are resources intended to provide information for both Science and Geography teachers to support their
+              work with students in both upper primary and secondary settings.                        </p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FEducational%2520Product&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              role="button">Read More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/3.png">
+      <div class="container">
+        <div class="carousel-caption homepage-slide-color-black">
+          <h1>LATEST PUBLICATIONS</h1>
+          <p>Explore new publications from GA.</p>
+          <p><a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json&publicationDateFrom=2019-06-01&publicationDateTo=2019-07-06"
+              role="button">Explore</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="left carousel-control" data-target="#ecat-home-carousel" data-slide="prev"><i
+      class="fa fa-angle-double-left carousel-control-align" aria-hidden="true"></i></a>
+  <a class="right carousel-control" data-target="#ecat-home-carousel" data-slide="next"><i
+      class="fa fa-angle-double-right carousel-control-align" aria-hidden="true"></i></a>
+</div><!-- /#ecat-home-carousel -->
+</div>
+
+<br>
+<div class="container">
+  <div class="home-container-outer">
+    <input type="text" id="searchform" name="searchval"
+      class="form-control input-lg ng-pristine ng-valid ng-empty ng-touched" autofocus=""
+      placeholder="Data and Publications Search...">
+    <span>
+      <a class="btn btn-lg searchbutton" type="button" href="">
+        <i class="fa fa-search"></i>
+      </a>
+    </span>
+  </div>
+  <div class="search-border-container"></div>
+</div>
+
+<div class="ecat-service">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fdataset">
+              <div class="res-image"><img data-ng-src="../../catalog/views/inline/images/thumbs/1.PNG" alt="icon" />
+              </div>
+              <span class="ecat-service-item-header">Dataset</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2FnonGeographicDataset">
+              <div class="res-image"><img class="res-image" data-ng-src="../../catalog/views/inline/images/thumbs/2.PNG"
+                  alt="icon" /></div>
+              <span class="ecat-service-item-header">Non-Geographic Dataset</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fservice">
+              <div class="res-image"><img class="res-image" data-ng-src="../../catalog/views/inline/images/thumbs/3.PNG"
+                  alt="icon" /></div>
+              <span class="ecat-service-item-header">Services</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+        <br class="clearfix" />
+      </div>
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fsoftware">
+              <div class="res-image"><img class="res-image" data-ng-src="../../catalog/views/inline/images/thumbs/4.PNG"
+                  alt="icon" /></div>
+              <span class="ecat-service-item-header">Software</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+        <br class="clearfix" />
+      </div>
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fdocument">
+              <div class="res-image"><img class="res-image" data-ng-src="../../catalog/views/inline/images/thumbs/5.PNG"
+                  alt="icon" /></div>
+              <span class="ecat-service-item-header">Document</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+        <br class="clearfix" />
+      </div>
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fproduct">
+              <div class="res-image"><img class="res-image" data-ng-src="../../catalog/views/inline/images/thumbs/6.PNG"
+                  alt="icon" /></div>
+              <span class="ecat-service-item-header">Product</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
