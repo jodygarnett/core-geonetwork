@@ -250,7 +250,7 @@
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
     <!-- publisher is saved if present into publisher field within lucene -->
 	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='publisher']]">
-		   <Field name="publisher" string="{string(cit:party/cit:CI_Organisation/cit:name/gco:CharacterString)}" store="true" index="true"/>
+		   <Field name="publisher" string="{string(.)}" store="true" index="true"/>
 	</xsl:for-each>
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -326,6 +326,86 @@
 	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceFormat/mrd:MD_Format/mrd:formatSpecificationCitation/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:description">
       <Field name="linkDesc" string="{string(.)}" store="true" index="true"/>
     </xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='resourceProvider']]">
+		   <Field name="resourceProvider" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='custodian']]">
+		   <Field name="custodian" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='owner']]">
+		   <Field name="ownerCited" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='user']]">
+		   <Field name="user" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='distributor']]">
+		   <Field name="Distributor" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='originator']]">
+		   <Field name="originator" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='pointOfContact']]">
+		   <Field name="pointOfContact" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='principalInvestigator']]">
+		   <Field name="principalInvestigator" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+		<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='processor']]">
+		   <Field name="processor" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+		<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='principalInvestigator']]">
+		   <Field name="principalInvestigator" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+		<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='sponsor']]">
+		   <Field name="sponsor" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+		<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='coAuthor']]">
+		   <Field name="coAuthor" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+		<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='collaborator']]">
+		   <Field name="collaborator" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+		<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='editor']]">
+		   <Field name="editor" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+			<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='mediator']]">
+		   <Field name="mediator" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+			<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='rightsHolder']]">
+		   <Field name="rightsHolder" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+			<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='contributor']]">
+		   <Field name="contributor" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+			<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='funder']]">
+		   <Field name="funder" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+			<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='stakeholder']]">
+		   <Field name="stakeholder" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+    
+  <xsl:for-each select="$metadata/mdb:identificationInfo/*/mri:associatedResource/mri:MD_AssociatedResource">
+       	<Field name="Associations" string="{string(mri:associationType/mri:DS_AssociationTypeCode/@codeListValue)}-{string(mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString)}-{string(mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:description/gco:CharacterString='eCat Identifier']/mcc:code/gco:CharacterString)}-{string(mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString)}" store="true" index="true"/>
+  </xsl:for-each>
 	  
 	  
 	  

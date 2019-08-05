@@ -69,16 +69,12 @@ import jeeves.server.context.ServiceContext;
  * This class updates the records by processing the data given in csv.
  *
  */
-public class CSVBatchEdit implements ApplicationEventPublisherAware {
-
-	private ApplicationEventPublisher applicationEventPublisher;
-	Map<String, XPath> xpathExpr = new HashMap<>();
-	List<BatchEditReport> reports = new ArrayList<>();
+public class CSVBatchEdit {
 	
-	LuceneIndexLanguageTracker tracker;
-	IndexAndTaxonomy indexAndTaxonomy;
-	IndexSearcher searcher;
-	LuceneConfig luceneConfig;
+	private LuceneIndexLanguageTracker tracker;
+	private IndexAndTaxonomy indexAndTaxonomy;
+	private IndexSearcher searcher;
+	private LuceneConfig luceneConfig;
 
 	public CSVBatchEdit(ApplicationContext context) {
 	
@@ -175,12 +171,6 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		}
 		
 		return report;
-	}
-
-	
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-		this.applicationEventPublisher = applicationEventPublisher;
 	}
 	
 	/**
