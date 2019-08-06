@@ -680,6 +680,10 @@ public final class Geonet {
     	
     }
 
+    public static final class Namespaces2 {
+    	public static final org.jdom2.Namespace MRI = org.jdom2.Namespace.getNamespace("mri", "http://standards.iso.org/iso/19115/-3/mri/1.0");
+    	public static final org.jdom2.Namespace GCO = org.jdom2.Namespace.getNamespace("gco", "http://standards.iso.org/iso/19115/-3/gco/1.0");
+    }
     public static class IndexFieldNames {
 
         public static final String HASXLINKS = "_hasxlinks";
