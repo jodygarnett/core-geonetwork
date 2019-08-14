@@ -503,7 +503,10 @@
             });
         return defer.promise;
       };
-      
+
+      /**
+       * Get citation
+       */
       this.getCitation = function(md){
         var citationUrl = '';
         if(angular.isArray(md.author) && md.author.length > 0){
@@ -529,10 +532,14 @@
         
         if(md.DOI){
           citationUrl += md.DOI;
+        }else{
+          citationUrl += md.PID;
         }
 
-        gnUtilityService.getPermalink(md.title || md.defaultTitle, citationUrl);
+        return citationUrl;
+        //gnUtilityService.getPermalink(md.title || md.defaultTitle, citationUrl);
       };
+
       /**
        * Get html formatter link for the given md
        * @param {Object} md

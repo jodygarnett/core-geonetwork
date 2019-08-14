@@ -101,12 +101,21 @@
       $scope.$location = $location;
       $scope.activeTab = '/home';
       $scope.resultTemplate = gnSearchSettings.resultTemplate;
+      $scope.viewTemplates = gnSearchSettings.resultViewTpls;
       $scope.facetsSummaryType = gnSearchSettings.facetsSummaryType;
       $scope.location = gnSearchLocation;
+      $scope.states = {};
+      $scope.states.activeItem = $scope.viewTemplates[0].tooltip;
       $scope.toggleMap = function () {
         $(searchMap.getTargetElement()).toggle();
         $('button.gn-minimap-toggle > i').toggleClass('fa-angle-double-left fa-angle-double-right');
       };
+
+      $scope.changeView = function (index) {
+        $scope.states.activeItem = $scope.viewTemplates[index].tooltip;
+        $scope.resultTemplate = $scope.viewTemplates[index].tplUrl;        
+      };
+
       hotkeys.bindTo($scope)
         .add({
             combo: 'h',
@@ -153,6 +162,48 @@
       $scope.mdView = mdView;
       gnMdView.initMdView();
 
+      $scope.getAsArray = function(values){
+        if(angular.isArray(values)){
+          return values;
+        }else{
+          return [values];          
+        }
+      }
+     
+      $scope.getCitation = function(md){
+        if(md){
+          var citationUrl = '';
+          if(angular.isArray(md.author) && md.author.length > 0){
+            citationUrl = md.author.join(', ') + ' ';
+          }else{
+            if(md.author){
+              citationUrl = md.author + ' ';
+            }
+          }
+  
+          if(md.publicationDate){
+            var date = new Date(md.publicationDate);
+            citationUrl += date.getFullYear() + '. ';
+          }
+          
+          citationUrl += md.title + '. ';
+  
+          if(md.issueIdentification){
+            citationUrl = citationUrl + 'Record ' + md.issueIdentification + '. ';
+          }
+  
+          citationUrl += 'Geoscience Australia, Canberra. ';
+          
+          if(md.DOI){
+            citationUrl += md.DOI;
+          }else{
+            citationUrl += md.PID;
+          }
+          
+          return citationUrl;
+        }
+        
+      }
 
       $scope.goToSearch = function (any) {
         $location.path('/search').search({'any': any});
@@ -302,5 +353,16 @@
         }
       }, gnSearchSettings.sortbyDefault);
 
-    }]);
+    }])
+    .filter('join', function () {
+      return function join(array, separator, prop) {
+          if (!Array.isArray(array)) {
+        return array; // if not array return original - can also throw error
+          }
+  
+          return (!!prop ? array.map(function (item) {
+              return item[prop];
+          }) : array).join(separator);
+      };
+  });
 })();

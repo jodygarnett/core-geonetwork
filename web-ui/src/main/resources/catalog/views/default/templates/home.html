@@ -1,118 +1,169 @@
-<div class="container-fluid gn-bg-image">
-  <div class="gn-logo-nav">
-    <a data-gn-active-tb-item="http://www.ga.gov.au/" title="Navigate to the Geoscience Australia home page">
-      <img class="gn-logo" data-ng-src="../../catalog/views/default/images/ga.header.logo.png" />
-    </a>
-  </div>
-  <div class="row gn-row-main">
-    <div class="col-sm-8 col-sm-offset-2">
-      <div class="input-group gn-form-any">
-        <input type="text" class="form-control input-lg" autofocus="" data-ng-model="homeAnyField"
-          data-ng-model-options="modelOptions" placeholder="Data and Publications Search..."
-          data-ng-keyup="$event.keyCode == 13 && goToSearch(homeAnyField)"
-          data-typeahead="address for address in getAnySuggestions($viewValue)" data-typeahead-loading="anyLoading"
-          data-typeahead-min-length="1" />
-        <span class="input-group-btn">
-          <a class="btn btn-primary btn-lg" type="button" data-ng-href="#/search?any={{homeAnyField}}">
-            <i class="fa fa-search"></i>
-          </a>
-        </span>
-      </div>
-      <div data-translate="" class="search-over" data-translate-values="{records: '{{searchInfo.count}}'}">searchOver
+<!-- Carousel -->
+<div id="ecat-home-carousel" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#ecat-home-carousel" data-slide-to="0" class="active"></li>
+    <li data-target="#ecat-home-carousel" data-slide-to="1"></li>
+    <li data-target="#ecat-home-carousel" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/1.png">
+      <div class="container">
+        <div class="carousel-caption homepage-slide-color-black">
+          <h1>Data and Publication Search</h1>
+          <p>Search Geoscience Australia's extensive catalogue of data, publications, online tools, maps and videos.</p>
+          <p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              type="button" style="margin: 20px;">Catalog</a>
+            <a class="btn btn-lg btn-ga" data-gn-active-tb-item="catalog.search#/map" role="button">Maps</a>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row" data-ng-show="searchInfo.count == 0">
-    <div data-ng-show="searchInfo.count == 0" class="col-md-offset-4 col-md-4 alert alert-warning">
-      <span data-translate="">noDataInCatalog</span>
-      <div data-gn-need-help="user-guide/quick-start/index.html"></div>
+
+    <div class="item">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/2.png">
+      <div class="container">
+        <div class="carousel-caption homepage-slide-color-black">
+          <div class="col-sm-4 col-md-4">
+            <h3>EARTH SCIENCE</h3>
+            <p>The division earth sciences contains Atmospheric Sciences, Geochemistry, Geology, Geophysics,
+              Oceanography, Physical, Geography and Environmental Geoscience and Other Earth Sciences.</p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FEarth%2520Sciences&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              role="button">Read More</a>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <h3>GA Publications</h3>
+            <p>This includes GA Records, Professional Opinions, Reports, Scientific papers, Flyers, Brochures,
+              Conference promotional material, Technical posters, and Presentations. </p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FGA%2520Publication&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              role="button">Read More</a>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <h3>Educational Products</h3>
+            <p>Are resources intended to provide information for both Science and Geography teachers to support their
+              work with students in both upper primary and secondary settings. </p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FEducational%2520Product&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              role="button">Read More</a>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="row" data-ng-show="searchInfo.count > 0">
-    <div class="col-sm-12" data-ng-show="browse !== ''">
-      <div class="col-sm-12" data-ng-show="searchInfo.facet['types'].length > 0">
-        <div class="row">
-          <ul class="gn_pane" id="chips-card" data-ng-repeat="(key, facet) in searchInfo.facet['types']"
-            data-ng-show="facet['@label']" class="col-xs-6 col-sm-6 col-lg-6">
-            <li>
-              <div class="badge-icon">
-                <a data-ng-href="#/search?facet.q=type%2F{{facet['@name']}}">
-                  <span class="badge-result badge-result-type">
-                    <i class="fa fa-3x fa-table gn-icon gn-icon-{{facet['@name']}}"></i>
-                  </span>
-                </a>
-              </div>
-              <div class="badge-text">
-                <a title="{{facet['@label']}}" data-ng-href="#/search?facet.q=type%2F{{facet['@name']}}">
-                  <span class="gn-icon-label">{{facet['@label']}}</span><br>
-                  <span class="badge">{{facet['@count']}}</span>
-                </a>
-              </div>
-            </li>
-          </ul>
+    <div class="item">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/3.png">
+      <div class="container">
+        <div class="carousel-caption homepage-slide-color-black">
+          <h1>LATEST PUBLICATIONS</h1>
+          <p>Explore new publications from GA.</p>
+          <p><a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json&publicationDateFrom=2019-06-01&publicationDateTo=2019-07-06"
+              role="button">Explore</a></p>
         </div>
       </div>
     </div>
   </div>
-
-
-  <!--<div class="row">
-    <ul class="nav navbar-nav" style="align-items: center">
-    <li  data-ng-repeat="(key, facet) in searchInfo.facet['types']" data-ng-show="facet['@label']" style="width:200px">
-      <div class="badge-icon">
-        <a data-ng-href="#/search?facet.q=type%2F{{facet['@name']}}">
-          <span class="badge-result badge-result-type">
-            <i class="fa fa-3x fa-table gn-icon gn-icon-{{facet['@name']}}"></i>
-          </span>
-        </a>
-      </div>
-      <div class="badge-text">
-        <a title="{{facet['@label']}}" data-ng-href="#/search?facet.q=type%2F{{facet['@name']}}">
-          <span class="gn-icon-label">{{facet['@label']}}</span><br>
-          <span class="badge">{{facet['@count']}}</span>
-        </a>
-      </div>
-    </li>
-  </ul>
-  </div>-->
-  
-  
-  <div>
-    <ul class="nav navbar-nav">
-      <li>
-        <a href="https://creativecommons.org/licenses/by/4.0/legalcode" target="_blank"
-          title="Go to Creative Commons home page">
-          <img src="../../catalog/views/default/images/cc-by.png" height="20" width="107"
-            alt="Creative Commons Logo"></img></a>
-      </li>
-      <li>
-        <a href="http://www.ga.gov.au/copyright" target="_blank"
-          title="View Geoscience Australia copyright statement">Copyright</a>
-      </li>
-      <li>
-        <a href="http://www.ga.gov.au/disclaimer" target="_blank"
-          title="View Geoscience Australia disclaimer web page">Disclaimer</a>
-      </li>
-      <li>
-        <a href="http://www.ga.gov.au/privacy" target="_blank"
-          title="View Geoscience Australia privacy policy">Privacy</a>
-      </li>
-      <li>
-        <a href="http://www.ga.gov.au/accessibility" target="_blank"
-          title="View Geoscience Australia accessibility statement">Accessibility</a>
-      </li>
-      <li>
-        <a href="http://www.ga.gov.au/ips" target="_blank"
-          title="View Geoscience Australia privacy statement">Information Publication Scheme</a>
-      </li>
-      <li>
-        <a href="http://www.ga.gov.au/ips/foi" target="_blank"
-          title="View Geoscience Australia freedom of information statement">Freedom of Information</a>
-      </li>
-      <li>
-        <a href="http://www.ga.gov.au/contact-us" target="_blank" title="Contact Geoscience Australia">Contact us</a>
-      </li>
-    </ul>
-  </div>
-
 </div>
+<br>
+<div class="container">
+  <div class="home-container-outer">
+    <input type="search" class="form-control input-md" id="gn-any-field" data-ng-model="searchObj.params.any"
+      data-ng-model-options="modelOptionsForm" placeholder="Data and Publications search..."
+      data-typeahead="address for address in getAnySuggestions($viewValue)" data-typeahead-loading="anyLoading"
+      class="form-control" data-typeahead-min-length="1" data-typeahead-focus-first="false" />
+    <span>
+      <button class="btn btn-lg searchbutton" type="button" data-ng-click="triggerSearch()">
+        <i class="fa fa-search"></i>
+      </button>
+    </span>
+  </div>
+  <div class="search-border-container"></div>
+</div>
+
+<div class="ecat-service">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fdataset">
+              <div class="res-image"><img data-ng-src="../../catalog/views/default/images/thumbs/1.PNG" alt="icon" />
+              </div>
+              <span class="ecat-service-item-header">Dataset</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2FnonGeographicDataset">
+              <div class="res-image"><img class="res-image"
+                  data-ng-src="../../catalog/views/default/images/thumbs/2.PNG" alt="icon" /></div>
+              <span class="ecat-service-item-header">Non-Geographic Dataset</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fservice">
+              <div class="res-image"><img class="res-image"
+                  data-ng-src="../../catalog/views/default/images/thumbs/3.PNG" alt="icon" /></div>
+              <span class="ecat-service-item-header">Services</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+        <br class="clearfix" />
+      </div>
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fsoftware">
+              <div class="res-image"><img class="res-image"
+                  data-ng-src="../../catalog/views/default/images/thumbs/4.PNG" alt="icon" /></div>
+              <span class="ecat-service-item-header">Software</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+        <br class="clearfix" />
+      </div>
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fdocument">
+              <div class="res-image"><img class="res-image"
+                  data-ng-src="../../catalog/views/default/images/thumbs/5.PNG" alt="icon" /></div>
+              <span class="ecat-service-item-header">Document</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+        <br class="clearfix" />
+      </div>
+      <div class="col-md-2">
+        <div class="ecat-service-item">
+          <div>
+            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fproduct">
+              <div class="res-image"><img class="res-image"
+                  data-ng-src="../../catalog/views/default/images/thumbs/6.PNG" alt="icon" /></div>
+              <span class="ecat-service-item-header">Product</span>
+            </a>
+          </div>
+          <br class="clearfix" />
+        </div>
+
+      </div>
+    </div>
+  </div>

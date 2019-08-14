@@ -177,9 +177,15 @@
           /* Custom templates for search result views */
           searchSettings.resultViewTpls = [{
                   tplUrl: '../../catalog/components/search/resultsview/' +
-                  'partials/viewtemplates/grid.html',
-                  tooltip: 'Grid',
-                  icon: 'fa-th'
+                  'partials/viewtemplates/list.html',
+                  tooltip: 'List',
+                  icon: 'fa-th-list'
+                },
+                {
+                  tplUrl: '../../catalog/components/search/resultsview/' +
+                  'partials/viewtemplates/titlewithselection.html',
+                  tooltip: 'Title',
+                  icon: 'fa-list'
                 }];
 
           // For the time being metadata rendering is done
