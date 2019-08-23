@@ -92,7 +92,7 @@
 
       var viewerMap = gnSearchSettings.viewerMap;
       var searchMap = gnSearchSettings.searchMap;
-
+      var recordMap = gnSearchSettings.recordMap;
 
       $scope.isArray = angular.isArray;
       $scope.modelOptions = angular.copy(gnGlobalSettings.modelOptions);
@@ -243,6 +243,9 @@
         }
       };
 
+      $scope.reloadMap = function(){
+        recordMap.updateSize();
+      }
       $scope.infoTabs = {
         lastRecords: {
           title: 'lastRecords',
@@ -329,9 +332,8 @@
             viewerMap.updateSize();
           }, 0);
         }
+
       });
-
-
 
       angular.extend($scope.searchObj, {
         advancedMode: false,
@@ -340,6 +342,7 @@
         selectionBucket: 's101',
         viewerMap: viewerMap,
         searchMap: searchMap,
+        recordMap: recordMap,
         mapfieldOption: {
           relations: ['within']
         },

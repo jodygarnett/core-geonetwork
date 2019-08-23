@@ -121,6 +121,12 @@
             view: new ol.View(angular.extend({}, mapsConfig))
           });
 
+        var recordMap = new ol.Map({
+          view: new ol.View({
+            center: [14988995.498610, -2856910.369187],
+            zoom: 5
+          })
+        });
 
           /** Facets configuration */
           searchSettings.facetsSummaryType = 'details';
@@ -224,7 +230,8 @@
           // Set custom config in gnSearchSettings
           angular.extend(searchSettings, {
             viewerMap: viewerMap,
-            searchMap: searchMap
+            searchMap: searchMap,
+            recordMap: recordMap
           });
 
           viewerMap.getLayers().on('add', function(e) {

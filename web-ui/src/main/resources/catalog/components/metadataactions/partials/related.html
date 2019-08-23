@@ -74,7 +74,7 @@
         </p>
       </div>
        <div class="col-xs-4" data-ng-if="mainType != 'FILE'">
-        <button type="button"
+        <button type="button" title="{{r.url}}"
                 data-ng-class="getClass(r.title)"
                 data-ng-show="hasAction(mainType)"
                 data-ng-click="config.doAction(mainType, r, md)">

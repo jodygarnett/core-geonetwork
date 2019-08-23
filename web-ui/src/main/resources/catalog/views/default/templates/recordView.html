@@ -6,12 +6,28 @@
   </div>
 
   <div class="container-fluid gn-rv-container">
-    <div class="row" data-ng-show="mdView.current.record">
-      <div class="col-3">
+    <div class="row rv-action-menu" data-ng-show="mdView.current.record">
+      <div class="col-md-5">
         <button class="btn btn-sm btn-secondary" data-ng-click="closeRecord(mdView.current.record)">
           <i class="fa fa-search"></i>
           <span>{{'backTo' + (fromView || 'search') | translate}}</span>
         </button>
+      </div>
+      <div class="col-md-3" data-ng-if="user.canEditRecord(mdView.current.record)">
+        <a class="btn btn-danger gn-md-delete-btn pull-right" data-ng-show="user.canEditRecord(mdView.current.record)"
+          data-gn-click-and-spin="deleteRecord(mdView.current.record)"
+          data-gn-confirm-click="{{'deleteRecordConfirm' | translate:mdView.current.record}}"
+          title="{{'delete' | translate}}">
+          <i class="fa fa-times"></i>
+        </a>
+
+        <a class="btn btn-primary gn-md-edit-btn pull-right" data-ng-show="user.canEditRecord(mdView.current.record)"
+          data-ng-href="catalog.edit#/metadata/{{mdView.current.record.getId()}}" title="{{'edit' | translate}}">
+          <i class="fa fa-pencil"></i>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <div class="gn-md-actions-btn pull-right" data-gn-md-actions-menu="mdView.current.record" />
       </div>
     </div>
     <div class="row">
@@ -86,35 +102,35 @@
             <div data-gn-related="mdView.current.record" data-user="user" data-types="onlines"
               data-has-results="hasRelations.onlines">
             </div>
-            <hr>
-            <div class="subheader">Data Repository</div>
+            <div class="subheader"
+              data-ng-if="mdView.current.record.storedFormat || mdView.current.record.FormatVersion || mdView.current.record.linkLocation">
+              Data Repository (Stored Format)</div>
             <div data-ng-if="isIntranet">
               <div class="row tab-items" data-ng-if="mdView.current.record.storedFormat">
-                <div class="col-md-3"><b>Stored Format</b></div>
+                <div class="col-md-3"><b>Formats</b></div>
                 <div class="col-md-9">
                   <p>{{mdView.current.record.storedFormat}}</p>
                 </div>
               </div>
               <div class="row tab-items" data-ng-if="mdView.current.record.FormatVersion">
-                <div class="col-md-3"><b>Version of Stored Format</b></div>
+                <div class="col-md-3"><b>Version</b></div>
                 <div class="col-md-9">
                   <p>{{mdView.current.record.FormatVersion}}</p>
                 </div>
               </div>
               <div class="row tab-items" data-ng-if="mdView.current.record.linkLocation">
-                <div class="col-md-3"><b>Link to Stored Format Location</b></div>
+                <div class="col-md-3"><b>Location</b></div>
                 <div class="col-md-9">
                   <p>{{mdView.current.record.linkLocation}}</p>
                 </div>
               </div>
               <div class="row tab-items" data-ng-if="mdView.current.record.linkDesc">
-                <div class="col-md-3"><b>Link Description</b></div>
+                <div class="col-md-3"><b>Description</b></div>
                 <div class="col-md-9">
                   <p>{{mdView.current.record.linkDesc}}</p>
                 </div>
               </div>
             </div>
-            <hr>
             <div class="row btn-share">
               <div class="subheader">Share</div>
               <button class="btn btn-sm btn-twitter"
@@ -270,7 +286,7 @@
           </tab>
 
 
-          <tab heading="Technical">
+          <tab heading="Technical" data-ng-click="reloadMap()">
             <div class="subheader">Technical Information</div>
 
             <div class="row tab-items" data-ng-if="::mdView.current.record.geoBox">
@@ -297,7 +313,7 @@
             </div>
 
             <div class="row tab-items" data-ng-if="::mdView.current.record.vertExtentRef">
-              <div class="col-md-3"><b>Vertical Coordinate Reference System</b></div>
+              <div class="col-md-3"><b>Vertical CRS</b></div>
               <div class="col-md-9">
                 <p>{{mdView.current.record.vertExtentRef}}</p>
               </div>
@@ -305,10 +321,11 @@
             <div class="row tab-items">
               <div class="col-md-3"><b>Spatial Extent</b></div>
               <div class="col-md-9">
-                <p data-ng-repeat="bbox in mdView.current.record.geoBox">
+                <!--<p data-ng-repeat="bbox in mdView.current.record.geoBox">
                   <img class="gn-img-thumbnail img-thumbnail gn-img-extent"
                     data-ng-src="region.getmap.png?mapsrs=EPSG:3857&width=250&background=osm&geomsrs=EPSG:4326&geom={{mdView.current.record.getBoxAsPolygon1(bbox)}}" />
-                </p>
+                </p>-->
+                <div data-gn-map-view="searchObj.recordMap"></div>
               </div>
             </div>
             <div class="row tab-items" data-ng-if="::mdView.current.record.lineageStatement">
@@ -319,7 +336,6 @@
               </div>
             </div>
           </tab>
-
 
         </tabset>
       </div>

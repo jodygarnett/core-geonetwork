@@ -1,7 +1,8 @@
 <div class="d-flex toggled" id="wrapper" data-ng-search-form="" data-runSearch="true">
   <div class="new-filter">
     <a data-ng-click="visible=!visible;">
-      <img data-ng-class="visible ? 'flipN': 'flipP'" data-ng-src="../../catalog/views/default/images/icons8-slider-30.png" alt="icon" />
+      <img data-ng-class="visible ? 'flipN': 'flipP'"
+        data-ng-src="../../catalog/views/default/images/icons8-slider-30.png" alt="icon" />
     </a>
 
     <div class="sb_container_outer">
@@ -15,6 +16,10 @@
         </button>
         <button type="button" data-ng-click="triggerSearch()" class="btn btn-md">
           &nbsp;<i class="fa fa-search"></i>&nbsp;
+        </button>&nbsp;
+        <button type="button" data-ng-click="resetSearch(searchObj.defaultParams)" class="btn btn-md"
+          title="Clear current search query, filters and sorts.">
+          &nbsp;<i class="fa fa-times"></i>&nbsp;
         </button>
       </div>
     </div>
@@ -85,7 +90,6 @@
                 <div class="row">
                   <h6>Date Search</h6>
                   <div class="search-input">
-                    <div class="col-sm-1"></div>
                     <div class="col-sm-6">
                       <div data-gn-period-chooser="resourcesCreatedTheLast"
                         data-date-from="searchObj.params.creationDateFrom"
@@ -93,6 +97,12 @@
                       </div>
                       <div data-gn-period-chooser="recordsCreatedTheLast" data-date-from="searchObj.params.dateFrom"
                         data-date-to="searchObj.params.dateTo">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div data-gn-period-chooser="temporalExtentPeriod"
+                        data-date-from="searchObj.params.creationDateFrom"
+                        data-date-to="searchObj.params.creationDateTo">
                       </div>
                     </div>
                   </div>
@@ -179,11 +189,8 @@
         data-params="searchObj.params" data-facet-config="facetsSummaryType" data-current-facets="currentFacets">
       </div>
 
-     <div data-ng-show="searchResults.records.length > 0"
-        data-gn-facet-dimension-list="searchResults.dimension"
-        data-params="searchObj.params"
-        data-facet-type="facetsSummaryType"
-        data-current-facets="currentFacets">
+      <div data-ng-show="searchResults.records.length > 0" data-gn-facet-dimension-list="searchResults.dimension"
+        data-params="searchObj.params" data-facet-type="facetsSummaryType" data-current-facets="currentFacets">
       </div>
 
     </div>
@@ -233,29 +240,30 @@
                 </div>
 
                 <div class="gn-md-title">
+                  <input gn-selection-md type="checkbox" ng-model="md['geonet:info'].selected" ng-change="change()" />
                   <h3>
-                    <input gn-selection-md type="checkbox" ng-model="md['geonet:info'].selected" ng-change="change()" />
-
                     <!-- Icon for types -->
-                    <a href="" gn-metadata-open="md"
-                      gn-metadata-open-selector=".gn-resultview" title="{{md.title || md.defaultTitle}}">
+                    <a href="" gn-metadata-open="md" gn-metadata-open-selector=".gn-resultview"
+                      title="{{md.title || md.defaultTitle}}">
                       <span class="fa gn-icon-{{md.type[0]}}"></span>
                       {{md.title || md.defaultTitle}}</a>
                   </h3>
+                </div>
+                <div>
                   <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
                     dd-text-collapse-text="{{md.abstract || md.defaultAbstract}}"></p>
                 </div>
 
                 <div class="gn-md-info">
-                  <div data-ng-if="isIntranet">
-                    <span>Owner: </span> {{ md.getOwnername() }}
-                  </div>
                   <div>
                     <span>eCat ID:</span> {{ md.eCatId }}
                   </div>
-                  <div>
-                    <span>Last update:</span> {{ md['geonet:info'].changeDate | date:"yyyy-MM-dd" }}
+                  <div data-ng-if="isIntranet && md.owner > 1">
+                    <span>Owner: </span> {{ md.getOwnername() }}
                   </div>
+                  <!--<div>
+                    <span>Last update:</span> {{ md['geonet:info'].changeDate | date:"yyyy-MM-dd" }}
+                  </div>-->
                 </div>
 
                 <div class="gn-md-links clearfix">
@@ -300,19 +308,25 @@
           </ul>
         </div>
         <div data-ng-if="states.activeItem == 'Title'">
-          <ul class="list-group gn-resultview gn-resultview-title">
-            <li class="list-group-item" data-ng-repeat="md in searchResults.records">
-              <input data-gn-selection-md type="checkbox" data-ng-model="md['geonet:info'].selected"
-                data-ng-change="change()" />
-              <i class="fa text-muted" data-ng-class="'gn-recordtype-' + md.isTemplate"
-                data-ng-show="user.isReviewerOrMore()" title="{{('isTemplate' + md.isTemplate) | translate}}"></i>
-              <a href="" style="color: black; font-weight: 500" data-ng-href="catalog.search#/metadata/{{md.getUuid()}}"
-                title="{{md.abstract}}">{{md.title || md.defaultTitle}}</a>
+          <ul class="default-list-group gn-resultview">
+            <li class="list-group-item" data-ng-repeat="md in searchResults.records" gn-displayextent-onhover=""
+              gn-zoomto-onclick gn-fix-mdlinks="">
+              <div class="gn-md-title">
+                <input gn-selection-md type="checkbox" ng-model="md['geonet:info'].selected" ng-change="change()" />
+                <h3>
+                  <a href="" gn-metadata-open="md" gn-metadata-open-selector=".gn-resultview"
+                    title="{{md.title || md.defaultTitle}}">
+                    <span class="fa gn-icon-{{md.type[0]}}"></span>
+                    {{md.title || md.defaultTitle}}</a>
+                </h3>
+              </div>
             </li>
           </ul>
         </div>
       </div>
     </div>
   </div>
-</div>
+  <div data-gn-map-field="searchObj.searchMap" data-gn-map-field-geom="searchObj.params.geometry"
+    data-gn-map-field-opt="searchObj.mapfieldOption" class="gn-search-map">
+  </div>
 </div>
