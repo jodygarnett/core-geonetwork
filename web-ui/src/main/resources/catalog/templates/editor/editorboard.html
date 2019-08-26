@@ -1,145 +1,130 @@
-<div class="gn-editor-board"
-     data-ng-controller="GnSearchController">
-  <div class="row" data-ng-controller="GnEditorBoardSearchController">
-    <div class="col-sm-9"
-         data-ng-search-form=""
-         data-runSearch="true">
-
-      <form class="form-horizontal"
-            role="form">
-        <div class="row gn-top-search">
-          <div class="col-md-12">
-            <div class="input-group gn-form-any">
-
-              <span class="input-group-addon">
-                <label>
-                  <input type="checkbox" data-ng-model="onlyMyRecord"
-                         data-ng-click="toggleOnlyMyRecord();triggerSearch();">
-                  <span data-translate="">onlyMyRecord</span>
-                </label>
-              </span>
-
-              <input type="text"
-                     class="form-control"
-                     id="gn-any-field"
-                     data-ng-model="searchObj.params.any"
-                     data-ng-model-options="modelOptions"
-                     placeholder="{{'anyPlaceHolder' | translate}}"
-                     data-typeahead="address for address in getAnySuggestions($viewValue)"
-                     data-typeahead-loading="anyLoading" class="form-control"
-                     data-typeahead-min-length="1">
-
-              <div class="input-group-btn">
-                <button type="button"
-                        data-ng-click="triggerSearch()"
-                        class="btn btn-primary">
-                  &nbsp;&nbsp;
-                  <i class="fa fa-search"></i>
-                  &nbsp;&nbsp;
-                </button>
-
-                <button type="button"
-                        data-ng-click="onlyMyRecord = false;resetSearch(defaultSearchObj.params);"
-                        title="{{'ClearTitle' | translate}}"
-                        class="btn btn-link">
-                  <i class="fa fa-times"></i>
-                </button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </form>
-      <div class="row" ng-if= "user.isUserAdminOrMore()">
-		<div class="col-md-6">
-			<div class="input-group gn-form-any">
-			<span class="input-group-addon"><label>Search by XPath...</label></span>
-			  <input type="text"  class="form-control"  data-ng-model="obj.xpath"  placeholder="Search by XPath..." />
-				<div class="input-group-btn">
-				  <button type="button"  data-ng-click="triggerXPathSearch()"  class="btn btn-primary">
-					&nbsp;&nbsp;<i class="fa fa-search"></i>&nbsp;&nbsp;</button>
-				</div>
-			  </div>
-			</div>
-		</div>
-      <br/>
-      <div class="row"
-           data-ng-show="searchResults.records.length > 0">
-        <div class="col-md-offset-3 col-md-4 relative">
-          <div data-gn-selection-widget=""
-               data-results="searchResults"></div>
-        </div>
-        <div class="col-md-5">
-          <div class="pull-right"
-               data-gn-pagination="paginationInfo"
-               data-hits-values="searchObj.hitsperpageValues"></div>
-
-          <div class="pull-right"
-               data-sortby-combo=""
-               data-params="searchObj.params"
-               data-gn-sortby-values="searchObj.sortbyValues"></div>
-        </div>
+<div class="gn-editor-board" data-ng-controller="GnSearchController">
+  <div class="gn-logo-nav">
+    <div class=container-fluid>
+      <div class=row>
+        <a class="col-sm-12 col-md-2" data-gn-active-tb-item="http://www.ga.gov.au/"
+          title="Navigate to the Geoscience Australia home page">
+          <img class="gn-logo" data-ng-src="../../catalog/views/default/images/ga.header.logo.png" />
+        </a>
+        <a class="col-sm-12 col-md-4" data-gn-active-tb-item="catalog.search#/home" title="eCat Home Page">
+          <span class="title-lg">Data and Publications</span>
+        </a>
       </div>
-
-      <div class="row">
-        <div class="col-md-3 gn-search-facet">
-
-          <!-- Hierachical facet mode -->
-          <div data-ng-show="searchResults.records.length > 0"
-               data-gn-facet-dimension-list="searchResults.dimension"
-               data-params="searchObj.params"
-               data-facet-type="facetsSummaryType"
-               data-current-facets="currentFacets">
-          </div>
-        </div>
-        <div class="col-md-9">
-          <div class="gn-results-heading">
-            <div data-gn-facet-breadcrumb="currentFacets"></div>
-          </div>
-          <span class="loading fa fa-spinner fa-spin"
-                data-ng-show="searching"></span>
-		  <span class="loading fa fa-spinner fa-spin"
-					data-ng-show="stat.searching"></span>
-          <div class="alert alert-warning" role="alert"
-               ng-if="!searching && searchResults.count == 0">
-            <i class="fa fa-frown-o"></i>
-            <span data-translate="">zarooResult</span>
-          </div>
-		  <div class="alert alert-warning" role="alert"
-                ng-if="stat.background">
-            <i class="fa fa-frown-o"></i>
-            <span data-translate="">Another Xpath search executing in the backgorund. Try after sometime.</span>
-          </div>
-          <div data-ng-show="searchResults.records.length > 0"
-               data-gn-results-container=""
-               data-search-results="searchResults"
-               data-template-url="resultTemplate"></div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <a href="#/create" class="btn btn-primary btn-lg btn-block">
-        <i class="fa fa-plus"/>&nbsp;<span data-translate="">addRecord</span>
-      </a>
-      <a href="#/import" class="btn btn-default btn-lg btn-block" ng-if= "user.isUserAdminOrMore()">
-        <i class="fa fa-upload"/>&nbsp;<span data-translate="">ImportRecord</span>
-      </a>	  
-	  <a href="#/directory" class="btn btn-default btn-lg btn-block"
-         ng-if="user.isUserAdminOrMore()">
-        <i class="fa fa-list-ul"/>&nbsp;<span data-translate="">directoryManager</span>
-      </a>
-      <a href="#/batchedit" class="btn btn-default btn-lg btn-block"
-         ng-if="user.isUserAdminOrMore()">
-        <i class="fa fa-pencil"/>&nbsp;<span data-translate="">batchEditing</span>
-      </a>
-
-
-      <br/>
-
-      <!--<p class="alert alert-info"
-         data-translate="">editorBoardInfo</p> -->
     </div>
   </div>
-  <div data-ng-include="'../../catalog/templates/info.html'">
+  <div class="ga-line"></div>
+  <div class="row" data-ng-controller="GnEditorBoardSearchController">
+    <div class="new-filter editorboard">
+
+      <div class="col-sm-10 d-flex toggled" id="wrapper" data-ng-search-form="" data-runSearch="true">
+        <div class="sb_container_outer">
+          <div class="input-group gn-any-search-input">
+            <input type="search" class="form-control input-md" id="gn-any-field" data-ng-model="searchObj.params.any"
+              data-ng-model-options="modelOptions" placeholder="{{'anyPlaceHolder' | translate}}"
+              data-typeahead="address for address in getAnySuggestions($viewValue)" data-typeahead-loading="anyLoading"
+              class="form-control" data-typeahead-min-length="1" data-typeahead-focus-first="false" />
+            <button type="button" data-ng-click="triggerSearch()" class="btn btn-md">
+              &nbsp;&nbsp;
+              <i class="fa fa-search"></i>
+              &nbsp;&nbsp;
+            </button>&nbsp;
+            <button type="button" data-ng-click="onlyMyRecord = false;resetSearch(defaultSearchObj.params);"
+              title="{{'ClearTitle' | translate}}" class="btn btn-md">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="content-wrapper">
+
+          <div class="bg-light border-right menu">
+
+            <!-- Hierachical facet mode -->
+            <div data-ng-show="searchResults.records.length > 0" data-gn-facet-dimension-list="searchResults.dimension"
+              data-params="searchObj.params" data-facet-type="facetsSummaryType" data-current-facets="currentFacets">
+            </div>
+          </div>
+
+          <div id="page-content-wrapper">
+
+            <div class="container-fluid">
+              <div class="gn-results-heading">
+                <div data-gn-facet-breadcrumb="currentFacets"></div>
+              </div>
+              <span class="loading fa fa-spinner fa-spin" data-ng-show="searching"></span>
+              <span class="loading fa fa-spinner fa-spin" data-ng-show="stat.searching"></span>
+              <div class="alert alert-warning" role="alert" ng-if="!searching && searchResults.count == 0">
+                <i class="fa fa-frown-o"></i>
+                <span data-translate="">zarooResult</span>
+              </div>
+              <div class="alert alert-warning" role="alert" ng-if="stat.background">
+                <i class="fa fa-frown-o"></i>
+                <span data-translate="">Another Xpath search executing in the backgorund. Try after sometime.</span>
+              </div>
+              <div class="row result-selection">
+                <div class="col-sm-4">
+                  <div data-gn-selection-widget="" data-results="searchResults"></div>
+                </div>
+
+                <div class="col-sm-8">
+                  <div data-gn-pagination="paginationInfo" data-hits-values="searchObj.hitsperpageValues"
+                    data-enable-hot-keys="" data-enable-events=""></div>
+                  <div data-sortby-combo="" data-params="searchObj.params"
+                    data-gn-sortby-values="searchObj.sortbyValues">
+                  </div>
+                </div>
+              </div>
+
+
+              <div data-ng-show="searchResults.records.length > 0" data-gn-results-container=""
+                data-search-results="searchResults" data-template-url="resultTemplate"></div>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+      <div class="col-sm-2">
+        <div class="user-menu">
+          <div class="user-menu-item">
+            <a data-gn-active-tb-item="catalog.search#/search" title="{{'search' | translate}}">
+              <i class="fa fa-search"></i>
+              <span><label>SEARCH</label></span>
+            </a>
+          </div>
+          <div class="user-menu-item" data-ng-show="user.isUserAdminOrMore()">
+            <a data-gn-active-tb-item="admin.console" title="{{'adminConsole' | translate}}">
+              <i class="fa fa-th"></i>
+              <span><label>ADMIN CONSOLE</label></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="editorboard-menu">
+          <a href="#/create" class="btn btn-eb btn-lg btn-block">
+            <i class="fa fa-plus" />&nbsp;<span data-translate="">addRecord</span>
+          </a>
+          <a href="#/import" class="btn btn-default btn-lg btn-block" ng-if="user.isUserAdminOrMore()">
+            <i class="fa fa-upload" />&nbsp;<span data-translate="">ImportRecord</span>
+          </a>
+          <a href="#/directory" class="btn btn-default btn-lg btn-block" ng-if="user.isUserAdminOrMore()">
+            <i class="fa fa-list-ul" />&nbsp;<span data-translate="">directoryManager</span>
+          </a>
+          <a href="#/batchedit" class="btn btn-default btn-lg btn-block" ng-if="user.isUserAdminOrMore()">
+            <i class="fa fa-pencil" />&nbsp;<span data-translate="">batchEditing</span>
+          </a>
+        </div>
+
+
+
+        <br />
+
+        <!--<p class="alert alert-info"
+         data-translate="">editorBoardInfo</p> -->
+      </div>
+    </div>
+    <div data-ng-include="'../../catalog/templates/info.html'">
+    </div>
   </div>
 </div>

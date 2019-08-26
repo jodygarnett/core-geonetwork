@@ -117,7 +117,7 @@
                 ];
 
                 scope.$on('$locationChangeSuccess', function (event) {
-                  scope.map.updateSize();               
+                                
                   if (scope.md && scope.md.geoBox) {
 
                     var features = [];
