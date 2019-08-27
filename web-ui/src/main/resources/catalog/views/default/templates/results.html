@@ -19,7 +19,7 @@
             <button type="button" data-ng-click="triggerSearch()" class="btn btn-md">
               &nbsp;<i class="fa fa-search"></i>&nbsp;
             </button>&nbsp;
-            <button type="button" data-ng-click="resetSearch(searchObj.defaultParams)" class="btn btn-md"
+            <button type="button" data-ng-click="resetSearch(searchObj.defaultParams); resetSearch(searchObj.params)" class="btn btn-md"
               title="Clear current search query, filters and sorts.">
               &nbsp;<i class="fa fa-times"></i>&nbsp;
             </button>
@@ -34,21 +34,14 @@
       </div>
 
       <div class="content-wrapper">
-        <div class="bg-light border-right menu" ng-class="{'is-visible':visible}">
-
-          <div data-ng-show="searchResults.records.length > 0" data-gn-facet-list="searchResults.facet"
-            data-params="searchObj.params" data-facet-config="facetsSummaryType" data-current-facets="currentFacets">
-          </div>
-
-          <div data-ng-show="searchResults.records.length > 0" data-gn-facet-dimension-list="searchResults.dimension"
+        <div data-ng-show="searchResults.records.length > 0" class="bg-light border-right menu" ng-class="{'is-visible':visible}">
+          <div data-gn-facet-dimension-list="searchResults.dimension"
             data-params="searchObj.params" data-facet-type="facetsSummaryType" data-current-facets="currentFacets">
           </div>
-
         </div>
+
         <div id="page-content-wrapper">
-
           <div class="container-fluid">
-
             <div class="row result-selection">
               <div class="col-sm-3">
                 <div data-gn-selection-widget="" data-results="searchResults"></div>
@@ -69,9 +62,7 @@
             <div class="search-result-feedback text-center" ng-if="!searching && searchResults.count == 0">
               <p>No search results found...</p>
             </div>
-
             <br>
-
             <div data-ng-if="states.activeItem == 'List'">
               <ul class="default-list-group gn-resultview">
                 <li class="list-group-item" data-ng-repeat="md in searchResults.records" gn-displayextent-onhover=""
