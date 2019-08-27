@@ -20,18 +20,7 @@
       </div>
 
       <div class="col-sm-12 col-md-1 pull-right">
-        <a data-ng-if="authenticated" href="../../signout" class="btn btn-lg signin-btn"
-          title="{{'signout' | translate}}">
-          <i class="fa fa-sign-out"></i>&nbsp;
-          {{'signout' | translate}}
-        </a>
-        <a data-ng-if="!authenticated && service !== 'catalog.signin' && isIntranet" href="{{pages.signin}}"
-          class="btn btn-lg signin-btn" title="{{'signIn'|translate}}" data-ng-keypress="$event">
-          <i class="fa fa-sign-in" />&nbsp;
-          {{'signIn' | translate}}
-        </a>
-      </div>
-
+        <div data-ng-include="'../../catalog/templates/userInfo.html'" />
       <!--<a class="btn btn-lg signin-btn" role="button">Sign In</a>-->
     </div>
   </div>
