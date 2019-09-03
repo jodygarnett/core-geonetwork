@@ -606,6 +606,19 @@ public final class Geonet {
     }
 
     /**
+     * Workflow status
+     */
+    public static final class WorkflowStatus {
+    	public static final int UNKNOWN = 0;
+        public static final int DRAFT  = 1;
+        public static final int APPROVED = 2;
+        public static final int RETIRED = 3;
+        public static final int SUBMITTED  = 4;
+        public static final int REJECTED  = 5;
+        
+    }
+    
+    /**
      * Codelist directories.
      */
     public static final class CodeList {
