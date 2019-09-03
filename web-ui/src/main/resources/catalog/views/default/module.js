@@ -153,7 +153,13 @@
       $scope.mdView = mdView;
       gnMdView.initMdView();
 
-
+      $scope.getAsArray = function(values){
+	     if(angular.isArray(values)){
+	       return values;
+	     }else{
+	       return [values];          
+	     }
+	  }
       $scope.goToSearch = function (any) {
         $location.path('/search').search({'any': any});
       };
