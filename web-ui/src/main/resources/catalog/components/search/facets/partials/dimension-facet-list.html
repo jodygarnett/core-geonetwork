@@ -1,11 +1,18 @@
 <div class="gn-new-facet">
   <div data-ng-repeat="f in dimension track by $index" data-ng-init="fLabel = f['@label']">
   <h4 data-toggle="collapse" data-target="#group-{{$index}}">
-    <i class="fa fa-fw fa-toggle-on fa-toggle-color fa-3 parent-expanded"></i>
-    <i class="fa fa-fw fa-toggle-off fa-toggle-color fa-3 parent-collapsed"></i>
     {{fLabel | translate}}
+    <i class="fa fa-angle-double-down gn-facet-toggle fa-3 parent-expanded pull-right"></i>
+    <i class="fa fa-angle-double-up gn-facet-toggle fa-3 parent-collapsed pull-right"></i>
   </h4>
-  <div id="group-{{$index}}" class="collapse in">
+  <div data-ng-if="fLabel == 'types'" id="group-{{$index}}" class="collapse in">
+      <div data-gn-facet-dimension-category="f.category"
+        data-category-key="fLabel"
+        data-params="params"
+        data-facet-config="facetConfig">
+      </div>
+  </div>
+<div data-ng-if="fLabel !== 'types'" id="group-{{$index}}" class="collapse">
       <div data-gn-facet-dimension-category="f.category"
         data-category-key="fLabel"
         data-params="params"

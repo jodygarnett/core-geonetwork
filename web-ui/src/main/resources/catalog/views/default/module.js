@@ -105,6 +105,7 @@
       $scope.facetsSummaryType = gnSearchSettings.facetsSummaryType;
       $scope.location = gnSearchLocation;
       $scope.states = {};
+      $scope.visible = true;
       $scope.states.activeItem = $scope.viewTemplates[0].tooltip;
       $scope.toggleMap = function () {
         $(searchMap.getTargetElement()).toggle();

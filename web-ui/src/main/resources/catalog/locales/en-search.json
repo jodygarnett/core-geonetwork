@@ -111,6 +111,8 @@
   "changeDate": "Modified",
   "changeDateAsc": "Modified (Oldest)",
   "changeDateDesc": "Modified (Latest)",
+  "publicationDateAsc": "Published (Oldest)",
+  "publicationDateDesc": "Published (Latest)",
   "links": "Links",
   "publish": "Publish",
   "unpublish": "Unpublish",

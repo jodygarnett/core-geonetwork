@@ -1,75 +1,6 @@
 <!-- Carousel -->
-<div id="ecat-home-carousel" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#ecat-home-carousel" data-slide-to="0" class="active"></li>
-    <li data-target="#ecat-home-carousel" data-slide-to="1"></li>
-    <li data-target="#ecat-home-carousel" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="item active">
-      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/1.png">
-      <div class="container">
-        <div class="carousel-caption homepage-slide-color-black">
-          <h1>Data and Publication Search</h1>
-          <p>Search Geoscience Australia's extensive catalogue of data, publications, online tools, maps and videos.</p>
-          <p>
-            <a class="btn btn-lg btn-ga"
-              data-gn-active-tb-item="catalog.search#/search?resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
-              type="button" style="margin: 20px;">Catalog</a>
-            <a class="btn btn-lg btn-ga" data-gn-active-tb-item="catalog.search#/map" role="button">Maps</a>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="item">
-      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/2.png">
-      <div class="container">
-        <div class="carousel-caption homepage-slide-color-black">
-          <div class="col-sm-4 col-md-4">
-            <h3>EARTH SCIENCE</h3>
-            <p>The division earth sciences contains Atmospheric Sciences, Geochemistry, Geology, Geophysics,
-              Oceanography, Physical, Geography and Environmental Geoscience and Other Earth Sciences.</p>
-            <a class="btn btn-lg btn-ga"
-              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FEarth%2520Sciences&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
-              role="button">Read More</a>
-          </div>
-          <div class="col-sm-4 col-md-4">
-            <h3>GA Publications</h3>
-            <p>This includes GA Records, Professional Opinions, Reports, Scientific papers, Flyers, Brochures,
-              Conference promotional material, Technical posters, and Presentations. </p>
-            <a class="btn btn-lg btn-ga"
-              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FGA%2520Publication&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
-              role="button">Read More</a>
-          </div>
-          <div class="col-sm-4 col-md-4">
-            <h3>Educational Products</h3>
-            <p>Are resources intended to provide information for both Science and Geography teachers to support their
-              work with students in both upper primary and secondary settings. </p>
-            <a class="btn btn-lg btn-ga"
-              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FEducational%2520Product&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
-              role="button">Read More</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="item">
-      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/3.png">
-      <div class="container">
-        <div class="carousel-caption homepage-slide-color-black">
-          <h1>LATEST PUBLICATIONS</h1>
-          <p>Explore new publications from GA.</p>
-          <p><a class="btn btn-lg btn-ga"
-              data-gn-active-tb-item="catalog.search#/search?resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json&publicationDateFrom=2019-06-01&publicationDateTo=2019-07-06"
-              role="button">Explore</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<br>
 <div class="container">
-  <div class="home-container-outer">
+  <div class="home-container-outer" data-ng-search-form="" data-runSearch="true">
     <input type="search" class="form-control input-md" id="gn-any-field" data-ng-model="searchObj.params.any"
       data-ng-model-options="modelOptionsForm" placeholder="Data and Publications search..."
       data-typeahead="address for address in getAnySuggestions($viewValue)" data-typeahead-loading="anyLoading"
@@ -82,7 +13,70 @@
   </div>
   <div class="search-border-container"></div>
 </div>
+<div id="ecat-home-carousel" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#ecat-home-carousel" data-slide-to="0" class="active"></li>
+    <li data-target="#ecat-home-carousel" data-slide-to="1"></li>
+    <li data-target="#ecat-home-carousel" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/1.png">
+    </div>
+    <div class="item">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/2.png">
+    </div>
+    <div class="item">
+      <img src="https://ga-ecat3-temp.s3-ap-southeast-2.amazonaws.com/3.png">
+    </div>
 
+    <div class="main-text hidden-xs">
+
+      <div class="col-md-12 text-center">
+        <div class="homepage-slide-color-black">
+          <div class="col-md-3">
+            <h3>Latest Publications</h3>
+            <p>Explore new publications from GA.</p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json&publicationDateFrom=2019-06-01&publicationDateTo=2019-09-30"
+              role="button">Read More</a>
+          </div>
+          <div class="col-md-3">
+            <h3>GA Publications</h3>
+            <p>This includes GA Records, Professional Opinions, Reports, Scientific papers, Flyers, Brochures,
+              Conference promotional material, Technical posters, and Presentations. </p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FGA%2520Publication&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              role="button">Read More</a>
+          </div>
+          <div class="col-md-3">
+            <h3>Educational Products</h3>
+            <p>Are resources intended to provide information for both Science and Geography teachers to support
+              their
+              work with students in both upper primary and secondary settings. </p>
+            <a class="btn btn-lg btn-ga"
+              data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FEducational%2520Product&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
+              role="button">Read More</a>
+          </div>
+          <div class="col-md-3">
+            <h3>Dataset</h3>
+            <p>Find Dataset product from GA.</p>
+            <a class="btn btn-lg btn-ga" data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fdataset"
+              role="button">Read More</a>
+          </div>
+          <!--<div class="col-md-3">
+            <h3>Web Services</h3>
+            <p>Find Web services from GA.</p>
+            <a class="btn btn-lg btn-ga" data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fservice"
+              role="button">Read More</a>
+          </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<!--
 <div class="ecat-service">
   <div class="container">
     <div class="row">
@@ -119,7 +113,7 @@
             <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fservice">
               <div class="res-image"><img class="res-image"
                   data-ng-src="../../catalog/views/default/images/thumbs/3.PNG" alt="icon" /></div>
-              <span class="ecat-service-item-header">Services</span>
+              <span class="ecat-service-item-header">Web Services</span>
             </a>
           </div>
           <br class="clearfix" />
@@ -166,4 +160,4 @@
 
       </div>
     </div>
-  </div>
+  </div>-->
