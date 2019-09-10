@@ -545,6 +545,7 @@ public final class Geonet {
             public static final String RATING = "rating";
             public static final String POPULARITY = "popularity";
             public static final String DATE = "changeDate";
+            public static final String PUBLICATION_DATE = "publicationDate";
 
             /**
              * Parameter name: {@value #_TITLE} - Title not tokenized mainly used for sorting

@@ -185,6 +185,9 @@ ul.gn-resultview {
   @thumbnail-width: 170px;
   margin-right: -15px;
 
+  p{
+    font-size: 1em;
+  }
   .metadata {
     position: absolute;
     top: 0;
@@ -641,6 +644,8 @@ ul.gn-resultview {
 
 html, body {
   height:100%;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  color: #414141;
 }
 
 .navbar-form {
@@ -798,16 +803,21 @@ html, body {
     left: 0;
     top: 0;
   }
+  .main-text {
+    position: absolute;
+    top: 20px;
+    padding: 20px;
+    width: 100%;
+    color: #FFF;
+  }
+
+  .carousel-control-align{
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: inline-block;
+  }
 }
-
-
-.carousel-control-align{
-  position: absolute;
-  top: 50%;
-  z-index: 5;
-  display: inline-block;
-}
-
 
 
 @media (min-width: 768px) {
@@ -880,9 +890,10 @@ html, body {
 }
 
 .homepage-slide-color-black {
-    background: url(../catalog/views/inline/images/bg-slider-trans.png) repeat;
+    background: url(../catalog/views/default/images/bg-slider-trans.png) repeat;
     padding: 0 30px;
     display: inline-block;
+    min-height: 400px;
 }
 
 .home-container-outer {
@@ -944,7 +955,7 @@ button.searchbutton {
 
 .menu{
   width:0px;
-  min-height:40%;
+  min-height:30%;
   background-color:@ga-color;
   position: absolute;
   left:0;
@@ -1254,19 +1265,22 @@ button.searchbutton {
 }
 
 .gn-new-facet {
-  padding-left:5px;
+  //padding-left:5px;
   width: @sidebar-width;
   h4{
-    font-size: 14px;
-    padding-top: 8px;
+    font-size: 12px;    
     font-weight: 600;
     color: #fff;
-    text-transform: uppercase;    
+    text-transform: uppercase;   
+    border-bottom: 1px solid grey;
+    padding: 1em 0 0 1em;
+    height: 3.5em;
   }
 }
 
-.fa-toggle-color{
+.gn-facet-toggle{
   color: #ffffffc4;
+  padding-right: 1em;
 }
 
 @media (min-width: 768px) {
@@ -1399,22 +1413,63 @@ button.searchbutton {
   }
   .rv-tab{
     background-color: #f1f1f1;
-    padding: 14px 16px;
-    transition: 0.3s; 
+    //padding: 14px 16px;
+    transition: 0.3s;
+    .tablink{
+      background-color: @ga-color;
+      color: white;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      min-width: 19.8%;
+      :hover {
+        background-color: #777;
+      }
+    }
     .tab-items{
       padding-top: 5px;
       padding-bottom: 10px;
       border-bottom: 1px rgb(173, 173, 173) dashed;
       label{
-        font-size: 11px;
+        font-size: 12px;
       }
       b{
-        font-size: 12px;
+        font-size: 13px;
       }
       p{
-        font-size: 12px;
+        font-size: 13px;
       }
     }
+    .tab-content {
+      .tab-pane{
+        padding: 10px;
+      }
+    }
+    .nav-tabs {
+      font-weight: 600;
+      li.active {
+        a, a:hover, a:focus{
+          background-color: #f1f1f1;
+          border: 1px solid #f1f1f1 !important;
+          color: #2F2F2F;
+        }
+      }
+      li {
+        a {
+          border-radius: 0 !important;
+          text-align: center;
+          color: #f1f1f1;
+        }
+        a:hover, a:focus{//same as li.active
+          background-color: #f1f1f1;
+          border: 1px solid #f1f1f1 !important;
+          color: #2F2F2F;
+        }        
+      }
+     
+    }
+    
   }
   .rv-action-menu{
     padding: 10px;

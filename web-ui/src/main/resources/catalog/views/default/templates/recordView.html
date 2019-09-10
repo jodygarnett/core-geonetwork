@@ -98,11 +98,11 @@
 
       <div class="col-md-5">
         <tabset class="rv-tab">
-          <tab heading="Downloads" class="rv-d-tab">
+          <tab class="tablink" heading="Downloads" class="rv-d-tab">
             <div data-gn-related="mdView.current.record" data-user="user" data-types="onlines"
               data-has-results="hasRelations.onlines">
             </div>
-            <div class="subheader"
+            <div data-ng-if="isIntranet" class="subheader"
               data-ng-if="mdView.current.record.storedFormat || mdView.current.record.FormatVersion || mdView.current.record.linkLocation">
               Data Repository (Stored Format)</div>
             <div data-ng-if="isIntranet">
@@ -122,7 +122,8 @@
                 <div class="col-md-3"><b>Location</b></div>
                 <div class="col-md-9">
                   <p>{{mdView.current.record.linkLocation}} &nbsp; <a href="" title="Copy to Clipboard"
-                    copy-to-clipboard="{{mdView.current.record.linkLocation}}"><i class="fa fa-files-o fa-5"></i></a></p>                  
+                    copy-to-clipboard="{{mdView.current.record.linkLocation}}"><i class="fa fa-files-o fa-5"></i></a>
+                  </p>                  
                 </div>
               </div>
               <div class="row tab-items" data-ng-if="mdView.current.record.linkDesc">
@@ -151,10 +152,10 @@
 
 
 
-          <tab heading="Citation">
+          <tab class="tablink" heading="Citation">
             <div class="subheader">Publication details</div>
             <div style="display: inline-flex">
-              <p>The article was published on {{mdView.current.record.publicationDate | date:'mediumDate'}}</p>
+              <p>The product was published on {{mdView.current.record.publicationDate | date:'mediumDate'}}</p>
             </div>
 
             <div class="row tab-items" data-ng-if="mdView.current.record.DOI">
@@ -179,13 +180,33 @@
                       class="fa fa-files-o fa-5"></i></a></label>
               </div>
             </div>
+          <div class="row tab-items" data-ng-if="mdView.current.record.legalConstraints">
+              <div class="col-md-3"><b>Legal Constraints</b></div>
+              <div class="col-md-9">
+                <p data-ng-repeat="c in mdView.current.record.legalConstraints">{{c}}</p>
+              </div>
+            </div>
+            <div class="row tab-items" data-ng-if="mdView.current.record.securityConstraints">
+              <div class="col-md-3"><b>Security Constraints</b></div>
+              <div class="col-md-9">
+                <p data-ng-repeat="c in mdView.current.record.securityConstraints">
+                  {{c}}</p>
+              </div>
+            </div>
+            <div class="row tab-items" data-ng-if="mdView.current.record.resourceConstraints">
+              <div class="col-md-3"><b>Resource Constraints</b></div>
+              <div class="col-md-9">
+                <p data-ng-repeat="c in mdView.current.record.resourceConstraints">
+                  {{c}}</p>
+              </div>
+            </div>
           </tab>
 
 
 
-          <tab heading="About">
+          <tab class="tablink" heading="About">
             <div class="subheader">About the resource</div>
-            <div class="row tab-items">
+            <div data-ng-if="isIntranet" class="row tab-items">
               <div class="col-md-3"><b>UUID</b></div>
               <div class="col-md-9">
                 <p>{{mdView.current.record['geonet:info'].uuid}}</p>
@@ -232,27 +253,8 @@
                 </div>
               </div>
             </div>
-            <div class="row tab-items" data-ng-if="mdView.current.record.legalConstraints">
-              <div class="col-md-3"><b>Legal Constraints</b></div>
-              <div class="col-md-9">
-                <p data-ng-repeat="c in mdView.current.record.legalConstraints">{{c}}</p>
-              </div>
-            </div>
-            <div class="row tab-items" data-ng-if="mdView.current.record.securityConstraints">
-              <div class="col-md-3"><b>Security Constraints</b></div>
-              <div class="col-md-9">
-                <p data-ng-repeat="c in mdView.current.record.securityConstraints">
-                  {{c}}</p>
-              </div>
-            </div>
-            <div class="row tab-items" data-ng-if="mdView.current.record.resourceConstraints">
-              <div class="col-md-3"><b>Resource Constraints</b></div>
-              <div class="col-md-9">
-                <p data-ng-repeat="c in mdView.current.record.resourceConstraints">
-                  {{c}}</p>
-              </div>
-            </div>
-            <div class="row tab-items" data-ng-if="mdView.current.record.seriesName">
+            
+          <div class="row tab-items" data-ng-if="mdView.current.record.seriesName">
               <div class="col-md-3"><b>Series Name</b></div>
               <div class="col-md-9">
                 <p>{{mdView.current.record.seriesName}}</p>
@@ -273,21 +275,10 @@
               </div>
             </div>
 
-            <div class="subheader" data-ng-if="mdView.current.record.Associations">Associations</div>
-            <div class="row tab-items" data-ng-if="mdView.current.record.Associations">
-              <div class="col-md-3"><b>Assocations</b></div>
-              <div class="col-md-9">
-                <p data-ng-repeat="association in getAsArray(mdView.current.record.Associations)">
-                  {{association.split('-')[1]}}<br><a href="{{association.split('-')[3]}}">
-                    {{association.split('-')[3]}}</a><br>{{association.split('-')[0]}}
-                </p>
-              </div>
-            </div>
-
-          </tab>
+            </tab>
 
 
-          <tab heading="Technical" data-ng-click="reloadMap()">
+          <tab class="tablink" heading="Technical" data-ng-click="reloadMap()">
             <div class="subheader">Technical Information</div>
 
             <div class="row tab-items" data-ng-if="::mdView.current.record.geoBox">
@@ -338,6 +329,21 @@
             </div>
           </tab>
 
+<tab class="tablink" heading="Assocations">                    
+            <div class="subheader">Associations</div>
+            <div class="row tab-items">
+              <div class="col-md-3"><b>Assocations</b></div>
+              <div class="col-md-9">
+                <p data-ng-if="!mdView.current.record.Associations">
+                  No associations found.
+                </p>
+                <p data-ng-repeat="association in getAsArray(mdView.current.record.Associations)">
+                  {{association.split('-')[1]}}<br><a href="{{association.split('-')[3]}}">
+                    {{association.split('-')[3]}}</a><br>{{association.split('-')[0]}}
+                </p>
+              </div>
+            </div>
+          </tab>
         </tabset>
       </div>
     </div>
