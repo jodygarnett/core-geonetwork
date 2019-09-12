@@ -1,30 +1,22 @@
-<div class="gn-logo-nav">
+<div class="gn-nav">
   <div class=container-fluid>
-    <div class=row>
-      <a class="col-sm-12 col-md-2" data-gn-active-tb-item="http://www.ga.gov.au/"
+    <div class="row">
+      <div class="col-md-3">
+          <a data-gn-active-tb-item="http://www.ga.gov.au/"
         title="Navigate to the Geoscience Australia home page">
         <img class="gn-logo" data-ng-src="../../catalog/views/default/images/ga.header.logo.png" />
       </a>
-      <!-- <a data-gn-active-tb-item="catalog.search#/search"> 
-            <span class="title-lg">Data and Publications Search and Metadata Entry
-                Tool</span>
-             </a> -->
-      <a class="col-sm-12 col-md-4" data-gn-active-tb-item="catalog.search#/home" title="eCat Home Page">
-        <span class="title-lg">Data and Publications</span>
-      </a>
+      </div>
+      <div class="title-lg col-md-4">
+          <a data-gn-active-tb-item="catalog.search#/home" title="eCat Home Page">
+Data and Publications
+          </a>
 
-      <!--<img data-ng-src="../../catalog/views/inline/images/eCat_logo.jpg" data-ng-if="user.isEditorOrMore()" />-->
-      <!--<div class="col-sm-12 col-md-2" class="ecat-news" data-ng-if="user.isEditorOrMore()">
-        <a href="https://intranet.ga.gov.au/records-and-data/ecat" target="_blank"
-          title="What's new to eCat application"><i class="fa fa fa-lightbulb-o"></i>What's new</a>
-      </div>-->
-      
-      <div class="col-sm-12 col-md-1 pull-right">
+</div>      
+      <div class="col-md-1 pull-right">
         <div data-ng-include="'../../catalog/templates/userInfo.html'" />
-      <!--<a class="btn btn-lg signin-btn" role="button">Sign In</a>-->
-    </div>
+      </div>
   </div>
-
 </div>
 
 <div class="ga-line"></div>

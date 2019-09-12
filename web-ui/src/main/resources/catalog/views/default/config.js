@@ -149,15 +149,18 @@
 	        sortBy: 'publicationDateDesc',
 	        sortOrder: ''
           },{
+            sortBy: 'changeDate',
+            sortOrder: ''
+          }, {
 	        sortBy: 'eCatId',
 	        sortOrder: ''
           }, {
             sortBy: 'relevance',
             sortOrder: ''
-	      }, {
-	        sortBy: 'title',
+	        }, {
+	        sortBy: 'titleAZ',
 	        sortOrder: 'reverse'
-	      },  {
+	        }, {
             sortBy: 'denominatorDesc',
             sortOrder: ''
           }, {

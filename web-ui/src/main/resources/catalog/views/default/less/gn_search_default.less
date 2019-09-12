@@ -233,33 +233,20 @@ ul.gn-resultview {
   
   li.list-group-item {
     margin-right: 15px;
-    //margin-bottom: 15px;
-    //border-radius: 4px;
     border: none;
     &:hover {
-      //background-color: rgba(10, 10, 10, 0.062);
       background-color: #0069831f;
       cursor: default;
     }
     
     .gn-md-thumbnail {
       .gn-img-thumbnail {
-        max-width: @thumbnail-width;
-        max-height: 140px;
-        min-height: 40px;
-        height: auto;
+        width: 90px;
+        height: 70px !important;
+        
       }
     }
-    .gn-md-withthumbnail {
-      float:left; 
-      display:block;
-      width:calc(100% - 162px);
-    }
-    .gn-md-nothumbnail {
-      float:left; 
-      display:block;
-      width:100%;
-    }
+   
     .media {
       a {
         margin-left: 0;
@@ -282,112 +269,6 @@ ul.gn-resultview {
     }
   }
 
-  li.gn-grid {
-    @grid-bottom-margin: 2px;
-    float: left;
-    border-bottom: 1px solid @list-group-border;
-    //box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
-    min-width: 100%;
-    max-width: 49%;
-    width: calc(~"100% - 15px");
-    height: 14.5em;
-    padding: 14px;
-    .gn-md-details {
-      //margin-left: @thumbnail-width;
-      color: #6a6a6a;
-      max-height: 50px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    /* Properly align category icons */
-    .fa img {
-      vertical-align: text-bottom;
-    }
-    .row:nth-child(odd) {
-      color: #777;
-      
-    }
-    .row:nth-child(even) {
-      color: #580000;
-      
-    }
-    .gn-md-title {
-      margin-top: 2px;
-      min-height: 3.5em;
-      max-height: 3.5em;
-      overflow: hidden;
-      cursor: pointer;
-      h3 {
-
-        /* Leave space for selection checkbox */
-        //padding-left: 20px;
-        margin-top: 0px;
-        a {
-          //text-transform: uppercase;
-          font-weight: normal;
-          font-size: 80%;
-          color: #333333;
-	  //color: #006983;
-          max-height: 82px;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          display: block;
-          padding-top: 10px;
-        }
-        a:hover {
-          color: #428bca;
-          text-decoration: none;
-        }
-      }
-      
-    }
-    .gn-source-logo {
-      z-index: 10;
-      height: 20px;
-      float: right;
-    }
-    .gn-md-thumbnail {
-      //position: absolute;
-      //top: 82px;
-      //opacity: .8;
-      overflow: hidden;
-      cursor: pointer;
-      .gn-img-thumbnail {
-        max-width: @thumbnail-width;
-        max-height: 140px;
-        min-height: 40px;
-        //margin: @grid-bottom-margin;
-        height: auto;
-      }
-    }
-    .gn-md-abstract {
-      cursor: pointer;
-      color: #5a5a5a;
-    }
-    .gn-md-abstract.ellipsis {
-      height: 54px;
-    }
-    .gn-md-abstract.ellipsis:after {
-      background: none;
-    }
-    .gn-md-links {
-      //position: absolute;
-      //bottom: @grid-bottom-margin;
-      background: none;
-      position: absolute;
-      bottom: 0px;
-      left: 0px;
-      padding: 15px;
-    }
-    input {
-      float: left;
-    }
-    .gn-md-category {
-      display: block;
-      float: left;
-      margin-left: 18px;
-    }
-  }
 }
 
 .gn-md-view {
@@ -567,25 +448,7 @@ ul.gn-resultview {
       background-color: #fff;
       border: 1px solid #ddd;
       border-bottom: 2px solid #337ab7;
-      cursor: pointer;
-      > div.gn-md-thumbnail {
-        float:left;
-        width: 90px;
-        height: 90px;
-        margin-right: 15px;
-        //background-image: url(../catalog/views/default/images/no-thumbnail.png);
-        .gn-img-thumbnail {
-          max-height: 90px;
-          max-width: 90px;
-          margin-right: 15px;
-        }
-      }
-      > div.gn-md-title {
-        a {
-          color: #333333;
-          font-size: 120%;
-        }
-      }
+      cursor: pointer;     
     }
     div:nth-child(2) {
       overflow: hidden;
@@ -782,34 +645,35 @@ html, body {
 /* ------ Carousel ----- */
 
 #ecat-home-carousel {
-  background-size: cover;
-  overflow-x: hidden;
-  margin-bottom:0;
-  height: 500px;
-  .carousel-caption {
-    z-index: 10;    
-    p{
-      font-size: 15px !important;
-      //height: 150px;
+    background-size: cover;
+    overflow-x: hidden;
+    margin-bottom:0;
+    height: 500px;
+    .carousel-caption {
+      z-index: 10;    
+      p{
+        font-size: 15px !important;
+        //height: 150px;
+      }
     }
-  }
-  .item {
-    height: 500px;
-  }
-  .carousel-inner > .item > img {
-    position: absolute;
-    min-width: 100%;
-    height: 500px;
-    left: 0;
-    top: 0;
-  }
-  .main-text {
-    position: absolute;
-    top: 20px;
-    padding: 20px;
-    width: 100%;
-    color: #FFF;
-  }
+    .item {
+      height: 500px;
+    }
+    .carousel-inner > .item > img {
+      position: absolute;
+      min-width: 100%;
+      height: 500px;
+      left: 0;
+      top: 0;
+    }
+    .main-text {
+      position: absolute;
+      top: 20px;
+      padding: 20px;
+      width: 100%;
+      color: #FFF;
+    }
+
 
   .carousel-control-align{
     position: absolute;
@@ -1027,9 +891,25 @@ button.searchbutton {
 }
 
 @media only screen and (max-device-width: 480px) {
+  .menu.is-visible{
+    width:0px;
+  }
   .content-wrapper{
-    width: 90%;
-    margin-left:10%;
+    width: 100%;
+    margin-left:0;
+    box-shadow: 0;
+  }
+  .new-filter{
+    display: none;
+  }
+  .sb_container_outer {
+    margin-left: 0 !important;
+  }
+  .flipN, .flipP {
+    display: none;
+  }
+  .no-mob-view{
+    display: none;
   }
 }
 
@@ -1185,17 +1065,16 @@ button.searchbutton {
   width: 160px !important;
 }
 
-.gn-logo-nav {
-  padding-left: 15px;
+.gn-nav {
   padding-top: 10px;
-  height: 100px;
-  span.title-lg {
-    position: absolute;
+  .title-lg {
     margin-top: 3rem;
     font: 500 1.3em Helvetica, Arial, Verdana, sans-serif;
-    padding-left: 10rem;
-    color: @ga-color;
     text-transform: uppercase;
+    a{
+      color: @ga-color !important;
+      text-decoration: none;
+    }
   }
 }
 
@@ -1308,8 +1187,6 @@ button.searchbutton {
       }
       .gn-md-title {
         margin-top: 2px;
-        min-height: 3.5em;
-        //max-height: 3.5em;
         overflow: hidden;
         cursor: pointer;
         h3 {
@@ -1339,6 +1216,7 @@ button.searchbutton {
         }
         .gn-md-info{
           font-size: 12px;
+          padding: 7px 15px;
           span{
             font-weight: bold;
           }

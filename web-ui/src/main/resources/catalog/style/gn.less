@@ -548,16 +548,17 @@ i.fa-times.delete:hover {
 .gn-search-page {
   .gn-status {
     border: 1px solid darken(@brand-info, 5%);
-    position: relative;
+    position: absolute;
     min-width: 80px;
-    top: 5px;
+    z-index: 999;
+    top: 35px;
     right: 5px;
     float: right;
     border-radius: 6px;
     padding: 2px;
-    -ms-transform: rotate(15deg);
-    -webkit-transform: rotate(15deg);
-    transform: rotate(15deg);
+    -ms-transform: rotate(25deg);
+    -webkit-transform: rotate(25deg);
+    transform: rotate(25deg);
     color: @brand-info;
     font-weight: bold;
     font-size: 70%;
