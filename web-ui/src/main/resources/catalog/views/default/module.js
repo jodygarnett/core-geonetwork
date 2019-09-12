@@ -171,6 +171,20 @@
         }
       }
      
+      $scope.getBoundingBox = function(bbox) {
+        var bboxStr = '';
+        if(bbox){
+          var vals = bbox[0].split(',');
+          if(vals[0]){
+            bboxStr += parseFloat(vals[0].split(' ')[0]).toFixed(2) + ', ' + parseFloat(vals[0].split(' ')[1]).toFixed(2) + ', ';
+          }
+          if(vals[2]){
+            bboxStr += parseFloat(vals[2].split(' ')[0]).toFixed(2) + ', ' + parseFloat(vals[2].split(' ')[1]).toFixed(2);
+          }
+        }
+
+        return bboxStr;
+      }
       $scope.getCitation = function(md){
         if(md){
           var citationUrl = '';

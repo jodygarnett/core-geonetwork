@@ -18,7 +18,7 @@
             </button>
             <button type="button" data-ng-click="triggerSearch()" class="btn btn-md">
               &nbsp;<i class="fa fa-search"></i>&nbsp;
-            </button>&nbsp;
+            </button>
             <button type="button" data-ng-click="resetSearch(searchObj.defaultParams); resetSearch(searchObj.params)"
  class="btn btn-md"              title="Clear current search query, filters and sorts.">
               &nbsp;<i class="fa fa-times"></i>&nbsp;
@@ -44,15 +44,15 @@
         <div id="page-content-wrapper">
           <div class="container">
             <div class="row result-selection">
-              <div class="no-mob-view col-md-3">
+              <div class="no-mob-view col-md-4">
                 <div data-gn-selection-widget="" data-results="searchResults"></div>
               </div>
-              <div class="no-mob-view col-md-2">
+              <!--<div class="no-mob-view col-md-2">
                 <button ng-repeat="tpl in viewTemplates track by $index" class="list-btn"
                   data-ng-class="{'active': tpl.tooltip == states.activeItem}" data-ng-click="changeView($index)">
                   <i class="fa {{tpl.icon}}"></i> {{tpl.tooltip}}</button>
-              </div>
-              <div class="col-md-3 pull-right">
+              </div>-->
+                <div class="col-md-4 pull-right">
                 <div data-sortby-combo="" data-params="searchObj.params" data-gn-sortby-values="searchObj.sortbyValues">
                 </div>
               </div>
@@ -66,7 +66,7 @@
               <p>No search results found...</p>
             </div>
             <br>
-            <div data-ng-if="states.activeItem == 'List'">
+            <div>
               <ul class="default-list-group gn-resultview">
                 <li class="list-group-item" data-ng-repeat="md in searchResults.records" gn-displayextent-onhover=""
                   gn-zoomto-onclick gn-fix-mdlinks="">
@@ -86,14 +86,14 @@
                     <div class="row">
                       <div data-ng-if="md.mdStatus > 0 && isIntranet"
                         class="gn-status gn-status-{{ md.getWorkFlowStatus() }}-{{ md['geonet:info'].isPublishedToAll === 'true' ? 'External' : 'Internal' }}">
- {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} -                                                                         <span>{{ md.getWorkFlowStatus() }} </span>
+                        {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} -                                                                                                                                                                         <span>{{ md.getWorkFlowStatus() }} </span>
                    </div>
                     <div class="col-md-{{md.getThumbnails().list[0].url ? '11' : '12'}}">
                       <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
                         dd-text-collapse-text="{{md.abstract | replace: '&lt;p&gt;':' '}}"></p>
                     </div>
 
-<div data-ng-if="md.getThumbnails().list[0].url">
+                      <div data-ng-if="md.getThumbnails().list[0].url">
                         <div class="gn-md-thumbnail col-md-1">
                       <img class="gn-img-thumbnail" data-ng-src="{{md.getThumbnails().list[0].url}}"
                             data-ng-if="md.getThumbnails().list[0].url" />
@@ -101,38 +101,19 @@
                           </div>
                           </div>
 
-<div class="row">
+                    <div class="row">
                         <div class="gn-md-info">
                           <div><span>eCat ID:</span> {{ md.eCatId }} </div>
 
-<div data-ng-if="isIntranet && md.owner > 1">
-<span>Owner: </span> {{ md.getOwnername() }}
+                        <div data-ng-if="isIntranet && md.owner > 1">
+                          <span>Owner: </span> {{ md.getOwnername() }}
                         </div>
                     </div>
                     </div>
                   </div>
 
+
 </li>
-              </ul>
-            </div>
-            <div data-ng-if="states.activeItem == 'Title'">
-              <ul class="default-list-group gn-resultview">
-                <li class="list-group-item" data-ng-repeat="md in searchResults.records" gn-displayextent-onhover=""
-                  gn-zoomto-onclick gn-fix-mdlinks="">
-                  <div class="gn-md-title">
-                    <input gn-selection-md type="checkbox" ng-model="md['geonet:info'].selected" ng-change="change()" />
-                    <h3>
-                      <a href="" gn-metadata-open="md" gn-metadata-open-selector=".gn-resultview"
-                        title="{{md.title || md.defaultTitle}}">
-                        <span class="fa gn-icon-{{md.type[0]}}"></span>
-                        {{md.title || md.defaultTitle}}</a>
-                    </h3>
-                  </div>
-                  <div data-ng-if="md.mdStatus > 0 && isIntranet"
-                      class="gn-status gn-status-{{ md.getWorkFlowStatus() }}-{{ md['geonet:info'].isPublishedToAll === 'true' ? 'External' : 'Internal' }}">
- {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} -                                                             <span>{{ md.getWorkFlowStatus() }} </span>
-                 </div>
-                </li>
               </ul>
             </div>
           </div>
