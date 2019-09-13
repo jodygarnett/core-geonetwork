@@ -2,15 +2,16 @@
   <div class="gn-logo-nav">
     <div class=container-fluid>
       <div class=row>
-        <a class="col-sm-12 col-md-2" data-gn-active-tb-item="http://www.ga.gov.au/"
+        <a class="col-md-3" data-gn-active-tb-item="http://www.ga.gov.au/"
           title="Navigate to the Geoscience Australia home page">
           <img class="gn-logo" data-ng-src="../../catalog/views/default/images/ga.header.logo.png" />
         </a>
-        <a class="col-sm-12 col-md-4" data-gn-active-tb-item="catalog.search#/home" title="eCat Home Page">
-          <span class="title-lg">Data and Publications</span>
-        </a>
-
-        <div class="col-sm-12 col-md-1 pull-right">
+        <div class="title-lg col-md-4">
+          <a data-gn-active-tb-item="catalog.search#/home" title="eCat Home Page">
+            Data and Publications
+          </a>
+        </div>        
+        <div class="col-md-1 pull-right">
           <div data-ng-include="'../../catalog/templates/userInfo.html'" />
         </div>
       </div>
@@ -31,7 +32,7 @@
               &nbsp;&nbsp;
               <i class="fa fa-search"></i>
               &nbsp;&nbsp;
-            </button>&nbsp;
+            </button>
             <button type="button" data-ng-click="onlyMyRecord = false;resetSearch(defaultSearchObj.params);"
               title="{{'ClearTitle' | translate}}" class="btn btn-md">
               <i class="fa fa-times"></i>
