@@ -170,6 +170,19 @@
           return [values];          
         }
       }
+
+      $scope.displayKeyword = function(thesaurus, keywords){
+        if(thesaurus.toLowerCase() === 'other' && keywords.length <= 1){
+          return false;
+        }
+        return true;
+      }
+      $scope.getKeywordTitle = function(title){
+        if(title.toLowerCase().indexOf('theme.anzrc') >= 0){
+          title = 'ANZRC Fields Of Research';
+        }       
+        return title;
+      }
      
       $scope.getBoundingBox = function(bbox) {
         var bboxStr = '';

@@ -2,7 +2,7 @@
 <div class="container">
   <div class="home-container-outer" data-ng-search-form="" data-runSearch="true">
     <input type="search" class="form-control input-md" id="gn-any-field" data-ng-model="searchObj.params.any"
-      data-ng-model-options="modelOptionsForm" placeholder="Data and Publications search..."
+      data-ng-model-options="modelOptionsForm" placeholder="Search..."
       data-typeahead="address for address in getAnySuggestions($viewValue)" data-typeahead-loading="anyLoading"
       class="form-control" data-typeahead-min-length="1" data-typeahead-focus-first="false" />
     <span>
@@ -34,12 +34,13 @@
 
       <div class="col-md-12 text-center">
         <div class="homepage-slide-color-black">
+          <div><h3>Popular Search Themes</h3></div>
           <div class="col-md-3 carousal-item">
             <h3>Latest Publications</h3>
             <p>Explore new publications from GA.</p>
             <a class="btn btn-lg btn-ga"
               data-gn-active-tb-item="catalog.search#/search?resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json&publicationDateFrom=2019-06-01&publicationDateTo=2019-09-30"
-              role="button">Read More</a>
+              role="button">Find</a>
           </div>
           <div class="col-md-3 carousal-item">
             <h3>GA Publications</h3>
@@ -47,7 +48,7 @@
               Conference promotional material, Technical posters, and Presentations. </p>
             <a class="btn btn-lg btn-ga"
               data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FGA%2520Publication&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
-              role="button">Read More</a>
+              role="button">Search</a>
           </div>
           <div class="col-md-3 carousal-item">
             <h3>Educational Products</h3>
@@ -56,108 +57,16 @@
               work with students in both upper primary and secondary settings. </p>
             <a class="btn btn-lg btn-ga"
               data-gn-active-tb-item="catalog.search#/search?facet.q=keyword%2FEducational%2520Product&resultType=details&from=1&to=20&sortBy=changeDateDesc&fast=index&_content_type=json"
-              role="button">Read More</a>
+              role="button">Discover</a>
           </div>
           <div class="col-md-3 carousal-item">
-            <h3>Dataset</h3>
-            <p>Find Dataset product from GA.</p>
-            <a class="btn btn-lg btn-ga" data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fdataset"
-              role="button">Read More</a>
+            <h3>Catalog</h3>
+            <p>Find All products from GA.</p>
+            <a class="btn btn-lg btn-ga" data-gn-active-tb-item="catalog.search#/"
+              role="button">Search</a>
           </div>
-          <!--<div class="col-md-3">
-            <h3>Web Services</h3>
-            <p>Find Web services from GA.</p>
-            <a class="btn btn-lg btn-ga" data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fservice"
-              role="button">Read More</a>
-          </div>-->
-        </div>
+          </div>
       </div>
     </div>
   </div>
 </div>
-<br>
-<!--
-<div class="ecat-service">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-2">
-        <div class="ecat-service-item">
-          <div>
-            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fdataset">
-              <div class="res-image"><img data-ng-src="../../catalog/views/default/images/thumbs/1.PNG" alt="icon" />
-              </div>
-              <span class="ecat-service-item-header">Dataset</span>
-            </a>
-          </div>
-          <br class="clearfix" />
-        </div>
-        <div class="clearfix"></div>
-      </div>
-
-      <div class="col-md-2">
-        <div class="ecat-service-item">
-          <div>
-            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2FnonGeographicDataset">
-              <div class="res-image"><img class="res-image"
-                  data-ng-src="../../catalog/views/default/images/thumbs/2.PNG" alt="icon" /></div>
-              <span class="ecat-service-item-header">Non-Geographic Dataset</span>
-            </a>
-          </div>
-          <br class="clearfix" />
-        </div>
-      </div>
-
-      <div class="col-md-2">
-        <div class="ecat-service-item">
-          <div>
-            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fservice">
-              <div class="res-image"><img class="res-image"
-                  data-ng-src="../../catalog/views/default/images/thumbs/3.PNG" alt="icon" /></div>
-              <span class="ecat-service-item-header">Web Services</span>
-            </a>
-          </div>
-          <br class="clearfix" />
-        </div>
-        <br class="clearfix" />
-      </div>
-      <div class="col-md-2">
-        <div class="ecat-service-item">
-          <div>
-            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fsoftware">
-              <div class="res-image"><img class="res-image"
-                  data-ng-src="../../catalog/views/default/images/thumbs/4.PNG" alt="icon" /></div>
-              <span class="ecat-service-item-header">Software</span>
-            </a>
-          </div>
-          <br class="clearfix" />
-        </div>
-        <br class="clearfix" />
-      </div>
-      <div class="col-md-2">
-        <div class="ecat-service-item">
-          <div>
-            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fdocument">
-              <div class="res-image"><img class="res-image"
-                  data-ng-src="../../catalog/views/default/images/thumbs/5.PNG" alt="icon" /></div>
-              <span class="ecat-service-item-header">Document</span>
-            </a>
-          </div>
-          <br class="clearfix" />
-        </div>
-        <br class="clearfix" />
-      </div>
-      <div class="col-md-2">
-        <div class="ecat-service-item">
-          <div>
-            <a data-gn-active-tb-item="catalog.search#/search?facet.q=type%2Fproduct">
-              <div class="res-image"><img class="res-image"
-                  data-ng-src="../../catalog/views/default/images/thumbs/6.PNG" alt="icon" /></div>
-              <span class="ecat-service-item-header">Product</span>
-            </a>
-          </div>
-          <br class="clearfix" />
-        </div>
-
-      </div>
-    </div>
-  </div>-->

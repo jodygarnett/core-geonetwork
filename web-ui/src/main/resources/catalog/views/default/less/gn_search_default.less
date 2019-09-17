@@ -759,7 +759,7 @@ html, body {
     display: inline-block;
     min-height: 400px;
     .carousal-item{
-      margin-top: 100px;
+      margin-top: 70px;
     }
 }
 
@@ -846,7 +846,7 @@ button.searchbutton {
       label{
         font-weight: 500;
         &.gn-facet-active {
-          color: @gray-darker;
+          color: #fff;
           background-color: #A33F1F;
           width: 95%;
           padding:2px;
@@ -915,9 +915,6 @@ button.searchbutton {
   .flipN, .flipP {
     display: none;
   }
-  .no-mob-view{
-    display: none;
-  }
 }
 
 .search-result-feedback {
@@ -951,6 +948,9 @@ button.searchbutton {
     li > a {
       padding: 9px 12px;
     }
+  }
+  #page-content-wrapper {
+    width: 100% !important;
   }
 }
 .new-filter {
@@ -1176,7 +1176,7 @@ button.searchbutton {
 }
 
 .gn-facet-toggle{
-  color: #ffffffc4;
+  color: @ga-menu-color;
   padding-right: 1em;
 }
 
@@ -1383,6 +1383,10 @@ button.searchbutton {
 .btn-linkedIn{
   color: #fff;
   background-color: #0077B5;
+}
+.btn-pidlink{
+  color: #fff;
+  background-color: #376d9a;
 }
 .btn-share{
   padding-left: 3px;

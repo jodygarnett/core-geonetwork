@@ -1,5 +1,6 @@
 <div class="gn-new-facet">
-  <div data-ng-repeat="f in dimension track by $index" data-ng-init="fLabel = f['@label']">
+  <div data-ng-repeat="f in dimension track by $index" data-ng-init="fLabel = f['@label']" 
+  	class="gn-facet-{{f['@label']}}">
   <h4 data-toggle="collapse" data-target="#group-{{$index}}">
     {{fLabel | translate}}
     <i class="fa fa-angle-double-down gn-facet-toggle fa-3 parent-expanded pull-right"></i>

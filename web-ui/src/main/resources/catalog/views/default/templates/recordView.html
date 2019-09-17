@@ -47,12 +47,12 @@
 
         <hr>
         <div class="subheader">Related Keywords</div>
-        <div data-ng-repeat="(thesaurus, keywords) in mdView.current.record.keywordGroup">
-          <label class="item-case">{{thesaurus | translate }}</label>
+        <div data-ng-repeat="(thesaurus, keywords) in mdView.current.record.keywordGroup" data-ng-show="{{ displayKeyword(thesaurus, keywords) }}">
+          <label class="item-case">{{getKeywordTitle(thesaurus) | translate}}</label>
           <ul>
             <li data-ng-repeat="k in keywords track by $index" data-ng-if="k" class="tt-cursor item-case"
               title="{{'clickToFilterOn' | translate}} {{k}}">
-              <a href="" data-ng-click="search({'keyword': k})"><i data-ng-if="$index > 0"> | </i> {{k}}</a>
+              <a ng-show="k.indexOf('Published') !== 0" href="" data-ng-click="search({'keyword': k})"><i data-ng-if="$index > 0"> | </i> {{k}}</a>
             </li>
           </ul>
         </div>
@@ -135,18 +135,22 @@
             </div>
             <div class="row btn-share">
               <div class="subheader">Share</div>
-              <button class="btn btn-sm btn-twitter"
-                data-ng-href="https://twitter.com/share?url={{socialMediaLink | encodeURIComponent}}"
+              <a class="btn btn-sm btn-twitter"
+                data-ng-href="https://twitter.com/share?url={{mdView.current.record.PID}}"
                 title="{{'shareOnTwitter' | translate}}" target="_blank"><i class="fa fa-fw fa-twitter"></i>&nbsp;
-                Twitter</button>
-              <button class="btn btn-sm btn-facebook"
-                data-ng-href="https://www.facebook.com/sharer.php?u={{socialMediaLink | encodeURIComponent}}"
+                Twitter</a>
+              <a class="btn btn-sm btn-facebook"
+                data-ng-href="https://www.facebook.com/sharer.php?u={{mdView.current.record.PID}}"
                 title="{{'shareOnFacebook' | translate}}" target="_blank"><i class="fa fa-fw fa-facebook"></i>&nbsp;
-                Facebook</button>
-              <button class="btn btn-sm btn-linkedIn"
-                data-ng-href="http://www.linkedin.com/shareArticle?mini=true&amp;summary={{mdView.current.record.title || mdView.current.record.defaultTitle}}&amp;url={{socialMediaLink | encodeURIComponent}}"
+                Facebook</a>
+              <a class="btn btn-sm btn-linkedIn"
+                data-ng-href="http://www.linkedin.com/shareArticle?mini=true&amp;summary={{mdView.current.record.title || mdView.current.record.defaultTitle}}&amp;url={{mdView.current.record.PID}}"
                 title="{{'shareOnLinkedIn' | translate}}" target="_blank"><i class="fa fa-fw fa-linkedin"></i>&nbsp;
                 LinkedIn</a>
+            <a class="btn btn-sm btn-pidlink"
+                data-ng-click="mdService.getPermalink(md)"
+                title="PID Link" target="_blank"><i class="fa fa-fw fa-link"></i>&nbsp;
+                PID Link</a>
             </div>
           </tab>
 
