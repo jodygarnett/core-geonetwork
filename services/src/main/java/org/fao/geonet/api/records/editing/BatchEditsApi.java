@@ -512,18 +512,27 @@ public class BatchEditsApi implements ApplicationContextAware {
 				while (iter.hasNext()) {
 					Map.Entry<String, Integer> header = (Map.Entry<String, Integer>) iter.next();
 					Log.debug(Geonet.SEARCH_ENGINE, header.getKey() + " - " + header.getValue());
+					
+					try {
+						if (xpathExpr.containsKey(header.getKey())) {
+							XPath _xpath = xpathExpr.get(header.getKey());
 
-					XPath _xpath = xpathExpr.get(header.getKey());
+							if (_xpath != null) {
+								BatchEditReport batchreport = cbe.removeOrAddElements(context, serviceContext, header,
+										csvr, _xpath, document, listOfUpdates, mode);
 
-					if (_xpath != null) {
-						BatchEditReport batchreport = cbe.removeOrAddElements(context, serviceContext, header, csvr,
-								_xpath, document, listOfUpdates, mode);
-						batchreport.getErrorInfo().stream().forEach(err -> {
-							report.addMetadataError(id, new Exception(err));
-						});
-						batchreport.getProcessInfo().stream().forEach(info -> {
-							report.addMetadataInfos(id, info);
-						});
+								batchreport.getErrorInfo().stream().forEach(err -> {
+									report.addMetadataError(id, new Exception(err));
+								});
+
+								batchreport.getProcessInfo().stream().forEach(info -> {
+									report.addMetadataInfos(id, info);
+								});
+
+							}
+						}
+					} catch (Exception e) {
+						Log.error(Geonet.SEARCH_ENGINE, "Exception while getting Batch edit report: " + e.getMessage());						
 					}
 				}
 
