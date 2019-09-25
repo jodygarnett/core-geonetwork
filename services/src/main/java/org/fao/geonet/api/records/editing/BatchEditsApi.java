@@ -37,7 +37,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +46,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -87,7 +87,6 @@ import org.fao.geonet.utils.Log;
 import org.fao.geonet.utils.Xml;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,14 +144,10 @@ import jeeves.services.ReadWriteController;
 public class BatchEditsApi implements ApplicationContextAware {
 	@Autowired
 	SchemaManager _schemaManager;
-	private ApplicationContext context;
-	// List<BatchEditReport> reports;
-	AmazonS3URI s3uri = new AmazonS3URI(Geonet.BATCHEDIT_BACKUP_BUCKET);
-	List<Metadata> tempBackupData = new ArrayList<>();
-	Gson g = new Gson();
 	
-	double pct;
-	SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
+	private ApplicationContext context;
+	AmazonS3URI s3uri = new AmazonS3URI(Geonet.BATCHEDIT_BACKUP_BUCKET);
+	Gson g = new Gson();
 	
 	public synchronized void setApplicationContext(ApplicationContext context) {
 		this.context = context;
@@ -174,11 +169,13 @@ public class BatchEditsApi implements ApplicationContextAware {
 			@ApiParam(value = ApiParams.API_PARAM_BUCKET_NAME, required = false) @RequestParam(required = false) String bucket,
 			@RequestBody BatchEditParameter[] edits, HttpServletRequest request) throws Exception {
 
+		
 		List<BatchEditParameter> listOfUpdates = Arrays.asList(edits);
 		if (listOfUpdates.size() == 0) {
 			throw new IllegalArgumentException("At least one edit must be defined.");
 		}
 
+		
 		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
 		final Set<String> setOfUuidsToEdit;
 		if (uuids == null) {
@@ -262,24 +259,21 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public void batchUpdateUsingCSV(@RequestParam(value = "file") MultipartFile file,
-			@RequestParam(value = "mode") String mode, @RequestParam(value = "desc") String desc,@RequestParam(value = "backup") boolean backup , HttpServletRequest request) {
-
+			@RequestParam(value = "mode") String mode, @RequestParam(value = "desc") String desc, 
+			@RequestParam(value = "backup") boolean backup , HttpServletRequest request) {
+		
 		ServiceContext serviceContext = ApiUtils.createServiceContext(request);
-		if(tempBackupData != null && tempBackupData.size() > 0){
-			tempBackupData.clear();
-		}
+		
 		Log.debug(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi mode: " + mode);
 
-		// File csvFile = new File(file.getOriginalFilename());
 		try {
-			clearReport(report);
-			// csvFile.createNewFile();
+			
 			File csvFile = File.createTempFile(file.getOriginalFilename(), "csv");
 			FileUtils.copyInputStreamToFile(file.getInputStream(), csvFile);
 			
 			Runnable task = () -> {
 				Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
-				processCsv(csvFile, context, serviceContext, mode, desc, backup);
+				processCsv(csvFile, context, serviceContext, mode, desc, backup, request.getSession());
 			};
 
 			// start the thread
@@ -287,10 +281,8 @@ public class BatchEditsApi implements ApplicationContextAware {
 
 		} catch (Exception e) {
 			Log.error(Geonet.SEARCH_ENGINE, "ECAT, BatchEditsApi (C) Stacktrace is\n" + Util.getStackTrace(e));
-			report.addError(e);
+			
 		}
-
-		//return report;
 
 	}
 	
@@ -306,6 +298,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public int batchUpdateReport(HttpServletRequest request) {
+		SimpleMetadataProcessingReport report = (SimpleMetadataProcessingReport) request.getSession().getAttribute(Geonet.BATCHEDIT_REPORT);
 		return report.getNumberOfRecordsProcessed();
 	}
 	
@@ -407,15 +400,18 @@ public class BatchEditsApi implements ApplicationContextAware {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public void processCsv(File csvFile, ApplicationContext context,
-			ServiceContext serviceContext, String mode, String desc, boolean backup) {
+	private void processCsv(File csvFile, ApplicationContext context,
+			ServiceContext serviceContext, String mode, String desc, boolean backup, HttpSession session) {
 		
+		List<Metadata> backupData = new ArrayList<>();
+		SimpleMetadataProcessingReport report = new SimpleMetadataProcessingReport();
+		
+		session.setAttribute(Geonet.BATCHEDIT_REPORT, report);
+		session.setAttribute(Geonet.BATCHEDIT_BACKUP, backupData);
 		
 		// Create folder in s3 bucket with current date
 		Date datetime = new Date(System.currentTimeMillis());
 		final String dateTimeStr = Geonet.DATE_FORMAT.format(datetime);
-		
-		
 		
 		SAXBuilder sb = new SAXBuilder();
 		// final CSVBatchEdit cbe = context.getBean(CSVBatchEdit.class);
@@ -437,7 +433,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 		try {
 			// Parse the csv file
 			parser = CSVParser.parse(csvFile, Charset.defaultCharset(), CSVFormat.EXCEL.withHeader());
-			// report.setTotalRecords(parser.getRecords().size());
+
 		} catch (IOException e1) {
 			Log.error(Geonet.SEARCH_ENGINE, e1.getMessage());
 		}
@@ -465,14 +461,12 @@ public class BatchEditsApi implements ApplicationContextAware {
 							record = cbe.getMetadataByLuceneSearch(context, serviceContext, request);
 						} catch (BatchEditException e) {
 							report.addMetadataError(id, new Exception(e.getMessage()));
-							// report.incrementNullRecords();
 							continue;
 						}
 					} else {// If there is no valid uuid and ecatId, doesn't
 							// process this record and continue to execute next
 							// record
 						report.addError(new Exception("Unable to process record number " + csvr.getRecordNumber()));
-						// report.incrementNullRecords();
 						continue;
 					}
 
@@ -489,12 +483,11 @@ public class BatchEditsApi implements ApplicationContextAware {
 				if (record == null) {
 					report.addError(new Exception(
 							"No metadata found, Unable to process record number " + csvr.getRecordNumber()));
-					// report.incrementNullRecords();
 					continue;
 				}
 
 				
-				if (backup && !saveToS3Bucket(record)) {
+				if (backup && !saveToS3Bucket(record, session)) {
 					report.addError(new Exception("Unable to backup record uuid/ecat: " + id));
 					continue;
 				}
@@ -555,15 +548,14 @@ public class BatchEditsApi implements ApplicationContextAware {
 							batchEditParam.getXpath(), propertyValue, true);
 					
 				}
-
-				//if (metadataChanged) {
-					Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi --> updating Metadata: "  + record.getId());
-					dataMan.updateMetadata(serviceContext, record.getId() + "", metadata, false, false, true, "eng",
-							null, false);
-					report.addMetadataInfos(id, "Metadata updated, uuid: " + record.getUuid());
-					report.incrementProcessedRecords();
-				//}
-
+				
+				Log.debug(Geonet.SEARCH_ENGINE, "BatchEditsApi --> updating Metadata: "  + record.getId());
+				dataMan.updateMetadata(serviceContext, record.getId() + "", metadata, false, false, true, "eng",
+						null, false);
+				report.addMetadataInfos(id, "Metadata updated, uuid: " + record.getUuid());
+				report.incrementProcessedRecords();
+				session.setAttribute(Geonet.BATCHEDIT_REPORT, report);
+			
 			} catch (Exception e) {
 				Log.error(Geonet.SEARCH_ENGINE, "Exception :" + e.getMessage());
 			}
@@ -578,7 +570,7 @@ public class BatchEditsApi implements ApplicationContextAware {
 		
 		if(backup){
 			Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI calling... startBackupOperation........");
-			startBackupOperation(s3key);
+			startBackupOperation(s3key, session);
 		}
 		
 	}
@@ -594,9 +586,11 @@ public class BatchEditsApi implements ApplicationContextAware {
 	 * @param md
 	 * @return
 	 */
-	private boolean saveToS3Bucket(Metadata md) {
+	private boolean saveToS3Bucket(Metadata md, HttpSession session) {
 		try {
-			tempBackupData.add(md);
+			List<Metadata> backupData = (List<Metadata>) session.getAttribute(Geonet.BATCHEDIT_BACKUP);
+			backupData.add(md);
+			session.setAttribute(Geonet.BATCHEDIT_BACKUP, backupData);
 		} catch (Exception e) {
 			return false;
 		}
@@ -604,7 +598,9 @@ public class BatchEditsApi implements ApplicationContextAware {
 		return true;
 	}
 
-	public void startBackupOperation(String s3key){
+	private void startBackupOperation(String s3key, HttpSession session){
+		
+		Double pct = 0.0;
 		
 		AmazonS3 s3client = getS3Client();
 		TransferManager xfer_mgr = TransferManagerBuilder
@@ -623,8 +619,8 @@ public class BatchEditsApi implements ApplicationContextAware {
 		}
         
 		Log.debug(Geonet.SEARCH_ENGINE, "BatchEditAPI, tmpDir for backup xml files --->" + tmpDir);
-		
-		List<File> files = tempBackupData.stream().map(md -> {
+		List<Metadata> backupData = (List<Metadata>) session.getAttribute(Geonet.BATCHEDIT_BACKUP);
+		List<File> files = backupData.stream().map(md -> {
 				
 				try {
 					Path path = Files.createTempFile(tempPath, md.getUuid(), ".xml"); 
@@ -652,7 +648,8 @@ public class BatchEditsApi implements ApplicationContextAware {
 		    //long so_far = progress.getBytesTransferred();
 		    //long total = progress.getTotalBytesToTransfer();
 		    pct = progress.getPercentTransferred();
-		    progressBackup();
+		    session.setAttribute(Geonet.BATCHEDIT_PROGRESS, pct);
+		   
 		} while (xfer.isDone() == false);
 		// print the final state of the transfer.
 		TransferState xfer_state = xfer.getState();
@@ -692,14 +689,28 @@ public class BatchEditsApi implements ApplicationContextAware {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public Double batchEditBackup(HttpServletRequest request) {
-		return progressBackup();
-	}
-	
-    public Double progressBackup()
-    {
+		Double pct = (Double) request.getSession().getAttribute(Geonet.BATCHEDIT_PROGRESS);
         Log.debug(Geonet.SEARCH_ENGINE, "Percentage transfer: " + pct);
         return pct;
-    }
+	}
+
+	/**
+	 * The service updates records by uploading the csv file
+	 */
+	@ApiOperation(value = "Invalidate batchedit attributes.")
+	@RequestMapping(value = "/batchediting/clear", method = RequestMethod.GET, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Clear batchedit attributes"),
+			@ApiResponse(code = 403, message = ApiParams.API_RESPONSE_NOT_ALLOWED_CAN_EDIT) })
+	@PreAuthorize("hasRole('Administrator')")
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	public void clearBatchEditSession(HttpServletRequest request) {
+		Log.debug(Geonet.SEARCH_ENGINE, "Remove batchedit attributes...");
+		request.getSession().removeAttribute(Geonet.BATCHEDIT_BACKUP);
+		request.getSession().removeAttribute(Geonet.BATCHEDIT_REPORT);
+		request.getSession().removeAttribute(Geonet.BATCHEDIT_PROGRESS);
+	}
 	
 	/**
 	 * Add batch update entry into database. Converts CustomReport into JSON and stores as StrigClob 
@@ -764,22 +775,6 @@ public class BatchEditsApi implements ApplicationContextAware {
 		return true;
 	}
 	
-	public void clearReport(SimpleMetadataProcessingReport report){
-		try{
-			report.getInfos().clear();
-			report.getErrors().clear();
-			report.getMetadata().clear();
-			report.getMetadataErrors().clear();
-			report.getMetadataInfos().clear();
-			report.setTotalRecords(0);
-			report.processStart();
-			report.setNumberOfRecordsProcessed(0);
-		}catch(Exception e){
-			
-		}
-		
-	}
-
 }
 
 class CustomReport {

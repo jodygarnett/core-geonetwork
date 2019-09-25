@@ -99,6 +99,10 @@ public final class Geonet {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HHmm");
     public static final String BATCHEDIT_BACKUP_BUCKET = "https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/";
+    public static final String BATCHEDIT_REPORT = "be_report";
+    public static final String BATCHEDIT_BACKUP = "be_backup";
+    public static final String BATCHEDIT_PROGRESS = "be_progress";
+    public static final String CSV_DOWNLOAD_STATUS = "csv_download_status";
     /**
      * Container for file names.
      */
