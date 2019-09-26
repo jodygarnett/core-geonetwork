@@ -44,7 +44,7 @@
         <div id="page-content-wrapper">
           <div class="container">
             <div class="row result-selection">
-              <div class="hidden-xs col-md-4">
+              <div class="hidden-xs col-md-3">
                 <div data-gn-selection-widget="" data-results="searchResults"></div>
               </div>
               <!--<div class="hidden-xs col-md-2">
@@ -52,11 +52,11 @@
                   data-ng-class="{'active': tpl.tooltip == states.activeItem}" data-ng-click="changeView($index)">
                   <i class="fa {{tpl.icon}}"></i> {{tpl.tooltip}}</button>
               </div>-->
-                <div class="col-md-4 pull-right">
+                <div class="col-md-3 pull-right">
                 <div data-sortby-combo="" data-params="searchObj.params" data-gn-sortby-values="searchObj.sortbyValues">
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div data-gn-pagination="paginationInfo" data-hits-values="searchObj.hitsperpageValues"
                   data-enable-hot-keys="" data-enable-events=""></div>
                 </div>
@@ -66,8 +66,8 @@
               <p>No search results found...</p>
             </div>
             <br>
-            <div>
-              <ul class="default-list-group gn-resultview">
+            <div class="default-list-group">
+              <ul class="gn-resultview">
                 <li class="list-group-item" data-ng-repeat="md in searchResults.records" gn-displayextent-onhover=""
                   gn-zoomto-onclick gn-fix-mdlinks="">
                   <div class="container-fluid items">

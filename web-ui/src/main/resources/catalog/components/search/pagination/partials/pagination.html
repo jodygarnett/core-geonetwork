@@ -26,7 +26,7 @@
 
 
   <ul class="pagination">
-    <li ng-class="{disabled:config.currentPage === 1}">
+    <li ng-class="{disabled:config.currentPage === 1}" class="hidden-xs">
       <a ng-click="first()"><i class="fa fa-angle-double-left"></i></a>
     </li>
     <li ng-class="{disabled:config.currentPage === 1}">
@@ -35,7 +35,7 @@
     <li ng-class="{disabled:config.currentPage === config.pages}">
       <a ng-click="next()"><i class="fa fa-angle-right"></i></a>
     </li>
-    <li ng-class="{disabled:config.currentPage === config.pages}">
+    <li ng-class="{disabled:config.currentPage === config.pages}" class="hidden-xs">
       <a ng-click="last()"><i class="fa fa-angle-double-right"></i></a>
     </li>
   </ul>

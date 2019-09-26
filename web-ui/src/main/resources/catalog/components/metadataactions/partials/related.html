@@ -16,7 +16,7 @@
              data-ng-class="config.getClassIcon(mainType)">&nbsp;</i>
         </strong>
       </div>
-      <div class="col-xs-7">
+      <div class="col-xs-10 col-sm-7">
         <!-- WMS & WFS contains layer name in title -->
         <p title="{{::(r.title | gnLocalized: lang)}}" data-ng-if="mainType !== 'WMS' &&
                       mainType !== 'WCS' &&
@@ -73,7 +73,7 @@
           {{::((r.title | gnLocalized: lang | characters:50) || (r.description | gnLocalized: lang | characters:50) || (r.url | characters:50))}}
         </p>
       </div>
-       <div class="col-xs-4" data-ng-if="mainType != 'FILE'">
+       <div class="col-xs-12 col-sm-4" data-ng-if="mainType != 'FILE'">
         <button type="button" title="{{r.url}}"
                 data-ng-class="getClass(r.title)"
                 data-ng-show="hasAction(mainType)"
