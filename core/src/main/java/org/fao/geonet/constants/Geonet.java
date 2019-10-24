@@ -103,6 +103,7 @@ public final class Geonet {
     public static final String BATCHEDIT_BACKUP = "be_backup";
     public static final String BATCHEDIT_PROGRESS = "be_progress";
     public static final String CSV_DOWNLOAD_STATUS = "csv_download_status";
+    
     /**
      * Container for file names.
      */

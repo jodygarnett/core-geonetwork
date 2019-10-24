@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 import org.apache.commons.csv.CSVRecord;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.exceptions.BatchEditException;
-import org.fao.geonet.utils.Log;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;

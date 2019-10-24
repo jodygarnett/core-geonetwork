@@ -20,7 +20,6 @@
 package org.fao.geonet.kernel.batchedit;
 
 import org.fao.geonet.constants.Geonet;
-import org.fao.geonet.utils.Log;
 
 /**
  * 
