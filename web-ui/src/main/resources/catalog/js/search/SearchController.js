@@ -80,6 +80,15 @@
         }
       };
 
+      $scope.authorOptions = {
+        mode: 'remote',
+        remote: {
+          url: suggestService.getUrl('QUERY', 'author', 'STARTSWITHFIRST'),
+          filter: suggestService.bhFilter,
+          wildcard: 'QUERY'
+        }
+      };
+
       $scope.orgNameOptions = {
         mode: 'remote',
         remote: {
@@ -206,7 +215,43 @@
    				  }
    				});
    		  };
-   	  
+       
+         $scope.homeSearch = function(){
+           var anytext = {
+             any : $scope.searchObj.params.any
+           }           
+          $scope.$broadcast('resetSearch', anytext);             
+        }
+        $scope.searchHomePageItem = function(type){
+        var param;
+        if(type === 'latest_publication'){
+          var today = moment();
+          var month = today.format('MM');
+          var year = today.format('YYYY');
+          
+          var fromDate = moment().subtract(30, 'days');
+          var fromMonth = fromDate.format('MM');
+          var fromYear = fromDate.format('YYYY');
+          var dateFrom = fromYear + '-' + fromMonth + '-' + fromDate.daysInMonth();
+          var dateTo = year + '-' + month + '-' + today.daysInMonth();
+          param = {
+            publicationDateFrom: dateFrom,
+            publicationDateTo: dateTo
+          }
+        }
+        if(type === 'ga_publication'){
+          param = {
+            'facet.q' : 'keyword/GA Publication'
+          }
+        }
+        if(type === 'edu_products'){
+          param = {
+            'facet.q' : 'keyword/Educational Product'
+          }
+        }        
+        $scope.$broadcast('resetSearch', param);        
+      }
+      
       /**
        * Keep a reference on main cat scope
        * @return {*}
