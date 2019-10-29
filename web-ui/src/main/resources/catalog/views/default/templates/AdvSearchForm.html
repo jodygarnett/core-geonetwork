@@ -1,3 +1,4 @@
+<div class="pull-right" style="padding: 5px 5px 0 0;"><button class="pull-right" data-toggle="collapse" data-target="#adv-1">X</button></div>
 <div class="col-md-8 col-sm-12">
     <form>
         <h4>Advanced Search</h4>
@@ -8,7 +9,7 @@
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">title</label>
                         <div class="col-sm-11">
-                            <input type="search" value="" class="form-control" data-ng-model="searchObj.params.title" />
+                            <input type="search" data-ng-keyup="$event.keyCode == 13 && toggleAndTriggerSearch()"  value="" class="form-control" data-ng-model="searchObj.params.title" />
                         </div>
                     </div>
                 </div>
@@ -16,12 +17,12 @@
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">ecatId</label>
                         <div class="col-sm-5">
-                            <input type="search" value="" class="form-control"
+                            <input type="search" value="" class="form-control" data-ng-keyup="$event.keyCode == 13 && toggleAndTriggerSearch()" 
                                 data-ng-model="searchObj.params.eCatId" />
                         </div>
                         <label class="col-sm-1 control-label" data-translate="">keyword</label>
                         <div class="col-sm-5">
-                            <input type="search" value="" class="form-control"
+                            <input type="search" value="" class="form-control" data-ng-keyup="$event.keyCode == 13 && toggleAndTriggerSearch()" 
                                 data-ng-model="searchObj.params.keyword" />
                         </div>
                     </div>
@@ -31,7 +32,7 @@
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">author</label>
                         <div class="col-sm-5">
-                            <input type="search" value="" class="form-control"
+                            <input type="search" value="" class="form-control" data-ng-keyup="$event.keyCode == 13 && toggleAndTriggerSearch()" 
                                 data-ng-model="searchObj.params.author" />
                         </div>
                     </div>

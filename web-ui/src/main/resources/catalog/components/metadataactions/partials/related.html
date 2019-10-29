@@ -40,28 +40,28 @@
         </p>
         <p data-ng-if="mainType === 'WMS'">
         <span data-translate=""
-              data-translate-values="{layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
+              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
           wmsLinkDetails</span>
         </p>
         <p data-ng-if="r.protocol === 'OGC:WFS'">
         <span data-translate=""
-              data-translate-values="{layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
+              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
           wfsLinkDetails</span>
         </p>
         <p data-ng-if="mainType === 'WCS'">
         <span data-translate=""
-              data-translate-values="{layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
+              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
           wcsLinkDetails</span>
         </p>
 
         <p data-ng-if="mainType === 'DB'">
         <span data-translate=""
-              data-translate-values="{layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
+              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
           databaseLayerDetails</span>
         </p>
         <p data-ng-if="mainType === 'FILE'">
         <span data-translate=""
-              data-translate-values="{name:'{{r.title | gnLocalized: lang | characters:50}}'}">
+              data-translate-values="{url:'{{r.url}}', name:'{{r.title | gnLocalized: lang | characters:50}}'}">
           fileLayerDetails</span>
           <input class="form-control"
                  type="text"
