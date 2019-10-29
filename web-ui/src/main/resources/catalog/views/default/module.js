@@ -171,6 +171,13 @@
         }
       }
 
+      $scope.toggleAndTriggerSearch = function(){
+       var adv_opened = $('#adv-1').hasClass('in');
+        if(adv_opened === true){
+          $('#adv-1').collapse('toggle');
+        }
+        $scope.$broadcast('search');        
+      }
       $scope.displayKeyword = function(thesaurus, keywords){
         if(thesaurus.toLowerCase() === 'other' && keywords.length <= 1){
           return false;
@@ -217,15 +224,19 @@
           citationUrl += md.title + '. ';
   
           if(md.issueIdentification){
-            citationUrl = citationUrl + 'Record ' + md.issueIdentification + '. ';
+            var rec = md.issueIdentification.toLowerCase().includes('record') ? '' : 'Record ';
+            citationUrl = citationUrl + rec + md.issueIdentification + '. ';
           }
   
           citationUrl += 'Geoscience Australia, Canberra. ';
           
           if(md.DOI){
             citationUrl += md.DOI;
-          }else{
+          }else if(md.PID){
             citationUrl += md.PID;
+          }else{
+            var scope = md.type === 'service' ? 'service' : 'dataset';
+            citationUrl += "http://pid.geoscience.gov.au/" + scope + "/ga/" + md.eCatId;
           }
           
           return citationUrl;

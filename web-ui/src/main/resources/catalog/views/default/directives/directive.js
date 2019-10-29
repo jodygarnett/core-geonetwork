@@ -118,6 +118,18 @@
     }
   ]);
 
+  module.directive('clickCapture',['$document', function($document) {
+    return {
+      link: function(scope, elm, attrs) {
+        $document.on('click', function (e) {
+          var adv_opened = $('#adv-1').hasClass('in');
+          if(!$(e.target).closest('#adv-1').length && !$(e.target).is('#adv-1') && adv_opened === true && e.target.nodeName === 'DIV'){
+            $('#adv-1').collapse('toggle');
+          }
+        });              
+      }
+    }
+  }]);
   module.directive('gnPeriodChooser', [
     function () {
       return {
