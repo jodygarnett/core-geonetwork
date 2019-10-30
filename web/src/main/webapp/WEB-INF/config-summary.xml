@@ -87,6 +87,7 @@
     <facet name="denominator" indexKey="denominator" label="denominators"/>
     <facet name="resolution" indexKey="resolution" label="resolutions"/>
     <facet name="topicCat" indexKey="topicCat" label="topicCats" localized="true"/>
+    <facet name="author" indexKey="author" label="authors" localized="true"/>
     <facet name="spatialRepresentationType" indexKey="cl_spatialRepresentationType"
            label="spatialRepresentationTypes"/>
     <facet name="orgName" indexKey="orgName" label="orgNames" localized="true"/>
