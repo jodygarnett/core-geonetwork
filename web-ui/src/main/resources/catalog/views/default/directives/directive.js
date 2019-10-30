@@ -123,7 +123,9 @@
       link: function(scope, elm, attrs) {
         $document.on('click', function (e) {
           var adv_opened = $('#adv-1').hasClass('in');
-          if(!$(e.target).closest('#adv-1').length && !$(e.target).is('#adv-1') && adv_opened === true && e.target.nodeName === 'DIV'){
+          //Unable to find better solution. Need to find some other solution.
+          if(!$(e.target).closest('#adv-1').length && !$(e.target).is('#adv-1') && adv_opened === true 
+                && e.target.nodeName === 'DIV' && !e.target.className.includes('tt')){
             $('#adv-1').collapse('toggle');
           }
         });              

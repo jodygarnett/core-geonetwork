@@ -237,6 +237,7 @@
       <item facet="orgName" max="100"/>
       <item facet="metadataPOC"/>
       <item facet="serviceType"/>
+      <item facet="author" sortBy="value" sortOrder="asc" max="100"/>
       <item facet="type" translator="codelist:gmd:MD_ScopeCode"/>
       <item facet="publicationDateYear" sortOrder="asc"/>
     </summaryType>

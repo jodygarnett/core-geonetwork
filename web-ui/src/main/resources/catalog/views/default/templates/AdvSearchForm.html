@@ -22,8 +22,8 @@
                         </div>
                         <label class="col-sm-1 control-label" data-translate="">keyword</label>
                         <div class="col-sm-5">
-                            <input type="search" value="" class="form-control" data-ng-keyup="$event.keyCode == 13 && toggleAndTriggerSearch()" 
-                                data-ng-model="searchObj.params.keyword" />
+                            <input type="search" value="" class="form-control" gn-typeahead="keywordsOptions" data-ng-keyup="toggleAndTriggerSearch(); getKeywords();" 
+                                gn-values="searchObj.params.keyword" />
                         </div>
                     </div>
                 </div>
@@ -32,12 +32,12 @@
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">author</label>
                         <div class="col-sm-5">
-                            <input type="search" value="" class="form-control" data-ng-keyup="$event.keyCode == 13 && toggleAndTriggerSearch()" 
-                                data-ng-model="searchObj.params.author" />
+                            <input type="search" value="" class="form-control" gn-typeahead="authorOptions" data-ng-keyup="toggleAndTriggerSearch()" 
+                                gn-values="searchObj.params.author" />                            
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" data-ng-if="isIntranet && isAdministrator()">
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">owner</label>
                         <div class="col-sm-5">
@@ -73,11 +73,11 @@
                                 data-date-to="searchObj.params.publicationDateTo">
                             </div>
                             <div data-gn-period-chooser="recordsCreatedTheLast"
-                                data-date-from="searchObj.params.dateFrom" data-date-to="searchObj.params.dateTo">
+                                data-date-from="searchObj.params.creationDateFrom" data-date-to="searchObj.params.creationDateTo">
                             </div>
                             <div data-gn-period-chooser="temporalExtentPeriod"
-                                data-date-from="searchObj.params.tempExtentBeginFrom"
-                                data-date-to="searchObj.params.tempExtentBeginTo">
+                                data-date-from="searchObj.params.extFrom"
+                                data-date-to="searchObj.params.extTo">
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
         <h6>Title / Keywords / eCatIDs</h6>
         <p>
             <i>Title:</i> Search phrase results records that contain any word within the title .<br>
-            <i>Keywords:</i> Provide minimum 3 characters to show predictive Keywords.<br>
+            <i>Keywords:</i>By default 100 keywords are returned as predictive list. To find more keyword list, start typing the keyword.<br>
             <i>eCatIDs:</i> For more eCat records, provide eCatIDs seperated by comma.<br>
         </p>
     </div>
@@ -117,8 +117,8 @@
     <div>
         <h6>Author / Owner</h6>
         <p>
-            <i>Author:</i> Search phrase entered in this field will run a search across Authors within Data and
-            Publications.
+            <i>Author:</i> By default 100 authors are returned as predictive list. To find more author list, start typing the author name. 
+            Currently only supports one author name search.
             Typically reference list entries and in-text citations do not include the authors’ academic credentials or
             professional titles.
             For example, if a publication is written by Samantha T. Smith, PhD, then the reference entry refers to
