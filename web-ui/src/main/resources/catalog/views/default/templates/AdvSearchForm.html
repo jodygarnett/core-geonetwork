@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" data-ng-if="isIntranet && isAdministrator()">
+                <div class="row" data-ng-if="isIntranet || user.isAdministrator()">
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">owner</label>
                         <div class="col-sm-5">
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" data-ng-if="isIntranet && isAdministrator()">
+                <div class="row" data-ng-if="isIntranet || user.isAdministrator()">
                     <h6>Other Details</h6>
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">_status</label>
@@ -128,7 +128,7 @@
         </p>
     </div>
     <br>
-    <div data-ng-if="isIntranet && isAdministrator()">
+    <div data-ng-if="isIntranet || user.isAdministrator()">
         <h6>Status / Kind</h6>
         <p>
             This search is only for internal GA users.<br>
