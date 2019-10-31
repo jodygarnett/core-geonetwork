@@ -237,7 +237,7 @@
     "sessionIsProbablyCancelled": "Your session was probably canceled on the server!",
     "sessionAlertDisconnectedMsg": "Last activity was tracked {{startedAt}} and your session has probably expired now (max inactivity time is {{length}}s). You should reload the page and see if your session is still alive or sign in again!",
     "layersLoading": "Adding layers to the map ...",
-    "updateStatus": "Update record status",
+    "updateStatus": "Update status",
     "resourceContact": "Contact for the resource",
     "enableWorkflow": "Enable workflow",
     "metadataStatusUpdatedWithNoErrors": "Record status updated.",
