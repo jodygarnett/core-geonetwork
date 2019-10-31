@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" data-ng-if="isIntranet || user.isAdministrator()">
+                <div class="row" data-ng-if="isIntranet && user.isAdministrator()">
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">owner</label>
                         <div class="col-sm-5">
