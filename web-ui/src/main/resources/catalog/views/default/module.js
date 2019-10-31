@@ -224,7 +224,7 @@
           citationUrl += md.title + '. ';
   
           if(md.issueIdentification){
-            var rec = md.issueIdentification.toLowerCase().includes('record') ? '' : 'Record ';
+            var rec = md.issueIdentification.toLowerCase().includes('rec') ? '' : 'Record ';
             citationUrl = citationUrl + rec + md.issueIdentification + '. ';
           }
   
