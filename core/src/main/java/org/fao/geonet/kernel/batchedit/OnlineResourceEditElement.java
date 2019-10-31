@@ -82,7 +82,9 @@ public class OnlineResourceEditElement implements EditElement {
 					rootE = additionalInformation(name, desc, linkage, protocol, function);
 				}
 			} catch (BatchEditException e) {
-				report.getErrorInfo().add(e.getMessage());
+				List<String> errs = report.getErrorInfo();
+				errs.add(e.getMessage());
+				report.setErrorInfo(errs);
 			}
 
 			if(rootE != null){

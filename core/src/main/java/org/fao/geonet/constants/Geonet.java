@@ -99,6 +99,11 @@ public final class Geonet {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HHmm");
     public static final String BATCHEDIT_BACKUP_BUCKET = "https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/";
+    public static final String BATCHEDIT_REPORT = "be_report";
+    public static final String BATCHEDIT_BACKUP = "be_backup";
+    public static final String BATCHEDIT_PROGRESS = "be_progress";
+    public static final String CSV_DOWNLOAD_STATUS = "csv_download_status";
+    
     /**
      * Container for file names.
      */
@@ -607,6 +612,19 @@ public final class Geonet {
     }
 
     /**
+     * Workflow status
+     */
+    public static final class WorkflowStatus {
+    	public static final int UNKNOWN = 0;
+        public static final int DRAFT  = 1;
+        public static final int APPROVED = 2;
+        public static final int RETIRED = 3;
+        public static final int SUBMITTED  = 4;
+        public static final int REJECTED  = 5;
+        
+    }
+    
+    /**
      * Codelist directories.
      */
     public static final class CodeList {
@@ -681,6 +699,10 @@ public final class Geonet {
     	
     }
 
+    public static final class Namespaces2 {
+    	public static final org.jdom2.Namespace MRI = org.jdom2.Namespace.getNamespace("mri", "http://standards.iso.org/iso/19115/-3/mri/1.0");
+    	public static final org.jdom2.Namespace GCO = org.jdom2.Namespace.getNamespace("gco", "http://standards.iso.org/iso/19115/-3/gco/1.0");
+    }
     public static class IndexFieldNames {
 
         public static final String HASXLINKS = "_hasxlinks";

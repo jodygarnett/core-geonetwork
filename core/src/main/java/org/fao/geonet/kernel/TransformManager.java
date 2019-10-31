@@ -3,9 +3,7 @@ package org.fao.geonet.kernel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import org.fao.geonet.constants.Geonet;
-import org.fao.geonet.utils.Log;
-import org.fao.geonet.utils.Xml;
+import org.fao.geonet.constants.Geonet.Namespaces2;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
@@ -13,18 +11,13 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
 
 
-public class TransformManager implements ApplicationEventPublisherAware{
+public class TransformManager {
 
 	XMLOutputter outputter = new XMLOutputter();
 	
-	private ApplicationEventPublisher applicationEventPublisher;
-	
-	Namespace[] namespaces = {Namespace.getNamespace("mri", "http://standards.iso.org/iso/19115/-3/mri/1.0"), 
-			Namespace.getNamespace("gco", "http://standards.iso.org/iso/19115/-3/gco/1.0")};
+	Namespace[] namespaces = {Namespaces2.MRI, Namespaces2.GCO};
 	
 	XMLOutputter out = new XMLOutputter();
 	org.jdom.output.XMLOutputter out1 = new org.jdom.output.XMLOutputter();
@@ -82,8 +75,4 @@ public class TransformManager implements ApplicationEventPublisherAware{
 		return e2;
 	}
 	
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-		this.applicationEventPublisher = applicationEventPublisher;
-	}
 }

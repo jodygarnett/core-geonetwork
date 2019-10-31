@@ -159,15 +159,15 @@ public class MetadataWorkflowApi {
         SchemaManager schemaManager = appContext.getBean(SchemaManager.class);
         DataManager dataManager = appContext.getBean(DataManager.class);
         
-        //Joseph added - Remove service record (associated resource) from dataset, if service record is Retired(3)/Rejected(5) 
-        if(status == 3 || status == 5){
+        //Remove service record (associated resource) from dataset, if service record is Retired(3)/Rejected(5) 
+        if(status == Geonet.WorkflowStatus.RETIRED || status == Geonet.WorkflowStatus.REJECTED){
         	
         	String schema = dataManager.getMetadataSchema(String.valueOf(metadata.getId()));
         	Element md = dataManager.getMetadata(String.valueOf(metadata.getId()));
         	String publishDate = new ISODate().toString();
         	
         	
-        	if(status == 3){//Joseph added - To update Keyword with Retired_Internal, if status Retired(3) - Start
+        	if(status == Geonet.WorkflowStatus.RETIRED){//To update Keyword with Retired_Internal, if status Retired(3) - Start
         		md = transMan.
                 		updatePublishKeyWord(md, "//mri:descriptiveKeywords/mri:MD_Keywords/mri:keyword[gco:CharacterString = '{}']", 
                 				Geonet.Transform.PUBLISH_KEYWORDS, "{}", Geonet.Transform.RETIRED_INTERNAL, false);

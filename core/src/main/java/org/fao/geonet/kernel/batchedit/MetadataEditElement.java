@@ -70,7 +70,9 @@ public class MetadataEditElement implements EditElement {
 				if(headerVal.equalsIgnoreCase(Geonet.EditType.MD_PARENT))
 					rootE = getMdparentElement(context, serContext, batchEdit, values);
 			} catch (BatchEditException e) {
-				report.getErrorInfo().add(e.getMessage());
+				List<String> errs = report.getErrorInfo();
+				errs.add(e.getMessage());
+				report.setErrorInfo(errs);
 			}
 
 			if (rootE != null) {
