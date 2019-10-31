@@ -1,33 +1,24 @@
-<div class="gn-facet-list">
-
-  <!--Collapse all button for first panel-->
-  <a class=""
-     href
-     data-ng-click="collapseAll()"
-     title="{{'collapseAllFacet' | translate}}">
-    <i class="fa fa-lg fa-caret-square-o-right"></i>
-  </a>
-  <a class=""
-     href
-     data-ng-click="expandAll()"
-     title="{{'expandAllFacet' | translate}}">
-    <i class="fa fa-lg fa-caret-square-o-down"></i>
-  </a>
-
-  <div data-ng-repeat="f in dimension"
-       data-ng-init="fLabel = f['@label'];fLvlCollapse[fLabel] = false"
-       class="gn-facet gn-facet-{{f['@label']}}"
-       data-ng-show="f.category">
-
-    <h4 data-gn-collapsible="fLvlCollapse[fLabel]">
-      <i class="fa fa-fw" data-ng-class="fLvlCollapse[fLabel] ? 'fa-arrow-circle-right' : 'fa-arrow-circle-down'"></i>
-      {{fLabel | translate}}
-    </h4>
-    <div data-gn-facet-dimension-category="f.category"
-         data-category-key="fLabel"
-         data-params="params"
-         data-facet-config="facetConfig"
-         data-ng-class="{'collapse': fLvlCollapse[fLabel]}">
-    </div>
+<div class="gn-new-facet">
+  <div data-ng-repeat="f in dimension track by $index" data-ng-init="fLabel = f['@label']" 
+  	class="gn-facet-{{f['@label']}}">
+  <h4 data-toggle="collapse" data-target="#group-{{$index}}">
+    {{fLabel | translate}}
+    <i class="fa fa-angle-double-down gn-facet-toggle fa-3 parent-expanded pull-right"></i>
+    <i class="fa fa-angle-double-up gn-facet-toggle fa-3 parent-collapsed pull-right"></i>
+  </h4>
+  <div data-ng-if="fLabel == 'types'" id="group-{{$index}}" class="collapse in">
+      <div data-gn-facet-dimension-category="f.category"
+        data-category-key="fLabel"
+        data-params="params"
+        data-facet-config="facetConfig">
+      </div>
   </div>
+<div data-ng-if="fLabel !== 'types'" id="group-{{$index}}" class="collapse">
+      <div data-gn-facet-dimension-category="f.category"
+        data-category-key="fLabel"
+        data-params="params"
+        data-facet-config="facetConfig">
+      </div>
+  </div>
+</div>
 </div>

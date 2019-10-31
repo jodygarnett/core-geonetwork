@@ -1654,6 +1654,10 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
         	sortBy = Geonet.SearchResult.SortBy.TITLE;
         }
         
+        if(sortBy.startsWith(Geonet.SearchResult.SortBy.PUBLICATION_DATE)){
+        	sortBy = Geonet.SearchResult.SortBy.PUBLICATION_DATE;
+        }
+        
         boolean sortOrder = (Util.getParam(request, Geonet.SearchResult.SORT_ORDER, "").equals(""));
         if (Log.isDebugEnabled(Geonet.SEARCH_ENGINE))
             Log.debug(Geonet.SEARCH_ENGINE, "Sorting by : " + sortBy);

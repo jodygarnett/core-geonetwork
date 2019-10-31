@@ -92,21 +92,31 @@
 
       var viewerMap = gnSearchSettings.viewerMap;
       var searchMap = gnSearchSettings.searchMap;
-
+      var recordMap = gnSearchSettings.recordMap;
 
       $scope.isArray = angular.isArray;
       $scope.modelOptions = angular.copy(gnGlobalSettings.modelOptions);
       $scope.modelOptionsForm = angular.copy(gnGlobalSettings.modelOptions);
       $scope.gnWmsQueue = gnWmsQueue;
       $scope.$location = $location;
-      $scope.activeTab = '/search';
+      $scope.activeTab = '/home';
       $scope.resultTemplate = gnSearchSettings.resultTemplate;
+      $scope.viewTemplates = gnSearchSettings.resultViewTpls;
       $scope.facetsSummaryType = gnSearchSettings.facetsSummaryType;
       $scope.location = gnSearchLocation;
+      $scope.states = {};
+      $scope.visible = true;
+      $scope.states.activeItem = $scope.viewTemplates[0].tooltip;
       $scope.toggleMap = function () {
         $(searchMap.getTargetElement()).toggle();
         $('button.gn-minimap-toggle > i').toggleClass('fa-angle-double-left fa-angle-double-right');
       };
+
+      $scope.changeView = function (index) {
+        $scope.states.activeItem = $scope.viewTemplates[index].tooltip;
+        $scope.resultTemplate = $scope.viewTemplates[index].tplUrl;        
+      };
+
       hotkeys.bindTo($scope)
         .add({
             combo: 'h',
@@ -154,12 +164,86 @@
       gnMdView.initMdView();
 
       $scope.getAsArray = function(values){
-	     if(angular.isArray(values)){
-	       return values;
-	     }else{
-	       return [values];          
-	     }
-	  }
+        if(angular.isArray(values)){
+          return values;
+        }else{
+          return [values];          
+        }
+      }
+
+      $scope.toggleAndTriggerSearch = function(){
+       var adv_opened = $('#adv-1').hasClass('in');
+        if(adv_opened === true){
+          $('#adv-1').collapse('toggle');
+        }
+        $scope.$broadcast('search');        
+      }
+      $scope.displayKeyword = function(thesaurus, keywords){
+        if(thesaurus.toLowerCase() === 'other' && keywords.length <= 1){
+          return false;
+        }
+        return true;
+      }
+      $scope.getKeywordTitle = function(title){
+        if(title.toLowerCase().indexOf('theme.anzrc') >= 0){
+          title = 'ANZRC Fields Of Research';
+        }       
+        return title;
+      }
+     
+      $scope.getBoundingBox = function(bbox) {
+        var bboxStr = '';
+        if(bbox){
+          var vals = bbox[0].split(',');
+          if(vals[0]){
+            bboxStr += parseFloat(vals[0].split(' ')[0]).toFixed(2) + ', ' + parseFloat(vals[0].split(' ')[1]).toFixed(2) + ', ';
+          }
+          if(vals[2]){
+            bboxStr += parseFloat(vals[2].split(' ')[0]).toFixed(2) + ', ' + parseFloat(vals[2].split(' ')[1]).toFixed(2);
+          }
+        }
+
+        return bboxStr;
+      }
+      $scope.getCitation = function(md){
+        if(md){
+          var citationUrl = '';
+          if(angular.isArray(md.author) && md.author.length > 0){
+            citationUrl = md.author.join(', ') + ' ';
+          }else{
+            if(md.author){
+              citationUrl = md.author + ' ';
+            }
+          }
+  
+          if(md.publicationDate){
+            var date = new Date(md.publicationDate);
+            citationUrl += date.getFullYear() + '. ';
+          }
+          
+          citationUrl += md.title + '. ';
+  
+          if(md.issueIdentification){
+            var rec = md.issueIdentification.toLowerCase().includes('record') ? '' : 'Record ';
+            citationUrl = citationUrl + rec + md.issueIdentification + '. ';
+          }
+  
+          citationUrl += 'Geoscience Australia, Canberra. ';
+          
+          if(md.DOI){
+            citationUrl += md.DOI;
+          }else if(md.PID){
+            citationUrl += md.PID;
+          }else{
+            var scope = md.type === 'service' ? 'service' : 'dataset';
+            citationUrl += "http://pid.geoscience.gov.au/" + scope + "/ga/" + md.eCatId;
+          }
+          
+          return citationUrl;
+        }
+        
+      }
+
       $scope.goToSearch = function (any) {
         $location.path('/search').search({'any': any});
       };
@@ -198,6 +282,9 @@
         }
       };
 
+      $scope.reloadMap = function(){
+        recordMap.updateSize();
+      }
       $scope.infoTabs = {
         lastRecords: {
           title: 'lastRecords',
@@ -257,7 +344,7 @@
 
       // Manage route at start and on $location change
       if (!$location.path()) {
-        $location.path('/search');
+        $location.path('/home');
       }
       $scope.activeTab = $location.path().
           match(/^(\/[a-zA-Z0-9]*)($|\/.*)/)[1];
@@ -284,9 +371,8 @@
             viewerMap.updateSize();
           }, 0);
         }
+
       });
-
-
 
       angular.extend($scope.searchObj, {
         advancedMode: false,
@@ -295,6 +381,7 @@
         selectionBucket: 's101',
         viewerMap: viewerMap,
         searchMap: searchMap,
+        recordMap: recordMap,
         mapfieldOption: {
           relations: ['within']
         },
@@ -308,5 +395,25 @@
         }
       }, gnSearchSettings.sortbyDefault);
 
-    }]);
+    }])
+    .filter('join', function () {
+      return function join(array, separator, prop) {
+          if (!Array.isArray(array)) {
+        return array; // if not array return original - can also throw error
+          }
+  
+          return (!!prop ? array.map(function (item) {
+              return item[prop];
+          }) : array).join(separator);
+      };
+  })
+  .filter('replace', [function () {
+    return function (input, from, to) {
+      if(input === undefined) {
+        return;
+      }
+      var regex = new RegExp(from, 'g');
+      return input.replace(regex, to);
+    };
+  }]);
 })();

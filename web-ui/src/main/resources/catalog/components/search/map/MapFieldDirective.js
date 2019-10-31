@@ -86,27 +86,104 @@
         }
       ])
 
-      .directive('gnDrawBboxBtn', [
-        'ngeoDecorateInteraction',
-        '$parse',
-        '$translate',
-        'gnSearchSettings',
-        'gnMap',
-        function(ngeoDecorateInteraction, $parse, $translate,
-                 gnSearchSettings) {
-          return {
-            restrict: 'A',
-            scope: true,
-            controller: ['$scope', function($scope) {
-              var dragbox = new ol.interaction.DragBox({
-                style: gnSearchSettings.olStyles.drawBbox
-              });
-              ngeoDecorateInteraction(dragbox, $scope.map);
-              dragbox.active = false;
-              $scope.map.addInteraction(dragbox);
-              $scope.interaction = dragbox;
-            }],
-            link: function(scope, element, attrs) {
+    .directive('gnMapView', [
+      'gnMap',
+      function (gnMap) {
+        return {
+          restrict: 'A',
+          scope: true,
+          templateUrl: '../../catalog/components/search/map/' +
+            'partials/mapview.html',
+          compile: function compile(tElement, tAttrs, transclude) {
+            return {
+              pre: function preLink(scope, iElement, iAttrs, controller) {
+
+                scope.map = scope.$eval(iAttrs['gnMapView']);
+
+                var raster = new ol.layer.Tile({
+                  source: new ol.source.OSM()
+                });
+
+                var styles = [
+                  new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                      color: 'blue',
+                      width: 3
+                    }),
+                    fill: new ol.style.Fill({
+                      color: 'rgba(0, 0, 255, 0.1)'
+                    })
+                  })
+                ];
+
+                scope.$on('$locationChangeSuccess', function (event) {
+                                
+                  if (scope.md && scope.md.geoBox) {
+
+                    var features = [];
+                    angular.forEach(scope.md.geoBox, function (value, key) {
+                      var wkt = 'Polygon((' + value + '))'
+                      var format = new ol.format.WKT();
+
+                      var feature = format.readFeature(wkt, {
+                        dataProjection: 'EPSG:4326',
+                        featureProjection: 'EPSG:3857'
+                      });
+
+                      features.push(feature);
+                    });
+
+
+
+                    var vector = new ol.layer.Vector({
+                      source: new ol.source.Vector({
+                        features: features
+                      }),
+                      style: styles
+                    });
+
+                    if (scope.map.getLayers()) {
+                      var len = scope.map.getLayers().getLength();
+                      scope.map.getLayers().clear();
+                    }
+                    scope.map.getView().setCenter([14988995.498610, -2856910.369187]);
+                    scope.map.getView().setZoom(3);
+                    scope.map.addLayer(raster);
+                    scope.map.addLayer(vector);
+
+                  }
+
+
+                });
+
+              }
+            };
+          }
+        };
+      }
+    ])
+
+    .directive('gnDrawBboxBtn', [
+      'ngeoDecorateInteraction',
+      '$parse',
+      '$translate',
+      'gnSearchSettings',
+      'gnMap',
+      function (ngeoDecorateInteraction, $parse, $translate,
+        gnSearchSettings) {
+        return {
+          restrict: 'A',
+          scope: true,
+          controller: ['$scope', function ($scope) {
+            var dragbox = new ol.interaction.DragBox({
+              style: gnSearchSettings.olStyles.drawBbox
+            });
+            ngeoDecorateInteraction(dragbox, $scope.map);
+            dragbox.active = false;
+            $scope.map.addInteraction(dragbox);
+            $scope.interaction = dragbox;
+          }],
+          link: function (scope, element, attrs) {
 
               var parent = scope.$parent.$parent;
 

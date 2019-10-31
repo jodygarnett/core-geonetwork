@@ -479,10 +479,10 @@
           <Field name="revisionDate"
                  string="{string(gco:Date[.!='']|gco:DateTime[.!=''])}"
                  store="true" index="true"/>
-          <Field name="createDateMonth"
+          <Field name="revisionDateMonth"
                  string="{substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 8)}"
                  store="true" index="true"/>
-          <Field name="createDateYear"
+          <Field name="revisionDateYear"
                  string="{substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 5)}"
                  store="true" index="true"/>
           <xsl:if test="$useDateAsTemporalExtent">
@@ -514,6 +514,12 @@
         <xsl:for-each select="cit:date/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode/@codeListValue='publication']/cit:date">
           <Field name="publicationDate"
                  string="{string(gco:Date[.!='']|gco:DateTime[.!=''])}"
+                 store="true" index="true"/>
+          <Field name="publicationDateMonth"
+                 string="{substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 8)}"
+                 store="true" index="true"/>
+          <Field name="publicationDateYear"
+                 string="{substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 5)}"
                  store="true" index="true"/>
           <xsl:if test="$useDateAsTemporalExtent">
             <Field name="tempExtentBegin"
