@@ -171,6 +171,14 @@
         }
       }
 
+      $scope.isAvailable = function(item){
+        if(item){
+          return true;
+        }
+
+        return false;
+      }
+
       $scope.toggleAndTriggerSearch = function(){
        var adv_opened = $('#adv-1').hasClass('in');
         if(adv_opened === true){
