@@ -1,27 +1,7 @@
-<div class="gn-nav">
-  <div class=container-fluid>
-    <div class="row">
-      <div class="col-md-3">
-          <a data-gn-active-tb-item="http://www.ga.gov.au/"
-          title="Navigate to the Geoscience Australia home page">
-          <img class="gn-logo" data-ng-src="../../catalog/views/default/images/ga.header.logo.png" />
-        </a>
-      </div>
-      <div class="title-lg col-md-4">
-          <a data-gn-active-tb-item="catalog.search#/home" title="eCat Home Page">
-            Data and Publications
-          </a>
-      </div>
-      <div class="col-md-1 pull-right">
-        <div data-ng-include="'../../catalog/templates/userInfo.html'" />      
-    </div>
-  </div>
-</div>
 
-<div class="ga-line"></div>
-<!--<div class="navbar navbar-custom gn-top-bar" role="navigation"
-    data-ng-include="'../../catalog/templates/top-toolbar.html'" xmlns="http://www.w3.org/1999/html">
-  </div>-->
+<div class="gn-nav" role="navigation"
+  data-ng-include="'../../catalog/templates/top-toolbar.html'" xmlns="http://www.w3.org/1999/html">
+</div>
 
 <div class="gn-search-page" data-ng-controller="GnSearchController">
   <cookiewarning></cookiewarning>

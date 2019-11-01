@@ -119,9 +119,7 @@
                     </div>
                     </div>
                   </div>
-
-
-</li>
+                </li>
               </ul>
             </div>
           </div>
@@ -131,20 +129,7 @@
     </div>
 
     <div class="col-sm-2">
-      <div class="user-menu">
-        <div class="user-menu-item" data-ng-show="authenticated && user.isEditorOrMore()">
-          <a data-gn-active-tb-item="catalog.edit" title="Manage my records" href="">
-            <i class="fa fa-plus"></i>
-            <span><label>MANAGE</label></span>
-          </a>
-        </div>
-        <div class="user-menu-item" data-ng-show="user.isUserAdminOrMore()">
-          <a data-gn-active-tb-item="admin.console" title="{{'adminConsole' | translate}}" href="">
-            <i class="fa fa-th"></i>
-            <span><label>ADMIN CONSOLE</label></span>
-          </a>
-        </div>
-      </div>
+        <div data-ng-include="'../../catalog/templates/user-menu.html'" />
     </div>
   </div>
 
