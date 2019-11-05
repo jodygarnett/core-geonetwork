@@ -2,9 +2,8 @@
   <div class="row">
     <div class="col-sm-10">
       <div class="new-filter">
-        <a data-ng-click="visible=!visible;">
-          <img data-ng-class="visible ? 'flipN': 'flipP'"
-            data-ng-src="../../catalog/views/default/images/icons8-slider-30.png" alt="icon" />
+        <a data-gn-active-tb-item="catalog.search#/home" title="eCat Home Page">
+          <i class="fa fa-home fa-5" aria-hidden="true"></i>
         </a>
 
         <div class="sb_container_outer">
@@ -20,9 +19,7 @@
                     class="form-control" 
                     data-typeahead-min-length="1" 
                     data-typeahead-focus-first="false" />
-            <button type="button" class="btn-md btn-adv" data-toggle="collapse" data-target="#adv-1">
-              <label>Advanced</label>
-            </button>
+            <button type="button" class="btn-md btn-adv" data-toggle="collapse" data-target="#adv-1">Advanced</button>
             <button type="button" data-ng-click="triggerSearch()" class="btn btn-md">
               &nbsp;<i class="fa fa-search"></i>&nbsp;
             </button>
@@ -40,6 +37,13 @@
 
       </div>
 
+      <div data-ng-class="visible ? 'arr-right': 'arr-left'" class="hidden-xs hidden-sm">
+          <a href="" data-ng-click="visible=!visible;">
+              <i data-ng-if="visible" class="fa fa-long-arrow-left" aria-hidden="true" />
+              <i data-ng-if="!visible" class="fa  fa-long-arrow-right" aria-hidden="true" />
+          </a>
+      </div>      
+      
       <div class="content-wrapper">
         <div data-ng-show="searchResults.records.length > 0" class="bg-light border-right menu hidden-xs hidden-sm"
  ng-class="{'is-visible':visible}">
@@ -50,6 +54,7 @@
 
         <div id="page-content-wrapper">
           <div class="container">
+            <span class="loading fa fa-spinner fa-spin" data-ng-show="searching"></span>
             <div class="row result-selection">
               <div class="hidden-xs col-md-3">
                 <div data-gn-selection-widget="" data-results="searchResults"></div>

@@ -80,13 +80,8 @@
         }
       };
 
-      $scope.authorOptions = {
-        mode: 'remote',
-        remote: {
-          url: suggestService.getUrl('QUERY', 'author', 'STARTSWITHFIRST'),
-          filter: suggestService.bhFilter,
-          wildcard: 'QUERY'
-        }
+      $scope.getAuthorSuggestions = function(val) {
+        return suggestService.getAuthorSuggestions(val);
       };
 
       $scope.orgNameOptions = {
