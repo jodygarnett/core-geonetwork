@@ -1,4 +1,8 @@
-<div class="pull-right"><button class="adv-close" data-toggle="collapse" data-target="#adv-1">×</button></div>
+<div class="row">
+    <div class="pull-right">
+        <button type="button" class="adv-close" data-toggle="collapse" data-target="#adv-1"><i class="fa fa-times"></i></button>
+    </div>                
+</div>
 <div class="col-md-8 col-sm-12">
     <form>
         <h4>Advanced Search</h4>
@@ -32,8 +36,15 @@
                     <div class="search-input">
                         <label class="col-sm-1 control-label" data-translate="">author</label>
                         <div class="col-sm-5">
-                            <input type="search" value="" class="form-control" gn-typeahead="authorOptions" data-ng-keyup="toggleAndTriggerSearch()" 
-                                gn-values="searchObj.params.author" />                            
+                            <!--<input type="search" value="" class="form-control" gn-typeahead="authorOptions"
+                                gn-values="searchObj.params.author" data-ng-select="resetAuthor()" />-->
+
+                                <input type="search"
+                                        class="form-control"
+                                        data-ng-model="searchObj.params.author"
+                                        data-typeahead="author for author in getAuthorSuggestions($viewValue)"
+                                        class="form-control"
+                                        data-typeahead-min-length="1" />
                         </div>
                     </div>
                 </div>
@@ -107,29 +118,25 @@
     <br>
     <div>
         <h6>Title / Keywords / eCatIDs</h6>
-        <p>
-            <i>Title:</i> Search phrase results records that contain any word within the title .<br>
-            <i>Keywords:</i>To find more keyword list, start typing the keyword.<br>
-            <i>eCatIDs:</i> For more eCat records, provide eCatIDs seperated by comma.<br>
-        </p>
+        <p><i>Title:</i> Search phrase results records that contain any word within the title .</p>
+        <p><i>Keywords:</i>To find more keyword list, start typing the keyword.</p>
+        <p><i>eCatIDs:</i> For more eCat records, provide eCatIDs seperated by comma.</p>
     </div>
     <br>
     <div>
-        <h6>Author / Owner</h6>
-        <p>
-            <i>Author:</i>To find more author list, start typing the author name. Multiple author name search returns empty result.            
-            <i>Owner:</i> This predictive search provide the owner who created the record.
+        <h6>Author <label data-ng-if="isIntranet && user.isAdministrator()">/ Owner</label></h6>
+        <p><i>Author:</i> Type atleast one character to get the author names.</p>
+        <p data-ng-if="isIntranet && user.isAdministrator()"><i>Owner:</i> This predictive search provide the owner who created the record.
         </p>
     </div>
     <br>
     <div data-ng-if="isIntranet || user.isAdministrator()">
         <h6>Status / Kind</h6>
-        <p>
-            This search is only for internal GA users.<br>
-            <i>Status:</i> Search records based on the workflow status of metadata.<br>            
-            <i>Kind:</i> This option provides the user to select between metadata and template.<br>
-        </p>
+        <p>This search is only for internal GA users.</p>
+        <p><i>Status:</i> Search records based on the workflow status of metadata.</p>         
+        <p><i>Kind:</i> This option provides the user to select between metadata and template.</p><br>
     </div>
+    
     <div>
         <h6>Creation Date / Publication Date / Temporal Extent Period</h6>
         <p>To search for a Records created or Published or temporal extent period within a date range choose the 'From' and 'To' option.

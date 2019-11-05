@@ -1429,6 +1429,11 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
         	eCatId.setText(eCatId.getText().replace(",", " or "));
         }
         
+        Element keyword = request.getChild(Geonet.SearchResult.KEYWORD);
+        if (keyword != null) {
+        	keyword.setText(keyword.getText() + "*");
+        }
+        
         _summaryConfig = _luceneConfig.getSummaryTypes().get(resultType);
 
         final Element summaryItemsEl = request.getChild(Geonet.SearchResult.SUMMARY_ITEMS);
