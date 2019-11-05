@@ -1069,6 +1069,7 @@ button.searchbutton {
 .gn-new-facet {
   //padding-left:5px;
   width: @sidebar-width;
+  padding-top: 10px;
   h4{
     font-size: 12px;    
     font-weight: 600;
@@ -1177,9 +1178,7 @@ button.searchbutton {
     margin-left:0;
     box-shadow: 0;
   }
-  .new-filter{
-    display: none;
-  }
+ 
   .sb_container_outer {
     width: 100% !important;
     margin-left: 0 !important;
@@ -1190,6 +1189,11 @@ button.searchbutton {
 
   .homepage-slide-color-black .carousal-item {
     margin-top: 0;
+  }
+
+  .pagination > li > a {
+    padding: 3px 6px !important;
+    border: 0 !important;
   }
 }
 
@@ -1210,6 +1214,10 @@ and (orientation : landscape) {
 
   .result-selection {
     width: 80%;   
+  }
+
+  .pagination > li > a {
+    border: 0 !important;
   }
 }
 
@@ -1428,4 +1436,21 @@ and (max-device-width : 1900px) {
 .useractions{
   display: inline-flex;
   width: 100%;
+}
+
+.arr-right{
+  position: absolute;
+  margin-top:1%;
+  z-index: 9999;
+  a {
+    color: #fff;
+  }
+}
+
+.arr-left{
+  position: absolute;
+  margin-top:1%;
+  a {
+    color: #414141;
+  }
 }

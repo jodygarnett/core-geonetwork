@@ -484,6 +484,8 @@ public final class Geonet {
          */
         public static final String ECAT_ID = "eCatId";
         
+        public static final String KEYWORD = "keyword";
+        
         /**
          * Attrset used in Z39.50 search
          */

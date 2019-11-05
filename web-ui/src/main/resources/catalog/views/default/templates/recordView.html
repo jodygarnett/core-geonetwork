@@ -312,7 +312,7 @@
                 <p>{{mdView.current.record.vertExtentRef}}</p>
               </div>
             </div>
-            <div class="row tab-items">
+            <div class="row tab-items" data-ng-if="::mdView.current.record.geoBox">
               <div class="col-md-3"><b>Spatial Extent</b></div>
               <div class="col-md-9">
                 <!--<p data-ng-repeat="bbox in mdView.current.record.geoBox">
