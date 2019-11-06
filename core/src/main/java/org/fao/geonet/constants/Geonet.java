@@ -560,6 +560,7 @@ public final class Geonet {
              */
             public static final String TITLE = "title";
             public static final String SCALE_DENOMINATOR = "denominator";
+            public static final String ECATID = "eCatId";
         }
     }
 
