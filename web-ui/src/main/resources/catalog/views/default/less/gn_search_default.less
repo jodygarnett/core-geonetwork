@@ -1094,7 +1094,7 @@ button.searchbutton {
 }
 
 /******************************************************************************/
-/************************** Thumbnail List ************************************/
+/************************** Record List ************************************/
 /******************************************************************************/
 
 #page-content-wrapper {
@@ -1156,7 +1156,7 @@ button.searchbutton {
     }
 }
 
-@media only screen and (max-device-width: 767px) {
+@media only screen and (max-width: 767px) {
   .content-wrapper{
     width: 100%;    
   }
@@ -1198,8 +1198,8 @@ button.searchbutton {
 }
 
 @media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
+and (min-width : 768px) 
+and (max-width : 1024px) 
 and (orientation : landscape) { 
   .menu.is-visible{
     width: 25%;
@@ -1216,15 +1216,20 @@ and (orientation : landscape) {
     width: 80%;   
   }
 
+  .default-list-group {
+    width: 78%;
+  }
+
   .pagination > li > a {
+    padding: 3px 8px !important;
     border: 0 !important;
   }
 }
 
 
 @media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
+and (min-width : 768px) 
+and (max-width : 1024px) 
 and (orientation : portrait) {
 
   .content-wrapper{
@@ -1243,16 +1248,54 @@ and (orientation : portrait) {
   .flipN, .flipP {
     display: none;
   }
+
+  .result-selection {
+    width: 80%;   
+  }
+
+  .default-list-group {
+    width: 78%;
+  }
+
+  .pagination > li > a {
+    padding: 3px 8px !important;
+    border: 0 !important;
+  }
   
 }
 
 @media only screen 
-and (min-device-width : 1025px) 
-and (max-device-width : 1900px) {
-
-  .menu.is-visible{
-    width: 25%;
+and (min-width : 1025px) 
+and (max-width : 1400px) {
+  
+  .gn-new-facet {
+    width: auto;
   }
+
+  ul.gn-resultview li.list-group-item {
+    padding-left: 5%;
+    width: 90%;
+  }
+  .result-selection {
+    width: 80%;
+    margin-left: 4%;    
+  }
+
+  .default-list-group {
+    width: 88%;
+  }
+
+  .sb_container_outer {
+    width: 100%;
+    margin-left: 27%;
+  }
+
+}
+
+@media only screen 
+and (min-width : 1401px) 
+and (max-width : 1900px) {
+
   .gn-new-facet {
     width: auto;
   }
@@ -1268,13 +1311,14 @@ and (max-device-width : 1900px) {
 
   .sb_container_outer {
     width: 100%;
-    margin-left: 26%;
+    margin-left: 27%;
   }
+
 }
 
 
 /******************************************************************************/
-/************************** ResultView / Landing Page *************************/
+/************************** RecordView / Landing Page *************************/
 /******************************************************************************/
 
 /* Large devices (large desktops, 1200px and up) */
@@ -1440,7 +1484,7 @@ and (max-device-width : 1900px) {
 
 .arr-right{
   position: absolute;
-  margin-top:1%;
+  margin-top:15px;
   z-index: 9999;
   a {
     color: #fff;
@@ -1449,7 +1493,7 @@ and (max-device-width : 1900px) {
 
 .arr-left{
   position: absolute;
-  margin-top:1%;
+  margin-top:15px;
   a {
     color: #414141;
   }
