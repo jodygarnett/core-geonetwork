@@ -340,7 +340,7 @@
                   No associations found.
                 </p>
                 <p data-ng-repeat="association in getAsArray(mdView.current.record.Associations)">
-                  {{association.split('-')[1]}}<br><a href="{{association.split('-')[3]}}">
+                  {{association.split('-')[1]}}<br><a href="catalog.search#/metadata/{{association.split('-')[3]}}">
                     {{association.split('-')[3]}}</a><br>{{association.split('-')[0]}}
                 </p>
               </div>
