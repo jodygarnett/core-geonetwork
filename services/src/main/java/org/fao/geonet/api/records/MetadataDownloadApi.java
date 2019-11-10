@@ -16,9 +16,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ForkJoinPool;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.transform.stream.StreamResult;
 
 import org.fao.geonet.api.API;
@@ -47,10 +47,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.async.DeferredResult;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -62,10 +59,8 @@ import jeeves.server.context.ServiceContext;
 @PreAuthorize("permitAll")
 @RestController
 public class MetadataDownloadApi implements ApplicationContextAware {
-	// private static final String SAMPLE_CSV_FILE = "./sample.csv";
+
 	private ApplicationContext appContext;
-	boolean isDone = false;
-	
 
 	public synchronized void setApplicationContext(ApplicationContext context) {
 		this.appContext = context;
@@ -77,30 +72,31 @@ public class MetadataDownloadApi implements ApplicationContextAware {
 			@ApiParam(value = ApiParams.API_PARAM_BUCKET_NAME, required = false) @RequestParam(required = false) String bucket,
 			@RequestParam String[] exportParams, HttpServletRequest request) throws Exception {
 
-		isDone = false;
 		ServiceContext context = ApiUtils.createServiceContext(request);
 
 		Map<String, Object> mapParams = new HashMap<String, Object>();
 		for (String param : exportParams) {
 			mapParams.put(param, true);
 		}
-
+		String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 		// return prepareCsv(context, appContext, bucket, mapParams);
-		Path csvPath = Files.createTempFile("metadatas", ".csv");
+		Path csvPath = Files.createTempFile(sessionId + "metadatas", ".csv");
 		Runnable task = () -> {
-			prepareCsv(context, appContext, bucket, mapParams, csvPath);
+			prepareCsv(context, appContext, bucket, mapParams, csvPath, request.getSession());
 		};
 
 		// start the thread
 		new Thread(task).start();
 		
-		return csvPath.toFile().getAbsolutePath();
+		return csvPath.toFile().getName();
 
 	}
 
 	public void prepareCsv(ServiceContext srvContext, ApplicationContext context, String bucket,
-			Map<String, Object> exportParams, Path csvPath) {
+			Map<String, Object> exportParams, Path csvPath, HttpSession session) {
 
+		boolean isDone = false;
+		session.setAttribute(Geonet.CSV_DOWNLOAD_STATUS, isDone);
 		/*exportParams.entrySet().iterator().forEachRemaining(ep -> {
 			Log.debug(Geonet.SEARCH_ENGINE, "export params values --> " + ep.getKey() + ": " + ep.getValue());
 		});*/
@@ -172,21 +168,28 @@ public class MetadataDownloadApi implements ApplicationContextAware {
 			Log.error(Geonet.SCHEMA_MANAGER, "     Download csv compilation failed, Error is " + e.getMessage());
 		} finally {
 			isDone = true;
+			session.setAttribute(Geonet.CSV_DOWNLOAD_STATUS, isDone);
 		}
 		
 	}
 
 	@RequestMapping(value = "/download/status", method = RequestMethod.GET)
 	public boolean downloadCSVStatus(HttpServletRequest request) throws Exception {
-		return isDone;
+		return (boolean) request.getSession().getAttribute(Geonet.CSV_DOWNLOAD_STATUS);
+		
 	}
 
 	@RequestMapping(value = "/download/csv", method = RequestMethod.GET, produces = "text/csv")
-	public ResponseEntity<Object> downloadCSV(@RequestParam String filepath, HttpServletRequest request) throws Exception {
+	public ResponseEntity<Object> downloadCSV(@RequestParam String filename, HttpServletRequest request) throws Exception {
 
 		try {
-			Path csvPath = Paths.get(filepath);
+			String tempDir = System.getProperty("java.io.tmpdir");
+			Path csvPath = Paths.get(tempDir + File.separator +filename);
+			String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 			
+			if(!filename.contains(sessionId)){
+				return new ResponseEntity<>("Not authorised to download", HttpStatus.UNAUTHORIZED); 
+			}
 			Log.debug(Geonet.SEARCH_ENGINE,
 					"CSV MetadataDownloadApi, downloadCSV --> file.getAbsolutePath(): " + csvPath);
 			

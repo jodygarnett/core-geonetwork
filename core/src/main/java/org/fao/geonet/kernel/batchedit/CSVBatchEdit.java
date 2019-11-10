@@ -69,16 +69,12 @@ import jeeves.server.context.ServiceContext;
  * This class updates the records by processing the data given in csv.
  *
  */
-public class CSVBatchEdit implements ApplicationEventPublisherAware {
-
-	private ApplicationEventPublisher applicationEventPublisher;
-	Map<String, XPath> xpathExpr = new HashMap<>();
-	List<BatchEditReport> reports = new ArrayList<>();
+public class CSVBatchEdit {
 	
-	LuceneIndexLanguageTracker tracker;
-	IndexAndTaxonomy indexAndTaxonomy;
-	IndexSearcher searcher;
-	LuceneConfig luceneConfig;
+	private LuceneIndexLanguageTracker tracker;
+	private IndexAndTaxonomy indexAndTaxonomy;
+	private IndexSearcher searcher;
+	private LuceneConfig luceneConfig;
 
 	public CSVBatchEdit(ApplicationContext context) {
 	
@@ -109,6 +105,7 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 			XPath _xpath, Document metadata, List<BatchEditParam> listOfUpdates, String mode) {
 
 		BatchEditReport report = new BatchEditReport();
+		
 		final SchemaManager schemaManager = context.getBean(SchemaManager.class);
 		String headerVal = header.getKey();
 		EditElement editElement = EditElementFactory.getElementType(headerVal);
@@ -121,6 +118,9 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 		}
 			
 		if(StringUtils.isNotEmpty(csvr.get(headerVal).trim())){
+			
+			List<String> errs = report.getErrorInfo();
+			
 			if(editElement != null){
 				
 				if(checkDependencies(headerVal, csvr) && mode.equals("remove")){
@@ -137,7 +137,7 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 						
 					} catch (Exception e) {
 						//Log.error(Geonet.SEARCH_ENGINE, "Unable to remove existing element for eCatId/UUID " + id +" for the value " + csvr.get(headerVal) +", " + e.getLocalizedMessage());
-						report.getErrorInfo().add("Unable to remove existing element for the value " + csvr.get(headerVal) +", " + e.getMessage());
+						errs.add("Unable to remove existing element for the value " + csvr.get(headerVal) +", " + e.getMessage());
 					}
 				}
 				
@@ -154,7 +154,7 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 					}
 				} catch (Exception e) {
 					//Log.error(Geonet.SEARCH_ENGINE, "Unable to set the attribute for eCatId/UUID " + id +" for the value " + csvr.get(headerVal) +", " + e.getMessage());
-					report.getErrorInfo().add("Unable to set the attribute for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
+					errs.add("Unable to set the attribute for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
 				}
 			} else {
 				try {
@@ -169,18 +169,13 @@ public class CSVBatchEdit implements ApplicationEventPublisherAware {
 					}
 				} catch (Exception e) {
 					//Log.error(Geonet.SEARCH_ENGINE, "Unable to set text for eCatId/UUID " + id +" for the value " + csvr.get(headerVal) +", " + e.getLocalizedMessage());
-					report.getErrorInfo().add("Unable to set text for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
+					errs.add("Unable to set text for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
 				}	
 			}
+			report.setErrorInfo(errs);
 		}
 		
 		return report;
-	}
-
-	
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-		this.applicationEventPublisher = applicationEventPublisher;
 	}
 	
 	/**

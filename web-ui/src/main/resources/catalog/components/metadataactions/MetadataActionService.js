@@ -246,7 +246,7 @@
 				  if (!isCompleted) {
 					$timeout(checkIsCompleted, 1000);
 				  }else{
-					  return $http.get('../api/records/download/csv?filepath=' +  encodeURIComponent(scope.fileloc)).success(function(response) {
+					  return $http.get('../api/records/download/csv?filename=' +  encodeURIComponent(scope.fileloc)).success(function(response) {
 								saveFile(response);
 						})
 						.error(function(err){
@@ -503,36 +503,7 @@
             });
         return defer.promise;
       };
-      
-      this.getCitation = function(md){
-        var citationUrl = '';
-        if(angular.isArray(md.author) && md.author.length > 0){
-          citationUrl = md.author.join(', ') + ' ';
-        }else{
-          if(md.author){
-            citationUrl = md.author + ' ';
-          }
-        }
 
-        if(md.publicationDate){
-          var date = new Date(md.publicationDate);
-          citationUrl += date.getFullYear() + '. ';
-        }
-        
-        citationUrl += md.title + '. ';
-
-        if(md.issueIdentification){
-          citationUrl = citationUrl + 'Record ' + md.issueIdentification + '. ';
-        }
-
-        citationUrl += 'Geoscience Australia, Canberra. ';
-        
-        if(md.DOI){
-          citationUrl += md.DOI;
-        }
-
-        gnUtilityService.getPermalink(md.title || md.defaultTitle, citationUrl);
-      };
       /**
        * Get html formatter link for the given md
        * @param {Object} md

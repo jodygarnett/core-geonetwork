@@ -163,7 +163,7 @@
                    <gco:CharacterString></gco:CharacterString>
                 </mcc:code>
                 <mcc:codeSpace>
-                   <gco:CharacterString>Digital Obejct Identifier</gco:CharacterString>
+                   <gco:CharacterString>Digital Object Identifier</gco:CharacterString>
 				</mcc:codeSpace>
 			</mcc:MD_Identifier>
 			</cit:identifier>
@@ -188,17 +188,6 @@
       <mri:status>
         <mcc:MD_ProgressCode codeList="codeListLocation#MD_ProgressCode" codeListValue=""/>
       </mri:status>
-      <mri:spatialRepresentationType>
-        <mcc:MD_SpatialRepresentationTypeCode codeList="codeListLocation#MD_SpatialRepresentationTypeCode"
-          codeListValue=""/>
-      </mri:spatialRepresentationType>
-      <mri:spatialResolution>
-        <mri:MD_Resolution>
-          <mri:levelOfDetail>
-        		<gco:CharacterString/>
-          </mri:levelOfDetail>
-        </mri:MD_Resolution>
-      </mri:spatialResolution>
 	         <mri:pointOfContact>
             <cit:CI_Responsibility>
                <cit:role>
@@ -266,6 +255,17 @@
                </cit:party>
             </cit:CI_Responsibility>
          </mri:pointOfContact>
+            <mri:spatialRepresentationType>
+        <mcc:MD_SpatialRepresentationTypeCode codeList="codeListLocation#MD_SpatialRepresentationTypeCode"
+          codeListValue=""/>
+      </mri:spatialRepresentationType>
+      <mri:spatialResolution>
+        <mri:MD_Resolution>
+          <mri:levelOfDetail>
+        		<gco:CharacterString/>
+          </mri:levelOfDetail>
+        </mri:MD_Resolution>
+      </mri:spatialResolution>
       <mri:topicCategory>
         <mri:MD_TopicCategoryCode>geoscientificInformation</mri:MD_TopicCategoryCode>
       </mri:topicCategory>

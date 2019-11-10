@@ -1,10 +1,11 @@
 <div class="gn-related-resources"
      data-ng-if="relationFound">
-  <h2>{{::title}}</h2>
-
+  <!--<h2>{{::title}}</h2>-->
+  <div class="subheader" data-ng-if="relations.onlines.length > 0">Download and Links</div>
   <div class=""
        data-ng-repeat="(type, items) in relations track by $index"
        data-ng-if="type && type !== 'thumbnails'">
+    
     <div class="row list-group-item gn-related-item"
          data-ng-repeat="r in items track by $index"
          data-ng-init="mainType = config.getType(r, type);"
@@ -15,71 +16,65 @@
              data-ng-class="config.getClassIcon(mainType)">&nbsp;</i>
         </strong>
       </div>
-      <div class="col-xs-7">
+      <div class="col-xs-10 col-sm-7">
         <!-- WMS & WFS contains layer name in title -->
-        <h4 data-ng-if="mainType !== 'WMS' &&
+        <p title="{{::(r.title | gnLocalized: lang)}}" data-ng-if="mainType !== 'WMS' &&
                       mainType !== 'WCS' &&
                       mainType !== 'LINKDOWNLOAD' &&
                       mainType !== 'LINK' &&
+                      mainType !== 'FILE' &&
                       r.protocol !== 'OGC:WFS' ">
-          {{::(r.title | gnLocalized: lang) || r.url}}
-        </h4>
+          {{::(r.title | gnLocalized: lang | characters:50) || r.url}}
+        </p>
         <!-- Display description if available -->
-        <h4 data-ng-if="(mainType === 'WMS' ||
+        <p data-ng-if="(mainType === 'WMS' ||
                        mainType === 'WCS' ||
                        mainType.indexOf('LINK') === 0 ||
                        r.protocol === 'OGC:WFS') &&
                        r.description.length > 0">
-          {{::r.description | gnLocalized: lang | striptags | characters:150}}
-        </h4>
+          {{::r.description | gnLocalized: lang | striptags | characters:50}}
+      </p>
 
-        <p class="text-muted"
-           data-ng-if="mainType.indexOf('MD') == 0">
-          {{::r.title | gnLocalized: lang | striptags | characters:150}}
+        <p data-ng-if="mainType.indexOf('MD') == 0">
+          {{::r.title | gnLocalized: lang | striptags | characters:50}}
         </p>
-        <p class="text-muted"
-           data-ng-if="mainType === 'WMS'">
+        <p data-ng-if="mainType === 'WMS'">
         <span data-translate=""
-              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang}}'}">
+              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
           wmsLinkDetails</span>
         </p>
-        <p class="text-muted"
-           data-ng-if="r.protocol === 'OGC:WFS'">
+        <p data-ng-if="r.protocol === 'OGC:WFS'">
         <span data-translate=""
-              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang}}'}">
+              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
           wfsLinkDetails</span>
         </p>
-        <p class="text-muted"
-           data-ng-if="mainType === 'WCS'">
+        <p data-ng-if="mainType === 'WCS'">
         <span data-translate=""
-              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang}}'}">
+              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
           wcsLinkDetails</span>
         </p>
 
-        <p class="text-muted"
-           data-ng-if="mainType === 'DB'">
+        <p data-ng-if="mainType === 'DB'">
         <span data-translate=""
-              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang}}'}">
+              data-translate-values="{url:'{{r.url}}', layer:'{{r.title | gnLocalized: lang | characters:50}}'}">
           databaseLayerDetails</span>
         </p>
-        <p class="text-muted"
-           data-ng-if="mainType === 'FILE'">
+        <p data-ng-if="mainType === 'FILE'">
         <span data-translate=""
-              data-translate-values="{url:'{{r.url}}', name:'{{r.title | gnLocalized: lang}}'}">
+              data-translate-values="{url:'{{r.url}}', name:'{{r.title | gnLocalized: lang | characters:50}}'}">
           fileLayerDetails</span>
           <input class="form-control"
                  type="text"
                  onClick="this.setSelectionRange(0, this.value.length)"
                  value="{{::r.url}}"/>
         </p>
-        <p class="text-muted" title="{{::(r.title | gnLocalized: lang) || (r.description | gnLocalized: lang) || r.url}}"
+        <p title="{{::(r.title | gnLocalized: lang) || (r.description | gnLocalized: lang) || r.url}}"
            data-ng-if="mainType === 'LINKDOWNLOAD' || mainType === 'LINK'">
-          {{::((r.title | gnLocalized: lang) || (r.description | gnLocalized: lang) || r.url)}}
+          {{::((r.title | gnLocalized: lang | characters:50) || (r.description | gnLocalized: lang | characters:50) || (r.url | characters:50))}}
         </p>
       </div>
-       <div class="col-xs-4" data-ng-if="mainType != 'FILE'">
-        <button type="button"
-                title="{{::r.url}}"
+       <div class="col-xs-12 col-sm-4" data-ng-if="mainType != 'FILE'">
+        <button type="button" title="{{r.url}}"
                 data-ng-class="getClass(r.title)"
                 data-ng-show="hasAction(mainType)"
                 data-ng-click="config.doAction(mainType, r, md)">

@@ -21,26 +21,26 @@
  * Rome - Italy. email: geonetwork@osgeo.org
  */
 
-(function() {
+(function () {
 
   goog.provide('gn_search_default_directive');
 
   var module = angular.module('gn_search_default_directive', []);
 
   module.directive('gnInfoList', ['gnMdView',
-    function(gnMdView) {
+    function (gnMdView) {
       return {
         restrict: 'A',
         replace: true,
         templateUrl: '../../catalog/views/default/directives/' +
-            'partials/infolist.html',
+          'partials/infolist.html',
         link: function linkFn(scope, element, attr) {
-          scope.showMore = function(isDisplay) {
+          scope.showMore = function (isDisplay) {
             var div = $('#gn-info-list' + this.md.getUuid());
             $(div.children()[isDisplay ? 0 : 1]).addClass('hidden');
             $(div.children()[isDisplay ? 1 : 0]).removeClass('hidden');
           };
-          scope.go = function(uuid) {
+          scope.go = function (uuid) {
             gnMdView(index, md, records);
             gnMdView.setLocationUuid(uuid);
           };
@@ -48,14 +48,29 @@
       };
     }
   ]);
-
+  module.directive('copyToClipboard', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, elem, attrs) {
+        elem.click(function () {
+          if (attrs.copyToClipboard) {
+            var $temp_input = $("<input>");
+            $("body").append($temp_input);
+            $temp_input.val(attrs.copyToClipboard).select();
+            document.execCommand("copy");
+            $temp_input.remove();
+          }
+        });
+      }
+    };
+  });
   module.directive('gnAttributeTableRenderer', ['gnMdView',
-    function(gnMdView) {
+    function (gnMdView) {
       return {
         restrict: 'A',
         replace: true,
         templateUrl: '../../catalog/views/default/directives/' +
-        'partials/attributetable.html',
+          'partials/attributetable.html',
         scope: {
           attributeTable: '=gnAttributeTableRenderer'
         },
@@ -69,8 +84,8 @@
     }
   ]);
 
-  module.directive('gnLinksBtn', [ 'gnTplResultlistLinksbtn',
-    function(gnTplResultlistLinksbtn) {
+  module.directive('gnLinksBtn', ['gnTplResultlistLinksbtn',
+    function (gnTplResultlistLinksbtn) {
       return {
         restrict: 'E',
         replace: true,
@@ -81,21 +96,21 @@
   ]);
 
   module.directive('gnMdActionsMenu', ['gnMetadataActions',
-    function(gnMetadataActions) {
+    function (gnMetadataActions) {
       return {
         restrict: 'A',
         replace: true,
         templateUrl: '../../catalog/views/default/directives/' +
-            'partials/mdactionmenu.html',
+          'partials/mdactionmenu.html',
         link: function linkFn(scope, element, attrs) {
           scope.mdService = gnMetadataActions;
           scope.md = scope.$eval(attrs.gnMdActionsMenu);
-          
-          scope.$watch(attrs.gnMdActionsMenu, function(a) {
+
+          scope.$watch(attrs.gnMdActionsMenu, function (a) {
             scope.md = a;
           });
 
-          scope.getScope = function() {
+          scope.getScope = function () {
             return scope;
           }
         }
@@ -103,24 +118,39 @@
     }
   ]);
 
+  module.directive('clickCapture',['$document', function($document) {
+    return {
+      link: function(scope, elm, attrs) {
+        $document.on('click', function (e) {
+          var adv_opened = $('#adv-1').hasClass('in');
+          //Unable to find better solution. Need to find some other solution.
+          if(!$(e.target).closest('#adv-1').length && !$(e.target).is('#adv-1') && adv_opened === true 
+                && e.target.nodeName === 'DIV' && !e.target.className.includes('tt')){
+            $('#adv-1').collapse('toggle');
+          }
+        });              
+      }
+    }
+  }]);
   module.directive('gnPeriodChooser', [
-    function() {
+    function () {
       return {
         restrict: 'A',
         replace: true,
         templateUrl: '../../catalog/views/default/directives/' +
-            'partials/periodchooser.html',
+          'partials/periodchooser.html',
         scope: {
           label: '@gnPeriodChooser',
           dateFrom: '=',
           dateTo: '='
         },
         link: function linkFn(scope, element, attr) {
-          var today = moment();
+
           scope.format = 'YYYY-MM-DD';
           scope.options = ['today', 'yesterday', 'thisWeek', 'thisMonth',
             'last3Months', 'last6Months', 'thisYear'];
-          scope.setPeriod = function(option) {
+          scope.setPeriod = function (option) {
+            var today = moment();
             if (option === 'today') {
               var date = today.format(scope.format);
               scope.dateFrom = date;
@@ -138,10 +168,10 @@
                 .format(scope.format);
             } else if (option === 'last3Months') {
               scope.dateFrom = today.clone().startOf('month').
-                  subtract(3, 'month').format(scope.format);
+                subtract(3, 'month').format(scope.format);
             } else if (option === 'last6Months') {
               scope.dateFrom = today.clone().startOf('month').
-                  subtract(6, 'month').format(scope.format);
+                subtract(6, 'month').format(scope.format);
             } else if (option === 'thisYear') {
               scope.dateFrom = today.clone().startOf('year')
                 .format(scope.format);

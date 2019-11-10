@@ -59,7 +59,9 @@ public class CustomElement implements EditElement {
 				
 				
 			}catch(Exception e){
-				report.getErrorInfo().add("Unable to process : " + headerVal + ", exception: " +e.getMessage());
+				List<String> errs = report.getErrorInfo();
+				errs.add("Unable to process : " + headerVal + ", exception: " +e.getMessage());
+				report.setErrorInfo(errs);				
 			}
 		}
 		

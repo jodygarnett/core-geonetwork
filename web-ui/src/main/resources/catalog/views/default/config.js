@@ -121,6 +121,12 @@
             view: new ol.View(angular.extend({}, mapsConfig))
           });
 
+        var recordMap = new ol.Map({
+          view: new ol.View({
+            center: [14988995.498610, -2856910.369187],
+            zoom: 5
+          })
+        });
 
           /** Facets configuration */
           searchSettings.facetsSummaryType = 'details';
@@ -140,36 +146,27 @@
              * Sort by combo values configuration. The first one is the default.
              */
           searchSettings.sortbyValues = [{
-	        sortBy: 'changeDateDesc',
-	        sortOrder: ''
-          },{
-	        sortBy: 'changeDateAsc',
-	        sortOrder: 'reverse'
-          },{
-	        sortBy: 'eCatId',
-	        sortOrder: ''
-          }, {
-            sortBy: 'relevance',
-            sortOrder: ''
-	      }, {
-	        sortBy: 'titleAZ',
-	        sortOrder: 'reverse'
-	      },{
-	        sortBy: 'titleZA',
-	        sortOrder: ''
-	      }, {
-	        sortBy: 'rating',
-	        sortOrder: ''
-          }, {
-            sortBy: 'popularity',
-            sortOrder: ''
-          }, {
-            sortBy: 'denominatorDesc',
-            sortOrder: ''
-          }, {
-            sortBy: 'denominatorAsc',
-            sortOrder: 'reverse'
-          }];
+  	        sortBy: 'publicationDateDesc',
+  	        sortOrder: ''
+            },{
+              sortBy: 'changeDate',
+              sortOrder: ''
+            }, {
+  	        sortBy: 'eCatId',
+  	        sortOrder: ''
+            }, {
+              sortBy: 'relevance',
+              sortOrder: ''
+  	        }, {
+  	        sortBy: 'titleAZ',
+  	        sortOrder: 'reverse'
+  	        }, {
+              sortBy: 'denominatorDesc',
+              sortOrder: ''
+            }, {
+              sortBy: 'denominatorAsc',
+              sortOrder: 'reverse'
+            }];
 
           /* Default search by option */
           searchSettings.sortbyDefault = searchSettings.sortbyValues[0];
@@ -177,9 +174,15 @@
           /* Custom templates for search result views */
           searchSettings.resultViewTpls = [{
                   tplUrl: '../../catalog/components/search/resultsview/' +
-                  'partials/viewtemplates/grid.html',
-                  tooltip: 'Grid',
-                  icon: 'fa-th'
+                  'partials/viewtemplates/list.html',
+                  tooltip: 'List',
+                  icon: 'fa-th-list'
+                },
+                {
+                  tplUrl: '../../catalog/components/search/resultsview/' +
+                  'partials/viewtemplates/titlewithselection.html',
+                  tooltip: 'Title',
+                  icon: 'fa-list'
                 }];
 
           // For the time being metadata rendering is done
@@ -218,7 +221,8 @@
           // Set custom config in gnSearchSettings
           angular.extend(searchSettings, {
             viewerMap: viewerMap,
-            searchMap: searchMap
+            searchMap: searchMap,
+            recordMap: recordMap
           });
 
           viewerMap.getLayers().on('add', function(e) {

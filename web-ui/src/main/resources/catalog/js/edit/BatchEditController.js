@@ -445,6 +445,7 @@
 				$scope.processRecords = data;
 				if($scope.processRecords === temprecords){
 					$scope.isCompleted = true;
+					$http.get('../api/records/batchediting/clear').then(function(response){});
 				}else{
 					temprecords = data;
 				}

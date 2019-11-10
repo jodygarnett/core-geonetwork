@@ -79,7 +79,7 @@
       </div>
       
       <div data-ng-if="md.mdStatus > 0 && isIntranet"
-          class="gn-status gn-status-{{ md.getWorkFlowStatus() }}"> {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} - <span>{{ md.getWorkFlowStatus() }} </span>
+          class="gn-status gn-status-{{ md.getWorkFlowStatus() }}-{{ md['geonet:info'].isPublishedToAll === 'true' ? 'External' : 'Internal' }}"> {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} - <span>{{ md.getWorkFlowStatus() }} </span>
      </div>
 
       <div data-ng-style="md.getThumbnails().list[0].url ? 'gn-md-nothumbnail' : 'gn-md-withthumbnail' ">

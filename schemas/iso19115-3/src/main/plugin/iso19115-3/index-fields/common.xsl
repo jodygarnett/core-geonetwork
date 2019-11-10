@@ -243,7 +243,7 @@
 
 	<!-- author is saved if present into author field within lucene -->
 	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='author']]">		
-		<Field name="author" string="{string(.)}" store="true" index="true"/>
+		<Field name="author" string="{string(cit:party/cit:CI_Individual/cit:name/gco:CharacterString)}" store="true" index="true"/>
 	<!--	<Field name="author" string="{substring-before(string(cit:party/cit:CI_Individual/cit:name/gco:CharacterString), ',')}" store="true" index="true"/>		-->	
 	</xsl:for-each>
 
@@ -336,7 +336,7 @@
 	</xsl:for-each>
 	
 	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='owner']]">
-		   <Field name="owner" string="{string(.)}" store="true" index="true"/>
+		   <Field name="ownerCited" string="{string(.)}" store="true" index="true"/>
 	</xsl:for-each>
 	
 	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='user']]">
@@ -402,6 +402,10 @@
 			<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:citedResponsibleParty/cit:CI_Responsibility[cit:role/cit:CI_RoleCode[@codeListValue='stakeholder']]">
 		   <Field name="stakeholder" string="{string(.)}" store="true" index="true"/>
 	</xsl:for-each>
+    
+  <xsl:for-each select="$metadata/mdb:identificationInfo/*/mri:associatedResource/mri:MD_AssociatedResource">
+       	<Field name="Associations" string="{string(mri:associationType/mri:DS_AssociationTypeCode/@codeListValue)}-{string(mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString)}-{string(mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:description/gco:CharacterString='eCat Identifier']/mcc:code/gco:CharacterString)}-{string(mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString)}" store="true" index="true"/>
+  </xsl:for-each>
 	  
 	  
 	  
@@ -475,10 +479,10 @@
           <Field name="revisionDate"
                  string="{string(gco:Date[.!='']|gco:DateTime[.!=''])}"
                  store="true" index="true"/>
-          <Field name="createDateMonth"
+          <Field name="revisionDateMonth"
                  string="{substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 8)}"
                  store="true" index="true"/>
-          <Field name="createDateYear"
+          <Field name="revisionDateYear"
                  string="{substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 5)}"
                  store="true" index="true"/>
           <xsl:if test="$useDateAsTemporalExtent">
@@ -510,6 +514,12 @@
         <xsl:for-each select="cit:date/cit:CI_Date[cit:dateType/cit:CI_DateTypeCode/@codeListValue='publication']/cit:date">
           <Field name="publicationDate"
                  string="{string(gco:Date[.!='']|gco:DateTime[.!=''])}"
+                 store="true" index="true"/>
+          <Field name="publicationDateMonth"
+                 string="{substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 8)}"
+                 store="true" index="true"/>
+          <Field name="publicationDateYear"
+                 string="{substring(gco:Date[.!='']|gco:DateTime[.!=''], 0, 5)}"
                  store="true" index="true"/>
           <xsl:if test="$useDateAsTemporalExtent">
             <Field name="tempExtentBegin"

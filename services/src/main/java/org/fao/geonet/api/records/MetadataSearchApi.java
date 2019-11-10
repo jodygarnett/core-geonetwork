@@ -52,10 +52,9 @@ import springfox.documentation.annotations.ApiIgnore;
 public class MetadataSearchApi {
 
 	SAXBuilder sb = new SAXBuilder();
+	public static final String IS_SEARCHING = "isSearching";
+	public static final String SEARCH_RECORDS = "searchRecords";
 	
-	private List<String> eCatIds = new ArrayList<>();
-	private boolean isSearching = false;
-
 	@ApiOperation(value = "Get records by xpath")
 	@RequestMapping(value = "/search/xpath", consumes = {
 			MediaType.APPLICATION_JSON_VALUE }, method = RequestMethod.POST)
@@ -64,11 +63,10 @@ public class MetadataSearchApi {
 	public void getMetadataRecordsByXpath(@ApiIgnore HttpServletRequest request,
 			@RequestBody Map<String, String> allRequestParams) throws Exception {
 
-		
-		isSearching = true;
-		if(eCatIds != null && eCatIds.size() > 0){
-			eCatIds.clear();
-		} 
+		List<String> eCatIds = new ArrayList<>();
+		request.getSession().setAttribute(IS_SEARCHING, true);
+		request.getSession().setAttribute(SEARCH_RECORDS, eCatIds);
+
 		ServiceContext context = ApiUtils.createServiceContext(request);
 		
 		final MetadataRepository metadataRepository = context.getBean(MetadataRepository.class);
@@ -106,7 +104,9 @@ public class MetadataSearchApi {
 								if (ele != null) {
 									
 									Content eCatId = (Content) _eCatIdPath.selectSingleNode(ele);
-									eCatIds.add(eCatId.getValue());
+									List<String> eList = (List<String>) request.getSession().getAttribute(SEARCH_RECORDS);
+									eList.add(eCatId.getValue());
+									request.getSession().setAttribute(SEARCH_RECORDS, eList);
 								}
 							} catch (JDOMException e) {
 								Log.error(Geonet.SEARCH_ENGINE, "JDOMException: " + e.getMessage());
@@ -117,7 +117,7 @@ public class MetadataSearchApi {
 
 					} catch (Exception e) {
 					} finally {
-						isSearching = false;
+						request.getSession().setAttribute(IS_SEARCHING, false);
 					}
 				};
 				// start the thread
@@ -138,13 +138,13 @@ public class MetadataSearchApi {
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
 	public boolean getMetadataSearchStatus(@ApiIgnore HttpServletRequest request) throws Exception {
-		return isSearching;
+		return (boolean) request.getSession().getAttribute(IS_SEARCHING);
 	}
 
 	@ApiOperation(value = "Get records by xpath")
 	@RequestMapping(value = "/search/xpath", method = RequestMethod.GET)
 	public @ResponseBody List<String> getMetadataRecords(@ApiIgnore HttpServletRequest request) throws Exception {
-		return eCatIds;
+		return (List<String>) request.getSession().getAttribute(SEARCH_RECORDS);
 	}
 
 	private List<String> query(Map<String, String> queryFields, HttpServletRequest request) throws JDOMException {
