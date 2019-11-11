@@ -10,17 +10,25 @@ public class BatchEditReport implements Serializable {
 	private List<String> processInfo;
 
 	public List<String> getErrorInfo() {
-		if (errorInfo == null) {
-			errorInfo = new ArrayList<>();
+		if(this.errorInfo == null){
+			return new ArrayList<String>(); 
 		}
-		return errorInfo;
+		return new ArrayList<String>(this.errorInfo);
+	}
+
+	public void setErrorInfo(List<String> errorInfo) {
+		this.errorInfo = new ArrayList<String>(errorInfo);
 	}
 
 	public List<String> getProcessInfo() {
-		if (processInfo == null) {
-			processInfo = new ArrayList<>();
+		if(this.processInfo == null){
+			return new ArrayList<String>(); 
 		}
-		return processInfo;
+		return new ArrayList<String>(this.processInfo);
+	}
+
+	public void setProcessInfo(List<String> processInfo) {
+		this.processInfo = new ArrayList<String>(processInfo);
 	}
 
 }

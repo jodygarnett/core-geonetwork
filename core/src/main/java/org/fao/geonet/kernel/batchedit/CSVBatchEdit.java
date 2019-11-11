@@ -105,6 +105,7 @@ public class CSVBatchEdit {
 			XPath _xpath, Document metadata, List<BatchEditParam> listOfUpdates, String mode) {
 
 		BatchEditReport report = new BatchEditReport();
+		
 		final SchemaManager schemaManager = context.getBean(SchemaManager.class);
 		String headerVal = header.getKey();
 		EditElement editElement = EditElementFactory.getElementType(headerVal);
@@ -117,6 +118,9 @@ public class CSVBatchEdit {
 		}
 			
 		if(StringUtils.isNotEmpty(csvr.get(headerVal).trim())){
+			
+			List<String> errs = report.getErrorInfo();
+			
 			if(editElement != null){
 				
 				if(checkDependencies(headerVal, csvr) && mode.equals("remove")){
@@ -133,7 +137,7 @@ public class CSVBatchEdit {
 						
 					} catch (Exception e) {
 						//Log.error(Geonet.SEARCH_ENGINE, "Unable to remove existing element for eCatId/UUID " + id +" for the value " + csvr.get(headerVal) +", " + e.getLocalizedMessage());
-						report.getErrorInfo().add("Unable to remove existing element for the value " + csvr.get(headerVal) +", " + e.getMessage());
+						errs.add("Unable to remove existing element for the value " + csvr.get(headerVal) +", " + e.getMessage());
 					}
 				}
 				
@@ -150,7 +154,7 @@ public class CSVBatchEdit {
 					}
 				} catch (Exception e) {
 					//Log.error(Geonet.SEARCH_ENGINE, "Unable to set the attribute for eCatId/UUID " + id +" for the value " + csvr.get(headerVal) +", " + e.getMessage());
-					report.getErrorInfo().add("Unable to set the attribute for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
+					errs.add("Unable to set the attribute for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
 				}
 			} else {
 				try {
@@ -165,9 +169,10 @@ public class CSVBatchEdit {
 					}
 				} catch (Exception e) {
 					//Log.error(Geonet.SEARCH_ENGINE, "Unable to set text for eCatId/UUID " + id +" for the value " + csvr.get(headerVal) +", " + e.getLocalizedMessage());
-					report.getErrorInfo().add("Unable to set text for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
+					errs.add("Unable to set text for the value, " + headerVal + ": "+ csvr.get(headerVal) +", " + e.getMessage());
 				}	
 			}
+			report.setErrorInfo(errs);
 		}
 		
 		return report;

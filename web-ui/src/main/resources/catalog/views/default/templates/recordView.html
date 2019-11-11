@@ -95,7 +95,6 @@
         </div>
       </div>
 
-
       <div class="col-lg-5 col-md-12">
         <tabset class="rv-tab">
           <tab class="tablink" heading="Downloads">
@@ -159,7 +158,7 @@
           <tab class="tablink" heading="Citation">
             <div class="subheader">Publication details</div>
             <div style="display: inline-flex">
-              <p>The product was published on {{mdView.current.record.publicationDate | date:'mediumDate'}}</p>
+              <p>This product was created on {{mdView.current.record.creationDate | date:'mediumDate'}} and published on {{mdView.current.record.publicationDate | date:'mediumDate'}} </p>
             </div>
 
             <div class="row tab-items" data-ng-if="mdView.current.record.DOI">
@@ -196,6 +195,20 @@
                 <p data-ng-repeat="c in mdView.current.record.securityConstraints">
                   {{c}}</p>
               </div>
+            </div>			
+			<div class="row tab-items" data-ng-if="mdView.current.record.accessCons">
+              <div class="col-md-3"><b>Access Constraints</b></div>
+              <div class="col-md-9">
+                <p> {{mdView.current.record.accessCons}}
+               </p>
+              </div>
+            </div>
+			<div class="row tab-items" data-ng-if="mdView.current.record.useCons">
+              <div class="col-md-3"><b>Use Constraints</b></div>
+              <div class="col-md-9">
+                <p> {{mdView.current.record.useCons}}
+               </p>
+              </div>
             </div>
             <div class="row tab-items" data-ng-if="mdView.current.record.resourceConstraints">
               <div class="col-md-3"><b>Resource Constraints</b></div>
@@ -204,9 +217,22 @@
                   {{c}}</p>
               </div>
             </div>
+			<div class="row tab-items" data-ng-if="mdView.current.record.licenceLink">
+              <div class="col-md-3"><b>Link to Licence</b></div>
+              <div class="col-md-9">
+                <p> {{mdView.current.record.licenceLink}}
+               </p>
+              </div>
+            </div>
+			<div class="row tab-items" data-ng-if="mdView.current.record.MD_LegalConstraintsUseLimitation">
+              <div class="col-md-3"><b>Use Limitations</b></div>
+              <div class="col-md-9">
+                <p> {{mdView.current.record.MD_LegalConstraintsUseLimitation}}
+               </p>
+              </div>
+            </div>
+			
           </tab>
-
-
 
           <tab class="tablink" heading="About">
             <div class="subheader">About the resource</div>
@@ -218,9 +244,14 @@
             </div>
             <div class="row tab-items">
               <div class="col-md-3"><b>eCat Id</b></div>
-              <div class="col-md-9">
+              <div class="col-md-6">
                 <p>{{mdView.current.record.eCatId}}</p>
               </div>
+			  <div class="col-md-3"><div data-ng-if="mdView.current.record.status_text.length > 0"
+             title="{{mdView.current.record.status_text[0]}}"
+             class="gn-status gn-status-mdview gn-status-{{mdView.current.record.status[0]}}">
+             {{mdView.current.record.status_text[0]}}
+            </div></div>
             </div>
             <div class="row tab-items">
               <div class="col-md-3"><b>Metadata Standard</b></div>
@@ -233,6 +264,28 @@
               <div class="col-md-9">
                 <div class="item-case" data-ng-repeat="scope in mdView.current.record.type">
                   <p>{{scope}}</p>
+                </div>
+              </div>
+            </div>
+			<div class="row tab-items" data-ng-if="mdView.current.record.scopeName">
+              <div class="col-md-3"><b>Scope Name</b></div>
+              <div class="col-md-9">
+                  <p>{{mdView.current.record.scopeName}}</p>
+              </div>
+            </div>
+			<div class="row tab-items">
+             <div data-ng-if="::mdView.current.record.purpose">
+              <div class="col-md-3"><b>Purpose</b></div>
+                <div class="col-md-9">
+                 <p>{{mdView.current.record.purpose}}</p>
+                </div>
+              </div>
+            </div>
+			 <div class="row tab-items">
+             <div data-ng-if="::mdView.current.record.maintenanceAndUpdateFrequency_text">
+              <div class="col-md-3"><b>Maintenance and Update Frequency</b></div>
+                <div class="col-md-9">
+                 <p>{{mdView.current.record.maintenanceAndUpdateFrequency_text}}</p>
                 </div>
               </div>
             </div>
@@ -275,7 +328,8 @@
             <div class="row tab-items" data-ng-if="mdView.current.record.parenteCatID">
               <div class="col-md-3"><b>Parent Record</b></div>
               <div class="col-md-9">
-                <p>{{mdView.current.record.parenteCatID}}, {{mdView.current.record.parentTitle}}</p>
+                <a href="catalog.search#/metadata/{{mdView.current.record.parenteCatID}}">
+                    <p>{{mdView.current.record.parentTitle}}</p></a>
               </div>
             </div>
 
@@ -285,11 +339,27 @@
           <tab class="tablink" heading="Technical" data-ng-click="reloadMap()">
             <div class="subheader">Technical Information</div>
 
-            <div class="row tab-items" data-ng-if="::mdView.current.record.geoBox">
+			<div class="row tab-items" data-ng-if="::mdView.current.record.crs">
+              <div class="col-md-3"><b>Reference System</b></div>
+              <div class="col-md-9">
+                <p>{{mdView.current.record.crs}}</p>
+              </div>
+            </div>		
+			<div class="row tab-items" data-ng-if="::mdView.current.record.geoBox">
               <div class="col-md-3"><b>Geographical Bounding Box</b></div>
               <div class="col-md-9">
                 <!--<p>{{mdView.current.record.geoBox}}</p>-->
                 <p>{{getBoundingBox(mdView.current.record.geoBox)}}</p>
+              </div>
+            </div>
+            <div class="row tab-items" data-ng-if="::mdView.current.record.geoBox">
+              <div class="col-md-3"><b>Spatial Extent</b></div>
+              <div class="col-md-9">
+                <!--<p data-ng-repeat="bbox in mdView.current.record.geoBox">
+                  <img class="gn-img-thumbnail img-thumbnail gn-img-extent"
+                    data-ng-src="region.getmap.png?mapsrs=EPSG:3857&width=250&background=osm&geomsrs=EPSG:4326&geom={{mdView.current.record.getBoxAsPolygon1(bbox)}}" />
+                </p>-->
+                <div data-gn-map-view="searchObj.recordMap"></div>
               </div>
             </div>
             <div class="row tab-items"
@@ -315,14 +385,11 @@
                 <p>{{mdView.current.record.vertExtentRef}}</p>
               </div>
             </div>
-            <div class="row tab-items" data-ng-if="::mdView.current.record.geoBox">
-              <div class="col-md-3"><b>Spatial Extent</b></div>
+			
+			<div class="row tab-items" data-ng-if="::mdView.current.record.levelOfDetail">
+              <div class="col-md-3"><b>Spatial Resolution/<br>Accuracy</b></div>
               <div class="col-md-9">
-                <!--<p data-ng-repeat="bbox in mdView.current.record.geoBox">
-                  <img class="gn-img-thumbnail img-thumbnail gn-img-extent"
-                    data-ng-src="region.getmap.png?mapsrs=EPSG:3857&width=250&background=osm&geomsrs=EPSG:4326&geom={{mdView.current.record.getBoxAsPolygon1(bbox)}}" />
-                </p>-->
-                <div data-gn-map-view="searchObj.recordMap"></div>
+                <p>{{mdView.current.record.levelOfDetail}}</p>
               </div>
             </div>
             <div class="row tab-items" data-ng-if="::mdView.current.record.lineageStatement">
@@ -332,20 +399,103 @@
                   dd-text-collapse-text="{{mdView.current.record.lineageStatement}}"></p>
               </div>
             </div>
+			
+			</tab>
+			
+			<tab class="tablink" heading="Web Services" data-ng-if="!mdView.current.record.Associations">
+			
+			<div class="subheader">Web Services Information</div>
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Service Type Name</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.serviceType}}"></p>
+              </div>
+            </div>
+			
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Service Type Version</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.serviceTypeVersion}}"></p>
+              </div>
+            </div>
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Coupling Type</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.couplingType}}"></p>
+              </div>
+            </div>
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Operation Name</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.operation}}"></p>
+              </div>
+            </div>
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Distributed Computing Platform</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.dcp}}"></p>
+              </div>
+            </div>
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Operation Description</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.operationDesc}}"></p>
+              </div>
+            </div>
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Connect Point</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.connectPoint}}"></p>
+              </div>
+            </div>
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Parameter Name</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.parameterName}}"></p>
+              </div>
+            </div>
+			
+			<div class="row tab-items">
+			<div class="col-md-3"><b>Parameter Description</b></div>
+              <div class="col-md-9">
+                <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
+                  dd-text-collapse-text="{{mdView.current.record.parameterDesc}}"></p>
+              </div>
+			</div>			
           </tab>
 
-          <tab class="tablink" heading="Assocations" data-ng-if="isAvailable(mdView.current.record.Associations)">                    
+		  <tab class="tablink" heading="Assocations" data-ng-if="isAvailable(mdView.current.record.Associations, mdView.current.record.source)">                    
             <div class="subheader">Associations</div>
             <div class="row tab-items">
-              <div class="col-md-3"><b>Assocations</b></div>
+              <div class="col-md-3"><b>Associations</b></div>
               <div class="col-md-9">
-                <p data-ng-if="!mdView.current.record.Associations">
-                  No associations found.
-                </p>
                 <p data-ng-repeat="association in getAsArray(mdView.current.record.Associations)">
                   {{association.split('-')[1]}}<br><a href="catalog.search#/metadata/{{association.split('-')[3]}}">
                     {{association.split('-')[3]}}</a><br>{{association.split('-')[0]}}
                 </p>
+              </div>
+            </div>
+			<div class="row tab-items" data-ng-if="mdView.current.record.source">
+              <div class="col-md-3"><b>Source Datasets</b></div>
+              <div class="col-md-9">
+                <a href="catalog.search#/metadata/{{mdView.current.record.source}}">
+                    <p>{{mdView.current.record.source}}</p></a>
               </div>
             </div>
           </tab>

@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 import org.apache.commons.csv.CSVRecord;
 import org.fao.geonet.constants.Geonet;
 import org.fao.geonet.exceptions.BatchEditException;
-import org.fao.geonet.utils.Log;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.jdom.xpath.XPath;
@@ -60,7 +59,9 @@ public class DateEditElement implements EditElement {
 				try {
 					rootE = getCitationDateElement(batchEdit, values);
 				} catch (BatchEditException e) {
-					report.getErrorInfo().add(e.getMessage());
+					List<String> errs = report.getErrorInfo();
+					errs.add(e.getMessage());
+					report.setErrorInfo(errs);
 				}
 
 			String strEle = out.outputString(rootE);

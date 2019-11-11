@@ -170,7 +170,7 @@ public class ShibbolethPreAuthFilter extends GenericFilterBean {
                         }
                     }*/
                     
-                    hresp.sendRedirect("/geonetwork/");
+                    hresp.sendRedirect("/" + Geonet.GEONETWORK);
                     return; // no further chain processing allowed
                     
                 } else {
@@ -181,7 +181,7 @@ public class ShibbolethPreAuthFilter extends GenericFilterBean {
             } else if (SecurityContextHolder.getContext().getAuthentication() != null
                 && SecurityContextHolder.getContext().getAuthentication()
                 .isAuthenticated() && minimal == null) {
-            	Log.warning(Geonet.DATA_MANAGER, "Joseph --> ShibbolethPreAuthFilter, else if condition..");
+            	Log.warning(Geonet.DATA_MANAGER, "ShibbolethPreAuthFilter, else if condition..");
                 // Are we logged out?
                 if (req.getSession().getAttribute(SHIB_KEY) != null) {
                     req.getSession().removeAttribute(SHIB_KEY);

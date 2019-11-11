@@ -39,7 +39,9 @@ public class ConstraintsEditElement implements EditElement {
 				}
 			
 			}catch(BatchEditException e){
-				report.getErrorInfo().add(e.getMessage());
+				List<String> errs = report.getErrorInfo();
+				errs.add(e.getMessage());
+				report.setErrorInfo(errs);
 			}
 
 			
