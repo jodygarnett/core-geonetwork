@@ -79,7 +79,7 @@
                 data-ng-show="hasAction(mainType)"
                 data-ng-click="config.doAction(mainType, r, md)">
 
-        <span class="visible-lg-*" ng-show="isLink(r.title)">{{::(config.getLabel(mainType, type)) | translate}}</span>
+        <span class="visible-lg-*" ng-show="isLink(r.title)">{{::(config.getLabel(mainType, type, r.url)) | translate}}</span>
 		 <span class="visible-lg-*" ng-show="!isLink(r.title)">Buy</span>
         </button>
       </div>
