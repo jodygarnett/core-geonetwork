@@ -24,7 +24,7 @@
                             <input type="search" value="" class="form-control" data-ng-keyup="$event.keyCode == 13 && toggleAndTriggerSearch()" 
                                 data-ng-model="searchObj.params.eCatId" />
                         </div>
-                        <label class="col-sm-1 control-label" data-translate="">keyword</label>
+                        <label class="col-sm-1 control-label" data-translate="">keywords</label>
                         <div class="col-sm-5">
                             <input type="search" value="" class="form-control" gn-typeahead="keywordsOptions" 
                                 gn-values="searchObj.params.keyword" />
@@ -117,30 +117,30 @@
     <h4>Advanced Search Tips</h4>
     <br>
     <div>
-        <h6>Title / Keywords / eCatIDs</h6>
-        <p><i>Title:</i> Search phrase results records that contain any word within the title .</p>
-        <p><i>Keywords:</i>To find more keyword list, start typing the keyword.</p>
-        <p><i>eCatIDs:</i> For more eCat records, provide eCatIDs seperated by comma.</p>
+        <h6>Title / Keywords / eCatID</h6>
+        <p><i>Title:</i> Search Title field for presence of any word/phrase entered.</p>
+        <p><i>eCatIDs:</i>Multiple eCatIDs may be entered if separated by commas.</p>
+		<p><i>Keywords:</i>Provide minimum 1 characters to show predictive Keywords.</p>
     </div>
     <br>
     <div>
         <h6>Author <label data-ng-if="isIntranet && user.isAdministrator()">/ Owner</label></h6>
-        <p><i>Author:</i> Type atleast one character to get the author names.</p>
-        <p data-ng-if="isIntranet && user.isAdministrator()"><i>Owner:</i> This predictive search provide the owner who created the record.
+        <p><i>Author:</i> Type at least one character to show the list of author names.</p>
+        <p data-ng-if="isIntranet && user.isAdministrator()"><i>Owner:</i>This predictive search provides the owner who created the record.
         </p>
     </div>
     <br>
     <div data-ng-if="isIntranet || user.isAdministrator()">
         <h6>Status / Kind</h6>
-        <p>This search is only for internal GA users.</p>
-        <p><i>Status:</i> Search records based on the workflow status of metadata.</p>         
+        <p>This search is only for internal Geoscience Australia users.</p>
+        <p><i>Status:</i>  Provides the workflow status of metadata.</p>         
         <p><i>Kind:</i> This option provides the user to select between metadata and template.</p><br>
     </div>
     
     <div>
         <h6>Creation Date / Publication Date / Temporal Extent Period</h6>
-        <p>To search for a Records created or Published or temporal extent period within a date range choose the 'From' and 'To' option.
-            Use predefined date range by selecting the caret. Options: Today/Yesterday/This week/This month/Last 3
+        <p>To search for records created or Published or temporal extent period within a date range choose the ‘Date Range’ option.
+            Other ways to specify by selecting the caret. Options are: Today/Yesterday/This week/This month/Last 3
             months/Last 6 months/This year.</p>
     </div>
 </div>
