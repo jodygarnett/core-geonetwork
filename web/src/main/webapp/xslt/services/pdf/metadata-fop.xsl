@@ -29,21 +29,20 @@
 
 
   <!-- Some colors -->
-  <xsl:variable name="background-color">#d6e2f7</xsl:variable>
+  <xsl:variable name="background-color">#313131</xsl:variable>
   <xsl:variable name="background-color-banner">#ffffff</xsl:variable>
-  <xsl:variable name="background-color-thumbnail">#f1f2f3</xsl:variable>
-  <xsl:variable name="border-color">#b3c6e6</xsl:variable>
+  <xsl:variable name="border-color">#45c2f0</xsl:variable>
 
-  <xsl:variable name="header-border">2pt solid #2e456b</xsl:variable>
+  <xsl:variable name="header-border">3pt solid #006983</xsl:variable>
 
   <!-- Some font properties -->
-  <xsl:variable name="font-color">#707070</xsl:variable>
+  <xsl:variable name="font-color">#23779e</xsl:variable>
   <xsl:variable name="font-size">8pt</xsl:variable>
   <xsl:variable name="font-family">verdana</xsl:variable>
-  <xsl:variable name="title-color">#2e456b</xsl:variable>
+  <xsl:variable name="title-color">#45c2f0</xsl:variable>
   <xsl:variable name="title-size">12pt</xsl:variable>
   <xsl:variable name="title-weight">bold</xsl:variable>
-  <xsl:variable name="header-color">#2e456b</xsl:variable>
+  <xsl:variable name="header-color">#006983</xsl:variable>
   <xsl:variable name="header-size">16pt</xsl:variable>
   <xsl:variable name="header-weight">bold</xsl:variable>
   <xsl:variable name="note-size">6pt</xsl:variable>
@@ -128,7 +127,7 @@
                             border-left-style="solid" border-top-color="{$background-color}"
                             border-right-color="{$background-color}"
                             border-left-color="{$background-color}">
-                <fo:table-cell padding-left="4pt" padding-right="4pt" padding-top="4pt"
+                <fo:table-cell padding-left="2pt" padding-right="4pt" padding-top="4pt"
                                margin-top="4pt" number-columns-spanned="3">
                   <fo:block border-top="2pt solid black">
                     <fo:inline>
@@ -221,12 +220,6 @@
                       page-break-inside="avoid">
           <fo:table-cell padding-left="4pt" padding-right="4pt" padding-top="4pt" margin-top="4pt">
             <fo:block>
-              <fo:external-graphic content-width="35pt">
-                <xsl:attribute name="src">url('<xsl:value-of
-                  select="concat($baseURL, '/images/logos/', $source , '.gif')"
-                />')"
-                </xsl:attribute>
-              </fo:external-graphic>
             </fo:block>
           </fo:table-cell>
           <fo:table-cell display-align="center">
@@ -262,40 +255,38 @@
                               <xsl:with-param name="label" select="$oldGuiStrings/uuid"/>
                               <xsl:with-param name="value" select="$metadata/geonet:info/uuid"/>
                             </xsl:call-template>
+							
+							<xsl:call-template name="info-rows">
+                              <xsl:with-param name="label" select="'eCatID'"/>
+                              <xsl:with-param name="value" select="$metadata/eCatId"/>
+                            </xsl:call-template>
+							
+							<xsl:call-template name="info-rows">
+                              <xsl:with-param name="label" select="'PID'"/>
+                              <xsl:with-param name="value" select="$metadata/PID"/>
+                            </xsl:call-template>
+							
+							<xsl:call-template name="info-rows">
+                              <xsl:with-param name="label" select="'Scope Code'"/>
+                              <xsl:with-param name="value" select="$metadata/type"/>
+                            </xsl:call-template>				
 
 
                             <xsl:call-template name="info-rows">
                               <xsl:with-param name="label" select="$oldGuiStrings/abstract"/>
                               <xsl:with-param name="value" select="$metadata/abstract"/>
                             </xsl:call-template>
-
+							
 
                             <xsl:call-template name="info-rows">
                               <xsl:with-param name="label" select="$oldGuiStrings/keywords"/>
                               <xsl:with-param name="value"
                                               select="string-join($metadata/keyword, ', ')"/>
                             </xsl:call-template>
-
-
-                            <xsl:call-template name="info-rows">
-                              <xsl:with-param name="label" select="$oldGuiStrings/schema"/>
-                              <xsl:with-param name="value" select="$metadata/geonet:info/schema"/>
-                            </xsl:call-template>
-
-                            <xsl:call-template name="metadata-resources">
-                              <xsl:with-param name="gui" select="$oldGuiStrings"/>
-                              <xsl:with-param name="metadata" select="$metadata"/>
-                            </xsl:call-template>
-
                           </fo:table-body>
                         </fo:table>
 
                       </fo:block>
-                    </fo:table-cell>
-                    <fo:table-cell background-color="{$background-color-thumbnail}">
-                      <xsl:call-template name="metadata-thumbnail-block">
-                        <xsl:with-param name="metadata" select="$metadata"/>
-                      </xsl:call-template>
                     </fo:table-cell>
                   </fo:table-row>
                 </fo:table-body>
@@ -310,45 +301,6 @@
         </fo:table-row>
       </xsl:if>
     </xsl:for-each>
-  </xsl:template>
-
-
-  <!-- Metadata thumbnail -->
-  <xsl:template name="metadata-thumbnail-block">
-    <xsl:param name="metadata"/>
-
-    <fo:block padding-top="4pt" padding-bottom="4pt" padding-right="4pt" padding-left="4pt">
-      <!-- Format:
-         <image>thumbnail|resources.get?uuid=da165110-88fd-11da-a88f-000d939bc5d8&fname=thumbnail_s.gif&access=public</image>
-      -->
-
-      <!-- Thumbnails - Use the first one only -->
-      <xsl:if test="$metadata/image">
-        <xsl:variable name="image" select="tokenize($metadata/image[1], '\|')[2]"/>
-
-        <xsl:choose>
-          <xsl:when test="contains($image ,'://')">
-            <fo:external-graphic content-width="4.6cm">
-              <xsl:attribute name="src">
-                <xsl:text>url('</xsl:text>
-                <xsl:value-of select="$image"/>
-                <xsl:text>')"</xsl:text>
-              </xsl:attribute>
-            </fo:external-graphic>
-          </xsl:when>
-          <xsl:otherwise>
-            <fo:external-graphic content-width="4.6cm">
-              <xsl:attribute name="src">
-                <xsl:text>url('</xsl:text>
-                <xsl:value-of
-                  select="concat($fullURLForService, '/', $image)"/>
-                <xsl:text>')"</xsl:text>
-              </xsl:attribute>
-            </fo:external-graphic>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:if>
-    </fo:block>
   </xsl:template>
 
   <!-- ====================================
@@ -442,19 +394,12 @@
       <fo:table-column column-width="20cm"/>
       <!--<fo:table-column column-width="4cm"/>-->
       <fo:table-body>
-        <fo:table-row border-bottom-style="solid" border-bottom-color="{$header-color}"
-                      border-bottom-width="1pt">
+        <fo:table-row>
           <fo:table-cell display-align="center" background-color="{$background-color-banner}">
             <!-- FIXME : align all text on top and capitalize ? -->
-            <fo:block font-family="{$font-family}" font-size="{$header-size}" color="{$title-color}"
+            <fo:block font-family="{$font-family}" font-size="{$header-size}" color="{$header-color}"
                       font-weight="{$header-weight}" padding-top="4pt" padding-right="4pt"
                       padding-left="4pt">
-              <fo:external-graphic padding-right="4pt">
-                <xsl:attribute name="src">url('<xsl:value-of
-                  select="concat($baseURL, '/images/logos/', $env/system/site/siteId, '.gif')"
-                />')"
-                </xsl:attribute>
-              </fo:external-graphic>
               <xsl:value-of select="upper-case($env/system/site/name)"/> (<xsl:value-of
               select="upper-case($env/system/site/organization)"/>)
             </fo:block>
@@ -477,9 +422,9 @@
     <xsl:param name="value"/>
     <xsl:param name="content"/>
     <fo:table-row border-bottom-style="solid" border-top-style="solid"
-                  border-top-color="{$title-color}" border-top-width=".1pt"
+                  border-top-color="{$title-color}" border-top-width="1pt"
                   border-bottom-color="{$title-color}"
-                  border-bottom-width=".1pt">
+                  border-bottom-width="1pt">
       <fo:table-cell background-color="{if ($label != '') then $background-color else ''}"
                      color="{$title-color}" padding-top="4pt" padding-bottom="4pt"
                      padding-right="4pt"

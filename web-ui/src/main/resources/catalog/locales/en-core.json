@@ -136,7 +136,7 @@
     "hitsPerPage": "Records per page",
     "chooseRecordsPerPage": "Click to choose the number of records per page",
     "sortedBy": "Sort by: {{field}}",
-    "relevance": "relevancy",
+    "relevance": "relevance",
     "rating": "rating",
     "popularity": "popularity",
     "denominatorDesc": "low scale first",

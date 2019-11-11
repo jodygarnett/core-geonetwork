@@ -57,7 +57,7 @@
           <h1>
             <xsl:apply-templates mode="getMetadataTitle" select="$metadata"/>
           </h1>
-          <!--<p><xsl:apply-templates mode="getMetadataAbstract" select="$metadata"/></p>-->
+         <p><xsl:apply-templates mode="getMetadataAbstract" select="$metadata"/></p>
           <!-- TODO : Add thumbnail to header -->
 
           <xsl:apply-templates mode="getMetadataHeader" select="$metadata"/>
