@@ -141,7 +141,10 @@
 			  }
 				
 			  scope.display = function(r) {
-				  var dis = !r.url.startsWith('file') || (r.url.startsWith('file') && gnGlobalSettings.isIntranet);
+          var dis = !r.url.startsWith('http://rmweb/HPEContentManager') 
+                          || !r.url.startsWith('file') 
+                          || (r.url.startsWith('file') && gnGlobalSettings.isIntranet)
+                          || (r.url.startsWith('http://rmweb/HPEContentManager') && gnGlobalSettings.isIntranet);
 				  return dis;
 			  };
 			  
