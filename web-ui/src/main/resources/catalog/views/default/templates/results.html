@@ -101,13 +101,13 @@
                         {{ md['geonet:info'].isPublishedToAll === "true" ? "External" : "Internal" }} -                                                                                                                                                                         
                         <span>{{ md.getWorkFlowStatus() }} </span>
                    </div>
-                    <div class="col-md-{{md.getThumbnails().list[0].url ? '11' : '12'}}">
+                    <div class="col-md-{{md.getThumbnails().list[0].url ? '10' : '12'}}">
                       <p class="text-justify" dd-text-collapse dd-text-collapse-max-length="350"
                         dd-text-collapse-text="{{md.abstract | replace: '&lt;p&gt;':' '}}"></p>
                     </div>
 
                       <div data-ng-if="md.getThumbnails().list[0].url">
-                        <div class="gn-md-thumbnail col-md-1">
+                        <div class="gn-md-thumbnail col-md-2">
                       <img class="gn-img-thumbnail" data-ng-src="{{md.getThumbnails().list[0].url}}"
                             data-ng-if="md.getThumbnails().list[0].url" />
                           </div>

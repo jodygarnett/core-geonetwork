@@ -239,7 +239,7 @@
                 this.map['DEFAULT'].iconClass;
           };
 
-          this.getLabel = function(mainType, type) {
+          this.getLabel = function(mainType, type, url) {
             // Old key before the move to API
             var oldKey = {
               hasfeaturecats: 'hasfeaturecat',
@@ -248,6 +248,10 @@
               fcats: 'fcat',
               hassources: 'hassource'
             };
+
+            if(url.startsWith('http://services.ga.gov.au')){
+              return 'Link to Web Services';
+            }
             return this.map[mainType || 'DEFAULT'].label +
                    (oldKey[type] ? oldKey[type] : type);
           };
