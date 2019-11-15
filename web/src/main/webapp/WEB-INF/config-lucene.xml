@@ -157,7 +157,7 @@
       <field name="lineage" tagName="lineage"/>
       <field name="responsibleParty" tagName="responsibleParty"/>
       <field name="MD_LegalConstraintsOtherConstraints" tagName="legalConstraints"/>
-      <field name="MD_LegalConstraintsUseLimitation" tagName="legalConstraints"/>
+      <field name="MD_LegalConstraintsUseLimitation" tagName="MD_LegalConstraintsUseLimitation"/>
       <field name="MD_SecurityConstraintsUseLimitation" tagName="securityConstraints"/>
       <field name="MD_ConstraintsUseLimitation" tagName="resourceConstraints"/>
       <field name="cl_classification_text" tagName="classification_text"/>
