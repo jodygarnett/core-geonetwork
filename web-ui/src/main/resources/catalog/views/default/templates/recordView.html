@@ -375,7 +375,7 @@
               </div>
             </div>
 
-            <div class="row tab-items" data-ng-if="::mdView.current.record.vertExtentRef">
+            <div class="row tab-items" data-ng-if="isAvailable(mdView.current.record.vertExtentRef)">
               <div class="col-md-3"><b>Vertical CRS</b></div>
               <div class="col-md-9">
                 <p>{{mdView.current.record.vertExtentRef}}</p>
