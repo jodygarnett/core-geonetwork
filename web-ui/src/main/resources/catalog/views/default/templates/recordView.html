@@ -273,7 +273,7 @@
                   <p>{{mdView.current.record.scopeName}}</p>
               </div>
             </div>
-			      <div class="row tab-items" data-ng-if="::mdView.current.record.purpose">  
+			      <div class="row tab-items" data-ng-if="isAvailable(mdView.current.record.purpose)">  
               <div class="col-md-3"><b>Purpose</b></div>
               <div class="col-md-9">
                 <p>{{mdView.current.record.purpose}}</p>
@@ -328,13 +328,6 @@
                     <p>{{mdView.current.record.parentTitle}}</p></a>
               </div>
             </div>
-            <div class="row tab-items" data-ng-if="mdView.current.record.parentId">
-              <div class="col-md-3"><b>Parent Record</b></div>
-              <div class="col-md-9">
-                <a href="catalog.search#/metadata/{{mdView.current.record.parentId}}">
-                    <p>{{mdView.current.record.parentId}}</p></a>
-              </div>
-            </div>
 
             </tab>
 
@@ -382,7 +375,7 @@
               </div>
             </div>
 
-            <div class="row tab-items" data-ng-if="::mdView.current.record.vertExtentRef">
+            <div class="row tab-items" data-ng-if="isAvailable(mdView.current.record.vertExtentRef)">
               <div class="col-md-3"><b>Vertical CRS</b></div>
               <div class="col-md-9">
                 <p>{{mdView.current.record.vertExtentRef}}</p>
@@ -405,7 +398,7 @@
 			
 			</tab>
 			
-			<tab class="tablink" heading="Web Services" data-ng-if="!mdView.current.record.Associations">
+			<tab class="tablink" heading="Web Services" data-ng-if="mdView.current.record.type=='service'">
 			
 			<div class="subheader">Web Services Information</div>
 			
@@ -483,7 +476,7 @@
 			</div>			
           </tab>
 
-		  <tab class="tablink" heading="Assocations" data-ng-if="isAvailable(mdView.current.record.Associations, mdView.current.record.source)">                    
+		  <tab class="tablink" heading="Associations" data-ng-if="isAvailable(mdView.current.record.Associations)">                    
             <div class="subheader">Associations</div>
             <div class="row tab-items">
               <div class="col-md-3"><b>Associations</b></div>
@@ -494,13 +487,13 @@
                 </p>
               </div>
             </div>
-			<div class="row tab-items" data-ng-if="mdView.current.record.source">
+			<!----<div class="row tab-items" data-ng-if="mdView.current.record.source">
               <div class="col-md-3"><b>Source Datasets</b></div>
               <div class="col-md-9">
                 <a href="catalog.search#/metadata/{{mdView.current.record.source}}">
                     <p>{{mdView.current.record.source}}</p></a>
               </div>
-            </div>
+            </div>-->
           </tab>
         </tabset>
       </div>
