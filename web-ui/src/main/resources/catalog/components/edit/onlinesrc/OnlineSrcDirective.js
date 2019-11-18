@@ -954,8 +954,8 @@
                           scope.alertMsg = $translate.instant(
                               'linkToServiceWithoutURLError');
                         }
-
-                        var pidUrl = 'http://pid.geoscience.gov.au/'+md.type[0]+'/ga/'+md.eCatId;
+                        var scopeType = md.type[0] === 'service' ? 'service' : 'dataset';
+                        var pidUrl = 'http://pid.geoscience.gov.au/'+ scopeType +'/ga/'+md.eCatId;
                         scope.params.url=pidUrl;
                         scope.params.name=md.title;
                         scope.params.code=md.eCatId;
@@ -1189,7 +1189,8 @@
                       if(scope.model.selectedType === scope.selectionType.ECAT_RECORD){
                         if(scope.metadata){
                           var md = scope.metadata;
-                          var pidUrl = 'http://pid.geoscience.gov.au/'+md.type[0]+'/ga/'+md.eCatId;
+                          var scopeType = md.type[0] === 'service' ? 'service' : 'dataset';
+                          var pidUrl = 'http://pid.geoscience.gov.au/'+ scopeType +'/ga/'+md.eCatId;
                           scope.params.url=pidUrl;
                           scope.params._uuid=md.getUuid();
                           scope.params.protocol='WWW:LINK-1.0-http--link';
