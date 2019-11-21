@@ -172,6 +172,14 @@
         }
       }
 
+      $scope.isHprmLink = function(association){
+        var link = association.split('~')[3];
+        if(link && link.startsWith('http://rmweb/HPEContentManager/')){
+          return true;
+        }
+        return false;
+      }
+
       $scope.isAvailable = function(item, item1){
         if(item || item1){
           return true;

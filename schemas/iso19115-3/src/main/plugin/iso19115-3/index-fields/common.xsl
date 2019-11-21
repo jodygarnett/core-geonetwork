@@ -438,7 +438,7 @@
 	</xsl:for-each>
     
   <xsl:for-each select="$metadata/mdb:identificationInfo/*/mri:associatedResource/mri:MD_AssociatedResource">
-       	<Field name="Associations" string="{string(mri:associationType/mri:DS_AssociationTypeCode/@codeListValue)}-{string(mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString)}-{string(mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:description/gco:CharacterString='eCat Identifier']/mcc:code/gco:CharacterString)}-{string(mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString)}" store="true" index="true"/>
+       	<Field name="Associations" string="{string(mri:associationType/mri:DS_AssociationTypeCode/@codeListValue)}~{string(mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString)}~{string(mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:description/gco:CharacterString='eCat Identifier']/mcc:code/gco:CharacterString)}~{string(mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString)}" store="true" index="true"/>
   </xsl:for-each>
   
   		<xsl:for-each select="$metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/srv:couplingType/srv:SV_CouplingType/@codeListValue">
