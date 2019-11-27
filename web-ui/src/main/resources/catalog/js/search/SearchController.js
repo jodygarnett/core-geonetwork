@@ -80,8 +80,8 @@
       }
 
       $scope.checkIndexStatus = function(){
-        checkIsIndexing();
-        $scope.$broadcast('resetSearch'); 
+        checkIsIndexing();       
+        $scope.$broadcast('resetSearch', $scope.searchObj.params);          
       }
       $scope.keywordsOptions = {
         mode: 'remote',
