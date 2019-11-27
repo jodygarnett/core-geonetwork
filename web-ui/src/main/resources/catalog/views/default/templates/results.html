@@ -4,6 +4,11 @@
       <i class="fa fa-home fa-5" aria-hidden="true"></i>
     </a>
   </div>
+  <div data-ng-show="isRecordIndexing">
+      <h4 style="color: red; padding-left:3em;display: inline;" class="text-warning" data-translate="">Updating currently in progress. 
+        Full content is currently unavailable. Please return in approximately 2 hours. 
+        We apologise for any inconvenience.</h4>&ensp;<a href="" data-ng-click="checkIndexStatus()"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+  </div>
   <div id="adv-1" class="collapse">
     <div class="row">
       <div data-ng-include="'../../catalog/views/default/templates/AdvSearchForm.html'" />
