@@ -43,7 +43,7 @@
         // TODO : create gn classes
         {name: 'metadatasAndTemplates', route: '#metadata',
           classes: 'btn-primary', icon: 'fa-archive'},
-        {name: 'harvesters', route: '#harvest', //url: 'harvesting',
+        {name: 'harvester', route: '#harvest', //url: 'harvesting',
           classes: 'btn-primary', icon: 'fa-cloud-download'},
         {name: 'statisticsAndStatus', route: '#dashboard',
           classes: 'btn-success', icon: 'fa-dashboard'},

@@ -1,14 +1,14 @@
 <span>
-  <div class="col-lg-8" data-ng-controller="GnAdminController">
+  <div class="col-lg-6" data-ng-controller="GnAdminController">
     <div class="clearfix">
       <a data-ng-repeat="m in getMenu()" href="{{getMenuUrl(m)}}"
          class="btn btn-lg btn-block {{m.classes}} gn-btn-admin">
-        <i class="fa {{m.icon}} fa-4x"/>
+        <i class="fa {{m.icon}} fa-3x"/>
         <p data-translate="">{{m.name}}</p>
       </a>
     </div>
   </div>
-  <div class="col-lg-4">
+  <div class="col-lg-3">
     <div class="panel panel-default" data-ng-hide="true">
       <div class="panel-heading" data-translate="">latestNews</div>
     </div>
@@ -34,5 +34,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>  
 </span>

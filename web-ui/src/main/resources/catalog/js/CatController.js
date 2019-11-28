@@ -98,6 +98,7 @@
             gnGlobalSettings, $location, gnUtilityService, gnSessionService,
             gnLangs, gnAdminMenu) {
       $scope.version = '0.0.1';
+      $scope.activeTab = '/home';
       //Display or not the admin menu
       if ($location.absUrl().indexOf('/admin.console') != -1) {
         $scope.viewMenuAdmin = true;
@@ -105,6 +106,8 @@
       //Update Links for social media
       $scope.socialMediaLink = $location.absUrl();
       $scope.$on('$locationChangeSuccess', function(event) {
+        console.log('$location.path() --> ' + $location.path());
+        $scope.activeTab = $location.path();
         $scope.socialMediaLink = $location.absUrl();
         $scope.showSocialMediaLink =
             ($scope.socialMediaLink.indexOf('/metadata/') != -1);

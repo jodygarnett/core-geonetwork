@@ -1,145 +1,37 @@
-<div class="container-fluid">
-  <div class="navbar-header">
-    <button type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#navbar"
-            title="{{'toggleNavigation' | translate}}"
-            aria-expanded="false"
-            aria-controls="navbar">
-      <span class="sr-only" data-translate>toggleNavigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
+<div class="gn-logo-nav">
+  <div class=container-fluid>
+    <div class="row">
+      <div class="col-md-3">
+        <a data-gn-active-tb-item="http://www.ga.gov.au/"  title="Navigate to the Geoscience Australia home page">
+        <img class="gn-logo" data-ng-src="../../catalog/views/default/images/ga.header.logo.png" />
+      </a>
+      </div>
+      <div class="user-info">
+        <div data-ng-include="'../../catalog/templates/userInfo.html'" />
+      </div>
+      <div class="title-lg col-md-6">
+        <span>Data and Publications Search<span data-ng-if="user.isEditorOrMore()"> and Metadata Entry Tool</span></span>
+        <img data-ng-src="../../catalog/views/default/images/eCat_logo.jpg" data-ng-if="user.isEditorOrMore()"/>
+      </div>                        
+	  <div class="infoIcon">
+        <a data-gn-active-tb-item="catalog.search#/about"><i class="fa fa-info-circle" style="font-size:25px;color:#45c2f0;float:right;"></i></a>
+      </div>
+    </div>
   </div>
-  <div id="navbar" class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-      <!-- <li>
-        <a data-gn-active-tb-item="catalog.search#/home">
-          <img class="gn-logo"
-               data-ng-src="../../images/logos/{{info['system/site/siteId']}}.png?{{info['system/site/lastUpdate']}}"/>
-          <span class="visible-lg">{{info['system/site/name']}}</span>
-        </a>
-      </li> -->
-      <li>
-        <a data-gn-active-tb-item="catalog.search#/search"
-           title="{{'search' | translate}}">
-          <i class="fa fa-search"></i>
-          <span class="visible-lg" data-translate="">search</span>
-        </a>
-      </li>
-      <li data-ng-if="isMapViewerEnabled">
-        <a data-gn-active-tb-item="catalog.search#/map"
-           title="{{'map' | translate}}">
-          <i class="fa fa-globe"></i>
-          <span class="visible-lg" data-translate="">makeYourMap</span>
-
-          <span data-gnv-layer-indicator=""/>
-        </a>
-      </li>
-      <li data-ng-show="authenticated && user.isEditorOrMore()">
-        <a data-gn-active-tb-item="catalog.edit"
-           title="{{'editorBoard' | translate}}">
-          <i class="fa fa-plus"></i>
-          <span class="visible-lg" data-translate="">Manage my metadata</span>
-        </a>
-      </li>
-  <!--    <li class="dropdown" data-ng-show="authenticated && user.isEditorOrMore()">
-        <a href="" class="dropdown-toggle" data-toggle="dropdown"
-           role="button" aria-expanded="false"><span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu">
-          <li>
-            <a data-gn-active-tb-item="catalog.edit#/create">
-              <i class="fa fa-plus"/>&nbsp;<span data-translate="">addRecord</span>
-            </a>
-          </li>
-          <li>
-            <a data-gn-active-tb-item="catalog.edit#/import">
-              <i class="fa fa-upload"/>&nbsp;<span data-translate="">ImportRecord</span>
-            </a>
-          </li>
-          <li>
-            <a data-gn-active-tb-item="catalog.edit#/directory"
-               data-ng-if="user.isReviewerOrMore()">
-              <i class="fa fa-list-ul"/>&nbsp;<span data-translate="">directoryManager</span>
-            </a>
-          </li>
-          <li>
-            <a data-gn-active-tb-item="catalog.edit#/batchedit"
-               data-ng-if="user.isReviewerOrMore()">
-              <i class="fa fa-pencil"/>&nbsp;<span data-translate="">batchEditing</span>
-            </a>
-          </li>
-        </ul>
-      </li> -->
-      <li data-ng-show="user.isUserAdminOrMore()">
-        <a data-gn-active-tb-item="admin.console"
-           title="{{'adminConsole' | translate}}">
-          <i class="fa fa-th"></i>
-          <span class="visible-lg" data-translate="">adminConsole</span>
-        </a>
-      </li>
-      <li class="dropdown" data-ng-show="user.isUserAdminOrMore() && viewMenuAdmin">
-        <a href="" class="dropdown-toggle" data-toggle="dropdown"
-           role="button" aria-expanded="false"><span class="caret"></span></a>
-        <ul data-ng-if="user.isUserAdmin()" class="dropdown-menu" role="menu">
-          <li data-ng-repeat="t in userAdminMenu">
-            <a data-gn-active-tb-item="admin.console{{t.route}}">
-              <i class="fa {{t.icon}}"/>&nbsp;<span data-translate="">{{t.name | translate}}</span>
-            </a>
-          </li>
-        </ul>
-        <ul data-ng-if="user.isAdministrator()" class="dropdown-menu" role="menu">
-          <li data-ng-repeat="t in adminMenu">
-            <a data-gn-active-tb-item="admin.console{{t.route}}">
-              <i class="fa {{t.icon}}"/>&nbsp;<span data-translate="">{{t.name | translate}}</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-
-
-    <form class="navbar-form navbar-right" role="language">
-      <div class="form-group pull-right"
-           data-gn-language-switcher="lang"
-           data-langs="langs"
-           data-lang-labels="langLabels"/>
-    </form>
-
-    <ul class="nav navbar-nav navbar-right">
-      <li data-ng-show="authenticated">
-        <a href="admin.console#/organization/users?userOrGroup={{user.username}}"
-           title="{{'userDetails' | translate}}"
-           class="hidden-xs btn btn-link">
-          <img class="img-circle"
-               data-ng-src="//gravatar.com/avatar/{{user.email | md5}}?s=18"/>
-          {{user.name}} {{user.surname}} ({{user.profile | translate}})
-          <span class="alert alert-danger ng-hide"
-                data-ng-show="session.remainingTime > 0 &&
-                    session.remainingTime < session.alertInTitleWhen"
-                data-translate=""
-                data-translate-values="{remainingTime: '{{session.remainingTime}}'}">
-            sessionWillExpireIn
-          </span>
-        </a>
-      </li>
-      <li data-ng-show="authenticated">
-        <a href="../../signout"
-           title="{{'signout' | translate}}">
-          <i class="fa fa-sign-out"></i>&nbsp;
-          {{'signout' | translate}}
-        </a>
-      </li>
-      <li data-ng-show="!authenticated && service !== 'catalog.signin' && isIntranet">
-        <a href="{{pages.signin}}"
-           title="{{'signIn'|translate}}"
-           data-ng-keypress="$event">
-          <i class="fa fa-sign-in"/>&nbsp;
-          {{'signIn' | translate}}
-        </a>
-      </li>
-    </ul>
+</div>
+<div class="ga-line"></div>
+<br>
+<div class="user-menu pull-right" style="margin-right:20px" data-ng-show="activeTab !== '/home' && activeTab !== '/search' && activeTab !== '/board'" >
+  <div class="user-menu-item">
+    <a data-gn-active-tb-item="catalog.search#/search" title="{{'search' | translate}}">
+      <i class="fa fa-search"></i>&nbsp;SEARCH</a>
+  </div>
+  <div class="user-menu-item" data-ng-show="authenticated && user.isEditorOrMore()">
+    <a data-gn-active-tb-item="catalog.edit" title="Manage my records" href="">
+      <i class="fa fa-plus"></i>&nbsp;MANAGE</a>
+  </div>
+  <div class="user-menu-item" data-ng-show="user.isUserAdminOrMore()">
+    <a data-gn-active-tb-item="admin.console" title="{{'adminConsole' | translate}}" href="">
+      <i class="fa fa-th"></i>&nbsp;ADMIN CONSOLE</a>
   </div>
 </div>

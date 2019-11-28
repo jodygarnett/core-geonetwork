@@ -57,7 +57,30 @@
           <h1>
             <xsl:apply-templates mode="getMetadataTitle" select="$metadata"/>
           </h1>
-          <!--<p><xsl:apply-templates mode="getMetadataAbstract" select="$metadata"/></p>-->
+         <h3>Authors</h3><p><xsl:apply-templates mode="getMetadataAuthors" select="$metadata"/></p>
+         <h3>Abstract</h3><p><xsl:apply-templates mode="getMetadataAbstract" select="$metadata"/></p>
+         <h3>Product Type</h3><p><xsl:apply-templates mode="getMetadataType" select="$metadata"/></p>
+         <h3>eCat Id</h3><p><xsl:apply-templates mode="getMetadataeCatId" select="$metadata"/></p>
+         <h3>Contacts</h3><p><xsl:apply-templates mode="getMetadataPOC" select="$metadata"/></p>
+         <h3>Digital Object Identifier</h3><p><xsl:apply-templates mode="getMetadataDOI" select="$metadata"/></p>
+         <h3>Persistant Identifier</h3><p><xsl:apply-templates mode="getMetadataPID" select="$metadata"/></p>
+         <h3>Publication Date</h3><p><xsl:apply-templates mode="getMetadataPubDate" select="$metadata"/></p>
+         <h3>Creation Date</h3><p><xsl:apply-templates mode="getMetadataCreateDate" select="$metadata"/></p>
+         <h3>Status</h3><p><xsl:apply-templates mode="getMetadataStatus" select="$metadata"/></p>
+         <h3>Purpose</h3><p><xsl:apply-templates mode="getMetadataPurpose" select="$metadata"/></p>
+         <h3>Maintenance Information</h3><p><xsl:apply-templates mode="getMetadataMaintenance" select="$metadata"/></p>
+         <h3>Topic Category</h3><p><xsl:apply-templates mode="getMetadataTopic" select="$metadata"/></p>
+         <h3>Series Information</h3><p><xsl:apply-templates mode="getMetadataSeries" select="$metadata"/></p>
+         <h3>Lineage</h3><p><xsl:apply-templates mode="getMetadataLineage" select="$metadata"/></p>
+         <h3>Parent Information</h3><p><xsl:apply-templates mode="getMetadataParent" select="$metadata"/></p>
+         <h3>Extents</h3><p><xsl:apply-templates mode="getMetadataExtent" select="$metadata"/></p>
+         <h3>Reference System</h3><p><xsl:apply-templates mode="getMetadataRefSys" select="$metadata"/></p>
+         <h3>Spatial Resolution</h3><p><xsl:apply-templates mode="getMetadataSpatial" select="$metadata"/></p>
+         <h3>Service Information</h3><p><xsl:apply-templates mode="getMetadataServiceInfo" select="$metadata"/></p>
+         <h3>Associations</h3><p><xsl:apply-templates mode="getMetadataAssoc" select="$metadata"/></p>
+         <h3>Downloads and Links</h3><p><xsl:apply-templates mode="getMetadataDistributions" select="$metadata"/></p>
+         <h3>Source Information</h3><p><xsl:apply-templates mode="getMetadataSourceInfo" select="$metadata"/></p>
+         
           <!-- TODO : Add thumbnail to header -->
 
           <xsl:apply-templates mode="getMetadataHeader" select="$metadata"/>

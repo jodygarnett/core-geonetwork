@@ -99,6 +99,11 @@ public final class Geonet {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy_HHmm");
     public static final String BATCHEDIT_BACKUP_BUCKET = "https://s3-ap-southeast-2.amazonaws.com/ga-ecat3-batchedit/";
+    public static final String BATCHEDIT_REPORT = "be_report";
+    public static final String BATCHEDIT_BACKUP = "be_backup";
+    public static final String BATCHEDIT_PROGRESS = "be_progress";
+    public static final String CSV_DOWNLOAD_STATUS = "csv_download_status";
+    
     /**
      * Container for file names.
      */
@@ -479,6 +484,8 @@ public final class Geonet {
          */
         public static final String ECAT_ID = "eCatId";
         
+        public static final String KEYWORD = "keyword";
+        
         /**
          * Attrset used in Z39.50 search
          */
@@ -545,6 +552,7 @@ public final class Geonet {
             public static final String RATING = "rating";
             public static final String POPULARITY = "popularity";
             public static final String DATE = "changeDate";
+            public static final String PUBLICATION_DATE = "publicationDate";
 
             /**
              * Parameter name: {@value #_TITLE} - Title not tokenized mainly used for sorting
@@ -552,6 +560,7 @@ public final class Geonet {
              */
             public static final String TITLE = "title";
             public static final String SCALE_DENOMINATOR = "denominator";
+            public static final String ECATID = "eCatId";
         }
     }
 

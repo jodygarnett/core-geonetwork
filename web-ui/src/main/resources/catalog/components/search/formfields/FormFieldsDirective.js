@@ -87,7 +87,9 @@
                     var datums = [];
                     for (var i = 0; i < filtered.length; i++) {
                       if (stringValues.indexOf(filtered[i].id) < 0) {
-                        datums.push(filtered[i]);
+                        if(!(filtered[i].id.indexOf('Published_') == 0)){//This is to filter keyword 'Published_Internal' and 'Published_External'
+                          datums.push(filtered[i]);
+                        }                        
                       }
                     }
                     return datums;

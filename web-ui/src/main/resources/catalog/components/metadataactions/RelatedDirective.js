@@ -121,7 +121,7 @@
               scope.hasAction = function(mainType) {
                 var fn = gnRelatedResources.map[mainType].action;
                 // If function name ends with ToMap do not display the action
-                if (fn.name.match(/.*ToMap$/) &&
+                if (fn && fn.name.match(/.*ToMap$/) &&
                    gnGlobalSettings.isMapViewerEnabled === false) {
                   return false;
                 }
@@ -141,7 +141,10 @@
 			  }
 				
 			  scope.display = function(r) {
-				  var dis = !r.url.startsWith('file') || (r.url.startsWith('file') && gnGlobalSettings.isIntranet);
+          var dis = (!r.url.startsWith('http://rmweb/HPEContentManager') 
+                          && !r.url.startsWith('file')) 
+                          || (r.url.startsWith('file') && gnGlobalSettings.isIntranet)
+                          || (r.url.startsWith('http://rmweb/HPEContentManager') && gnGlobalSettings.isIntranet);
 				  return dis;
 			  };
 			  

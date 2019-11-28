@@ -70,7 +70,19 @@
       $scope.getAnySuggestions = function(val) {
         return suggestService.getAnySuggestions(val);
       };
+      $scope.isRecordIndexing = false;
+      checkIsIndexing();
+      function checkIsIndexing() {
+        // Check if indexing
+        $http.get('../api/site/indexing').then(function(res) {
+              $scope.isRecordIndexing = res.data;
+        });
+      }
 
+      $scope.checkIndexStatus = function(){
+        checkIsIndexing();       
+        $scope.$broadcast('resetSearch', $scope.searchObj.params);          
+      }
       $scope.keywordsOptions = {
         mode: 'remote',
         remote: {
@@ -78,6 +90,10 @@
           filter: suggestService.bhFilter,
           wildcard: 'QUERY'
         }
+      };
+
+      $scope.getAuthorSuggestions = function(val) {
+        return suggestService.getAuthorSuggestions(val);
       };
 
       $scope.orgNameOptions = {
@@ -206,7 +222,43 @@
    				  }
    				});
    		  };
-   	  
+       
+         $scope.homeSearch = function(){
+           var anytext = {
+             any : $scope.searchObj.params.any
+           }           
+          $scope.$broadcast('resetSearch', anytext);             
+        }
+        $scope.searchHomePageItem = function(type){
+        var param;
+        if(type === 'latest_publication'){
+          var today = moment();
+          var month = today.format('MM');
+          var year = today.format('YYYY');
+          
+          var fromDate = moment().subtract(30, 'days');
+          var fromMonth = fromDate.format('MM');
+          var fromYear = fromDate.format('YYYY');
+          var dateFrom = fromYear + '-' + fromMonth + '-' + fromDate.daysInMonth();
+          var dateTo = year + '-' + month + '-' + today.daysInMonth();
+          param = {
+            publicationDateFrom: dateFrom,
+            publicationDateTo: dateTo
+          }
+        }
+        if(type === 'ga_publication'){
+          param = {
+            'facet.q' : 'keyword/GA Publication'
+          }
+        }
+        if(type === 'edu_products'){
+          param = {
+            'facet.q' : 'keyword/Educational Product'
+          }
+        }        
+        $scope.$broadcast('resetSearch', param);        
+      }
+      
       /**
        * Keep a reference on main cat scope
        * @return {*}
