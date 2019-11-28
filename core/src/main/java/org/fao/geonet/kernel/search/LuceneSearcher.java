@@ -450,6 +450,8 @@ public class LuceneSearcher extends MetaSearcher implements MetadataRecordSelect
             sortType = SortField.Type.INT;
             sortBy = "_" + sortBy;
         } else if (sortBy.equals(Geonet.SearchResult.SortBy.SCALE_DENOMINATOR)) {
+            sortType = SortField.Type.INT;            
+        } else if (sortBy.equals(Geonet.SearchResult.SortBy.ECATID)) {
             sortType = SortField.Type.INT;
         } else if (sortBy.equals(Geonet.SearchResult.SortBy.DATE)
             || sortBy.equals(Geonet.SearchResult.SortBy.TITLE)) {

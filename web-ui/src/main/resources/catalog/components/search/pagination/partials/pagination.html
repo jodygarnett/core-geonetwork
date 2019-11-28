@@ -9,8 +9,8 @@
   </span>
   <div class="btn-group" data-ng-show="values && values.length > 1" title="{{'chooseRecordsPerPage' | translate}}">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-      {{config.from}} - {{config.to}}
-      <em data-translate="">on</em>
+      {{config.from}}-{{config.to}}
+      <em data-translate="">of</em>
       {{config.resultsCount}}
       <span class="caret"></span>
     </button>
@@ -22,11 +22,9 @@
       </li>
     </ul>
   </div>
-
-
-
+  
   <ul class="pagination">
-    <li ng-class="{disabled:config.currentPage === 1}" class="hidden-xs">
+    <li ng-class="{disabled:config.currentPage === 1}">
       <a ng-click="first()"><i class="fa fa-angle-double-left"></i></a>
     </li>
     <li ng-class="{disabled:config.currentPage === 1}">
@@ -35,7 +33,7 @@
     <li ng-class="{disabled:config.currentPage === config.pages}">
       <a ng-click="next()"><i class="fa fa-angle-right"></i></a>
     </li>
-    <li ng-class="{disabled:config.currentPage === config.pages}" class="hidden-xs">
+    <li ng-class="{disabled:config.currentPage === config.pages}">
       <a ng-click="last()"><i class="fa fa-angle-double-right"></i></a>
     </li>
   </ul>

@@ -261,6 +261,21 @@
 	</xsl:for-each>
 
  	<!-- Martins additions start -->
+	
+	
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:date/cit:CI_Date/cit:dateType/cit:CI_DateTypeCode">
+       		<Field name="citationdateType" string="{string(.)}" store="true" index="true"/>
+     </xsl:for-each>
+	
+	 <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:date/cit:CI_Date/cit:date/gco:DateTime">
+       		<Field name="citationDate" string="{string(.)}" store="true" index="true"/>
+     </xsl:for-each>
+	 
+	 <xsl:for-each select="$metadata/mdb:metadataScope/mdb:MD_MetadataScope">
+      <Field name="scopeName" string="{string(mdb:name/gco:CharacterString)}" store="true" index="true"/>
+     </xsl:for-each>
+	
      <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:citation/cit:CI_Citation/cit:series/cit:CI_Series">
        		<Field name="issueIdentification" string="{string(cit:issueIdentification/gco:CharacterString)}" store="true" index="true"/>
        		<Field name="seriesName" string="{string(cit:name/gco:CharacterString)}" store="true" index="true"/>
@@ -270,6 +285,25 @@
        		<Field name="lineageStatement" string="{string(.)}" store="true" index="true"/>
      </xsl:for-each>
 	 
+	 <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_LegalConstraints/mco:accessConstraints/mco:MD_RestrictionCode/@codeListValue">
+       		<Field name="accessCons" string="{string(.)}" store="true" index="true"/>
+     </xsl:for-each>
+	 
+	 <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_LegalConstraints/mco:useConstraints/mco:MD_RestrictionCode/@codeListValue">
+       		<Field name="useCons" string="{string(.)}" store="true" index="true"/>
+     </xsl:for-each>
+	 
+	 <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_LegalConstraints/mco:reference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString">
+       		<Field name="licenceLink" string="{string(.)}" store="true" index="true"/>
+     </xsl:for-each>
+	 
+	 <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:resourceConstraints/mco:MD_LegalConstraints/mco:useLimitation/gco:CharacterString">
+       		<Field name="MD_LegalConstraintsUseLimitation" string="{string(.)}" store="true" index="true"/>
+     </xsl:for-each>
+	 
+	 <xsl:for-each select="$metadata/mdb:identificationInfo/mri:MD_DataIdentification/mri:purpose/gco:CharacterString">
+       		<Field name="purpose" string="{string(.)}" store="true" index="true"/>
+     </xsl:for-each>	 
   
   	<xsl:for-each select="$metadata/mdb:distributionInfo/mrd:MD_Distribution/mrd:distributor/mrd:MD_Distributor/mrd:distributionOrderProcess/mrd:MD_StandardOrderProcess">
        <Field name="fees" string="{string(mrd:fees/gco:CharacterString)}" store="true" index="true"/>
@@ -404,8 +438,32 @@
 	</xsl:for-each>
     
   <xsl:for-each select="$metadata/mdb:identificationInfo/*/mri:associatedResource/mri:MD_AssociatedResource">
-       	<Field name="Associations" string="{string(mri:associationType/mri:DS_AssociationTypeCode/@codeListValue)}-{string(mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString)}-{string(mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:description/gco:CharacterString='eCat Identifier']/mcc:code/gco:CharacterString)}-{string(mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString)}" store="true" index="true"/>
+       	<Field name="Associations" string="{string(mri:associationType/mri:DS_AssociationTypeCode/@codeListValue)}~{string(mri:metadataReference/cit:CI_Citation/cit:title/gco:CharacterString)}~{string(mri:metadataReference/cit:CI_Citation/cit:identifier/mcc:MD_Identifier[mcc:description/gco:CharacterString='eCat Identifier']/mcc:code/gco:CharacterString)}~{string(mri:metadataReference/cit:CI_Citation/cit:onlineResource/cit:CI_OnlineResource/cit:linkage/gco:CharacterString)}" store="true" index="true"/>
   </xsl:for-each>
+  
+  		<xsl:for-each select="$metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/srv:couplingType/srv:SV_CouplingType/@codeListValue">
+      <Field name="couplingType" string="{string(.)}" store="true" index="true"/>
+	</xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata/srv:distributedComputingPlatform/srv:DCPList/@codeListValue">
+      <Field name="dcp" string="{string(.)}" store="true" index="true"/>
+    </xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata">
+      <Field name="operationDesc" string="{string(srv:operationDescription/gco:CharacterString)}" store="true" index="true"/>
+    </xsl:for-each>
+	
+		<xsl:for-each select="$metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata">
+	  <Field name="connectPoint" string="{string(srv:connectPoint/cit:CI_OnlineResource/cit:linkage/gco:CharacterString)}" store="true" index="true"/>
+    </xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata/srv:parameter/srv:SV_Parameter/srv:name/gco:MemberName/gco:aName/gco:CharacterString">
+      <Field name="parameterName" string="{string(.)}" store="true" index="true"/>
+    </xsl:for-each>
+	
+	<xsl:for-each select="$metadata/mdb:identificationInfo/srv:SV_ServiceIdentification/srv:containsOperations/srv:SV_OperationMetadata/srv:parameter/srv:SV_Parameter/srv:description/gco:CharacterString">
+      <Field name="parameterDesc" string="{string(.)}" store="true" index="true"/>
+    </xsl:for-each>
 	  
 	  
 	  
@@ -689,6 +747,10 @@
 
         <xsl:for-each select="mri:distance/gco:Distance/@uom">
           <Field name="distanceUom" string="{string(.)}" store="true" index="true"/>
+        </xsl:for-each>
+		
+		<xsl:for-each select="mri:levelOfDetail/gco:CharacterString">
+          <Field name="levelOfDetail" string="{string(.)}" store="true" index="true"/>
         </xsl:for-each>
       </xsl:for-each>
 

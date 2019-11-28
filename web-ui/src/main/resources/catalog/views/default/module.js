@@ -72,6 +72,7 @@
     '$location',
     'suggestService',
     '$http',
+    '$timeout',
     '$translate',
     'gnUtilityService',
     'gnSearchSettings',
@@ -84,7 +85,7 @@
     'gnOwsContextService',
     'hotkeys',
     'gnGlobalSettings',
-    function($scope, $location, suggestService, $http, $translate,
+    function($scope, $location, suggestService, $http, $timeout, $translate,
              gnUtilityService, gnSearchSettings, gnViewerSettings,
              gnMap, gnMdView, mdView, gnWmsQueue,
              gnSearchLocation, gnOwsContextService,
@@ -171,11 +172,19 @@
         }
       }
 
-      $scope.isAvailable = function(item){
-        if(item){
+      $scope.isHprmLink = function(association){
+        var link = association.split('~')[3];
+        if(link && link.startsWith('http://rmweb/HPEContentManager/')){
           return true;
         }
+        return false;
+      }
 
+      $scope.isAvailable = function(item, item1){
+        if(item || item1){
+          return true;
+        }
+    
         return false;
       }
 
@@ -264,6 +273,10 @@
         return false;
       };
       $scope.openRecord = function(index, md, records) {
+        $timeout(function() {
+          var myEl = angular.element(document.querySelector('#download-tab a'));
+          myEl.triggerHandler('click');
+        });
         gnMdView.feedMd(index, md, records);
       };
 
