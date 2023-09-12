@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+         <loc>None./</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/"/>
+         
+    </url>
+    <url>
+         <loc>Noneannexes/gallery/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/annexes/gallery/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/annexes/gallery/"/>
+         
+    </url>
+    <url>
+         <loc>Noneapi/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/api/"/>
+         
+    </url>
+    <url>
+         <loc>Noneapi/csw/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/csw/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/api/csw/"/>
+         
+    </url>
+    <url>
+         <loc>Noneapi/oai-pmh/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/oai-pmh/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/api/oai-pmh/"/>
+         
+    </url>
+    <url>
+         <loc>Noneapi/opensearch/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/opensearch/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/api/opensearch/"/>
+         
+    </url>
+    <url>
+         <loc>Noneapi/rdf-dcat/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/rdf-dcat/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/api/rdf-dcat/"/>
+         
+    </url>
+    <url>
+         <loc>Noneapi/search/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/search/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/api/search/"/>
+         
+    </url>
+    <url>
+         <loc>Noneapi/the-geonetwork-api/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/the-geonetwork-api/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/api/the-geonetwork-api/"/>
+         
+    </url>
+    <url>
+         <loc>Noneapi/z39-50/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/api/z39-50/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/api/z39-50/"/>
+         
+    </url>
+    <url>
+         <loc>Nonedevel/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/devel/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/devel/"/>
+         
+    </url>
+    <url>
+         <loc>Nonedevel/docs/docs/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/devel/docs/docs/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/devel/docs/docs/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/about/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/about/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/about/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/authors/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/authors/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/authors/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.0.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.0.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.0.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.0.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.0.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.0.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.0.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.0.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.0.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.0.3/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.0.3/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.0.3/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.0.4/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.0.4/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.0.4/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.10/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.10/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.10/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.3/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.3/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.3/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.4/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.4/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.4/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.5/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.5/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.5/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.6/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.6/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.6/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.7/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.7/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.7/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.8/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.8/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.8/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.10.9/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.10.9/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.10.9/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.3/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.3/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.3/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.4/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.4/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.4/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.5/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.5/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.5/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.6/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.6/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.6/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.7/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.7/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.7/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.8/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.8/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.8/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.12.9/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.12.9/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.12.9/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.2.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.2.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.2.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.2.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.2.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.2.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.2.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.2.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.2.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.4.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.4.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.4.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.4.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.4.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.4.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.4.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.4.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.4.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.4.3/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.4.3/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.4.3/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.4.4/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.4.4/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.4.4/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.6.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.6.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.6.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.8.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.8.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.8.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.8.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.8.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.8.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.8.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.8.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.8.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-3.8.3/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-3.8.3/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-3.8.3/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.0-alpha.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.0-alpha.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.0-alpha.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.0-alpha.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.0-alpha.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.0-alpha.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.3/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.3/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.3/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.4/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.4/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.4/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.5/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.5/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.5/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.0.6/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.0.6/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.0.6/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.2.0/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.2.0/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.2.0/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.2.1/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.2.1/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.2.1/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.2.2/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.2.2/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.2.2/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.2.3/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.2.3/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.2.3/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.2.4/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.2.4/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.2.4/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/change-log/version-4.2.5/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/change-log/version-4.2.5/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/change-log/version-4.2.5/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/license/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/license/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/license/"/>
+         
+    </url>
+    <url>
+         <loc>Noneoverview/license/GPL/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/overview/license/GPL/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/overview/license/GPL/"/>
+         
+    </url>
+    <url>
+         <loc>Noneuser-guide/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/user-guide/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/user-guide/"/>
+         
+    </url>
+    <url>
+         <loc>Noneuser-guide/quick-start/</loc>
+         <lastmod>2023-09-12</lastmod>
+         <changefreq>daily</changefreq>
+         <xhtml:link rel="alternate" hreflang="en" href="Noneen/user-guide/quick-start/"/>
+         <xhtml:link rel="alternate" hreflang="fr" href="Nonefr/user-guide/quick-start/"/>
+         
+    </url>
+</urlset>
