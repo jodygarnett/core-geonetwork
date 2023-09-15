@@ -16,7 +16,7 @@ We  need an empty file on the custom/src/main/resources/catalog/views/custom/les
 
 Then we need to define the basic Angular module that will be used on this style. Create a file on custom/src/main/resources/catalog/views/custom/module.js and add the following content:
 
-.. code:: javascript
+.. code-block:: javascript
 
    (  function() {
         goog.provide('gn_search_custom');
@@ -26,13 +26,13 @@ Then we need to define the basic Angular module that will be used on this style.
 
 Next we create a new file on custom/src/main/resources/catalog/views/custom/templates/index.html and add the following content:
 
-.. code:: html
+.. code-block:: html
 
    <div>This is my custom GeoNetwork</div>
 
 Finally we have to tell the wro4j library where our files will be. Edit the file web-ui/src/main/resources/WEB-INF/classes/web-ui-wro-sources.xml and add our folders:
 
-.. code:: xml
+.. code-block:: xml
 
    <require pathOnDisk="web-ui/src/main/resources" >
      <jsSource webappPath="/catalog/js/" />
@@ -54,13 +54,13 @@ You can import the default style to have an easy start on your new style.
 
 Edit custom/src/main/resources/catalog/views/custom/less/gn_search_custom.less and add the following line:
 
-.. code:: less
+.. code-block:: less
 
    @import "gn_search_default.css";
 
 Then make the Angular module dependant of the default Angular UI module. Edit custom/src/main/resources/catalog/views/custom/module.js and replace the contents with:
 
-.. code:: javascript
+.. code-block:: javascript
 
    (  function() {
          goog.provide('gn_search_custom');
@@ -80,7 +80,7 @@ Modify Search Results
 
 One of the most common customizations on the styling of GeoNetwork is to modify the appearance of the search result list. We can point to a different template on the config.js file. Edit the file custom/src/main/resources/catalog/views/custom/config.js and modify the property searchSettings.resultViewTpls.
 
-.. code:: javascript
+.. code-block:: javascript
 
    searchSettings.resultViewTpls = [{
                    tplUrl: '../../catalog/views/custom/resultsview/' +
@@ -91,8 +91,8 @@ One of the most common customizations on the styling of GeoNetwork is to modify 
 
 And now we have to create the referenced file web-ui/src/main/resources/catalog/views/custom/resultsview/partials/viewtemplates/grid.html and use the template we want, like:
 
-.. code:: html
-  
+.. code-block:: html
+
    <ul class="list-group gn-resultview gn-resultview-sumup">
      <li class="list-group-item gn-grid"
        data-ng-repeat="md in searchResults.records"

@@ -5,12 +5,9 @@ Importing a new record
 
 An editor can import metadata in the catalog file in different formats: XML, MEF or ZIP (see :ref:`mef_format`).
 
-.. index:: pair: MEF; import
-.. index:: pair: XML; import
-
 Before you begin
 -----------------
-The user should have an ``editor`` profile to access metadata. 
+The user should have an ``editor`` profile to access metadata.
 
 1. Go to the contribute page and select ``Import new records``.
 
