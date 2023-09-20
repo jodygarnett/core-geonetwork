@@ -5,9 +5,9 @@ Maintainer guide
 
 For installation instructions, please refer to the :ref:`installation`.
 
-.. toctree::
-   :maxdepth: 2
+-   :doc:`Installation </install-guide/index.rst>`
+-   :doc:`Setup </administrator-guide/index.rst>`
+-   :doc:`Setting up search/content statistics <statistics/index.rst>`
+-   :doc:`Production Use <production-use/index.rst>`
+-   :doc:`Updating the application <updating/index.rst>`
 
-   statistics/index.rst
-   updating/index.rst
-   production-use/index.rst

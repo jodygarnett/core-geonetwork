@@ -765,7 +765,7 @@ Your environment variables will looks like this:
 
 .. note::  You don't typically have to do any role conversion since the role name will be used in the ID Token.
 
-.. _OIDC Bearer Tokens:
+.. _oidc_bearer_tokens:
 
 OIDC Bearer Tokens
 ==================
@@ -779,9 +779,9 @@ Bearer Tokens are also supported - you can attach the JWT Bearer token to any re
 Bearer Tokens are mostly used for automated (desktop or application) API calls - real users should just login normally using OIDC.
 
 #. Setup your OIDC configuration (see :ref:`authentication-openid`)
-#. Setup the OIDC Bearer token configuration (see :ref:`Bearer Token Configuration`)
+#. Setup the OIDC Bearer token configuration (see :ref:`bearer_token_configuration`)
 #. Obtain a Bearer token from the OIDC server.  This is the hard part and there are several ways to do this.  One way that is used is via the OAuth 2.0 Device Authorization Grant ("Device Flow") workflow.
-#. Attach it to your request headers (see :ref:`OIDC Bearer Tokens`)
+#. Attach it to your request headers (see :ref:`oidc_bearer_tokens`)
 #. Make protected requests to the Geonetwork API
 
 This has been tested with Keycloak and with Azure AD.  It should work with other JWT-based OIDC services.
@@ -795,7 +795,7 @@ The token is validated in three major ways:
 #. The bearer token (JWT) will be checked that the audience for it is the same as our configurated OIDC configuration.  This will ensure that someone isn't getting a token from a different service and attempting to use it here.  See `AudienceAccessTokenValidator.java`
 #. The bearer token (JWT) will be checked that the subject of the JWT and the `userinfo` (returned from the IDP) are the same.  This shouldnt be a problem in our use-case, but the OAUTH2 specification recommends this check.  See `SubjectAccessTokenValidator.java`
 
-.. _Bearer Token Configuration:
+.. _bearer_token_configuration:
 
 Configuration
 `````````````
@@ -835,13 +835,13 @@ https://www.keycloak.org/getting-started/getting-started-docker
 
 Keycloak details are defined via environment variables
 
-    .. code-block:: text
+.. code-block:: text
 
-        KEYCLOAK_AUTH_SERVER_URL={keycloak url}
-        KEYCLOAK_REALM={realm name}
-        KEYCLOAK_RESOURCE={client name}
-        KEYCLOAK_SECRET={client secret}
-        KEYCLOAK_DISABLE_TRUST_MANAGER={true|false}
+    KEYCLOAK_AUTH_SERVER_URL={keycloak url}
+    KEYCLOAK_REALM={realm name}
+    KEYCLOAK_RESOURCE={client name}
+    KEYCLOAK_SECRET={client secret}
+    KEYCLOAK_DISABLE_TRUST_MANAGER={true|false}
 
 You can setup more advance keycloak settings by editing the file
 :file:`WEB-INF/config-security/keycloak.json`
@@ -850,7 +850,7 @@ Geonetwork client URL configuration
 ===================================
 
 Ensure that when you configure your client that you setup the valid redirect uris to your geonetwork installation.
-i.e. https://localhost:8443/geonetwork/\*. If this is not setup correctly you may get and error indicating that a wrong redirect uri was supplied.
+i.e. ``https://localhost:8443/geonetwork/*``. If this is not setup correctly you may get and error indicating that a wrong redirect uri was supplied.
 Also if wanting to test the client backchannel logout then ensure that the admin URL is also set to the geonetwork installation.
 
 Sample user/role/group setup
@@ -908,14 +908,14 @@ EU-login requires an ecas-plugin provided by the European Union. The ecas plugin
 `CITnet <https://citnet.tech.ec.europa.eu/CITnet/nexus>`_ for various java containers, such as Tomcat and JBoss.
 
 For tomcat, add two files to the tomcat lib folder: ecas-tomcat-x.y.z.jar and log4j-x.y.z.jar. Inside the lib folder
-copy two folders from `eulogin-tomcat-x.y.z-config.zip`: `org/apache/catalina/authenticator` and `org/apache/catalina/startup`.
-The mbeans folder contains a file `mbeans-descriptors.xml`. The startup folder contains a file `Authenticators.properties`. Verify
+copy two folders from :file:`eulogin-tomcat-x.y.z-config.zip`: :file:`org/apache/catalina/authenticator` and :file:`org/apache/catalina/startup`.
+The mbeans folder contains a file :file:`mbeans-descriptors.xml`. The startup folder contains a file :file:`Authenticators.properties`. Verify
 that the JDK trusts the `ECAS certificates <https://webgate.ec.europa.eu/CITnet/confluence/display/IAM/Downloads-Certificates>`_
 else import them on the keystore of the JVM.
 
-The EU Login configuration is defined in ``WEB-INF/config-security/config-security.properties``.
+The EU Login configuration is defined in :file:`WEB-INF/config-security/config-security.properties`.
 You can configure your environment by updating the previous file or by defining property overrides in the file
-``WEB-INF/config-security/config-security-overrides.properties``:
+:file:`WEB-INF/config-security/config-security-overrides.properties`:
 
 .. code-block:: text
 
