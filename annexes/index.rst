@@ -9,5 +9,4 @@ Annexes
 
    mef-format.rst
    gallery/gallery.rst
-   glossary/index.rst
    standards/index.rst

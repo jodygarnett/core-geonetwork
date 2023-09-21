@@ -8,7 +8,7 @@ the Food and Agriculture organisation of the United Nations (`FAO <http://www.fa
 the United Nations World Food Programme (`WFP <http://www.wfp.org>`_) and the
 United Nations Environmental Programme (`UNEP <http://www.unep.org>`_).
 
-At present the project is widely used as the basis of Spatial Data Infrastructures
+The project is widely used as the foundation of Spatial Data Infrastructures
 all around the world (See :ref:`gallery`).
 
 The GeoNetwork project is part of the Open Source Geospatial Foundation (`OSGeo <https://www.osgeo.org>`_) and
@@ -18,6 +18,6 @@ can be found at `GeoNetwork opensource <https://geonetwork-opensource.org>`_.
    :maxdepth: 2
 
    about.rst
-   license.rst
+   license/index.rst
    authors.rst
    change-log/index.rst

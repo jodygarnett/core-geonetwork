@@ -12,7 +12,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../gallery/gallery/">
+        <link rel="next" href="../standards/">
       
       
       <link rel="icon" href="../../assets/geonetwork-logo.png">
@@ -860,10 +860,6 @@
         
       
         
-          
-        
-      
-        
       
     
     
@@ -918,6 +914,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Metadata Exchange Format (MEF)
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -927,6 +934,66 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mef-v1-file-format" class="md-nav__link">
+    MEF v1 file format
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mef-v2-file-format" class="md-nav__link">
+    MEF v2 file format
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-infoxml-file" class="md-nav__link">
+    The info.xml file
+  </a>
+  
+    <nav class="md-nav" aria-label="The info.xml file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info_xml" class="md-nav__link">
+    Date format
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -939,31 +1006,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../gallery/gallery/" class="md-nav__link">
+      <a href="../glossary/index.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Some GeoNetwork nodes
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../glossary/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Index
+    None
   </span>
   
 
@@ -1050,6 +1097,55 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mef-v1-file-format" class="md-nav__link">
+    MEF v1 file format
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mef-v2-file-format" class="md-nav__link">
+    MEF v2 file format
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-infoxml-file" class="md-nav__link">
+    The info.xml file
+  </a>
+  
+    <nav class="md-nav" aria-label="The info.xml file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#info_xml" class="md-nav__link">
+    Date format
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1080,6 +1176,135 @@
 
 
 <h1 id="mef_format">Metadata Exchange Format (MEF)</h1>
+<h2 id="introduction">Introduction</h2>
+<p>The metadata exchange format (MEF in short) is a specially designed file format for the purpose of metadata exchange between different platforms. A metadata exported as a MEF can be imported by any platform which is able to understand MEF. This format has been developed with GeoNetwork in mind so the information it contains is mainly related to GeoNetwork. Nevertheless, it can be used as an interoperability format between different platforms.</p>
+<p>This format has been designed with the following needs in mind:</p>
+<ol>
+<li>Export a metadata record for backup purposes</li>
+<li>Import a metadata record from a previous backup</li>
+<li>Import a metadata record from a different GeoNetwork version to allow a smooth migration from one version to another.</li>
+<li>Capture metadata plus thumbnails and any data uploaded with the metadata record.</li>
+</ol>
+<p>In the paragraphs below, some terms should be intended as follows:</p>
+<ol>
+<li>the term actor is used to indicate any system (application, service etc...) that operates on metadata.</li>
+<li>the term reader will be used to indicate any actor that can import metadata from a MEF file.</li>
+<li>the term writer will be used to indicate any actor that can generate a MEF file.</li>
+</ol>
+<h2 id="mef-v1-file-format">MEF v1 file format</h2>
+<p>A MEF file is simply a ZIP file which contains the following files:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Root
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a> |
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a> +--- metadata.xml
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a> +--- info.xml
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a> +--- public
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a> |        +---- all public documents and thumbnails
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a> +--- private
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>           +---- all private documents and thumbnails
+</span></code></pre></div>
+<ol>
+<li><em>metadata.xml</em>: this file contains the metadata itself, in XML format. The text encoding of the metadata (eg. UTF-8) is specified in the XML declaration.</li>
+<li><em>info.xml</em>: this is a special XML file which contains information related to the metadata (metadata about the metadata). Examples of the information in the info.xml file are: creation date, modification date, privileges This information is needed by GeoNetwork.</li>
+<li><em>public</em>: this is a directory used to store the metadata thumbnails and other public files. There are no restrictions on the image format but it is strongly recommended to use the portable network graphics (PNG), JPEG or GIF format.</li>
+<li><em>private</em>: this is a directory used to store all data (maps, shape files etc...) uploaded with the metadata in the GeoNetwork editor. Files in this directory are <em>private</em> in the sense that authorisation is required to access them. There are no restrictions on the file types that can be stored into this directory.</li>
+</ol>
+<p>Any other file or directory present in the MEF file should be ignored by readers that don't recognise them. This allows actors to add custom extensions to the MEF file.</p>
+<p>A MEF file can have empty public and private folders depending upon the export format, which can be:</p>
+<ul>
+<li><em>simple</em>: both public and private are omitted.</li>
+<li><em>partial</em>: only public files are provided.</li>
+<li><em>full</em>: both public and private files are provided.</li>
+</ul>
+<p>It is recommended to use the .mef extension when naming MEF files.</p>
+<h2 id="mef-v2-file-format">MEF v2 file format</h2>
+<p>MEF version 2 support the following:</p>
+<ul>
+<li>multi-metadata support: more than one metadata record and data can be stored in a single MEF file.</li>
+<li>multi-schema support: be able to store in a single MEF n formats (eg. for an ISO profile, also store a version of that record in the base ISO19115/ISO19139 schema).</li>
+</ul>
+<p>Current export services that create MEF files from a metadata record with related records (eg. paent, feature catalog etc), can include these related metadata records in the MEF. See <a href="mef_export.md">mef_export</a>.</p>
+<p>MEF v2 format structure is the following:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Root
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  |
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a> + 0..n metadata
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>     |
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>     +--- metadata
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>     |     +--- metadata.xml
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>     |     +--- (optional) metadata.iso19139.xml
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>     +--- info.xml
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>     +--- applschema
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>     |     +--- (optional) metadata.xml (ISO19110 Feature Catalog)
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>     +--- public
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>     |     +---- all public documents and thumbnails
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>     +--- private
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>           +---- all private documents and thumbnails
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>metadata.iso19139.xml is generated by GeoNetwork actors on export if the metadata record in metadata.xml is an ISO19115/19139 profile. On import, this record may be selected for loading if the ISO19115/19139 profile is not present.</p>
+</div>
+<h2 id="the-infoxml-file">The info.xml file</h2>
+<p>This file contains general information about a metadata. It must have an info root element with a mandatory version attribute. This attribute must be in the X.Y form, where X represents the major version and Y the minor one. The purpose of this attribute is to allow future changes of this format maintaining compatibility with older readers. The policy behind the version is this:</p>
+<ol>
+<li>A change to Y means a minor change. All existing elements in the previous version must be left unchanged: only new elements or attributes may be added. A reader capable of reading version X.Y is also capable of reading version X.Y' with Y'&gt;Y.</li>
+<li>A change to X means a major change. Usually, a reader of version X.Y is not able to read version X'.Y with X'&gt;X.</li>
+</ol>
+<p>The root element must have the following children:</p>
+<ol>
+<li><em>general</em>: a container for general information. It must have the following children:<ul>
+<li><em>uuid</em>: this is the universally unique identifier assigned to the metadata and must be a valid UUID. This element is optional and, when omitted, the reader should generate one. A metadata without a UUID can be imported several times into the same system without breaking uniqueness constraints. When missing, the reader should also generate the siteId value.</li>
+<li><em>createDate</em>: This date indicates when the metadata was created.</li>
+<li><em>changeDate</em>: This date keeps track of the most recent change to the metadata.</li>
+<li><em>siteId</em>: This is an UUID that identifies the actor that created the metadata and must be a valid UUID. When the UUID element is missing, this element should be missing too. If present, it will be ignored.</li>
+<li><em>siteName</em>: This is a human readable name for the actor that created the metadata. It must be present only if the siteId is present.</li>
+<li><em>schema</em>: The name of the schema for the metadata record in metadata.xml. When the MEF is imported by a GeoNetwork actor, this name should be the name of a metadata schema handled by the actor (eg. iso19139). If the GeoNetwork actor does not have such a schema, it may try and select another metadata with a schema that is present (eg. the metadata in metadata-iso19139.xml could be loaded because the iso19139 schema is present).</li>
+<li><em>format</em>: Indicates the MEF export format. The element's value must belong to the following set: { <em>simple</em>, <em>partial</em>, <em>full</em> }.</li>
+<li><em>localId</em>: This is an optional element. If present, indicates the id used locally by the sourceId actor to store the metadata. Its purpose is just to allow the reuse of the same local id when reimporting a metadata.</li>
+<li><em>isTemplate</em>: A boolean field that indicates if this metadata is a template used to create new ones. There is no real distinction between a real metadata and a template but some actors use it to allow fast metadata creation. The value must be: { <em>true</em>, <em>false</em> }.</li>
+<li><em>rating</em>: This is an optional element. If present, indicates the users' rating of the metadata ranging from 1 (a bad rating) to 5 (an excellent rating). The special value 0 means that the metadata has not been rated yet. Can be used to sort search results.</li>
+<li><em>popularity</em>: Another optional value. If present, indicates the popularity of the metadata. The value must be positive and high values mean high popularity. The criteria used to set the popularity is left to the writer. Its main purpose is to provide a metadata ordering during a search.</li>
+</ul>
+</li>
+<li><em>categories</em>: a container for categories associated to this metadata. A category is just a name, like 'audio-video' that classifies the metadata to allow an easy search. Each category is specified by a category element which must have a name attribute. This attribute is used to store the category's name. If there are no categories, the categories element will be empty.</li>
+<li><em>privileges</em>: a container for privileges associated to this metadata. Privileges are operations that a group (which represents a set of users) can do on a metadata and are specified by a set of group elements. Each one of these, has a mandatory name attribute to store the group's name and a set of operation elements used to store the operations allowed on the metadata. Each operation element must have a name attribute which value must belong to the following set: { <em>view</em>, <em>download</em>, <em>notify</em>, <em>dynamic</em>, <em>featured</em> }. If there are no groups or the actor does not have the concept of group, the privileges element will be empty. A group element without any operation element must be ignored by readers.</li>
+<li><em>public</em>: All metadata thumbnails (and any other public file) must be listed here. This container contains a file element for each file. Mandatory attributes of this element are name, which represents the file's name and changeDate, which contains the date of the latest change to the file. The public element is optional but, if present, must contain all the files present in the metadata's public directory and any reader that imports these files must set the latest change date on these using the provided ones. The purpose of this element is to provide more information in the case the MEF format is used for metadata harvesting.</li>
+<li><em>private</em>: This element has the same purpose and structure of the public element but is related to maps and all other private files.</li>
+</ol>
+<p>Any other element or attribute should be ignored by readers that don't understand them. This allows actors to add custom attributes or subtrees to the XML.</p>
+<h3 id="info_xml">Date format</h3>
+<p>Unless differently specified, all dates in this file must be in the ISO/8601 format. The pattern must be <code>YYYY-MM-DDTHH:mm:SS</code> and the timezone should be the local one.</p>
+<p>Example of info file:</p>
+<div class="language-xml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">&lt;info</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.0&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">&lt;general&gt;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="nt">&lt;uuid&gt;</span>0619abc0-708b-eeda-8202-000d98959033<span class="nt">&lt;/uuid&gt;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="nt">&lt;createDate&gt;</span>2006-12-11T10:33:21<span class="nt">&lt;/createDate&gt;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">        </span><span class="nt">&lt;changeDate&gt;</span>2006-12-14T08:44:43<span class="nt">&lt;/changeDate&gt;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="nt">&lt;siteId&gt;</span>0619cc50-708b-11da-8202-000d9335906e<span class="nt">&lt;/siteId&gt;</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="nt">&lt;siteName&gt;</span>FAO<span class="w"> </span>main<span class="w"> </span>site<span class="nt">&lt;/siteName&gt;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="nt">&lt;schema&gt;</span>iso19139<span class="nt">&lt;/schema&gt;</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="nt">&lt;format&gt;</span>full<span class="nt">&lt;/format&gt;</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="nt">&lt;localId&gt;</span>204<span class="nt">&lt;/localId&gt;</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="nt">&lt;isTemplate&gt;</span>false<span class="nt">&lt;/isTemplate&gt;</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="nt">&lt;/general&gt;</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="nt">&lt;categories&gt;</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="nt">&lt;category</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;maps&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="nt">&lt;category</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;datasets&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="nt">&lt;/categories&gt;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="nt">&lt;privileges&gt;</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="nt">&lt;group</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;editors&quot;</span><span class="nt">&gt;</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">            </span><span class="nt">&lt;operation</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;view&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">            </span><span class="nt">&lt;operation</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;download&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">        </span><span class="nt">&lt;/group&gt;</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="nt">&lt;/privileges&gt;</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="nt">&lt;public&gt;</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">        </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;small.png&quot;</span><span class="w"> </span><span class="na">changeDate=</span><span class="s">&quot;2006-10-07T13:44:32&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">        </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;large.png&quot;</span><span class="w"> </span><span class="na">changeDate=</span><span class="s">&quot;2006-11-11T09:33:21&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">    </span><span class="nt">&lt;/public&gt;</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="nt">&lt;private&gt;</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">        </span><span class="nt">&lt;file</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;map.zip&quot;</span><span class="w"> </span><span class="na">changeDate=</span><span class="s">&quot;2006-11-12T13:23:01&quot;</span><span class="nt">/&gt;</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">    </span><span class="nt">&lt;/private&gt;</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="nt">&lt;/info&gt;</span>
+</span></code></pre></div>
 
 
 
@@ -1103,6 +1328,46 @@
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Annexes" rel="prev">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Annexes
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../standards/" class="md-footer__link md-footer__link--next" aria-label="Next: Standards" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Standards
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1172,7 +1437,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>

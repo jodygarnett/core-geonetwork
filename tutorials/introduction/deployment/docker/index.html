@@ -1480,10 +1480,6 @@
         
       
         
-          
-        
-      
-        
       
     
     
@@ -1567,8 +1563,8 @@
 <p>This paragraph describes how you can deploy <strong>GeoNetwork</strong> and its dependencies as a docker orchestration using prepared images from <a href="https://hub.docker.com/_/geonetwork">Docker hub</a>.</p>
 <p>Ensure the system on which you will install the software has a recent <a href="https://docs.docker.com/engine/install">Docker engine</a> and <a href="https://docs.docker.com/compose/install/">Docker Compose</a> installed. <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a>, including both, is a good option for local installation.</p>
 <p>Open a command-line panel verify that docker engine is running:</p>
-<div class="language-text highlight"><pre><span></span><code> $ docker --version
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>docker<span class="w"> </span>--version
+</span></code></pre></div>
 <p>Clone or download as a zip file the repository <a href="https://github.com/geonetwork/docker-geonetwork">https://github.com/geonetwork/docker-geonetwork</a>. The relevant folder in that repository is the latest 4.0.x.</p>
 <p>Navigate with command-line to that folder (e.g. <code>cd \~docker-geonetwork4.0.5</code>). The folder has a file <code>docker-compose.yml</code> which defines the orchestration. The orchestration will download and deploy the following</p>
 <ul>
@@ -1580,15 +1576,15 @@
 </ul>
 <p>It is important to verify if the ports used in that orchestration (80, 8080, 9200) are available on the local system. Alternatively you can change the port mappings in this file.</p>
 <p>Spin up the orchestration with:</p>
-<div class="language-text highlight"><pre><span></span><code> $ docker-compose up
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>docker-compose<span class="w"> </span>up
+</span></code></pre></div>
 <p>After a while, the application should be available via <a href="http://localhost/geonetwork">http://localhost/geonetwork</a>.</p>
 <p>On console to see a list of running containers type:</p>
-<div class="language-text highlight"><pre><span></span><code> $ docker ps
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>docker<span class="w"> </span>ps
+</span></code></pre></div>
 <p>You can verify logs of the geonetwork container with:</p>
-<div class="language-text highlight"><pre><span></span><code> $ docker logs geonetwork
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>docker<span class="w"> </span>logs<span class="w"> </span>geonetwork
+</span></code></pre></div>
 
 
 
@@ -1612,6 +1608,46 @@
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../deploy/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Local deployment" rel="prev">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Local deployment
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../setup/" class="md-footer__link md-footer__link--next" aria-label="Next: Setup" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Setup
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1681,7 +1717,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>

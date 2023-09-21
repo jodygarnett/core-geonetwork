@@ -1480,10 +1480,6 @@
         
       
         
-          
-        
-      
-        
       
     
     
@@ -1567,38 +1563,74 @@
 <p>In this paragraph some guidance will be provided to build GeoNetwork from source code. This is relevant in case you want to extend the application to your needs.</p>
 <p>The source code of GeoNetwork is available at <a href="https://github.com/geonetwork/core-geonetwork">Github</a>. This means that you can clone, fork and propose pushes of your custom changes. If you are not familiar with repositories of code or git, you should check <a href="https://try.github.io/levels/1/challenges/1">this quick manual</a>.</p>
 <p>GeoNetwork is a java project using <a href="https://Maven.apache.org/">Maven version 3+</a>. It is written on <strong>Java 8</strong>. It works both with OpenJDK or the Oracle version. There are several ways to install this on your local machine; for example if you have a Debian based OS (like Ubuntu), you can install them with just this command:</p>
-<div class="language-text highlight"><pre><span></span><code> $ sudo apt-get install maven git
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>maven<span class="w"> </span>git
+</span></code></pre></div>
 <p>Make sure you installed maven version 3!!</p>
-<div class="language-text highlight"><pre><span></span><code> $ mvn --version
-   Apache Maven 3.2.1 (ea8b2b07643dbb1b84b6d16e1f08391b666bc1e9; 2014-02-14T18:37:52+01:00)
-   Maven home: ....
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>mvn<span class="w"> </span>--version
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Apache<span class="w"> </span>Maven<span class="w"> </span><span class="m">3</span>.2.1<span class="w"> </span><span class="o">(</span>ea8b2b07643dbb1b84b6d16e1f08391b666bc1e9<span class="p">;</span><span class="w"> </span><span class="m">2014</span>-02-14T18:37:52+01:00<span class="o">)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Maven<span class="w"> </span>home:<span class="w"> </span>....
+</span></code></pre></div>
 <p>Remember that this will also install Java on your system. You can check that the version is the right one with the following command:</p>
-<div class="language-text highlight"><pre><span></span><code> $ java -version
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>java<span class="w"> </span>-version
+</span></code></pre></div>
 <p>So, the very first step once you have your environment set up is clone the GeoNetwork repository on your local machine. That can be done on the command line using the following command inside an empty folder where the source code will be populated:</p>
-<div class="language-text highlight"><pre><span></span><code> $ cd yourEmptyFolder
- $ git clone https://github.com/geonetwork/core-geonetwork.git
- $ cd core-geonetwork
- $ git submodule init
- $ git submodule update
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>yourEmptyFolder
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/geonetwork/core-geonetwork.git
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>core-geonetwork
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>$<span class="w"> </span>git<span class="w"> </span>submodule<span class="w"> </span>init
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>$<span class="w"> </span>git<span class="w"> </span>submodule<span class="w"> </span>update
+</span></code></pre></div>
 <p>As you can see, all the source code shown on github is also available on your local machine now.</p>
 <p>The source code of GeoNetwork is split on several smaller Maven projects. To run GeoNetwork, you have to build all of them and run the project named <strong>"web"</strong>.</p>
 <p>If you are familiar to Maven, you will probably have guessed that you have to run a package install command on the root folder of GeoNetwork source code. But if you try that, Maven will warn you that for building GeoNetwork you need more memory than the default memory provided to Maven. This means, you will have to export the Maven options to increase the memory like this:</p>
-<div class="language-text highlight"><pre><span></span><code> $ export MAVEN_OPTS=&quot;-Xmx512M -XX:MaxPermSize=256M&quot;
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">MAVEN_OPTS</span><span class="o">=</span><span class="s2">&quot;-Xmx512M -XX:MaxPermSize=256M&quot;</span>
+</span></code></pre></div>
 <p>At this point we are not interested in running the tests, so you can skip them using the parameter <em>-DskipTests</em>:</p>
-<div class="language-text highlight"><pre><span></span><code> $ mvn package install -DskipTests
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>mvn<span class="w"> </span>package<span class="w"> </span>install<span class="w"> </span>-DskipTests
+</span></code></pre></div>
 <p>At the end of this build (which can take long, depending on your network connection, as it has many third party libraries), you will see something like this:</p>
-<div class="language-text highlight"><pre><span></span><code> [INFO] ------------------------------------------------------------------------
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>------------------------------------------------------------------------
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Reactor<span class="w"> </span>Summary:
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="o">[</span>INFO<span class="o">]</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>opensource<span class="w"> </span>.............................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">3</span>.111<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>common<span class="w"> </span>utils<span class="w"> </span>......................................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">13</span>.678<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Caching<span class="w"> </span>xslt<span class="w"> </span>module<span class="w"> </span>...............................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">7</span>.607<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>ArcSDE<span class="w"> </span>module<span class="w"> </span><span class="o">(</span>dummy-api<span class="o">)</span><span class="w"> </span>.........................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">7</span>.860<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>domain<span class="w"> </span>.................................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">33</span>.785<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Oaipmh<span class="w"> </span>modules<span class="w"> </span>....................................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">0</span>.833<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>Events<span class="w"> </span>.................................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">0</span>.654<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>schema<span class="w"> </span>plugins<span class="w"> </span>.........................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">4</span>.646<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>schema<span class="w"> </span>plugins<span class="w"> </span>core<span class="w"> </span>....................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">5</span>.338<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>schema<span class="w"> </span>plugin<span class="w"> </span><span class="k">for</span><span class="w"> </span>ISO19139/119<span class="w"> </span>standards<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">8</span>.432<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>core<span class="w"> </span>...................................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">16</span>.304<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>schema<span class="w"> </span>plugin<span class="w"> </span><span class="k">for</span><span class="w"> </span>Dublin<span class="w"> </span>Core<span class="w"> </span>records<span class="w"> </span>retrieved<span class="w"> </span>by<span class="w"> </span>CSW<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">5</span>.031<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>schema<span class="w"> </span>plugin<span class="w"> </span><span class="k">for</span><span class="w"> </span>Dublin<span class="w"> </span>Core<span class="w"> </span>standard<span class="w"> </span>.<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">8</span>.419<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>schema<span class="w"> </span>plugin<span class="w"> </span><span class="k">for</span><span class="w"> </span>ISO19110<span class="w"> </span>standard<span class="w"> </span>....<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">3</span>.627<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>CSW<span class="w"> </span>server<span class="w"> </span>.............................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">5</span>.546<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>harvesters<span class="w"> </span>.............................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">3</span>.888<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>health<span class="w"> </span>monitor<span class="w"> </span>.........................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">2</span>.489<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>services<span class="w"> </span>...............................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">8</span>.597<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Geonetwork<span class="w"> </span>Web<span class="w"> </span>Resources<span class="w"> </span><span class="m">4</span><span class="w"> </span>Java<span class="w"> </span>...................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">5</span>.261<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Cobweb<span class="w"> </span>Customizations<span class="w"> </span>.............................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">4</span>.226<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>INSPIRE<span class="w"> </span>Atom<span class="w"> </span>...........................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">3</span>.990<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Tests<span class="w"> </span><span class="k">for</span><span class="w"> </span>schema<span class="w"> </span>plugins<span class="w"> </span>..........................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">2</span>.334<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>user<span class="w"> </span>interface<span class="w"> </span>module<span class="w"> </span>..................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">35</span>.356<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>JS<span class="w"> </span>API<span class="w"> </span>and<span class="w"> </span>Service<span class="w"> </span>documentation<span class="w"> </span>..................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">21</span>.203<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>web<span class="w"> </span>client<span class="w"> </span>module<span class="w"> </span>......................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">47</span>.484<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>Web<span class="w"> </span>module<span class="w"> </span>.............................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">48</span>.490<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>GeoNetwork<span class="w"> </span>E2E<span class="w"> </span>Javascript<span class="w"> </span>Tests<span class="w"> </span>...................<span class="w"> </span>SUCCESS<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">1</span>.645<span class="w"> </span>s<span class="o">]</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>------------------------------------------------------------------------
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>BUILD<span class="w"> </span>SUCCESS
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>------------------------------------------------------------------------
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Total<span class="w"> </span>time:<span class="w"> </span><span class="m">02</span>:19<span class="w"> </span>min<span class="w"> </span><span class="o">(</span>Wall<span class="w"> </span>Clock<span class="o">)</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Finished<span class="w"> </span>at:<span class="w"> </span><span class="m">2015</span>-07-17T10:36:43+01:00
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>Final<span class="w"> </span>Memory:<span class="w"> </span>232M/441M
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="o">[</span>INFO<span class="o">]</span><span class="w"> </span>------------------------------------------------------------------------
+</span></code></pre></div>
 <p>This will generate a war file, which you can use in any Java Application Container (server) like Tomcat, on web/target/geonetwork.war</p>
 <p>Congratulations! You are ready to run GeoNetwork. To do this, just go to the web folder and run Jetty in there:</p>
-<div class="language-text highlight"><pre><span></span><code> $ cd web; mvn jetty:run
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>web<span class="p">;</span><span class="w"> </span>mvn<span class="w"> </span>jetty:run
+</span></code></pre></div>
 <p>After Jetty starts, you can see your running GeoNetwork by opening a browser and enter to http://localhost:8080/geonetwork</p>
 
 
@@ -1623,6 +1655,46 @@
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Deployment" rel="prev">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Deployment
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../deploy/" class="md-footer__link md-footer__link--next" aria-label="Next: Local deployment" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Local deployment
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1692,7 +1764,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>

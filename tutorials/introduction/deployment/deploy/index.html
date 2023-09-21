@@ -1480,10 +1480,6 @@
         
       
         
-          
-        
-      
-        
       
     
     
@@ -1567,12 +1563,12 @@
 <p>Before deploying <strong>GeoNetwork</strong> you first need to set up an Elasticsearch instance. <a href="https://www.elastic.co/downloads/elasticsearch">https://www.elastic.co/downloads/elasticsearch</a> lists the various options for deployment, such as via the installer, a package manager such as yum, apt, brew or docker. Ensure you use a version of Elasticsearch compatible with the version of GeoNetwork. For GeoNetwork 4.x this is Elasticsearch 7.x.</p>
 <p>GeoNetwork itself can be downloaded from <a href="https://sourceforge.net/projects/geonetwork/files/GeoNetwork_opensource">sourceforge</a>. The zip distribution includes a jetty container ready to run GeoNetwork.</p>
 <p>Verify that a java 1.8 run time (JRE/JDK) is available and active. Else download and install from <a href="https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot">https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot</a>. Or activate via the \$JAVA_HOME environment variable.</p>
-<div class="language-text highlight"><pre><span></span><code> $ java --version
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>java<span class="w"> </span>--version
+</span></code></pre></div>
 <p>The war distribution can be deployed in a container such as Tomcat.</p>
 <p>To install Tomcat on a debian-based operation system, you can use the apt-get tool like:</p>
-<div class="language-text highlight"><pre><span></span><code> $ sudo apt-get install tomcat7
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>tomcat7
+</span></code></pre></div>
 <p>For windows, download the installer from <a href="https://tomcat.apache.org/download-80.cgi">https://tomcat.apache.org/download-80.cgi</a>.</p>
 <p>Once you have Tomcat installed on your system, locate the webapps folder and place the geonetwork.war file there. This will deploy GeoNetwork on your system.</p>
 <div class="admonition note">
@@ -1580,8 +1576,8 @@
 <p>You need to ensure Tomcat is configured with enough memory for GeoNetwork to launch. This can be be configured via the <code>setenv</code> script in tomcat with the appropriate memory for the JAVA_OPTS property)</p>
 </div>
 <p>Open the file /geonetwork/WEB-INF/config.properties and alter the elasticsearch connection</p>
-<div class="language-text highlight"><pre><span></span><code>$ es.url=http://localhost:9200
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>es.url<span class="o">=</span>http://localhost:9200
+</span></code></pre></div>
 <p>Then (re)start Jetty/Tomcat.</p>
 <p>You can make sure GeoNetwork is deployed via the following url: <a href="http://localhost:8080/geonetwork">http://localhost:8080/geonetwork</a></p>
 
@@ -1607,6 +1603,46 @@
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../build/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Build from source code" rel="prev">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Build from source code
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../docker/" class="md-footer__link md-footer__link--next" aria-label="Next: Pull from docker hub" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Pull from docker hub
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1676,7 +1712,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
