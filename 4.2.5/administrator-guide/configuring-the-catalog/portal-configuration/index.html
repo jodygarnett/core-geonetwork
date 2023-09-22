@@ -1515,6 +1515,8 @@
         
       
         
+          
+        
       
         
       
@@ -1651,7 +1653,7 @@
 </ul>
 <p><img alt="" src="../img/portal-types.png" /></p>
 <p>The main catalogue corresponds to the current installation.</p>
-<p>When harvesting, at least one source is created to represent the harvester. When harvesting from another GeoNetwork node, sources from the target catalogue are also harvested to keep track of the true origin of records. This only applies to the GeoNetwork protocols which use MEF (:<a href="mef_format.md">mef_format</a>) which contain the source catalogue information.</p>
+<p>When harvesting, at least one source is created to represent the harvester. When harvesting from another GeoNetwork node, sources from the target catalogue are also harvested to keep track of the true origin of records. This only applies to the GeoNetwork protocols which use MEF (:<a href="../../../annexes/mef-format/">Metadata Exchange Format (MEF)</a>) which contain the source catalogue information.</p>
 <p>The last type is sub-portal, which is described in details below.</p>
 <h2 id="configuring-a-sub-portal">Configuring a sub-portal</h2>
 <p>Sub-portals can be used to create a space in the main catalogue only focusing on a subset of records.</p>
@@ -1671,7 +1673,7 @@
 <h3 id="creating-a-sub-portal-for-partners">Creating a sub-portal for partners</h3>
 <p>Some organizations need to open the catalogue to a set of partners. In such cases, each partner generally accesses the catalogue and creates their records in dedicated groups. A good example is <a href="https://www.geocat.ch/">https://www.geocat.ch/</a> providing a main search filter <code>catalogue</code>.</p>
 <p><img alt="" src="../img/portal-geocatch.png" /></p>
-<p>The concept of a sub-portal allows the possibility of creating a dedicated URL for each partner. The header can contain the partner identification with name and logo. Optionally the user interface can also be customized (see <a href="../user-interface-configuration/">user-interface-configuration</a>).</p>
+<p>The concept of a sub-portal allows the possibility of creating a dedicated URL for each partner. The header can contain the partner identification with name and logo. Optionally the user interface can also be customized (see <a href="../user-interface-configuration/">User Interface Configuration</a>).</p>
 <p>To setup this kind of configuration, the basic principle is to have:</p>
 <ul>
 <li>One group for each partner with one or more users</li>
@@ -1679,8 +1681,8 @@
 </ul>
 <p>To configure this, apply the following steps:</p>
 <ul>
-<li>Create a group for the partner eg. <code>oca</code> (see <a href="creating-group.md">creating-group</a>).</li>
-<li>Create at least one user for the partner (see <a href="creating-user.md">creating-user</a>). The user must be member of the group <code>oca</code>. If you want the user to be able to configure the sub-portal (eg. change the name, choose a logo), the user must have at least the <code>UserAdmin</code> profile for the group <code>oca</code>.</li>
+<li>Create a group for the partner eg. <code>oca</code> (see <a href="../../managing-users-and-groups/creating-group/">Creating group</a>).</li>
+<li>Create at least one user for the partner (see <a href="../../managing-users-and-groups/creating-user/">Creating user</a>). The user must be member of the group <code>oca</code>. If you want the user to be able to configure the sub-portal (eg. change the name, choose a logo), the user must have at least the <code>UserAdmin</code> profile for the group <code>oca</code>.</li>
 <li>Create a sub-portal. This can have the same name as the group, eg. <code>oca</code> but this is not essential. The filter can be created using the fact that a record published in the group <code>oca</code> should be in this sub-portal, using the syntax <code>+_groupPublished:oca</code>. Once created the sub-portal is accessible at <a href="http://localhost:8080/geonetwork/oca">http://localhost:8080/geonetwork/oca</a>.</li>
 <li>(Optional) Link the sub-portal to a user admin group to allow <code>UserAdmin</code> to configure their sub-portal.</li>
 </ul>
@@ -1830,7 +1832,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"canonical_version": "stable", "default": ["stable", "4.2.5"], "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>

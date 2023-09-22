@@ -1159,6 +1159,8 @@
         
       
         
+          
+        
       
         
       
@@ -1309,12 +1311,12 @@
 <h1 id="production-use">Production use</h1>
 <p>This paragraph shares some guidance around setting up GeoNetwork for production use.</p>
 <h2 id="database">Database</h2>
-<p>GeoNetwork arrives with a file based H2 database. In production make sure to switch to an external database system, such as PostGres, Oracle or SQL server. Read more about setting up a database at <a href="configuring-database.md">configuring-database</a></p>
+<p>GeoNetwork arrives with a file based H2 database. In production make sure to switch to an external database system, such as PostGres, Oracle or SQL server. Read more about setting up a database at <a href="../../install-guide/configuring-database/">Configuring the database</a></p>
 <p>JNDI is a technology that allows GeoNetwork to delegate the configuration of the database to Tomcat. By using JNDI the database can be easily configured without the need to change config files inside the application folder.</p>
 <p>GeoNetwork may run out of database connections, especially if a catalogue is set up with many harvesters. You can increase the number of allowed connections (if the database allows it). But also consider to set up some periodical monitoring to evaluate if GeoNetwork is running out of connections. The catalogue will throw random errors if running low on connections.</p>
 <h2 id="java-container">Java container</h2>
 <p>GeoNetwork requires Java 8. The Oracle JRE version 8 is reaching end-of-live, we suggest to use the <a href="https://adoptopenjdk.net">openJDK</a>.</p>
-<p>GeoNetwork arrives with a default container called Jetty. Jetty is a powerful minimal container implementation. If you need more configuration options consider to use Tomcat. Other containers can be used, but there are not many user experiences. Read more at <a href="installing-from-war-file.md">installing-from-war-file</a></p>
+<p>GeoNetwork arrives with a default container called Jetty. Jetty is a powerful minimal container implementation. If you need more configuration options consider to use Tomcat. Other containers can be used, but there are not many user experiences. Read more at <a href="../../install-guide/installing-from-war-file/">Installing from WAR file</a></p>
 <p>If you run Apache in front of Tomcat, make sure to enable <a href="https://tomcat.apache.org/tomcat-4.0-doc/config/ajp.html">AJP</a>, else you may run into page not found errors around login. On Apache 2, enable <code>mod_proxy_ajp</code> and set the <code>ProxyPass</code> and <code>ProxyPassReverse</code> on apache2.conf to use the AJP protocol on Tomcat URL and port 8009:</p>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ProxyPass<span class="w"> </span>/geonetwork<span class="w"> </span>ajp://gn_tomcat_host:8009/geonetwork
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ProxyPassReverse<span class="w"> </span>/geonetwork<span class="w"> </span>ajp://gn_tomcat_host:8009/geonetwork
@@ -1322,7 +1324,7 @@
 <p>On Tomcat 9, define an AJP Connector on port 8009 in server.xml.</p>
 <p>A common challenge in production use is the fact that Java only has a limited set of root certificates that it trusts natively. This causes problems if GeoNetwork tries to access a secure server which has a certificate not trusted by Java. An administrator has to explicitly <a href="https://stackoverflow.com/questions/4325263/how-to-import-a-cer-certificate-into-a-java-keystore">load the certificate in to the Java keystore</a>.</p>
 <h2 id="data-folder">Data folder</h2>
-<p>GeoNetwork requires a data folder to store objects uploaded by administrators and managers and some configuration options. By default this folder is located in <strong><code>/geonetwork/WEB-INF/data</code></strong>. In production situation configure the location of this folder outside the application and make sure the folder is backed up. You can use an environment variable to configure the location of the data folder. Read more at <a href="customizing-data-directory.md">customizing-data-directory</a></p>
+<p>GeoNetwork requires a data folder to store objects uploaded by administrators and managers and some configuration options. By default this folder is located in <strong><code>/geonetwork/WEB-INF/data</code></strong>. In production situation configure the location of this folder outside the application and make sure the folder is backed up. You can use an environment variable to configure the location of the data folder. Read more at <a href="../../install-guide/customizing-data-directory/">Customizing the data directory</a></p>
 <h2 id="memory">Memory</h2>
 <p>GeoNetwork is a memory intensive application. Consider to provide at least 2GB, but 4GB is probably better. But don't go higher than 6GB. Read more about memory in Java applications at the <a href="https://docs.geoserver.org/stable/en/user/production/container.html">geoserver documentation</a>. If you're setting up an instance of Elastic Search, consider to provide at least 8GB to Elastic.</p>
 <h2 id="scaling">Scaling</h2>
@@ -1501,7 +1503,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"canonical_version": "stable", "default": ["stable", "4.2.5"], "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>

@@ -1654,6 +1654,8 @@
         
       
         
+          
+        
       
         
       
@@ -1926,7 +1928,7 @@
 </div>
 <p><img alt="" src="../img/ui-settings.png" /></p>
 <p>By default the catalog will use the default UI configuration, named <code>srv</code>. To view and edit the settings for this configuration, choose <code>Create a default UI configuration</code>.</p>
-<p>To add a new configuration, such as for a sub-portal (see <a href="../portal-configuration/">portal-configuration</a>) choose <code>Add new UI configuration</code> and choose one or more portal identifiers from the dropdown list <code>UI Configuration identifier</code>. Additional configurations can also be used for building an external JS application, which is able to load a specific configuration.</p>
+<p>To add a new configuration, such as for a sub-portal (see <a href="../portal-configuration/">Portal configuration</a>) choose <code>Add new UI configuration</code> and choose one or more portal identifiers from the dropdown list <code>UI Configuration identifier</code>. Additional configurations can also be used for building an external JS application, which is able to load a specific configuration.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Since the settings form is a long form, the <code>save</code> button is repeated at the base of the page. In either case, all settings are saved.</p>
@@ -1986,7 +1988,7 @@
 <p><img alt="" src="../img/ui-settings-searchpage3.png" /></p>
 <ul>
 <li><strong>Default template used for search results</strong>: Define the template page for the search. Generally this can be left as the default.</li>
-<li><strong>List of formatter for record view</strong>: Determine the formatter used to display the search results. See <a href="creating-custom-view.md">creating-custom-view</a> for information on creating a new formatter. To add an additional view, click the blue <code>+</code> button below the list and provide a name and a URL.</li>
+<li><strong>List of formatter for record view</strong>: Determine the formatter used to display the search results. See <a href="../../../customizing-application/creating-custom-view/">Customizing metadata views</a> for information on creating a new formatter. To add an additional view, click the blue <code>+</code> button below the list and provide a name and a URL.</li>
 </ul>
 <p><img alt="" src="../img/ui-settings-searchpage3.png" /></p>
 <h3 id="user-interface-config-searchresults">Search results configuration</h3>
@@ -2021,7 +2023,7 @@
 <h3 id="external-viewer">External viewer</h3>
 <ul>
 <li><strong>Use an external viewer</strong>: This option allows a third party mapping application to be used in place of the default GeoNetwork map. In this case, most of the settings below will no longer be used.</li>
-<li><strong>Allow 3D mode</strong>: If enabled, the user has the option to switch to 3D mode in the main map (see <a href="quick_start.md">quick_start</a>).</li>
+<li><strong>Allow 3D mode</strong>: If enabled, the user has the option to switch to 3D mode in the main map (see <a href="../../../user-guide/quick-start/">Quick start</a>).</li>
 <li><strong>Allow users to save maps as metadata record</strong>: This option enables users to save layers and base maps configuration as a record in the catalog. Optionally users can add a title and an abstract.</li>
 <li><strong>Export map as image</strong>: If enabled, users can export the map as an image but requires CORS to be enabled on any external WMS services displayed on the map. This option is disabled by default to avoid issues with WMS layers.</li>
 </ul>
@@ -2093,9 +2095,9 @@
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">&quot;projectionList&quot;</span><span class="p">:[</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">]}</span>
 </span></code></pre></div>
 <h3 id="search-map-configuration">Search Map Configuration</h3>
-<p>This section defines the configuration for the mini map shown on the search page. It uses the same options as in <a href="user-interface-config-viewermap.md">user-interface-config-viewermap</a>.</p>
+<p>This section defines the configuration for the mini map shown on the search page. It uses the same options as in <a href="./#user-interface-config-viewermap">Viewer Map Configuration</a>.</p>
 <h3 id="editor-map-configuration">Editor Map Configuration</h3>
-<p>This section defines the configuration for the map shown when editing a record. It uses the same options as in <a href="user-interface-config-viewermap.md">user-interface-config-viewermap</a>.</p>
+<p>This section defines the configuration for the map shown when editing a record. It uses the same options as in <a href="./#user-interface-config-viewermap">Viewer Map Configuration</a>.</p>
 <h2 id="gazetteer">Gazetteer</h2>
 <ul>
 <li><strong>Gazetteer</strong>: If enabled a gazetteer will be shown in the top left of the main map.</li>
@@ -2276,7 +2278,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"canonical_version": "stable", "default": ["stable", "4.2.5"], "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>

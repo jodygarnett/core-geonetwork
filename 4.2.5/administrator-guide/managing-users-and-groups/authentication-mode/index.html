@@ -1658,6 +1658,8 @@
         
       
         
+          
+        
       
         
       
@@ -1989,12 +1991,12 @@
 <h1 id="authentication-mode">Authentication mode</h1>
 <p>By default the catalog uses the internal database for user management and authentication. However there are some other authentication mechanisms available:</p>
 <ul>
-<li><a href="authentication-ldap.md">authentication-ldap</a></li>
-<li><a href="authentication-ldap-hierarchy.md">authentication-ldap-hierarchy</a></li>
-<li><a href="authentication-cas.md">authentication-cas</a></li>
-<li><a href="authentication-openid.md">authentication-openid</a></li>
-<li><a href="authentication-keycloak.md">authentication-keycloak</a></li>
-<li><a href="authentication-shibboleth.md">authentication-shibboleth</a></li>
+<li><a href="./#authentication-ldap">Configuring LDAP</a></li>
+<li><a href="./#authentication-ldap-hierarchy">Configuring LDAP - Hierarchy</a></li>
+<li><a href="./#authentication-cas">Configuring CAS</a></li>
+<li><a href="./#authentication-openid">Configuring OAUTH2 OpenID Connect</a></li>
+<li><a href="./#authentication-keycloak">Configuring Keycloak</a></li>
+<li><a href="./#authentication-shibboleth">Configuring Shibboleth</a></li>
 </ul>
 <p>Which mode to use is configured in <strong><code>WEB-INF/config-security/config-security.xml</code></strong> or via an environment variable <code>geonetwork.security.type</code>.</p>
 <p>Uncomment the relevant line in <strong><code>WEB-INF/config-security/config-security.xml</code></strong>:</p>
@@ -2002,7 +2004,7 @@
 </span></code></pre></div>
 <h2 id="authentication-ldap">Configuring LDAP</h2>
 <p><a href="https://en.wikipedia.org/wiki/Ldap">Lightweight Directory Access Protocol (LDAP)</a> enables GeoNetwork to verify usernames and passwords to a remote identity store. LDAP implementation uses the default GeoNetwork Login User Interface elements.</p>
-<p>GeoNetwork currently has 2 approaches to configure LDAP. Verify also the alternative approach in <a href="authentication-ldap-hierarchy.md">authentication-ldap-hierarchy</a>.</p>
+<p>GeoNetwork currently has 2 approaches to configure LDAP. Verify also the alternative approach in <a href="./#authentication-ldap-hierarchy">Configuring LDAP - Hierarchy</a>.</p>
 <p>The LDAP configuration is defined in <code>WEB-INF/config-security/config-security.properties</code>, you can then configure your environment updating the previous file or overriding the properties in the file <code>WEB-INF/config-security/config-security-overrides.properties</code>.</p>
 <ol>
 <li>
@@ -2582,10 +2584,10 @@
 </span></code></pre></div>
 <p>Bearer Tokens are mostly used for automated (desktop or application) API calls - real users should just login normally using OIDC.</p>
 <ol>
-<li>Setup your OIDC configuration (see <a href="authentication-openid.md">authentication-openid</a>)</li>
-<li>Setup the OIDC Bearer token configuration (see <a href="bearer_token_configuration.md">bearer_token_configuration</a>)</li>
+<li>Setup your OIDC configuration (see <a href="./#authentication-openid">Configuring OAUTH2 OpenID Connect</a>)</li>
+<li>Setup the OIDC Bearer token configuration (see <a href="./#bearer_token_configuration">Configuration</a>)</li>
 <li>Obtain a Bearer token from the OIDC server. This is the hard part and there are several ways to do this. One way that is used is via the OAuth 2.0 Device Authorization Grant ("Device Flow") workflow.</li>
-<li>Attach it to your request headers (see <a href="oidc_bearer_tokens.md">oidc_bearer_tokens</a>)</li>
+<li>Attach it to your request headers (see <a href="./#oidc_bearer_tokens">OIDC Bearer Tokens</a>)</li>
 <li>Make protected requests to the Geonetwork API</li>
 </ol>
 <p>This has been tested with Keycloak and with Azure AD. It should work with other JWT-based OIDC services.</p>
@@ -2794,7 +2796,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"canonical_version": "stable", "default": ["stable", "4.2.5"], "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>

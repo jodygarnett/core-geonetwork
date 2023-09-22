@@ -8,5 +8,5 @@ Annexes
    :maxdepth: 2
 
    mef-format.rst
-   gallery/gallery.rst
+   gallery/index.rst
    standards/index.rst

@@ -819,7 +819,7 @@
         
   
   <span class="md-ellipsis">
-    Documentation
+    None
   </span>
   
 
@@ -1472,6 +1472,8 @@
         
       
         
+          
+        
       
         
       
@@ -1673,7 +1675,7 @@
 <p>This file is produced automatically from the geonetwork-core repository. To make any suggestions to the content of the page please add your changes to <a href="https://github.com/geonetwork/core-geonetwork/blob/main/schemas/config-editor.xsd">core-geonetwork/schemas/config.editor.xsd</a>.</p>
 </div>
 <h2 id="creating-custom-editor_1">Creating custom editor</h2>
-<p>A metadata editor configuration is defined for a specific schema plugin standard (see <a href="implementing-a-schema-plugin.md">implementing-a-schema-plugin</a>).</p>
+<p>A metadata editor configuration is defined for a specific schema plugin standard (see <a href="../../implementing-a-schema-plugin/">Implementing schema plugins</a>).</p>
 <p>The editor configuration defines the navigation menu for the editor (i.e. list of views and tabs), the list of fields and the type of control to use. Controls can be HTML-type (e.g. text, date) or more advanced controls built using <a href="https://docs.angularjs.org/guide/directive">AngularJS directives</a>.</p>
 <p>To build such an editor configuration, the user needs to know the XSD of the standard to properly build views, tabs and fields according to the element names (see <code>schemas/config-editor.xsd</code>). Create an editor root element and attach:</p>
 <ul>
@@ -1693,10 +1695,10 @@
 <p>An editor configuration should first define some general element descriptions and then a set of views with at least one defined view.</p>
 <p>Child elements:</p>
 <ul>
-<li><strong>fields</strong>, Optional element (see <a href="creating-custom-editor-fields.md">creating-custom-editor-fields</a>)</li>
-<li><strong>fieldsWithFieldset</strong>, Optional element (see <a href="creating-custom-editor-fieldsWithFieldset.md">creating-custom-editor-fieldsWithFieldset</a>)</li>
-<li><strong>multilingualFields</strong>, Optional element (see <a href="creating-custom-editor-multilingualFields.md">creating-custom-editor-multilingualFields</a>)</li>
-<li><strong>views</strong>, Mandatory element (see <a href="creating-custom-editor-views.md">creating-custom-editor-views</a>)</li>
+<li><strong>fields</strong>, Optional element (see <a href="./#creating-custom-editor-fields">Defining field type</a>)</li>
+<li><strong>fieldsWithFieldset</strong>, Optional element (see <a href="./#creating-custom-editor-fieldsWithFieldset">Grouping element from the standards</a>)</li>
+<li><strong>multilingualFields</strong>, Optional element (see <a href="./#creating-custom-editor-multilingualFields">Defining multilingual fields</a>)</li>
+<li><strong>views</strong>, Mandatory element (see <a href="./#creating-custom-editor-views">Configuring views</a>)</li>
 </ul>
 <h2 id="creating-custom-editor-fields">Defining field type</h2>
 <p>Define the form fields type configuration. The default is simple text input. This list contains a list of fields which do not use a simple text input. The list of possible values are:</p>
@@ -1751,7 +1753,7 @@
 </span></code></pre></div>
 <p>Child elements:</p>
 <ul>
-<li><strong>view</strong>, One or more (see <a href="creating-custom-editor-view.md">creating-custom-editor-view</a>)</li>
+<li><strong>view</strong>, One or more (see <a href="./#creating-custom-editor-view">Defining a view</a>)</li>
 </ul>
 <h2 id="creating-custom-editor-view">Defining a view</h2>
 <p>A view has a label and defines a specific rendering of the metadata records. A view is composed of one or more tabs.</p>
@@ -1826,9 +1828,9 @@
 <p>displayIfRecord and displayIfServiceInfo could be combined. An AND operator is used. Both condition MUST returned true for the view to be displayed.</p>
 <p>Child elements:</p>
 <ul>
-<li><strong>tab</strong>, One or more (see <a href="creating-custom-editor-tab.md">creating-custom-editor-tab</a>)</li>
-<li><strong>flatModeExceptions</strong>, Optional element (see <a href="creating-custom-editor-flatModeExceptions.md">creating-custom-editor-flatModeExceptions</a>)</li>
-<li><strong>thesaurusList</strong>, Optional element (see <a href="creating-custom-editor-thesaurusList.md">creating-custom-editor-thesaurusList</a>)</li>
+<li><strong>tab</strong>, One or more (see <a href="./#creating-custom-editor-tab">Defining a tab</a>)</li>
+<li><strong>flatModeExceptions</strong>, Optional element (see <a href="./#creating-custom-editor-flatModeExceptions">Configuring complex element display</a>)</li>
+<li><strong>thesaurusList</strong>, Optional element (see <a href="./#creating-custom-editor-thesaurusList">Customizing thesaurus</a>)</li>
 </ul>
 <h2 id="creating-custom-editor-tab">Defining a tab</h2>
 <p>A view contains at least one tab. In that case it will be the default tab to display and no top toolbar will be displayed to switch from one tab to another.</p>
@@ -1872,7 +1874,7 @@
 <li>complex elements are displayed (i.e. elements having children) and</li>
 <li>non-existing elements are displayed (i.e. elements in the standard, not in the current document).</li>
 </ul>
-<p>When a tab is in flat mode, this tab will not display elements which are not in the current metadata document and it will display complex elements as a group only if defined in the list of elements with fieldset (see <a href="creating-custom-editor-fieldsWithFieldset.md">creating-custom-editor-fieldsWithFieldset</a>).</p>
+<p>When a tab is in flat mode, this tab will not display elements which are not in the current metadata document and it will display complex elements as a group only if defined in the list of elements with fieldset (see <a href="./#creating-custom-editor-fieldsWithFieldset">Grouping element from the standards</a>).</p>
 <p>Example for a contact in ""non-flat" mode:</p>
 <p><img alt="" src="../../../user-guide/describing-information/img/editor-contact-nonflatmode.png" /></p>
 <p>Example for a contact in "flat" mode:</p>
@@ -1962,7 +1964,7 @@
 <li>complex elements are displayed (i.e. elements having children) and</li>
 <li>non-existing elements are displayed (i.e. elements in the standard, not in the current document).</li>
 </ul>
-<p>When a tab is in flat mode, this tab will not display elements which are not in the current metadata document and it will display complex elements as a group only if defined in the list of elements with fieldset (see <a href="creating-custom-editor-fieldsWithFieldset.md">creating-custom-editor-fieldsWithFieldset</a>).</p>
+<p>When a tab is in flat mode, this tab will not display elements which are not in the current metadata document and it will display complex elements as a group only if defined in the list of elements with fieldset (see <a href="./#creating-custom-editor-fieldsWithFieldset">Grouping element from the standards</a>).</p>
 <p>Example for a contact in ""non-flat" mode:</p>
 <p><img alt="" src="../../../user-guide/describing-information/img/editor-contact-nonflatmode.png" /></p>
 <p>Example for a contact in "flat" mode:</p>
@@ -2138,7 +2140,7 @@
 <p>Field type. Register here any Angular directive to be used on the client side. Default is simple text field.</p>
 <p>Child elements:</p>
 <ul>
-<li><strong>template</strong>, Optional element (see <a href="creating-custom-editor-template.md">creating-custom-editor-template</a>)</li>
+<li><strong>template</strong>, Optional element (see <a href="./#creating-custom-editor-template">Adding a template based field</a>)</li>
 </ul>
 <h2 id="creating-custom-editor-template">Adding a template based field</h2>
 <p>A templace configuration for an XML snippet to edit.</p>
@@ -2418,7 +2420,7 @@
 <p>displayIfRecord and displayIfServiceInfo could be combined. An AND operator is used. Both condition MUST returned true for the view to be displayed.</p>
 <p>Child elements:</p>
 <ul>
-<li><strong>template</strong>, Optional element (see <a href="creating-custom-editor-template.md">creating-custom-editor-template</a>)</li>
+<li><strong>template</strong>, Optional element (see <a href="./#creating-custom-editor-template">Adding a template based field</a>)</li>
 </ul>
 
 
@@ -2552,7 +2554,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"canonical_version": "stable", "default": ["stable", "4.2.5"], "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>

@@ -819,7 +819,7 @@
         
   
   <span class="md-ellipsis">
-    Documentation
+    None
   </span>
   
 
@@ -1438,6 +1438,8 @@
         
       
         
+          
+        
       
         
       
@@ -1600,7 +1602,7 @@
 
 
 <h1 id="editor-tutorial">Building a custom form step by step</h1>
-<p>First of all, create a good template with all the default values required which are common to your organization (eg. default contact for the record, for the resources, coordinate system, type of resource). See <a href="creating-templates.md">creating-templates</a>.</p>
+<p>First of all, create a good template with all the default values required which are common to your organization (eg. default contact for the record, for the resources, coordinate system, type of resource). See <a href="../../../user-guide/describing-information/managing-templates/">Managing templates</a>.</p>
 <p>The editor form configuration depends on the standard used. In this tutorial, we use ISO19115-3 (see <code>schemas/iso19115-3.2018/src/main/plugin/iso19115-3.2018/layout/config-editor.xml</code>).</p>
 <h2 id="step-1-create-a-new-form">Step 1: Create a new form</h2>
 <p>Before adding new fields, create a new editor form first. An editor form is named a <code>view</code>:</p>
@@ -1611,7 +1613,7 @@
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">&lt;/view&gt;</span>
 </span></code></pre></div>
 <p><img alt="" src="../img/tutorial-1-view.png" /></p>
-<p>The view can define custom CSS classes in order to customize the look of the form. To learn more about the default style options, check <a href="creating-custom-editor-view.md">creating-custom-editor-view</a>.</p>
+<p>The view can define custom CSS classes in order to customize the look of the form. To learn more about the default style options, check <a href="../creating-custom-editor/#creating-custom-editor-view">Defining a view</a>.</p>
 <p>To update the form, building the schema plugin is usually necessary. But updating only the XML configuration file of the form is quicker while in the process of creation of the form:</p>
 <div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cp<span class="w"> </span>schemas/iso19115-3.2018/src/main/plugin/iso19115-3.2018/layout/config-editor.xml<span class="w"> </span>web/src/main/webapp/WEB-INF/data/config/schema_plugins/iso19115-3.2018/layout/config-editor.xml
 </span></code></pre></div>
@@ -1999,7 +2001,7 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"canonical_version": "stable", "default": ["stable", "4.2.5"], "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.view", "content.action.edit", "content.code.copy", "content.tabs.link", "navigation.tabs", "navigation.tracking", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "navigation.footer", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
