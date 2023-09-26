@@ -22,7 +22,7 @@
     
     
       
-        <title>Tutorial setting up an Atom/OpenSearch based INSPIRE download service - GeoNetwork Opensource (EN)</title>
+        <title>Setting up an Atom/OpenSearch based INSPIRE download service - GeoNetwork Opensource (EN)</title>
       
     
     
@@ -133,7 +133,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tutorial setting up an Atom/OpenSearch based INSPIRE download service
+              Setting up an Atom/OpenSearch based INSPIRE download service
             
           </span>
         </div>
@@ -762,8 +762,6 @@
         
       
         
-          
-        
       
         
       
@@ -1089,7 +1087,7 @@
           
   
   <span class="md-ellipsis">
-    Tutorial setting up an Atom/OpenSearch based INSPIRE download service
+    Setting up an Atom/OpenSearch based INSPIRE download service
   </span>
   
 
@@ -1100,7 +1098,7 @@
         
   
   <span class="md-ellipsis">
-    Tutorial setting up an Atom/OpenSearch based INSPIRE download service
+    Setting up an Atom/OpenSearch based INSPIRE download service
   </span>
   
 
@@ -1154,7 +1152,7 @@
         
   
   <span class="md-ellipsis">
-    Tutorial setting up a WFS based INSPIRE download service with GeoServer
+    Setting up a WFS based INSPIRE download service with GeoServer
   </span>
   
 
@@ -1174,7 +1172,7 @@
         
   
   <span class="md-ellipsis">
-    Tutorial setting up INSPIRE view service with GeoNetwork and GeoServer
+    Setting up INSPIRE view service with GeoNetwork and GeoServer
   </span>
   
 
@@ -1194,7 +1192,7 @@
         
   
   <span class="md-ellipsis">
-    Tutorial setting up INSPIRE view service with GeoNetwork and Mapserver
+    Setting up INSPIRE view service with GeoNetwork and Mapserver
   </span>
   
 
@@ -1339,7 +1337,7 @@
   
 
 
-<h1 id="tuto-download-atom">Tutorial setting up an Atom/OpenSearch based INSPIRE download service</h1>
+<h1 id="tuto-download-atom">Setting up an Atom/OpenSearch based INSPIRE download service</h1>
 <p>This tutorial shows how one can set up GeoNetwork to provide download services following <a href="http://inspire.ec.europa.eu/documents/technical-guidance-implementation-inspire-download-services">technical guidelines for download services</a>.</p>
 <p>Note that the technical guidelines allow both Atom/OpenSearch as well as <a href="http://www.opengeospatial.org/standards/wfs">WFS</a>. This tutorial describes how to set up a download service using Atom/Opensearch.</p>
 <p>The basics of Atom/OpenSearch is that for each dataset a number of file-downloads in various flavours (language/projection/format) is available. These flavours are advertised in a "Dataset Atom Feed" document. A set of "Dataset Atom Feed" documents is grouped into a "Service Atom Feed" document. For each "Service Atom Feed" document an OpenSearchDescription document is available. A website can refer to this OpenSearchDescription document, which enables searching through the download service using the browser search bar (OpenSearch).</p>
@@ -1355,7 +1353,7 @@
 <li>in internal mode GeoNetwork will generate Atom files dynamically from metadata content.</li>
 <li>in external mode GeoNetwork will ingest Atom files that are linked to metadata records.</li>
 </ul>
-<p>Currently only the external mode is fully supported. Atom files can be generated in any text or xml editor following the technical guidelines. To optimise the Atom support GeoNetwork uses a convention, which is currently not mandated by the technical guidelines. The convention is that any gmd:MD_Distribution having a link to an Atom file requires the protocol field to contain a defined value to indicate the distribution as being an Atom document. Default value for this protocol is INSPIRE-ATOM, but you can change it using Admin &gt; Settings. The benefit of this approach is that GeoNetwork doesn't need to open any file-link to determine if it is an Atom File. We've seen various member states mandate this convention in localised INSPIRE Technical Guidelines.</p>
+<p>Currently only the external mode is fully supported. Atom files can be generated in any text or xml editor following the technical guidelines. To optimise the Atom support GeoNetwork uses a convention, which is currently not mandated by the technical guidelines. The convention is that any gmd:MD_Distribution having a link to an Atom file requires the protocol field to contain a defined value to indicate the distribution as being an Atom document. Default value for this protocol is INSPIRE-ATOM, but you can change it using Admin &rarr; Settings. The benefit of this approach is that GeoNetwork doesn't need to open any file-link to determine if it is an Atom File. We've seen various member states mandate this convention in localised INSPIRE Technical Guidelines.</p>
 <div class="language-xml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&lt;gmd:MD_DigitalTransferOptions&gt;</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w"> </span><span class="nt">&lt;gmd:onLine&gt;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&lt;gmd:CI_OnlineResource&gt;</span>
@@ -1373,13 +1371,13 @@
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nt">&lt;/gmd:MD_DigitalTransferOptions&gt;</span>
 </span></code></pre></div>
 <p>When deploying Geonetwork, make sure the GEMET thesauri are loaded and activate the INSPIRE editor as described in <a href="http://geonetwork-opensource.org/manuals/trunk/eng/users/administrator-guide/configuring-the-catalog/inspire-configuration.html">inspire configuration</a>. In this file "schemas/iso19139/src/main/plugin/iso19139/loc/eng/labels.xml " (and the same file in other languages in use in the catalogue) in the gmd:protocol helper (around line 2000) add the "INSPIRE-ATOM" protocol which is used to indicate links that link to an Atom file (only links having that protocol value will be ingested).</p>
-<p>In Admin &gt; Settings activate the INSPIRE extension and activate Atom harvesting (at certain interval). The settings page facilitates to set a protocol which is used in metadata to indicate an Atom link.</p>
+<p>In Admin &rarr; Settings activate the INSPIRE extension and activate Atom harvesting (at certain interval). The settings page facilitates to set a protocol which is used in metadata to indicate an Atom link.</p>
 <p><img alt="image" src="../img/image_4.png" /></p>
 <p>For each dataset that you are going to publish create an iso19115 record using the INSPIRE template. Link each record to the related atom file (or upload an atom file)</p>
 <p><img alt="image" src="../img/image_7.png" /></p>
 <p>Make sure the metadata contains the same gmd:code as used in the Atom file.</p>
 <p>Now create a service metadata using the INSPIRE template and link it to the service Atom and the individual datasets (using srv:operatesOn).</p>
-<p>Before you validate the implementation, run the Atom harvester in admin &gt; settings manually. A panel will display the number of processed Atom feeds and any errors that may have occurred while processing (more details in log file).</p>
+<p>Before you validate the implementation, run the Atom harvester in admin &rarr; settings manually. A panel will display the number of processed Atom feeds and any errors that may have occurred while processing (more details in log file).</p>
 <h2 id="validate-the-implementation">Validate the implementation</h2>
 <p>If you are running the above setup online, you can use the <a href="http://inspire.ec.europa.eu/validator/">INSPIRE validator</a>. If the above setup is running locally, you can use <a href="https://github.com/Geonovum/etf-test-projects-inspire">Esdin Test Framework</a> to validate the INSPIRE setup.</p>
 <p><img alt="image" src="../img/image_6.png" /></p>
@@ -1430,13 +1428,13 @@
         
         
           
-          <a href="../download-geoserver/" class="md-footer__link md-footer__link--next" aria-label="Next: Tutorial setting up a WFS based INSPIRE download service with GeoServer" rel="next">
+          <a href="../download-geoserver/" class="md-footer__link md-footer__link--next" aria-label="Next: Setting up a WFS based INSPIRE download service with GeoServer" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Tutorial setting up a WFS based INSPIRE download service with GeoServer
+                Setting up a WFS based INSPIRE download service with GeoServer
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1472,12 +1470,12 @@
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"

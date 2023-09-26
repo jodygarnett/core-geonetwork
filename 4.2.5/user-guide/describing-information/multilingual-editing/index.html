@@ -1435,8 +1435,6 @@
         
       
         
-          
-        
       
         
       
@@ -1639,12 +1637,14 @@
 <ol>
 <li>Check the main language defined in the metadata section.</li>
 <li>Add one or more languages in the other language in the metadata section.</li>
-</ol>
-<p>3. Once this is completed, the editor form provides one field per languages declared. There are 2 types of layouts:</p>
+<li>
+<p>Once this is completed, the editor form provides one field per languages declared. There are 2 types of layouts:</p>
 <ul>
 <li>One field per language displayed one below the others (eg. default mode for title) to view all available translations</li>
 <li>One field per language with the list of language to switch between language.</li>
 </ul>
+</li>
+</ol>
 <p><img alt="" src="../img/multilingual-editing.png" /></p>
 <h2 id="switching-layout-modes">Switching layout modes</h2>
 <p>To switch from one mode to another layout, use the <code>all</code> link.</p>
@@ -1652,7 +1652,10 @@
 <li>When loading the editor, the selected language is the user interface language used if the language is defined in the current record.</li>
 <li>When viewing the record, if a translation exists in the user interface language, this translation is used; if not, the main metadata language is used.</li>
 </ul>
-<p>Note: This behaviour also applies to multilingual ISO19139 records requested in dublin core from the CSW services.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This behaviour also applies to multilingual ISO19139 records requested in dublin core from the CSW services.</p>
+</div>
 
 
 
@@ -1741,12 +1744,12 @@
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"

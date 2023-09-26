@@ -764,8 +764,6 @@
         
       
         
-          
-        
       
         
       
@@ -814,16 +812,38 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../devel/docs/" class="md-nav__link">
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
         
   
+  
+    <a href="../../devel/docs/" class="md-nav__link">
+      
+  
   <span class="md-ellipsis">
-    None
+    Documentation
   </span>
   
 
-      </a>
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
     </li>
   
 
@@ -2953,11 +2973,11 @@ schema
 </code></pre></div>
 <h4 id="creating-the-indexxsl-to-index-content-from-the-metadata-record">Creating the index.xsl to index content from the metadata record</h4>
 <p>This XSLT indexes the content of elements in the metadata record. The essence of this XSLT is to select elements from the metadata record and map them to index field names. Using Kibana user can browse the index and check all fields available. The number of fields depends on the catalog as some fields are dynamic eg. codelist, thesaurus.</p>
-<p>In Kibana, navigate to <code>Stack Management &gt; Index pattern</code></p>
+<p>In Kibana, navigate to <code>Stack Management --&gt; Index pattern</code></p>
 <p><img alt="" src="../img/kb-index-pattern.png" /></p>
 <p>Select <code>gn-records</code> to retrieve the list of fields:</p>
 <p><img alt="" src="../img/kb-index-fields.png" /></p>
-<p>If Elasticsearch instance is accessible, user can get the details about a record using <a href="http://localhost:9200/gn-records/_doc/7c7923b1-c387-49ac-b6c7-391ca187b7fa">http://localhost:9200/gn-records/_doc/7c7923b1-c387-49ac-b6c7-391ca187b7fa</a> (<code>Kibana &gt; dev tools</code> can also be used to get the document details):</p>
+<p>If Elasticsearch instance is accessible, user can get the details about a record using <a href="http://localhost:9200/gn-records/_doc/7c7923b1-c387-49ac-b6c7-391ca187b7fa">http://localhost:9200/gn-records/_doc/7c7923b1-c387-49ac-b6c7-391ca187b7fa</a> (<code>Kibana --&gt; dev tools</code> can also be used to get the document details):</p>
 <p><img alt="" src="../img/es-get-doc.png" /></p>
 <p>For example, here is the mapping created between the metadata element mcp:revisionDate and the index field changeDate:</p>
 <div class="language-xml highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="nt">&lt;xsl:for-each</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;mcp:revisionDate/*&quot;</span><span class="nt">&gt;</span>
@@ -3229,12 +3249,12 @@ schema-ident.xml  schema.xsd  schema  schematron/schematron-rules-iso-mcp.sch
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"

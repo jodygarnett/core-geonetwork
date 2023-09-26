@@ -22,7 +22,7 @@
     
     
       
-        <title>Tutorial setting up a WFS based INSPIRE download service with GeoServer - GeoNetwork Opensource (EN)</title>
+        <title>Setting up a WFS based INSPIRE download service with GeoServer - GeoNetwork Opensource (EN)</title>
       
     
     
@@ -133,7 +133,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tutorial setting up a WFS based INSPIRE download service with GeoServer
+              Setting up a WFS based INSPIRE download service with GeoServer
             
           </span>
         </div>
@@ -762,8 +762,6 @@
         
       
         
-          
-        
       
         
       
@@ -1080,7 +1078,7 @@
         
   
   <span class="md-ellipsis">
-    Tutorial setting up an Atom/OpenSearch based INSPIRE download service
+    Setting up an Atom/OpenSearch based INSPIRE download service
   </span>
   
 
@@ -1109,7 +1107,7 @@
           
   
   <span class="md-ellipsis">
-    Tutorial setting up a WFS based INSPIRE download service with GeoServer
+    Setting up a WFS based INSPIRE download service with GeoServer
   </span>
   
 
@@ -1120,7 +1118,7 @@
         
   
   <span class="md-ellipsis">
-    Tutorial setting up a WFS based INSPIRE download service with GeoServer
+    Setting up a WFS based INSPIRE download service with GeoServer
   </span>
   
 
@@ -1188,7 +1186,7 @@
         
   
   <span class="md-ellipsis">
-    Tutorial setting up INSPIRE view service with GeoNetwork and GeoServer
+    Setting up INSPIRE view service with GeoNetwork and GeoServer
   </span>
   
 
@@ -1208,7 +1206,7 @@
         
   
   <span class="md-ellipsis">
-    Tutorial setting up INSPIRE view service with GeoNetwork and Mapserver
+    Setting up INSPIRE view service with GeoNetwork and Mapserver
   </span>
   
 
@@ -1367,7 +1365,7 @@
   
 
 
-<h1 id="tuto-download-geoserver">Tutorial setting up a WFS based INSPIRE download service with GeoServer</h1>
+<h1 id="tuto-download-geoserver">Setting up a WFS based INSPIRE download service with GeoServer</h1>
 <p>This tutorial shows how one can set up a combination of GeoNetwork and GeoServer to provide download services following <a href="http://inspire.ec.europa.eu/documents/technical-guidance-implementation-inspire-download-services">technical guidelines for download services</a>.</p>
 <p>Note that the technical guidelines allow both Atom/OpenSearch as well as <a href="http://www.opengeospatial.org/standards/wfs">WFS</a>. This tutorial describes how to set up a download service using WFS.</p>
 <h2 id="geoserver">GeoServer</h2>
@@ -1380,14 +1378,14 @@
 <p>Create featuretypes according to the appschema documentation.</p>
 <h2 id="geonetwork">GeoNetwork</h2>
 <p>When deploying GeoNetwork, make sure the GEMET thesauri are loaded and activate the INSPIRE editor as described in <a href="http://geonetwork-opensource.org/manuals/trunk/eng/users/administrator-guide/configuring-the-catalog/inspire-configuration.html">inspire documentation</a>.</p>
-<p>In Admin &gt; Settings activate the INSPIRE extension.</p>
+<p>In Admin &rarr; Settings activate the INSPIRE extension.</p>
 <p><img alt="image" src="../img/image_3.png" /></p>
 <p>For each dataset that you are going to publish create an iso19115 record using the INSPIRE template. Link each record to a download service as created in geoserver: eg <a href="https://%7Burl%7D/geoserver/%7Bworkspace%7D/ows?request=getcapabilities&amp;service=wfs&amp;version=2.0.0">https://%7Burl%7D/geoserver/%7Bworkspace%7D/ows?request=getcapabilities&amp;service=wfs&amp;version=2.0.0</a></p>
 <p><img alt="image" src="../img/image_9.png" /></p>
 <p>Create an OGC harvester that is able to extract a metadata for service (iso19119) record from the WFS. Run the harvester and note down the identifier of the created service metadata.</p>
 <h2 id="return-to-geoserver">Return to GeoServer</h2>
 <p>For each layer add a metadata url to the layer configuration of type application/vnd.ogc.csw.GetRecordByIdResponse_xml.</p>
-<p>On the WFS-settings &gt; INSPIRE workspace add the link to the service metadata. In contradiction to WMS does WFS not link from a featuretype (layer) to metadata, instead the links to dataset metadata have to be added as part of the extende INSPIRE capabilities.</p>
+<p>On the WFS-settings &rarr; INSPIRE workspace add the link to the service metadata. In contradiction to WMS does WFS not link from a featuretype (layer) to metadata, instead the links to dataset metadata have to be added as part of the extende INSPIRE capabilities.</p>
 <h2 id="validate-the-implementation">Validate the implementation</h2>
 <p>If you are running the above setup online, you can use the <a href="http://inspire-geoportal.ec.europa.eu/validator2/">pilot JRC INSPIRE validator</a>. If the above setup is running locally, you can use <a href="https://github.com/Geonovum/etf-test-projects-inspire">Esdin Test Framework</a> to validate the INSPIRE setup.</p>
 <p><img alt="image" src="../img/image_6.png" /></p>
@@ -1421,7 +1419,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../download-atom/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Tutorial setting up an Atom/OpenSearch based INSPIRE download service" rel="prev">
+          <a href="../download-atom/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Setting up an Atom/OpenSearch based INSPIRE download service" rel="prev">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1431,20 +1429,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Tutorial setting up an Atom/OpenSearch based INSPIRE download service
+                Setting up an Atom/OpenSearch based INSPIRE download service
               </div>
             </div>
           </a>
         
         
           
-          <a href="../view-geoserver/" class="md-footer__link md-footer__link--next" aria-label="Next: Tutorial setting up INSPIRE view service with GeoNetwork and GeoServer" rel="next">
+          <a href="../view-geoserver/" class="md-footer__link md-footer__link--next" aria-label="Next: Setting up INSPIRE view service with GeoNetwork and GeoServer" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Tutorial setting up INSPIRE view service with GeoNetwork and GeoServer
+                Setting up INSPIRE view service with GeoNetwork and GeoServer
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1480,12 +1478,12 @@
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"

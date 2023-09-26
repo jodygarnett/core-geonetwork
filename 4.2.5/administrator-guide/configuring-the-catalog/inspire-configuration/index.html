@@ -1431,8 +1431,6 @@
         
       
         
-          
-        
       
         
       
@@ -1687,16 +1685,16 @@
 <li><a href="https://inspire.ec.europa.eu/theme">INSPIRE Theme</a></li>
 <li><a href="https://inspire.ec.europa.eu/applicationschema">Application schema</a></li>
 <li><a href="https://inspire.ec.europa.eu/media-types">Media types</a></li>
-<li>Metadata codelist register &gt; <a href="https://inspire.ec.europa.eu/metadata-codelist/ProtocolValue">Protocols</a></li>
-<li>Metadata codelist register &gt; <a href="https://inspire.ec.europa.eu/metadata-codelist/SpatialScope">Spatial scope</a></li>
-<li>Metadata codelist register &gt; <a href="https://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">INSPIRE priority data set</a></li>
-<li>Metadata codelist register &gt; <a href="https://inspire.ec.europa.eu/metadata-codelist/SpatialDataServiceCategory">Spatial Data Service Category</a></li>
-<li>Metadata codelist register &gt; <a href="https://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse">Conditions applying to Access and Use</a></li>
-<li>Metadata codelist register &gt; <a href="https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess">Limitations on Public Access</a></li>
-<li>Metadata codelist register &gt; <a href="https://inspire.ec.europa.eu/metadata-codelist/OnLineDescriptionCode">OnLine Description Code</a></li>
-<li>Metadata codelist register &gt; <a href="https://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria">Quality of Service Criteria</a></li>
+<li>Metadata codelist register &rarr; <a href="https://inspire.ec.europa.eu/metadata-codelist/ProtocolValue">Protocols</a></li>
+<li>Metadata codelist register &rarr; <a href="https://inspire.ec.europa.eu/metadata-codelist/SpatialScope">Spatial scope</a></li>
+<li>Metadata codelist register &rarr; <a href="https://inspire.ec.europa.eu/metadata-codelist/PriorityDataset">INSPIRE priority data set</a></li>
+<li>Metadata codelist register &rarr; <a href="https://inspire.ec.europa.eu/metadata-codelist/SpatialDataServiceCategory">Spatial Data Service Category</a></li>
+<li>Metadata codelist register &rarr; <a href="https://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse">Conditions applying to Access and Use</a></li>
+<li>Metadata codelist register &rarr; <a href="https://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess">Limitations on Public Access</a></li>
+<li>Metadata codelist register &rarr; <a href="https://inspire.ec.europa.eu/metadata-codelist/OnLineDescriptionCode">OnLine Description Code</a></li>
+<li>Metadata codelist register &rarr; <a href="https://inspire.ec.europa.eu/metadata-codelist/QualityOfServiceCriteria">Quality of Service Criteria</a></li>
 </ul>
-<p>From <code>Admin console</code> &gt; <code>Classification systems</code> &gt; <code>Thesaurus</code>, administrators can manage thesauri. One of the options is to load a thesaurus straight from the registry.</p>
+<p>From <code>Admin console</code> &rarr; <code>Classification systems</code> &rarr; <code>Thesaurus</code>, administrators can manage thesauri. One of the options is to load a thesaurus straight from the registry.</p>
 <p><img alt="image" src="../img/inspire-from-registry.png" /></p>
 <p>Click <code>Use INSPIRE registry</code> to use the default INSPIRE registry but any instance of the <a href="https://joinup.ec.europa.eu/solution/re3gistry">Registry software</a> can be used.</p>
 <p><img alt="image" src="../img/inspire-from-registry-config.png" /></p>
@@ -1709,7 +1707,7 @@
 <p><img alt="image" src="../img/inspire-keyword-encoding-type.png" /></p>
 <p>Via the schema plugin form configuration it is an option to configure a thesaurus to be used for a specific <code>or</code> element. The thesaures concepts are used to populate an auto complete text field for that element.</p>
 <h2 id="inspire-validation">INSPIRE validation</h2>
-<p>INSPIRE validation of metadata records is available at <a href="https://inspire.ec.europa.eu/validator/about/">the INSPIRE Validator</a>. It is using <a href="https://github.com/etf-validator/etf-webapp">ETF which is an open source testing framework for spatial data and services</a>. GeoNetwork is able to <code>te</code> any record using a service provided by an instance of ETF. To configure remote validation, go to <code>Admin console</code> &gt; <code>Settings</code> and set the URL of the validator. The url of the main INSPIRE validator is <code>http://inspire.ec.europa.eu/validator/</code>.</p>
+<p>INSPIRE validation of metadata records is available at <a href="https://inspire.ec.europa.eu/validator/about/">the INSPIRE Validator</a>. It is using <a href="https://github.com/etf-validator/etf-webapp">ETF which is an open source testing framework for spatial data and services</a>. GeoNetwork is able to <code>te</code> any record using a service provided by an instance of ETF. To configure remote validation, go to <code>Admin console</code> &rarr; <code>Settings</code> and set the URL of the validator. The url of the main INSPIRE validator is <code>http://inspire.ec.europa.eu/validator/</code>.</p>
 <p><img alt="image" src="../img/inspire-configuration.png" /></p>
 <p>Once enabled, the editor will show the remote validation option in the menu:</p>
 <p><img alt="image" src="../img/inspire-validation-menu.png" /></p>
@@ -1784,7 +1782,7 @@
 <li>Add a specific keyword in the metadata record.</li>
 <li>Filter based on the conformance quality report having a reference to the EU directive.</li>
 </ul>
-<p>From the <code>Admin console</code> &gt; <code>Settings</code> &gt; <code>Sources</code>, an administrator can create a sub portal. Create a portal <code>inspire</code> and set the filter to select only records related to INSPIRE (eg. <code>+_groupPublished:INSPIRE</code> to select all records published in group INSPIRE).</p>
+<p>From the <code>Admin console</code> &rarr; <code>Settings</code> &rarr; <code>Sources</code>, an administrator can create a sub portal. Create a portal <code>inspire</code> and set the filter to select only records related to INSPIRE (eg. <code>+_groupPublished:INSPIRE</code> to select all records published in group INSPIRE).</p>
 <p><img alt="image" src="../img/inspire-portal.png" /></p>
 <p>Once saved, the portal is accessible at <a href="http://localhost:8080/geonetwork/inspire">http://localhost:8080/geonetwork/inspire</a> and the CSW service at <a href="http://localhost:8080/geonetwork/inspire/eng/csw">http://localhost:8080/geonetwork/inspire/eng/csw</a>.</p>
 <h2 id="inspire-reference-documents">INSPIRE reference documents</h2>
@@ -1882,12 +1880,12 @@
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"

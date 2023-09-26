@@ -1435,8 +1435,6 @@
         
       
         
-          
-        
       
         
       
@@ -1654,41 +1652,39 @@
 <p><img alt="" src="../img/import-form.png" /></p>
 <ul>
 <li><code>Type of file</code>: when uploading or loading file from the server, define the type of file to load. It could be XML for importing XML document or MEF (equivalent to ZIP) for importing MEF format.</li>
-<li><code>Type of record</code>:</li>
-</ul>
-<blockquote>
+<li>
+<p><code>Type of record</code>:  </p>
 <ul>
 <li>Use <code>Metadata</code> when loading a normal metadata record</li>
 <li>Use <code>Template</code> when the loaded metadata record will be used as a template.</li>
 </ul>
-</blockquote>
-<ul>
-<li><code>Record identifier processing</code> determines how to handle potential clashes between the UUID of the record loaded and UUIDs of metadata records already present in the catalog. 3 strategies are available:</li>
-</ul>
-<blockquote>
+</li>
+<li>
+<p><code>Record identifier processing</code> determines how to handle potential clashes between the UUID of the record loaded and UUIDs of metadata records already present in the catalog. 3 strategies are available:</p>
 <ul>
 <li><code>None</code>: the UUID of the record loaded is left unchanged. If a metadata record with the same UUID is already present in the catalog, an error message is returned.</li>
 <li><code>Overwrite metadata with same UUID</code>: any existing metadata record in the catalog having the same UUID as the loaded record will be updated.</li>
 <li><code>Generate UUID for inserted metadata</code>: a new UUID is affected to the loaded record.</li>
 </ul>
-</blockquote>
-<ul>
-<li><code>Apply XSLT conversion</code> allows to transform the record loaded using an XSLT stylesheet. A list of predefined transformations is provided. The selected transformation should be compatible with the standard of the loaded record (see <a href="../../workflow/batchupdate-xsl/#customizing-xslt-conversion">Adding XSLT conversion for import</a>).</li>
+</li>
+<li>
+<p><code>Apply XSLT conversion</code> allows to transform the record loaded using an XSLT stylesheet. A list of predefined transformations is provided. The selected transformation should be compatible with the standard of the loaded record (see <a href="../../workflow/batchupdate-xsl/#customizing-xslt-conversion">Adding XSLT conversion for import</a>).</p>
+</li>
 <li><code>Validate</code> trigger the validation of the record before loading it. In case of error the record is rejected and an error reported.</li>
 <li><code>Assign to current catalog</code> assign the current catalog as origin for the record, in case the MEF file indicate another source.</li>
 <li><code>Assign to Group</code> define the group of the loaded record.</li>
 <li><code>Assign to Category</code> define a local category to assign to the loaded record.</li>
 </ul>
 </li>
-</ol>
-<p>3. Click <code>import</code> to trigger the import. After processing, a summary is provided with the following details:</p>
-<blockquote>
+<li>
+<p>Click <code>import</code> to trigger the import. After processing, a summary is provided with the following details:</p>
 <ul>
 <li>the total count of imported metadata</li>
 <li>errors messages</li>
 <li>if only one record is imported, a link to that record is provided.</li>
 </ul>
-</blockquote>
+</li>
+</ol>
 
 
 
@@ -1777,12 +1773,12 @@
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"

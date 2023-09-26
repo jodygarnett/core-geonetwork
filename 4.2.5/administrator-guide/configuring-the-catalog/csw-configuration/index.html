@@ -1404,8 +1404,6 @@
         
       
         
-          
-        
       
         
       
@@ -1644,9 +1642,9 @@
 <li>title</li>
 <li>abstract</li>
 <li>keywords</li>
-<li>fees (from Distribution &gt; ordering instructions field)</li>
-<li>Access constraints (from Access constraints &gt; Other constraints field)</li>
-<li>Contact (from Identification &gt; First point of contact)</li>
+<li>fees (from Distribution &rarr; ordering instructions field)</li>
+<li>Access constraints (from Access constraints &rarr; Other constraints field)</li>
+<li>Contact (from Identification &rarr; First point of contact)</li>
 </ul>
 <p>The service record MUST be public.</p>
 <p>If an error occurred while building the capabilities document from the service record, a WARNING is reported using a comment and the default capabilities is used:</p>
@@ -1672,7 +1670,7 @@
 <li>Adding post process to srv/eng/csw by creating for each output schema a file eg. for gmd, present/csw/gmd-csw-postprocessing.xsl</li>
 <li>Adding post process to a portal inspire/eng/csw by creating for each output schema a file eg. for gmd, present/csw/gmd-inspire-postprocessing.xsl</li>
 </ul>
-<p>For a portal INSPIRE, create an "inspire" portal in the admin &gt; settings &gt; sources. User can then setup a post processing phase for the INSPIRE CSW of the portal. Create a post processing file gmd-inspire-postprocessing.xsl in yourschema/present/csw folder. The following example, remove contact with no email and link not starting with HTTP to conform to INSPIRE validator rules.</p>
+<p>For a portal INSPIRE, create an "inspire" portal in the admin &rarr; settings &rarr; sources. User can then setup a post processing phase for the INSPIRE CSW of the portal. Create a post processing file gmd-inspire-postprocessing.xsl in yourschema/present/csw folder. The following example, remove contact with no email and link not starting with HTTP to conform to INSPIRE validator rules.</p>
 <div class="language-xml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;xsl:stylesheet</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;2.0&quot;</span><span class="w"> </span><span class="na">xmlns:xsl=</span><span class="s">&quot;http://www.w3.org/1999/XSL/Transform&quot;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">                </span><span class="na">xmlns:gn=</span><span class="s">&quot;http://www.fao.org/geonetwork&quot;</span>
@@ -1798,12 +1796,12 @@
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"

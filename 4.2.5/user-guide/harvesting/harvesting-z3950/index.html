@@ -1375,13 +1375,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    Notes
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1548,8 +1541,6 @@
           
         
       
-        
-          
         
       
         
@@ -1719,13 +1710,6 @@
         <li class="md-nav__item">
   <a href="#more-about-pqf-z3950-queries" class="md-nav__link">
     More about PQF Z3950 Queries
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    Notes
   </a>
   
 </li>
@@ -1956,11 +1940,13 @@
 <li><code>@attr 4=201</code> means that the query contains coordinate strings</li>
 <li><code>@attr 2=7</code> means that we are searching for records whose bounding box overlaps the query box specified at the end of the query</li>
 </ul>
-<h2 id="notes">Notes</h2>
+<div class="admonition notes">
+<p class="admonition-title">Notes</p>
 <ul>
 <li>Z3950 servers must be configured for GeoNetwork in <code>INSTALL_DIR/web/geonetwork/WEB-INF/classes/JZKitConfig.xml.tem</code></li>
 <li>every time the harvester runs, it will remove previously harvested records and create new ones.</li>
 </ul>
+</div>
 
 
 
@@ -2049,12 +2035,12 @@
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"

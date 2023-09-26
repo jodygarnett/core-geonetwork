@@ -1248,13 +1248,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    Notes
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1542,8 +1535,6 @@
         
       
         
-          
-        
       
         
       
@@ -1709,13 +1700,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    Notes
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1781,12 +1765,14 @@
 <li><strong>Category for service</strong> - Metadata for the harvested service is assigned to the category selected in this option (eg. "interactive resources").</li>
 <li><strong>Category for datasets</strong> - Metadata for the harvested datasets is assigned to the category selected in this option (eg. "datasets").</li>
 </ul>
-<h2 id="notes">Notes</h2>
+<div class="admonition notes">
+<p class="admonition-title">Notes</p>
 <ul>
 <li>every time the harvester runs, it will remove previously harvested records and create new records. GeoNetwork will generate the uuid for all metadata (both service and datasets). The exception to this rule is dataset metadata created using the MetadataUrl tag is in the GetCapabilities document, in that case, the uuid of the remote XML document is used instead</li>
 <li>thumbnails can only be generated when harvesting an OGC Web Map Service (WMS). The WMS should support the WGS84 projection</li>
 <li>the chosen <em>Target schema</em> must have the support XSLTs which are used by the harvester to convert the GetCapabilities statement to metadata records from that schema. If in doubt, use iso19139.</li>
 </ul>
+</div>
 
 
 
@@ -1875,12 +1861,12 @@
 <!-- Copyright and theme information -->
 <div class="md-copyright">
   
-  <div class="md-copyright__highlight">
+  <span class="md-copyright__highlight">
     Copyright &copy; 2001 - 2023 FAO-UN and others
-  </div>
+  </span>
   
   
-  Made by the
+  &mdash; Made by the
   <a
           href="https://geonetwork-opensource.org/"
           target="_blank" rel="noopener"
