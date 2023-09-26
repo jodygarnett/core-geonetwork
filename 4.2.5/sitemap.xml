@@ -253,22 +253,10 @@
         <xhtml:link rel="alternate" hreflang="en" href="Nonecontributing/making-a-pull-request/"/>
     </url>
     <url>
-        <loc>Nonecontributing/style-guide/</loc>
-        <lastmod>2023-09-26</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonecontributing/style-guide/"/>
-    </url>
-    <url>
         <loc>Nonecontributing/translating/</loc>
         <lastmod>2023-09-26</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Nonecontributing/translating/"/>
-    </url>
-    <url>
-        <loc>Nonecontributing/writing-documentation/</loc>
-        <lastmod>2023-09-26</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonecontributing/writing-documentation/"/>
     </url>
     <url>
         <loc>Nonecustomizing-application/</loc>
@@ -395,6 +383,24 @@
         <lastmod>2023-09-26</lastmod>
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="Nonedevel/docs/"/>
+    </url>
+    <url>
+        <loc>Nonedevel/docs/markdown/</loc>
+        <lastmod>2023-09-26</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Nonedevel/docs/markdown/"/>
+    </url>
+    <url>
+        <loc>Nonedevel/docs/style/</loc>
+        <lastmod>2023-09-26</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Nonedevel/docs/style/"/>
+    </url>
+    <url>
+        <loc>Nonedevel/docs/translation/</loc>
+        <lastmod>2023-09-26</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="Nonedevel/docs/translation/"/>
     </url>
     <url>
         <loc>Nonehelp/</loc>
