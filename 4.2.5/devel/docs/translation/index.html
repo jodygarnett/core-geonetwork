@@ -1302,26 +1302,39 @@
 </tbody>
 </table>
 <p>Other differences in markdown requires pre/post processing of markdown and html files. These steps are automated in the <strong><em>translate</em></strong> python script (check comments for details).</p>
-<p>To translate provide environmental variable with Deepl authentication key:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cd core-geonetwork/docs
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>mkdir target
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>export DEEPL_AUTH=&quot;xxxxxxxx-xxx-...-xxxxx:fx&quot;
+<ol>
+<li>Install <a href="https://github.com/jodygarnett/translate">mkdocs_translate</a> python script:</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip3 install git+https://github.com/jodygarnett/translate.git
 </span></code></pre></div>
-<p>And translate a file:
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>translate<span class="w"> </span>fr<span class="w"> </span>manual/docs/contributing/style-guide.md
-</span></code></pre></div></p>
-<p>To test each stage individually:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python3 -m translate html manual/docs/contributing/style-guide.md
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>python3 -m translate document target/contributing/style-guide.html target/contributing/style-guide.fr.html
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>python3 -m translate markdown target/contributing/style-guide.fr.html
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>cp target/contributing/style-guide.fr.md manual/docs/contributing/style-guide.fr.md
+<ol>
+<li>To translate provide environmental variable with Deepl authentication key:</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cd core-geonetwork/docs
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>mkdir target
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>export DEEPL_AUTH=&quot;xxxxxxxx-xxx-...-xxxxx:fx&quot;
 </span></code></pre></div>
-<p>To test markdown / html only:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python3 -m translate convert manual/docs/contributing/style-guide.md
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>python3 -m translate markdown target/contributing/style-guide.html
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>diff manual/docs/contributing/style-guide.md target/contributing/style-guide.md
+<ol>
+<li>And translate a file:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python3<span class="w"> </span>-m<span class="w"> </span>mkdocs_translate<span class="w"> </span>french<span class="w"> </span>manual/docs/contributing/style-guide.md
+</span></code></pre></div>
+<ol>
+<li>To test each stage individually:</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python3 -m mkdocs_translate internal-html manual/docs/contributing/style-guide.md
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>python3 -m mkdocs_translate internal-document target/contributing/style-guide.html target/contributing/style-guide.fr.html
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>python3 -m mkdocs_translate internal-markdown target/contributing/style-guide.fr.html
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>cp target/contributing/style-guide.fr.md manual/docs/contributing/style-guide.fr.md
+</span></code></pre></div>
+<ol>
+<li>To test markdown / html only:</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python3 -m translate convert manual/docs/contributing/style-guide.md
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>python3 -m translate markdown target/contributing/style-guide.html
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>diff manual/docs/contributing/style-guide.md target/contributing/style-guide.md
 </span></code></pre></div>
 
 
@@ -1422,9 +1435,8 @@
           target="_blank" rel="noopener"
   >
     GeoNetwork Community
-  </a>
- <br>
-  Build with
+  </a>,
+  built with
   <a
           href="https://squidfunk.github.io/mkdocs-material/"
           target="_blank" rel="noopener"
