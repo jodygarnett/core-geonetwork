@@ -5,7 +5,7 @@ hide:
 
 # GeoNetwork 4.4 {#toc}
 
-Welcome to GeoNetwork. This documentation is organized into specific guides targeting different audience. 
+Testing GeoNetwork documentation change: 7
 
 <div class="grid cards" markdown>
 
