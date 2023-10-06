@@ -39,9 +39,12 @@
       <url>http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt</url>
     </license>
   </licenses>
-  <modules>
-    <module>manual</module>
-    <!--<module>schema-doc</module>-->
-    <!--module>manuals</module>-->
-  </modules>
+  <profiles>
+    <profile>
+      <id>docs</id>
+      <modules>
+        <module>manual</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>

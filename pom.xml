@@ -1379,12 +1379,6 @@
 
   <profiles>
     <profile>
-      <id>with-doc</id>
-      <modules>
-        <module>docs</module>
-      </modules>
-    </profile>
-    <profile>
       <id>all</id>
       <activation>
         <file>
@@ -1395,6 +1389,7 @@
         <module>slave</module>
         <module>schemas-test</module>
         <module>web-ui</module>
+        <module>docs</module>
         <module>web</module>
       </modules>
     </profile>
