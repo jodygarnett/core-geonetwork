@@ -4,52 +4,29 @@ on:
   push:
     branches:
       - main
-      - 4.4.x
-      - 4.2.x
-      - 3.12.x
     paths:
-     - "docs/mannual/**/**.md"
-     - "docs/mannual/help.yml"
-     - "docs/mannual/mkdocs.yml"
+     - "docs/manual/**"
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout GeoNetwork
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v4
+      - name: Install Python
+        uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v3
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: .cache
-          restore-keys: |
-            mkdocs-material-
       - name: mkdocs install
+        run: pip install --upgrade pip && pip install -r docs/manual/requirements.txt
+      - name: git configuration
+        run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: deploy latest docs to gh-pages branch locally
         working-directory: docs/manual
-        run: pip install --upgrade pip && pip install -r requirements.txt
-      - run: git config user.name 'github-actions[bot]' && git config user.email 'github-actions[bot]@users.noreply.github.com'
-      - name: latest
-        if: ${{ github.ref_name == 'main'}}
+        run: mike deploy latest --title "4.4-latest"
+      - name: deploy major.minor docs to gh-pages branch, and push for publication
         working-directory: docs/manual
-        run: mike deploy --push latest --title "4.4 (Latest)"
-      - name: stable
-        if: ${{ github.ref_name == '4.2.x'}}
-        working-directory: docs/manual
-        run: mike deploy --push stable --title "4.2 (Stable)"
-      - name: maintenance
-        if: ${{ github.ref_name == '3.12.x'}}
-        working-directory: docs/manual
-        run: mike deploy --push maintenance -title "3.12 (Maintenance)"
-      - name: release
-        if: ${{ github.ref_type == 'tag'}}
-        working-directory: docs/manual
-        run: |
-          export VERSION=`cut -d '.' -f1 -f2 <<< ${{ github.ref_name }}`
-          echo "deploying ${{ github.ref_name }} to docs ${VERSION}"
-          # mike deploy --push $VERSION
+        run: mike deploy --push 4.4
