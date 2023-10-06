@@ -27,7 +27,7 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.jdk }}
         cache: 'maven'
-    - name: Setup mkdocs
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: 3.x
@@ -39,6 +39,9 @@ jobs:
         path: .cache
         restore-keys: |
           mkdocs-material-
+    - name: mkdocs install
+      working-directory: docs/manual
+      run: pip install --upgrade pip && pip install -r requirements.txt
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4
       with:
