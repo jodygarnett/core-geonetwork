@@ -9,9 +9,11 @@ Once the release branch has been thoroughly tested and is stable a release can b
     ``` shell
     # Setup properties
     frombranch=origin/main
-    versionbranch=4.2.x
-    version=4.2.3
+    series=4.2
+    versionbranch=$series.x
+    version=$series.3
     minorversion=0
+    release=stable
     newversion=$version-$minorversion
     currentversion=4.2.3-SNAPSHOT
     previousversion=4.2.2
@@ -37,15 +39,51 @@ Once the release branch has been thoroughly tested and is stable a release can b
     ./update-version.sh $currentversion $newversion
 
     # Generate list of changes
-    cat <<EOF > docs/changes$newversion.txt
+    cat <<EOF > docs/changes/changes$newversion.txt
     ================================================================================
     ===
     === GeoNetwork $version: List of changes
     ===
     ================================================================================
     EOF
-    git log --pretty='format:- %s' $previousversion... >> docs/changes$newversion.txt
+    git log --pretty='format:- %s' $previousversion... >> docs/changes/changes$newversion.txt
     ```
+
+3.  Create a new documentation page: `docs/manual/docs/overview/change-log/`
+
+    ``` shell
+    cat <<EOF > docs/changes/changes$newversion.txt
+    # Version $version
+    
+    GeoNetwork $version is a minor release.
+
+    ## Migration notes
+    
+    ### API changes
+    
+    ### Installation changes
+    
+    ### Index changes
+    
+    ## List of changes
+
+    Major changes:
+    
+    * 
+    
+    and more \... see [$version issues](https://github.com/geonetwork/core-geonetwork/issues?q=is%3Aissue+milestone%3A$version+is%3Aclosed) and [pull requests](https://github.com/geonetwork/core-geonetwork/pulls?page=3&q=is%3Apr+milestone%3A$version+is%3Aclosed) for full details.
+    EOF
+    ```
+    
+    Update above markdown file. 
+
+    Update links and navigation:
+    
+    * ``docs/manual/mkdocs.yml``
+    * ``docs/manual/docs/overview/change-log/index.md``
+    * ``docs/manual/docs/overview/change-log/latest.md``
+    * ``docs/manual/docs/overview/change-log/stable.md``
+    * ``docs/manual/docs/overview/change-log/archive.md``
 
 2.  Commit & tag the new version
 
@@ -73,6 +111,10 @@ Once the release branch has been thoroughly tested and is stable a release can b
 
     # Deploy to osgeo repository (requires credentials in ~/.m2/settings.xml)
     mvn deploy
+    
+    # Deploy docs for (series=4.4)
+    cd docs/mannual
+    mike deploy --push $series
     ```
 
 4.  Test
@@ -154,8 +196,6 @@ Once the release branch has been thoroughly tested and is stable a release can b
     bye
     ```
 
-8.  Update or add the changelog in the documentation <https://github.com/geonetwork/doc> .
-
 9.  Close the milestone on github <https://github.com/geonetwork/core-geonetwork/milestones?state=closed> with link to sourceforge download.
 
     Publish the release on github <https://github.com/geonetwork/core-geonetwork/releases> .
@@ -198,6 +238,14 @@ Once the release branch has been thoroughly tested and is stable a release can b
       </list>
     </entry>
     ```
+    
+    Update documentation to reflect series change of `latest`, `stable`, `maintenance` and `archive`:
+    
+    * ``docs/manual/mkdocs.yml`` navigation changes as branches change role
+    * ``docs/manual/docs/overview/change-log/index.md``
+    * ``docs/manual/docs/overview/change-log/latest.md``
+    * ``docs/manual/docs/overview/change-log/stable.md``
+    * ``docs/manual/docs/overview/change-log/archive.md``
 
     Commit the new version
 
